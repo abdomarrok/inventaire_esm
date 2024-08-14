@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import java.net.URL?>
+<GridPane hgap="10" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="com.marrok.inventaire_esm.controller.users.AddUserController">
+
+    <columnConstraints>
+        <ColumnConstraints prefWidth="100" />
+        <ColumnConstraints />
+    </columnConstraints>
+
+    <children>
+        <Label fx:id="titleLabel" alignment="CENTER" styleClass="titleLabel" text="إضافة مستخدم" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+
+        <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="lbl" text="اسم المستخدم:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+        <TextField fx:id="usernameField" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+        <Label alignment="CENTER" styleClass="lbl" text="كلمة المرور:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <TextField fx:id="passwordField" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+
+        <Label alignment="CENTER" styleClass="lbl" text="الدور:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+
+        <ChoiceBox fx:id="roleChoiceBox" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <Button onAction="#addUser" prefHeight="26.0" prefWidth="97.0" text="إضافة" textAlignment="RIGHT" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="4">
+            <styleClass>
+                <String fx:value="btn" />
+                <String fx:value="add_btn" />
+            </styleClass>
+        </Button>
+
+        <Button onAction="#cancel" prefHeight="26.0" prefWidth="99.0" text="إلغاء" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+            <styleClass>
+                <String fx:value="btn" />
+                <String fx:value="btn-warning" />
+            </styleClass>
+        </Button>
+    </children>
+
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+    </rowConstraints>
+    <stylesheets>
+        <URL value="@../../css/all.css" />
+    </stylesheets>
+</GridPane>

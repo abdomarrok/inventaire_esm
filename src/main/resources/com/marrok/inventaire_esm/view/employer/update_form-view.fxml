@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<GridPane hgap="10" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.employer.UpdateController">
+
+    <columnConstraints>
+        <ColumnConstraints prefWidth="100" />
+        <ColumnConstraints />
+    </columnConstraints>
+
+    <children>
+        <Label fx:id="titleLabel" alignment="CENTER" styleClass="titleLabel" text="تحديث موظف" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="0">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+
+        <Label text="الاسم الأول:" GridPane.columnIndex="1" GridPane.rowIndex="1" alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="lbl" />
+        <TextField fx:id="firstNameField" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+        <Label text="الاسم الأخير:" GridPane.columnIndex="1" GridPane.rowIndex="2" alignment="CENTER" styleClass="lbl" />
+        <TextField fx:id="lastNameField" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+
+        <Label text="الوظيفة:" GridPane.columnIndex="1" GridPane.rowIndex="3" alignment="CENTER" styleClass="lbl" />
+        <TextField fx:id="titleField" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+
+        <Button onAction="#handleUpdateEmployer" prefHeight="26.0" prefWidth="97.0"  text="تحديث" textAlignment="RIGHT" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="4">
+            <styleClass>
+                <String fx:value="btn" />
+                <String fx:value="add_btn" />
+            </styleClass>
+        </Button>
+
+        <Button onAction="#handleCancel" prefHeight="26.0" prefWidth="99.0"  text="إلغاء" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+            <styleClass>
+                <String fx:value="btn" />
+                <String fx:value="cencel_btn" />
+            </styleClass>
+        </Button>
+    </children>
+
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+    </rowConstraints>
+    <stylesheets>
+<!--        <URL value="@../../css/nord-light.css" />-->
+        <URL value="@../../css/all.css" />
+    </stylesheets>
+</GridPane>

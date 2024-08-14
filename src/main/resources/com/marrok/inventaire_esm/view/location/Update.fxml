@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.location.UpdateController">
+
+        <GridPane hgap="10" styleClass="background" vgap="10">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" styleClass="titleLabel" text="تحديث مكان" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+            <Label styleClass="lbl" text="اسم المكان" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="locationNameField" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label styleClass="lbl" text="رقم الطابق" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="floorField" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Label styleClass="lbl" text="رقم المصلحة" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+<!--            <TextField fx:id="serviceField" GridPane.columnIndex="0" GridPane.rowIndex="3" />-->
+            <ChoiceBox fx:id="serviceField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            <Button onAction="#handleUpdate" text="تحديث" GridPane.columnIndex="0" GridPane.rowIndex="4">
+                <styleClass>
+                    <String fx:value="btn" />
+                    <String fx:value="add_btn" />
+                </styleClass>
+            </Button>
+            <Button onAction="#handleCancel" text="إلغاء" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                <styleClass>
+                    <String fx:value="btn" />
+                    <String fx:value="cencel_btn" />
+                </styleClass>
+            </Button>
+      <columnConstraints>
+         <ColumnConstraints />
+         <ColumnConstraints />
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
+        </GridPane>
+    <stylesheets>
+<!--        <URL value="@../../css/nord-light.css" />-->
+        <URL value="@../../css/all.css" />
+    </stylesheets>
+</AnchorPane>

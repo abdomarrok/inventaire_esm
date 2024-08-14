@@ -1,0 +1,247 @@
+/* Global Styles */
+.background {
+    -fx-padding: 20;
+    -fx-background-color: #ffffff;
+}
+
+.lbl {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 20px;
+}
+
+.title_dashboard ,.titleLabel {
+    -fx-font-family: 'Andalus';
+    -fx-font-size: 60px;
+    -fx-text-fill: #343a40;
+    -fx-font-weight: bold;
+}
+
+
+/* Button Styles */
+.btn {
+    -fx-background-color: #343a40;
+    -fx-pref-width: 100px;
+    -fx-min-width: 100px;
+    -fx-pref-height: 50px;
+    -fx-min-height: 50px;
+    -fx-font-family: 'Andalus';
+    -fx-font-size: 25px;
+    -fx-text-fill: white;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+.add_btn {
+    -fx-background-color: #28a745; /* Green #28a745 */
+}
+
+.btn-danger {
+    -fx-background-color: #dc3545; /* Red */
+}
+
+.cencel_btn {
+    -fx-background-color: #FFC107; /* Amber */
+}
+.lgn_btn {
+    -fx-background-color: #6c757d; /* Blueish-gray */
+    -fx-font-family: 'Andalus';
+    -fx-background-radius: 20px;
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 1);
+}
+/* Button Style */
+.export_btn {
+    -fx-background-color: #D3D3D3; /* Lighter gray background */
+    -fx-text-fill: #2F7D57; /* Text color */
+    -fx-font-family: 'Andalus'; /* Font */
+    -fx-font-size: 18px; /* Slightly smaller font size */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-background-radius: 10px; /* Rounded corners */
+    -fx-padding: 10px 15px; /* Padding inside the button */
+    -fx-border-radius: 10px; /* Rounded border corners */
+    -fx-border-color: #2F7D57; /* Border color */
+    -fx-border-width: 2px; /* Border width */
+    -fx-cursor: hand; /* Hand cursor on hover */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 5, 0.5, 0, 2); /* Shadow effect */
+}
+
+.export_btn:hover {
+    -fx-background-color: #C0C0C0; /* Slightly darker gray on hover */
+}
+
+.export_btn:pressed {
+    -fx-background-color: #A9A9A9; /* Even darker gray when pressed */
+}
+
+/* Image View inside the export button */
+.export_btn .image-view {
+    -fx-fit-height: 30px; /* Slightly smaller icon */
+    -fx-fit-width: 30px;
+    -fx-preserve-ratio: true;
+}
+.settings_btn{
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dee2e6;
+    -fx-font-family: 'Andalus';
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #343a40;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.2), 6, 0, 0, 2);
+}
+
+/* QR Code Style */
+.qr_code {
+    -fx-fit-height: 120px; /* Slightly larger size */
+    -fx-fit-width: 120px;
+    -fx-preserve-ratio: true;
+    -fx-border-color: #2F7D57; /* Border color */
+    -fx-border-width: 2px; /* Border width */
+    -fx-border-radius: 10px; /* Rounded corners for border */
+}
+
+/* Bar Code Style */
+.bar_code {
+    -fx-fit-height: 120px; /* Slightly larger size */
+    -fx-fit-width: 240px; /* Increased width */
+    -fx-preserve-ratio: true;
+    -fx-border-color: #2F7D57; /* Border color */
+    -fx-border-width: 2px; /* Border width */
+    -fx-border-radius: 10px; /* Rounded corners for border */
+}
+
+
+.lgn_btn:hover {
+    -fx-background-color: #5a6268; /* Darker blueish-gray on hover */
+}
+
+.lgn_btn:pressed {
+    -fx-background-color: #494e52; /* Even darker on press */
+    -fx-border-color: #606060;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 6, 0, 0, 2);
+}
+
+/* TextField and PasswordField Styles */
+.userId, .password {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ced4da;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 8px;
+    -fx-font-size: 14px;
+    -fx-font-family: 'Arial';
+    -fx-text-fill: #343a40;
+    -fx-prompt-text-fill: derive(-fx-text-fill, 30%);
+}
+
+.userId:hover, .password:hover {
+    -fx-background-color: #f1f3f5;
+    -fx-border-color: #adb5bd;
+}
+
+.userId:focused, .password:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #007bff;
+    -fx-border-width: 2px;
+}
+
+
+
+/* Dashboard Cardbox Styles */
+.dashboard_cardbox {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dee2e6;
+    -fx-font-family: 'Andalus';
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-min-width: 200px;
+    -fx-min-height: 200px;
+    -fx-background-radius: 10px;
+    -fx-padding: 10px;
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #343a40;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.2), 6, 0, 0, 2);
+}
+
+.dashboard_cardbox:hover {
+    -fx-background-color: #f1f3f5; /* Lighter blueish-gray */
+    -fx-border-color: #ced4da;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 4);
+}
+
+.dashboard_cardbox:pressed {
+    -fx-background-color: #e9ecef;
+    -fx-border-color: #adb5bd;
+}
+
+/* Search Field Styles */
+.searchField {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ced4da;
+    -fx-border-width: 1px;
+    -fx-border-radius: 30px;
+    -fx-background-radius: 30px;
+    -fx-padding: 8px;
+    -fx-font-size: 14px;
+    -fx-font-family: 'Arial';
+    -fx-text-fill: #343a40;
+    -fx-prompt-text-fill: derive(-fx-text-fill, 30%);
+}
+
+.searchField:hover {
+    -fx-background-color: #f1f3f5;
+    -fx-border-color: #adb5bd;
+}
+
+.searchField:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #007bff;
+    -fx-border-width: 2px;
+}
+
+
+
+
+
+/* TextField and ChoiceBox Styles */
+.text-field {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 14px;
+    -fx-pref-height: 26px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+}
+
+.choice-box {
+    -fx-font-family: 'Arial';
+    -fx-font-size: 14px;
+    -fx-pref-height: 26px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+}
+
+.choice-box .arrow {
+    -fx-background-color: #0078d7; /* Blue arrow color */
+}
+
+.choice-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.choice-box .arrow-button:hover {
+    -fx-background-color: #0056a3; /* Darker blue on hover */
+}

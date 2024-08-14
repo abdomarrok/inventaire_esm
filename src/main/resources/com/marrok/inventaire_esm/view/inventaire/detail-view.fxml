@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane alignment="CENTER" hgap="10" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.inventaire.DetailController">
+
+    <columnConstraints>
+        <ColumnConstraints />
+        <ColumnConstraints minWidth="200.0" />
+        <ColumnConstraints />
+    </columnConstraints>
+
+    <children>
+        <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="RIGHT" styleClass="titleLabel" text="تفاصيل الجرد" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.halignment="CENTER" />
+
+        <!-- Labels for details -->
+        <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="lbl" text="المعرف:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+        <Label fx:id="idLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+
+        <Label alignment="CENTER" styleClass="lbl" text=" العنصر:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+        <Label fx:id="idArticleLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+
+        <Label alignment="CENTER" styleClass="lbl" text="الموقع:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+        <Label fx:id="idLocalisationLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+
+        <Label alignment="CENTER" styleClass="lbl" text="المستخدم:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+        <Label fx:id="userIdLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+
+        <Label alignment="CENTER" styleClass="lbl" text="الوقت:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+        <Label fx:id="timeLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+        <Label alignment="CENTER" styleClass="lbl" text="الموظف:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+        <Label fx:id="idEmployerLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+        <Label alignment="CENTER" styleClass="lbl" text="رقم الجرد:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
+        <Label fx:id="numInventaireLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
+        <Label alignment="CENTER" styleClass="lbl" text="كود" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+        <ImageView fx:id="barcodeImageView" styleClass="qr_code" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+
+        <!-- Button for printing -->
+        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#printDetInvetaire" text="طباعة" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="10" GridPane.valignment="CENTER">
+            <styleClass>
+                <String fx:value="btn" />
+                <String fx:value="add_btn" />
+            </styleClass>
+         <opaqueInsets>
+            <Insets top="10.0" />
+         </opaqueInsets>
+        </Button>
+    </children>
+
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints minHeight="20" />
+      <RowConstraints />
+    </rowConstraints>
+
+    <stylesheets>
+<!--        <URL value="@../../css/nord-light.css" />-->
+        <URL value="@../../css/all.css" />
+    </stylesheets>
+</GridPane>

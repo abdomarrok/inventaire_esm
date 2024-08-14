@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane hgap="10" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.category.UpdateController">
+     <Label alignment="CENTER" contentDisplay="CENTER" styleClass="titleLabel" text="تحديث الفئة" GridPane.columnSpan="2" GridPane.halignment="CENTER" />
+      <Label styleClass="lbl" text="الاسم :" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+      <TextField fx:id="categoryNameTextField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+
+
+      <Button onAction="#updateCategory" text="تحديث" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+          <styleClass>
+              <String fx:value="btn" />
+              <String fx:value="add_btn" />
+          </styleClass>
+      </Button>
+      <Button onAction="#cancel" text="الغاء" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+          <styleClass>
+              <String fx:value="btn" />
+              <String fx:value="cencel_btn" />
+          </styleClass>
+      </Button>
+   <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+    <stylesheets>
+<!--        <URL value="@../../css/nord-light.css" />-->
+        <URL value="@../../css/all.css" />
+    </stylesheets>
+</GridPane>

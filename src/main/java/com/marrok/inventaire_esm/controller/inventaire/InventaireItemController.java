@@ -1,0 +1,306 @@
+package com.marrok.inventaire_esm.controller.inventaire;
+
+
+import com.marrok.inventaire_esm.model.Inventaire_Item;
+import com.marrok.inventaire_esm.model.Localisation;
+import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.GeneralUtil;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.Properties;
+import java.util.ResourceBundle;
+
+public class InventaireItemController implements Initializable {
+
+    @FXML
+    public TableView<Inventaire_Item> tableView;
+    @FXML
+    public TableColumn<Inventaire_Item, String> localisationIdColumn;
+    @FXML
+    public TableColumn<Inventaire_Item, String> userIdColumn;
+    @FXML
+    public TableColumn<Inventaire_Item, Integer> idInventaireColumn;
+    @FXML
+    public TableColumn<Inventaire_Item, String> articleIdColumn;
+    @FXML
+    public TableColumn<Inventaire_Item, String> employerIdColumn;
+    @FXML
+    public TableColumn<Inventaire_Item, String> timeColumn;
+    @FXML
+    public TableColumn<Inventaire_Item, String> barcodeColumn;
+    @FXML
+    public TextField searchField;
+    @FXML
+    public Button addButton;
+    @FXML
+    public Button bk_Dashboard_from_inventaireitem;
+    @FXML
+    public ToggleButton switchThemeBtn_inventaireitem;
+    @FXML
+    public Button updateButton;
+    @FXML
+    public Button deleteButton;
+
+    @FXML
+    public Label titleLabel;
+
+    private ObservableList<Inventaire_Item> inventaireItemList;
+    private FilteredList<Inventaire_Item> filteredInventaireItemList;
+    private Inventaire_Item selectedInventaireItem;
+    private final Properties themeProperties = new Properties();
+    DatabaseHelper dbhelper = new DatabaseHelper();
+
+    public InventaireItemController() throws SQLException {
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        loadData();
+        initializeColumns();
+        setupSearchFilter();
+        setupTableSelectionListener();
+    }
+
+    private void initializeColumns() {
+
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
+
+        // localisationIdColumn.setCellValueFactory(new PropertyValueFactory<>("localisation_id"));
+        // Custom cell value factory to get the localisation name by its id
+        localisationIdColumn.setCellValueFactory(cellData -> {
+            int idLocalisation = cellData.getValue().getLocalisation_id();
+            Localisation localisation = dbhelper.getLocalisationById(idLocalisation);
+
+            if (localisation != null) {
+                return new SimpleStringProperty(localisation.getLocName());
+            } else {
+                return new SimpleStringProperty("Unknown Location");
+            }
+        });
+
+//        userIdColumn.setCellValueFactory(cellData -> {
+//            int userId = cellData.getValue().getUser_id();
+//            String userName = DatabaseHelper.getUserNameById(userId);
+//
+//            if (userName != null && !userName.isEmpty()) {
+//                return new SimpleStringProperty(userName);
+//            } else {
+//                return new SimpleStringProperty("Unknown User");
+//            }
+//        });
+
+        idInventaireColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        articleIdColumn.setCellValueFactory(cellData -> {
+            int articleId = cellData.getValue().getArticle_id();
+            try {
+                DatabaseHelper dbHelper = new DatabaseHelper();
+                String articleName = dbHelper.getArticleById(articleId).getName();
+
+                if (articleName != null && !articleName.isEmpty()) {
+                    return new SimpleStringProperty(articleName);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new SimpleStringProperty("Unknown Article");
+            }
+            return null;
+        });
+
+        employerIdColumn.setCellValueFactory(cellData -> {
+            int employerId = cellData.getValue().getEmployer_id();
+
+
+            if (employerId != 0) {
+                String employerName = dbhelper.getEmployerFullNameById(employerId);
+                if (employerName != null && !employerName.isEmpty()) {
+                    return new SimpleStringProperty(employerName);
+                } else {
+                    return new SimpleStringProperty("Unknown Employer");
+                }
+            } else {
+                System.out.println("Invalid employer ID: " + employerId);
+                return new SimpleStringProperty("Unknown Employer");
+            }
+        });
+
+
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedDateTime"));
+        barcodeColumn.setCellValueFactory(new PropertyValueFactory<>("num_inventaire"));
+    }
+
+    private void loadData() {
+        inventaireItemList = FXCollections.observableArrayList(dbhelper.getInventaireItems());
+        filteredInventaireItemList = new FilteredList<>(inventaireItemList, p -> true);
+        tableView.setItems(filteredInventaireItemList);
+    }
+
+    private void setupSearchFilter() {
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredInventaireItemList.setPredicate(item -> {
+                String emp_name = dbhelper.getEmployerFullNameById(item.getEmployer_id());
+                String art_name = dbhelper.getArticleById(item.getArticle_id()).getName();
+                String loc_name = dbhelper.getLocalisationById(item.getLocalisation_id()).getLocName();
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                String lowerCaseFilter = newValue.toLowerCase();
+                return item.getNum_inventaire().toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(item.getId()).contains(lowerCaseFilter)
+                        || String.valueOf(item.getArticle_id()).contains(lowerCaseFilter)
+                        || emp_name.toLowerCase().contains(lowerCaseFilter)
+                        || art_name.toLowerCase().contains(lowerCaseFilter)
+                        || loc_name.toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(item.getLocalisation_id()).contains(lowerCaseFilter);
+            });
+        });
+    }
+
+    private void setupTableSelectionListener() {
+        bk_Dashboard_from_inventaireitem.setOnAction(GeneralUtil::goBackDashboard);
+
+        tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedInventaireItem = newValue);
+        tableView.setOnMouseClicked((MouseEvent event) -> {
+            if (event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
+                Inventaire_Item selectedInventaire = tableView.getSelectionModel().getSelectedItem();
+                showInventaireDetails(selectedInventaire.getId());
+            }
+        });
+    }
+
+
+    private void showInventaireDetails(int id) {
+
+        try {
+            DatabaseHelper dpHelper = new DatabaseHelper();
+            Inventaire_Item selectedInventaire = dpHelper.getInevntaireItemById(id);
+            if (selectedInventaire != null) {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/detail-view.fxml"));
+                Parent root = loader.load();
+                DetailController controller = loader.getController();
+                controller.setInventaireDetails(selectedInventaire);
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("تفاصيل الجرد");
+                stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
+                stage.show();
+
+            } else {
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to retrieve invetaire item details.");
+            }
+
+
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to load inventaire item details view.");
+        }
+
+    }
+
+    @FXML
+    public void addInventaireItem(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/add_form-view.fxml"));
+            Stage stage = new Stage();
+            Scene scene = new Scene(loader.load());
+
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Add Inventaire Item");
+            stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
+            AddController controller = loader.getController();
+            controller.setParentController(this);
+
+            stage.showAndWait();
+        } catch (IOException e) {
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Could not open the add inventaire item form.");
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void updateInventaireItem(ActionEvent event) {
+        Inventaire_Item selectedItem = tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedItem != null) {
+            try {
+                // Open a form or dialog to allow the user to update the selected item
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/update_form-view.fxml"));
+                Stage stage = new Stage();
+                Scene scene = new Scene(loader.load());
+
+                stage.setScene(scene);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setTitle("Update Inventaire Item");
+                stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
+                UpdateController controller = loader.getController();
+                controller.setInventaireItem(selectedItem);
+                controller.setParentController(this);
+
+                stage.showAndWait();
+
+                // Refresh the table view after the update
+                refreshTableData();
+            } catch (IOException e) {
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Could not open the update inventaire item form.");
+                e.printStackTrace();
+            }
+        } else {
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select an item to update.");
+        }
+    }
+
+    @FXML
+    public void deleteInventaireItem(ActionEvent event) {
+        Inventaire_Item selectedItem = tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedItem != null) {
+            try {
+                boolean isDeleted = dbhelper.deleteInventaireItem(selectedItem.getId());
+                if (isDeleted) {
+                    refreshTableData();
+                    GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "Item deleted successfully.");
+                } else {
+                    GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Could not delete the item.");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();  // Optional: Log the exception
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while trying to delete the item.");
+            }
+        } else {
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select an item to delete.");
+        }
+    }
+
+
+
+    public ObservableList<Inventaire_Item> getInventaireItemList() {
+        return inventaireItemList;
+    }
+
+    public void refreshTableData() {
+        inventaireItemList.setAll(dbhelper.getInventaireItems());
+        tableView.refresh();
+    }
+}

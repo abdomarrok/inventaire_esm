@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.settings.SettingsView">
+    <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <!-- Title Section -->
+        <top>
+            <VBox alignment="TOP_CENTER" spacing="10.0">
+                <Label styleClass="titleLabel" text="الإعدادات" />
+            </VBox>
+        </top>
+        <center>
+
+            
+            <VBox alignment="CENTER" spacing="10.0">
+
+                <!-- Backup Data -->
+                <VBox alignment="CENTER" spacing="5.0">
+                    <Button fx:id="backupButton" onAction="#handleBackupData" styleClass="lgn_btn" text="نسخ احتياطي" />
+                </VBox>
+
+                <!-- Logout -->
+                <VBox alignment="CENTER" spacing="5.0">
+                    <Button fx:id="logoutButton" alignment="CENTER" onAction="#handleLogout" prefWidth="108.0" styleClass="lgn_btn" text="تسجيل الخروج" />
+               <Button fx:id="users_btn" alignment="CENTER" layoutX="456.0" layoutY="10.0" onAction="#goUsers" prefWidth="108.0" styleClass="lgn_btn" text="المستخدمين" />
+                </VBox>
+                
+            </VBox>
+        </center>
+
+        <bottom>
+            <Button mnemonicParsing="false" onAction="#go_Dashboard" text="الرئيسية" textAlignment="CENTER" BorderPane.alignment="BOTTOM_RIGHT">
+                <BorderPane.margin>
+                    <Insets bottom="10.0" right="10.0" />
+                </BorderPane.margin>
+                <styleClass>
+                    <String fx:value="btn" />
+                    <String fx:value="go_back_dash_btn" />
+                </styleClass>
+            </Button>
+        </bottom>
+        <stylesheets>
+            <URL value="@../../css/all.css" />
+        </stylesheets>
+    </BorderPane>
+</AnchorPane>
