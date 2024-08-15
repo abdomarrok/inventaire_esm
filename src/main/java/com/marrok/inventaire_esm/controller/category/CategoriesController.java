@@ -93,24 +93,26 @@ public class CategoriesController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/category/update_form-view.fxml"));
                 Stage stage = new Stage();
                 Scene scene = new Scene(loader.load());
-//                TransitTheme transitTheme = new TransitTheme(Style.LIGHT);
-//                transitTheme.setScene(scene);
+
                 stage.setScene(scene);
 
                 stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setTitle("Update Category");
+                stage.setTitle("تحديث فئة");
+
                 stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
                 UpdateController controller = loader.getController();
                 controller.setCategory(selectedCategory);
                 controller.setCategoriesController(this); // You might need this to refresh the category list after updating
                 stage.showAndWait();
             } catch (IOException e) {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Could not open the update category form.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج تحديث الفئة.");
+
                 e.printStackTrace();
             }
         } else {
             // If no category is selected, show a warning message
-            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a category to update.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار فئة للتحديث.");
+
         }
     }
 
@@ -131,13 +133,14 @@ public class CategoriesController implements Initializable {
 
             if (success) {
                 categoryList.remove(selectedCategory);
-                GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Category Deleted", "The Category was deleted successfully.");
+                GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف الفئة", "تم حذف الفئة بنجاح.");
             } else {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Delete Category Failed", "Failed to delete the Category.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل حذف الفئة", "فشل في حذف الفئة.");
             }
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select an Category to delete.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار فئة للحذف.");
         }
+
     }
 
     @FXML
@@ -149,14 +152,16 @@ public class CategoriesController implements Initializable {
             stage.setScene(scene);
 
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Add Category");
+            stage.setTitle("إضافة فئة");
+
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
             AddController controller = loader.getController();
             controller.setCategoriesdController(this);
 
             stage.showAndWait();
         } catch (IOException e) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Could not open the add article form.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة العنصر.");
+
             e.printStackTrace();
         }
     }

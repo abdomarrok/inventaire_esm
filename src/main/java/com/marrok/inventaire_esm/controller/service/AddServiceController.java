@@ -38,7 +38,7 @@ public class AddServiceController {
         String name = nameField.getText().trim();
 
         if (name.isEmpty()) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Invalid Input", "Service name cannot be empty.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "مدخل غير صحيح", "اسم المصلحة لا يمكن أن يكون فارغًا.");
             return;
         }
 
@@ -48,11 +48,13 @@ public class AddServiceController {
         boolean success = dbhelper.addService(service);
 
         if (success) {
-            GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "Service added successfully.");
+            GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تمت إضافة المصلحة بنجاح.");
+
             servicesController.refreshTableData();
             closeStage();
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to add service.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في إضافة المصلحة.");
+
         }
     }
 

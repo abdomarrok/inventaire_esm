@@ -118,14 +118,15 @@ public class EmployerController implements Initializable {
 //            transitTheme.setScene(scene);
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Add Employer");
+            stage.setTitle("إضافة موظف");
+
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
             AddController controller = loader.getController();
             controller.setEmployerController(this);
 
             stage.showAndWait();
         } catch (IOException e) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Could not open the add employer form.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة الموظف.");
             e.printStackTrace();
         }
     }
@@ -141,7 +142,8 @@ public class EmployerController implements Initializable {
 //                TransitTheme transitTheme = new TransitTheme(Style.LIGHT);
 //                transitTheme.setScene(scene);
                 stage.setScene(scene);
-                stage.setTitle("Update Employer");
+                stage.setTitle("تحديث موظف");
+
                 stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
                 UpdateController controller = loader.getController();
                 controller.setEmployerData(selectedEmployer);
@@ -152,7 +154,8 @@ public class EmployerController implements Initializable {
                 e.printStackTrace();
             }
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select an employer to update.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار موظف للتحديث.");
+
         }
     }
 
@@ -165,13 +168,14 @@ public class EmployerController implements Initializable {
 
             if (success) {
                 employerList.remove(selectedEmployer);
-                GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Employer Deleted", "The employer was deleted successfully.");
+                GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف الموظف", "تم حذف الموظف بنجاح.");
             } else {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Delete Employer Failed", "Failed to delete the employer.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل حذف الموظف", "فشل في حذف الموظف.");
             }
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select an employer to delete.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار موظف للحذف.");
         }
+
     }
 
     public ObservableList<Employer> getEmployerList() {

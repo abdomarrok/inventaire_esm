@@ -44,13 +44,15 @@ public class UpdateController {
         // Update the category in the database
       try{
             dbhelper.updateCategory(selectedCategory);
-            GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Category Updated", "The category was updated successfully.");
-            categoriesController.loadData(); // Refresh the categories list
+          GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم تحديث الفئة", "تم تحديث الفئة بنجاح.");
+
+          categoriesController.loadData(); // Refresh the categories list
             closeForm();
         } catch(Exception e) {
             // If update fails, show an error message
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Update Failed", e.getMessage());
-        }
+          GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل التحديث", e.getMessage());
+
+      }
     }
 
     @FXML

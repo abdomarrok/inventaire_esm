@@ -40,7 +40,8 @@ public class UpdateServiceController {
         if (service != null) {
             nameField.setText(service.getName());
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Service not found.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "لم يتم العثور على المصلحة.");
+
             closeStage();
         }
     }
@@ -50,7 +51,8 @@ public class UpdateServiceController {
         String name = nameField.getText().trim();
 
         if (name.isEmpty()) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Invalid Input", "Service name cannot be empty.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "مدخل غير صحيح", "اسم المصلحة لا يمكن أن يكون فارغًا.");
+
             return;
         }
         int serviceId = this.serviceId;
@@ -59,11 +61,13 @@ public class UpdateServiceController {
 try{
             dbhelper.updateService(service);
             servicesController.refreshTableData();
-            GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "Service updated successfully.");
-            closeStage();
+    GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم تحديث المصلحة بنجاح.");
+
+    closeStage();
         } catch (Exception e){
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", e.getMessage());
-        }
+    GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", e.getMessage());
+
+}
     }
 
     @FXML

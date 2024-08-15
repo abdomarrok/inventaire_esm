@@ -3,6 +3,7 @@ package com.marrok.inventaire_esm.controller.location;
 import com.marrok.inventaire_esm.model.Localisation;
 import com.marrok.inventaire_esm.model.Service;
 import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -62,18 +63,21 @@ public class AddController implements Initializable {
         if (serviceField.getValue() != null) {
             service = serviceField.getValue();
         }else{
-            showAlert("you have to select a service");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يجب عليك اختيار مصلحة.");
+
         }
         try {
             floor = Integer.parseInt(floorField.getText());
 
         } catch (NumberFormatException e) {
-            showAlert("Floor  must be valid numbers.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "يجب أن يكون رقم الطابق أرقامًا صالحة.");
+
             return;
         }
         Service selected_service = dbhlper.getServiceByName(service);
         if (selected_service == null) {
-            showAlert("Service not found");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "المصلحة غير موجودة.");
+
         }else{
             Localisation newLocation = new Localisation(locName,floor,  selected_service.getId() );
             boolean success = dbhlper.addLocalisation(newLocation);
@@ -86,7 +90,8 @@ public class AddController implements Initializable {
                 Stage stage = (Stage) locationNameField.getScene().getWindow();
                 stage.close();
             } else {
-                showAlert("Failed to add location.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في إضافة الموقع.");
+
             }
         }
 
@@ -99,11 +104,7 @@ public class AddController implements Initializable {
         stage.close();
     }
 
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
 
     public void setLocationController(LocationController locationController) {
         this.locationController = locationController;

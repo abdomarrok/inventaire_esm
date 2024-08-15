@@ -52,8 +52,7 @@ public class InventaireItemController implements Initializable {
     public Button addButton;
     @FXML
     public Button bk_Dashboard_from_inventaireitem;
-    @FXML
-    public ToggleButton switchThemeBtn_inventaireitem;
+
     @FXML
     public Button updateButton;
     @FXML
@@ -207,13 +206,15 @@ public class InventaireItemController implements Initializable {
                 stage.show();
 
             } else {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to retrieve invetaire item details.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في استرجاع تفاصيل عنصر الجرد.");
+
             }
 
 
         } catch (SQLException | IOException e) {
             e.printStackTrace();
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to load inventaire item details view.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في تحميل عرض تفاصيل عنصر الجرد.");
+
         }
 
     }
@@ -227,14 +228,15 @@ public class InventaireItemController implements Initializable {
 
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Add Inventaire Item");
+            stage.setTitle("إضافة عنصر الجرد");
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
             AddController controller = loader.getController();
             controller.setParentController(this);
 
             stage.showAndWait();
         } catch (IOException e) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Could not open the add inventaire item form.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة عنصر الجرد.");
+
             e.printStackTrace();
         }
     }
@@ -252,7 +254,8 @@ public class InventaireItemController implements Initializable {
 
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setTitle("Update Inventaire Item");
+                stage.setTitle("تحديث عنصر الجرد");
+
                 stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
                 UpdateController controller = loader.getController();
                 controller.setInventaireItem(selectedItem);
@@ -263,11 +266,13 @@ public class InventaireItemController implements Initializable {
                 // Refresh the table view after the update
                 refreshTableData();
             } catch (IOException e) {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Could not open the update inventaire item form.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج تحديث عنصر الجرد.");
+
                 e.printStackTrace();
             }
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select an item to update.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار عنصر للتحديث.");
+
         }
     }
 
@@ -280,16 +285,19 @@ public class InventaireItemController implements Initializable {
                 boolean isDeleted = dbhelper.deleteInventaireItem(selectedItem.getId());
                 if (isDeleted) {
                     refreshTableData();
-                    GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "Item deleted successfully.");
+                    GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم حذف العنصر بنجاح.");
+
                 } else {
-                    GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Could not delete the item.");
+                    GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر حذف العنصر.");
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();  // Optional: Log the exception
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while trying to delete the item.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "حدث خطأ أثناء محاولة حذف العنصر.");
+
             }
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select an item to delete.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار عنصر للحذف.");
         }
     }
 

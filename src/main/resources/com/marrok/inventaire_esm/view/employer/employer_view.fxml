@@ -76,7 +76,7 @@
 
             <Button fx:id="bk_Dashboard_from_employers" text="الرئيسية" BorderPane.alignment="BOTTOM_RIGHT">
                 <BorderPane.margin>
-                    <Insets bottom="50.0" right="50.0" />
+                    <Insets />
                 </BorderPane.margin>
                 <styleClass>
                     <String fx:value="btn" />

@@ -83,7 +83,7 @@
 
                    <Button fx:id="dashboard" mnemonicParsing="false" onAction="#go_Dashboard" text="الرئيسية" textAlignment="CENTER" BorderPane.alignment="BOTTOM_RIGHT">
                        <BorderPane.margin>
-                           <Insets bottom="50.0" right="50.0" />
+                           <Insets />
                        </BorderPane.margin>
                        <styleClass>
                            <String fx:value="btn" />

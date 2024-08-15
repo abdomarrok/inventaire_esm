@@ -70,12 +70,14 @@ public class UpdateController {
                 }
             } else {
                 // Handle case when article is not found
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to retrieve article details.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في استرجاع تفاصيل العنصر.");
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle SQL exception
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to retrieve article details.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في استرجاع تفاصيل العنصر.");
+
         }
     }
 
@@ -96,11 +98,13 @@ public class UpdateController {
             // Close the form
             articleController.loadData();
             Alert alertsecsuss = new Alert(Alert.AlertType.INFORMATION);
-            GeneralUtil.showAlert(alertsecsuss.getAlertType(), "Article Update", "The article was updated successfully.");
+            GeneralUtil.showAlert(alertsecsuss.getAlertType(), "تحديث العنصر", "تم تحديث العنصر بنجاح.");
+
             Stage stage = (Stage) nameField.getScene().getWindow();
             stage.close();
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Update Failed", "Failed to update the article.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل التحديث", "فشل في تحديث العنصر.");
+
         }
     }
 

@@ -36,20 +36,21 @@ public class AddController {
         String title = titleField.getText();
 
         if (firstName.isEmpty() || lastName.isEmpty() || title.isEmpty()) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all fields.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "يرجى ملء جميع الحقول.");
             return;
         }
 
         Employer newEmployer = new Employer(0, firstName, lastName, title);
-        int success = dbhelper.addEmployer(newEmployer.getFirstName(),newEmployer.getLastName(),newEmployer.getTitle());
+        int success = dbhelper.addEmployer(newEmployer.getFirstName(), newEmployer.getLastName(), newEmployer.getTitle());
 
-        if (success!=-1) {
-            GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "Employer added successfully.");
+        if (success != -1) {
+            GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تمت إضافة الموظف بنجاح.");
             employerController.refreshTableData();
             closeWindow();
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to add employer.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في إضافة الموظف.");
         }
+
     }
 
     @FXML

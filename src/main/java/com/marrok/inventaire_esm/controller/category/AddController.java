@@ -34,7 +34,8 @@ public class AddController {
     public void addCategory(ActionEvent actionEvent) {
         String name_cat = nameField_cat_add.getText().trim();
         if (name_cat.isEmpty()) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Invalid Input", "Name field cannot be empty.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "إدخال غير صالح", "لا يمكن أن يكون حقل الاسم فارغًا.");
+
             return;
         }
         Category category = new Category(name_cat);
@@ -42,11 +43,13 @@ public class AddController {
             categoriesController.getCategoryList().add(category);
             categoriesController.loadData();
             Alert alertsecsuss = new Alert(Alert.AlertType.INFORMATION);
-            GeneralUtil.showAlert(alertsecsuss.getAlertType(), "Category Added", "The category was added successfully.");
+            GeneralUtil.showAlert(alertsecsuss.getAlertType(), "تمت إضافة الفئة", "تمت إضافة الفئة بنجاح.");
+
 
             closeForm();
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Add Category Failed", "Failed to add the category.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل إضافة الفئة", "فشل في إضافة الفئة.");
+
         }
     }
 

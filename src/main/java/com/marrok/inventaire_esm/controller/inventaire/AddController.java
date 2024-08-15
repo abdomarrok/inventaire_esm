@@ -71,10 +71,12 @@ public class AddController implements Initializable {
                 parentController.refreshTableData();
                 closeWindow();
             } else {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to add the inventory item.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في إضافة العنصر إلى المخزون.");
+
             }
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to find the employer.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في العثور على الموظف.");
+
         }
     }
 

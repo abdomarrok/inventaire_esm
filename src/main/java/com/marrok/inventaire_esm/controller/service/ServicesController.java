@@ -102,8 +102,6 @@ public class ServicesController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/service/add_form-view.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(loader.load());
-//            TransitTheme transitTheme = new TransitTheme(Style.LIGHT);
-//            transitTheme.setScene(scene);
             stage.setScene(scene);
 
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -114,7 +112,8 @@ public class ServicesController implements Initializable {
 
             stage.showAndWait();
         } catch (IOException e) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Could not open the add service form.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة المصلحة.");
+
             e.printStackTrace();
         }
     }
@@ -128,7 +127,7 @@ public class ServicesController implements Initializable {
                 Stage stage = new Stage();
                 Scene scene = new Scene(loader.load());
                 stage.setScene(scene);
-                stage.setTitle("Update Service");
+                stage.setTitle("تحديث المصلحة");
                 stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
                 UpdateServiceController controller = loader.getController();
                 controller.setServiceData(selectedService.getId());
@@ -139,7 +138,8 @@ public class ServicesController implements Initializable {
                 e.printStackTrace();
             }
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a service to update.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار مصلحة للتحديث.");
+
         }
     }
 
@@ -150,13 +150,14 @@ public class ServicesController implements Initializable {
             boolean success = dbhelper.deleteService(selectedService.getId());
             if (success) {
                 servicesList.remove(selectedService);
-                GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Service Deleted", "The service was deleted successfully.");
+                GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف المصلحة", "تم حذف المصلحة بنجاح.");
             } else {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Delete Service Failed", "Failed to delete the service.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل في حذف المصلحة", "فشل في حذف المصلحة.");
             }
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a service to delete.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار مصلحة للحذف.");
         }
+
     }
 
 

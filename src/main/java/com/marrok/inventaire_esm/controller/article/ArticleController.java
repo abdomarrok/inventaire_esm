@@ -110,11 +110,13 @@ public class ArticleController implements Initializable {
                 stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
                 stage.show();
             } else {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to retrieve article details.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في استرجاع تفاصيل العنصر.");
+
             }
         } catch (SQLException | IOException e) {
             e.printStackTrace();
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to load article details view.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في تحميل عرض تفاصيل العنصر.");
+
         }
     }
 
@@ -206,7 +208,8 @@ public class ArticleController implements Initializable {
 
             stage.showAndWait();
         } catch (IOException e) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Could not open the add article form.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة العنصر.");
+
             e.printStackTrace();
         }
     }
@@ -232,7 +235,8 @@ public class ArticleController implements Initializable {
                 e.printStackTrace();
             }
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select an article to update.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار عنصر للتحديث.");
+
         }
     }
 
@@ -244,13 +248,15 @@ public class ArticleController implements Initializable {
             try{
               if(dbhelper.deleteArticle(selectedArticle.getId())){
                   articleList.remove(selectedArticle);
-                  GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Article Deleted", "The article was deleted successfully.");
+                  GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف العنصر", "تم حذف العنصر بنجاح.");
+
               }
             } catch(Exception e) {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Delete Article Failed", e.getMessage());
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل في حذف العنصر", e.getMessage());
             }
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select an article to delete.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار عنصر للحذف.");
+
         }
     }
 
@@ -274,7 +280,7 @@ public class ArticleController implements Initializable {
     @FXML
     private void exportArticle(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Save Articles");
+        fileChooser.setTitle("حفظ العناصر");
         fileChooser.setInitialFileName("articles.csv");
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("CSV Files", "*.csv")
@@ -289,9 +295,11 @@ public class ArticleController implements Initializable {
                             article.getQuantity(), article.getRemarque(), article.getIdCategory());
                 }
                 csvPrinter.flush();
-                GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Export Successful", "Articles exported successfully.");
+                GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم التصدير بنجاح", "تم تصدير العناصر بنجاح.");
+
             } catch (IOException e) {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Export Failed", "An error occurred while exporting articles.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل التصدير", "حدث خطأ أثناء تصدير العناصر.");
+
                 e.printStackTrace();
             }
         }
@@ -333,9 +341,11 @@ public class ArticleController implements Initializable {
                 // Refresh table view
                 articleList.addAll(articlesToAdd);
                 loadData();
-                GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Import Successful", "Articles imported successfully.");
+                GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم الاستيراد بنجاح", "تم استيراد العناصر بنجاح.");
+
             } catch (IOException | SQLException e) {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Import Failed", "An error occurred while importing articles.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل الاستيراد", "حدث خطأ أثناء استيراد العناصر.");
+
                 e.printStackTrace();
             }
         }

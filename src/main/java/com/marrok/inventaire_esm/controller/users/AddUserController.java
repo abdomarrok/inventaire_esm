@@ -2,6 +2,7 @@ package com.marrok.inventaire_esm.controller.users;
 
 import com.marrok.inventaire_esm.model.User;
 import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,7 +43,7 @@ public class AddUserController implements Initializable {
 
     private void initializeRoleChoiceBox() {
         // Initialize the ChoiceBox with roles
-        roleChoiceBox.getItems().addAll("Admin", "User", "Manager"); // Add roles as needed
+        roleChoiceBox.getItems().addAll("Admin", "User"); // Add roles as needed
         roleChoiceBox.getSelectionModel().selectFirst(); // Select default role
     }
 
@@ -53,7 +54,8 @@ public class AddUserController implements Initializable {
         String role = roleChoiceBox.getValue();
 
         if (username.isEmpty() || password.isEmpty() || role == null) {
-            showAlert(Alert.AlertType.WARNING, "Input Error", "Please fill in all fields.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "خطأ في الإدخال", "يرجى ملء جميع الحقول.");
+
             return;
         }
 
@@ -62,10 +64,12 @@ public class AddUserController implements Initializable {
         try {
             dbHelper.addUser(user);// Assume addUser method exists in DatabaseHelper
             UserController.loadData();
-            showAlert(Alert.AlertType.INFORMATION, "Success", "User added successfully.");
-       closeForm();
+            GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم إضافة المستخدم بنجاح.");
+
+            closeForm();
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to add user: " + e.getMessage());
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في إضافة المستخدم: " + e.getMessage());
+
         }
     }
 
@@ -79,11 +83,5 @@ public class AddUserController implements Initializable {
         stage.close();
     }
 
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
 }

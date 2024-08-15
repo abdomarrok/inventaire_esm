@@ -2,6 +2,7 @@ package com.marrok.inventaire_esm.controller.users;
 
 import com.marrok.inventaire_esm.model.User;
 import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -38,7 +39,7 @@ public class UpdateUserController implements Initializable {
 
     private void initializeRoleChoiceBox() {
         // Initialize the ChoiceBox with roles
-        roleChoiceBox.getItems().addAll("Admin", "User", "Manager"); // Add roles as needed
+        roleChoiceBox.getItems().addAll("Admin", "User"); // Add roles as needed
 
     }
 
@@ -55,7 +56,8 @@ public class UpdateUserController implements Initializable {
     @FXML
     public void updateUser(ActionEvent event) {
         if (user == null) {
-            showAlert(Alert.AlertType.ERROR, "Error", "No user selected for update.");
+           GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "لم يتم اختيار مستخدم للتحديث.");
+
             return;
         }
 
@@ -64,7 +66,8 @@ public class UpdateUserController implements Initializable {
         String role = roleChoiceBox.getValue();
 
         if (username.isEmpty() || password.isEmpty() || role == null) {
-            showAlert(Alert.AlertType.WARNING, "Input Error", "Please fill in all fields.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "خطأ في الإدخال", "يرجى ملء جميع الحقول.");
+
             return;
         }
 
@@ -74,11 +77,13 @@ public class UpdateUserController implements Initializable {
 
         try {
             dbHelper.updateUser(user); // Assume updateUser method exists in DatabaseHelper
-            showAlert(Alert.AlertType.INFORMATION, "Success", "User updated successfully.");
+            GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم تحديث المستخدم بنجاح.");
+
             usersController.loadData();
             closeForm();
         } catch (Exception e) {
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to update user: " + e.getMessage());
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في تحديث المستخدم: " + e.getMessage());
+
         }
     }
 
@@ -92,13 +97,6 @@ public class UpdateUserController implements Initializable {
         stage.close();
     }
 
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
     public void setUsersController(UsersController usersController) {
         this.usersController=usersController;

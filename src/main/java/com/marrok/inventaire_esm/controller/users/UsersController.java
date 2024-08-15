@@ -40,20 +40,7 @@ public class UsersController implements Initializable {
     @FXML
     private TextField searchField;
 
-    @FXML
-    private Button addUserButton;
 
-    @FXML
-    private Button updateUserButton;
-
-    @FXML
-    private Button deleteUserButton;
-
-    @FXML
-    private Button bk_Dashboard_from_users;
-
-    @FXML
-    private Label titleLabel;
 
     private ObservableList<User> userList;
     private FilteredList<User> filteredUserList;
@@ -89,7 +76,8 @@ public class UsersController implements Initializable {
             usersTableView.setItems(filteredUserList);
         } catch (SQLException e) {
             e.printStackTrace();
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to load user data.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في تحميل بيانات المستخدم.");
+
         }
     }
 
@@ -126,7 +114,8 @@ public class UsersController implements Initializable {
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to open add user form.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في فتح نموذج إضافة المستخدم.");
+
         }
     }
 
@@ -145,7 +134,8 @@ public class UsersController implements Initializable {
             stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to open add user form.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في فتح نموذج إضافة المستخدم.");
+
         }
     }
 
@@ -156,15 +146,16 @@ public class UsersController implements Initializable {
             try {
                 if (dbHelper.deleteUser(selectedUser.getId())) {
                     userList.remove(selectedUser);
-                    GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "User Deleted", "The user was deleted successfully.");
+                    GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف المستخدم", "تم حذف المستخدم بنجاح.");
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to delete user.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في حذف المستخدم.");
             }
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a user to delete.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار مستخدم للحذف.");
         }
+
     }
 
     @FXML
@@ -172,9 +163,6 @@ public class UsersController implements Initializable {
         GeneralUtil.goBackDashboard(event);
     }
 
-    public void go_Dashboard(ActionEvent event) {
-        GeneralUtil.goBackDashboard(event);
-    }
 
 
 }

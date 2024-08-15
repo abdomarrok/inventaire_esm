@@ -96,7 +96,8 @@ public class LocationController implements Initializable {
     @FXML
     public void deleteLocation(ActionEvent event) {
         if (selectedLocalisation == null) {
-            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "No location selected. Please select a location to delete.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "لم يتم اختيار موقع. يرجى اختيار موقع للحذف.");
+
             return;
         }
 
@@ -105,7 +106,8 @@ public class LocationController implements Initializable {
         if (success) {
             loadData();
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to delete location.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في حذف الموقع.");
+
         }
     }
 
@@ -113,7 +115,8 @@ public class LocationController implements Initializable {
     @FXML
     public void updateLocation(ActionEvent event) {
         if (selectedLocalisation == null) {
-            GeneralUtil.showAlert(Alert.AlertType.WARNING, "No Selection", "No location selected. Please select a location to update.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "لم يتم اختيار موقع. يرجى اختيار موقع للتحديث.");
+
             return;
         }
 
@@ -121,8 +124,6 @@ public class LocationController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/location/Update.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(loader.load());
-//            TransitTheme transitTheme = new TransitTheme(Style.LIGHT);
-//            transitTheme.setScene(scene);
             stage.setScene(scene);
 
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -134,7 +135,7 @@ public class LocationController implements Initializable {
 
             stage.showAndWait();
         } catch (IOException e) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Could not open the update article form.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج تحديث العنصر.");
             e.printStackTrace();
         }
     }
@@ -158,7 +159,8 @@ public class LocationController implements Initializable {
 
             stage.showAndWait();
         } catch (IOException e) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Could not open the add article form.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة العنصر.");
+
             e.printStackTrace();
         }
     }

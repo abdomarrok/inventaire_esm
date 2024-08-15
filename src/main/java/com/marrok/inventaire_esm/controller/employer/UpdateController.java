@@ -44,7 +44,8 @@ public class UpdateController {
         String title = titleField.getText();
 
         if (firstName.isEmpty() || lastName.isEmpty() || title.isEmpty()) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Please fill in all fields.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "يرجى ملء جميع الحقول.");
+
             return;
         }
 
@@ -55,11 +56,13 @@ public class UpdateController {
         boolean success = dbhelper.updateEmployer(currentEmployer);
 
         if (success) {
-            GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "Employer updated successfully.");
+            GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم تحديث الموظف بنجاح.");
+
             employerController.refreshTableData();
             closeWindow();
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Failed to update employer.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في تحديث الموظف.");
+
         }
     }
 

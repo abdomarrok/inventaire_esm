@@ -82,13 +82,13 @@ public class DashboardController extends AnchorPane implements Initializable {
                 services_button.setDisable(true);
                 break;
             default:
-//                employers_button.setDisable(true);
-//                product_button.setDisable(true);
-//                category_button.setDisable(true);
-//                services_button.setDisable(true);
-//                location_button.setDisable(true);
-//                inventaire_button.setDisable(true);
-//                settings_button.setDisable(true);
+                employers_button.setDisable(true);
+                product_button.setDisable(true);
+                category_button.setDisable(true);
+                services_button.setDisable(true);
+                location_button.setDisable(true);
+                inventaire_button.setDisable(true);
+                settings_button.setDisable(true);
                 break;
         }
     }
@@ -148,7 +148,7 @@ public class DashboardController extends AnchorPane implements Initializable {
             stage.show();
         } catch (IOException ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, "Error loading scene: " + resourcePath, ex);
-            GeneralUtil.showAlert(Alert.AlertType.ERROR,"Error", "Could not load the requested scene. Please try again later.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر تحميل المشهد المطلوب. يرجى المحاولة مرة أخرى لاحقًا.");
 
         }
     }

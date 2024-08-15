@@ -3,6 +3,7 @@ package com.marrok.inventaire_esm.controller.location;
 import com.marrok.inventaire_esm.model.Localisation;
 import com.marrok.inventaire_esm.model.Service;
 import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -74,7 +75,8 @@ public class UpdateController implements Initializable {
         try {
             floor = Integer.parseInt(floorField.getText());
         } catch (NumberFormatException e) {
-            showAlert("Floor must be valid numbers.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "رقم الطابق يجب أن يكون أرقامًا صالحة.");
+
             return;
         }
 
@@ -82,7 +84,8 @@ public class UpdateController implements Initializable {
         localisation.setFloor(floor);
         Service selected_service = dbhlper.getServiceByName(serviceField.getValue());
         if (selected_service == null) {
-            showAlert("no service selected");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "لم يتم اختيار خدمة.");
+
         }else{
             localisation.setIdService(selected_service.getId());
 
@@ -93,7 +96,8 @@ public class UpdateController implements Initializable {
                 Stage stage = (Stage) locationNameField.getScene().getWindow();
                 stage.close();
             } else {
-                showAlert("Failed to update location.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في تحديث الموقع.");
+
             }
         }
 
@@ -105,10 +109,5 @@ public class UpdateController implements Initializable {
         stage.close();
     }
 
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
 }

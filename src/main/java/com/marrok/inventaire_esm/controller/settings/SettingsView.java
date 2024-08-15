@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -24,7 +25,8 @@ public class SettingsView {
     @FXML
     private void handleBackupData(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select Backup Location");
+        fileChooser.setTitle("اختر موقع النسخ الاحتياطي");
+
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("SQL Files", "*.sql"));
 
         // Open the file chooser dialog
@@ -38,17 +40,20 @@ public class SettingsView {
                 DatabaseConnection.backupDatabase(backupPath);
 
                 // Show success alert
-                GeneralUtil.showAlert(AlertType.INFORMATION, "Backup Data", "Backup completed successfully.");
+                GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نسخ احتياطي", "اكتمل النسخ الاحتياطي بنجاح.");
+
             } catch (Exception e) {
                 // Show error alert
-                GeneralUtil.showAlert(AlertType.ERROR, "Backup Data", "Backup failed: " + e.getMessage());
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "نسخ احتياطي", "فشل النسخ الاحتياطي: " + e.getMessage());
+
 
                 // Optionally log the exception
                 e.printStackTrace();
             }
         } else {
             // Show warning alert if no file was selected
-            GeneralUtil.showAlert(AlertType.WARNING, "Backup Data", "No file selected for backup.");
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "نسخ احتياطي", "لم يتم اختيار ملف للنسخ الاحتياطي.");
+
         }
     }
 

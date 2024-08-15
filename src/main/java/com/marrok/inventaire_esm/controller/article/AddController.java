@@ -132,7 +132,7 @@ public class AddController implements Initializable {
         String descriptionText = descriptionField.getText().trim();
 
         if (name.isEmpty()) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Invalid Input", "Name field cannot be empty.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "مدخلات خاطئة", "اسم العنصر لا يجب ان يكون فارغا");
             return;
         }
 
@@ -145,7 +145,7 @@ public class AddController implements Initializable {
         try {
             quantity = Integer.parseInt(quantityText);
         } catch (NumberFormatException e) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Invalid Quantity", "Please enter a valid quantity.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "كمية خاطئة", "يرجو ادخال كمية مناسبة");
             return;
         }
 
@@ -158,10 +158,12 @@ public class AddController implements Initializable {
         if (dbhelper.addArticle(newArticle)) {
             articleController.getArticleList().add(newArticle);
             articleController.loadData();
-            GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Article Added", "The article was added successfully.");
+            GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تمت إضافة العنصر", "تمت إضافة العنصر بنجاح.");
+
             closeForm();
         } else {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Add Article Failed", "Failed to add the article.");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل في إضافة العنصر", "فشل في إضافة العنصر.");
+
         }
     }
 
