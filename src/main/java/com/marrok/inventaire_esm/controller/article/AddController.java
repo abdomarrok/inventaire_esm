@@ -97,32 +97,7 @@ public class AddController implements Initializable {
         });
     }
 
-//    private void loadLocalisations(int serviceId) {
-//        List<Localisation> localisations = DatabaseHelper.getLocalisationsByServiceId(serviceId);
-//        ObservableList<Localisation> localisationsObservableList = FXCollections.observableList(localisations);
-//        localisationChoiceBox.setItems(localisationsObservableList);
-//
-//        localisationChoiceBox.setConverter(new StringConverter<Localisation>() {
-//            @Override
-//            public String toString(Localisation localisation) {
-//                return localisation != null ? localisation.getLocName() : "";
-//            }
-//
-//            @Override
-//            public Localisation fromString(String string) {
-//                return localisations.stream()
-//                        .filter(localisation -> localisation.getLocName().equals(string))
-//                        .findFirst()
-//                        .orElse(null);
-//            }
-//        });
-//
-//        localisationChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue != null) {
-//                chosenLocalisation = newValue.getLocName();
-//            }
-//        });
-//    }
+
 
     public void addArticle(ActionEvent event) {
         String name = nameField.getText().trim();

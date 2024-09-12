@@ -96,7 +96,7 @@ public class DashboardController extends AnchorPane implements Initializable {
 
     @FXML
     private void go_Setting(ActionEvent event){
-        loadScene("/com/marrok/inventaire_esm/view/settings/settings-view.fxml", event);
+        loadScene("/com/marrok/inventaire_esm/view/settings/settings-view.fxml", event,true);
     }
     @FXML
     private void logoutAction(ActionEvent event) {
@@ -106,35 +106,35 @@ public class DashboardController extends AnchorPane implements Initializable {
 
     @FXML
     public void go_Categories(ActionEvent event) {
-        loadScene("/com/marrok/inventaire_esm/view/category/categories-view.fxml", event);
+        loadScene("/com/marrok/inventaire_esm/view/category/categories-view.fxml", event,true);
     }
 
     @FXML
     public void go_Products(ActionEvent event) {
-        loadScene("/com/marrok/inventaire_esm/view/article/articles-view.fxml", event);
+        loadScene("/com/marrok/inventaire_esm/view/article/articles-view.fxml", event,true);
     }
 
     @FXML
     public void go_Services(ActionEvent event) {
-        loadScene("/com/marrok/inventaire_esm/view/service/services-view.fxml", event);
+        loadScene("/com/marrok/inventaire_esm/view/service/services-view.fxml", event,true);
     }
 
     @FXML
     public void go_Location(ActionEvent event) {
-        loadScene("/com/marrok/inventaire_esm/view/location/locations-view.fxml", event);
+        loadScene("/com/marrok/inventaire_esm/view/location/locations-view.fxml", event,true);
     }
 
     @FXML
     public void go_Inventaire(ActionEvent event) {
-        loadScene("/com/marrok/inventaire_esm/view/inventaire/inventaire_item-view.fxml", event);
+        loadScene("/com/marrok/inventaire_esm/view/inventaire/inventaire_item-view.fxml", event,true);
     }
 
     @FXML
     public void go_Employers(ActionEvent event) {
-        loadScene("/com/marrok/inventaire_esm/view/employer/employer_view.fxml", event);
+        loadScene("/com/marrok/inventaire_esm/view/employer/employer_view.fxml", event,true);
     }
 
-    private void loadScene(String resourcePath, ActionEvent event) {
+    private void loadScene(String resourcePath, ActionEvent event, boolean isResizable) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(resourcePath));
         try {
             Parent root = loader.load();
@@ -143,13 +143,12 @@ public class DashboardController extends AnchorPane implements Initializable {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
-            stage.setResizable(true);
+            stage.setResizable(isResizable);
             stage.centerOnScreen();
             stage.show();
         } catch (IOException ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, "Error loading scene: " + resourcePath, ex);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر تحميل المشهد المطلوب. يرجى المحاولة مرة أخرى لاحقًا.");
-
         }
     }
 

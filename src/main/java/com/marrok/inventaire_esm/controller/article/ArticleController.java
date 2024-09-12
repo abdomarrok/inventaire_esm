@@ -192,27 +192,29 @@ public class ArticleController implements Initializable {
 
     @FXML
     public void addArticle(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/article/add_form-view.fxml"));
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/article/add_form-view.fxml"));
+
             Stage stage = new Stage();
             Scene scene = new Scene(loader.load());
-//            TransitTheme transitTheme = new TransitTheme(Style.LIGHT);
-//            transitTheme.setScene(scene);
-            stage.setScene(scene);
 
+            stage.setScene(scene);
+            stage.setResizable(false); // Ensure the stage is non-resizable
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(((Node) event.getSource()).getScene().getWindow());
             stage.setTitle("Add Article");
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
+            stage.showAndWait();
             AddController controller = loader.getController();
             controller.setDashboardController(this);
 
             stage.showAndWait();
         } catch (IOException e) {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة العنصر.");
-
             e.printStackTrace();
         }
     }
+
 
     @FXML
     public void updateArticle(ActionEvent event) {
