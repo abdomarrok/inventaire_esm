@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<?import java.net.URL?>
-<GridPane hgap="10" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="com.marrok.inventaire_esm.controller.users.UpdateUserController">
+<GridPane hgap="10" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.users.UpdateUserController">
 
     <columnConstraints>
         <ColumnConstraints prefWidth="100" />
@@ -28,7 +27,7 @@
         <TextField fx:id="passwordField" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 
         <Label alignment="CENTER" styleClass="lbl" text="الدور:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-        <ChoiceBox fx:id="roleChoiceBox" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <ChoiceBox fx:id="roleChoiceBox" prefHeight="38.0" prefWidth="101.0" GridPane.columnIndex="0" GridPane.rowIndex="3" />
 
         <Button onAction="#updateUser" prefHeight="26.0" prefWidth="97.0" text="تحديث" textAlignment="RIGHT" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="4">
             <styleClass>

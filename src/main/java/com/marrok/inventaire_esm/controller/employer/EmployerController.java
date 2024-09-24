@@ -94,7 +94,6 @@ public class EmployerController implements Initializable {
                 String lowerCaseFilter = newValue.toLowerCase();
                 return employer.getFirstName().toLowerCase().contains(lowerCaseFilter)
                         || employer.getLastName().toLowerCase().contains(lowerCaseFilter)
-                        || employer.getTitle().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(employer.getId()).contains(lowerCaseFilter);
             });
         });
