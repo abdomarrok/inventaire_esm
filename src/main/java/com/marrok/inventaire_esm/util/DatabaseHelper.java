@@ -1002,5 +1002,40 @@ public DatabaseHelper() throws SQLException {
         return null; // Return null if inventaire_item is not found
     }
 
+    public List<Inventaire_Item> getInventoryItemsByServiceAndYear(int serviceId, int year) throws SQLException {
+        List<Inventaire_Item> inventoryItems = new ArrayList<>();
+        String query = "SELECT ii.*, l.id_service " +
+                "FROM inventaire_item ii " +
+                "JOIN localisation l ON ii.id_localisation = l.id " +
+                "WHERE l.id_service = ? AND YEAR(ii.time) = ?";
+
+        try (PreparedStatement statement = this.cnn.prepareStatement(query)) {
+            statement.setInt(1, serviceId);
+            statement.setInt(2, year);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int articleId = resultSet.getInt("id_article");
+                int localisationId = resultSet.getInt("id_localisation");
+                int userId = resultSet.getInt("user_id");
+                int employerId = resultSet.getInt("id_employer");
+                String numInventaire = resultSet.getString("num_inventaire");
+
+                // Get the date as a string
+                String formattedDateTime = resultSet.getTimestamp("time").toString(); // Convert to String format
+
+                // Create an instance of Inventaire_Item using the appropriate constructor
+                Inventaire_Item item = new Inventaire_Item(id, articleId, localisationId, userId, employerId, numInventaire, formattedDateTime);
+
+                inventoryItems.add(item);
+            }
+        }
+
+        return inventoryItems;
+    }
+
+
 
 }

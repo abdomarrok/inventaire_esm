@@ -4,11 +4,13 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
+import com.marrok.inventaire_esm.controller.dashboard.DashboardController;
 import com.marrok.inventaire_esm.controller.login.LoginController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -72,6 +74,24 @@ public class GeneralUtil {
             stage.show();
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void loadScene(String resourcePath, ActionEvent event, boolean isResizable) {
+        FXMLLoader loader = new FXMLLoader(GeneralUtil.class.getResource(resourcePath));
+        try {
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            scene.setCursor(Cursor.HAND);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setResizable(isResizable);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, "Error loading scene: " + resourcePath, ex);
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر تحميل المشهد المطلوب. يرجى المحاولة مرة أخرى لاحقًا.");
         }
     }
 

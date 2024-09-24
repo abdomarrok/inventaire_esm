@@ -30,41 +30,43 @@ import java.util.ResourceBundle;
 
 public class InventaireItemController implements Initializable {
 
-    @FXML
+
     public TableView<Inventaire_Item> tableView;
-    @FXML
+
     public TableColumn<Inventaire_Item, String> localisationIdColumn;
-    @FXML
+
     public TableColumn<Inventaire_Item, String> userIdColumn;
-    @FXML
+
     public TableColumn<Inventaire_Item, Integer> idInventaireColumn;
-    @FXML
+
     public TableColumn<Inventaire_Item, String> articleIdColumn;
-    @FXML
+
     public TableColumn<Inventaire_Item, String> employerIdColumn;
-    @FXML
+
     public TableColumn<Inventaire_Item, String> timeColumn;
-    @FXML
+
     public TableColumn<Inventaire_Item, String> barcodeColumn;
-    @FXML
+
     public TextField searchField;
-    @FXML
+
     public Button addButton;
-    @FXML
+
     public Button bk_Dashboard_from_inventaireitem;
 
-    @FXML
+    public  Button btn_fich_inventaire;
+
+
     public Button updateButton;
-    @FXML
+
     public Button deleteButton;
 
-    @FXML
+
     public Label titleLabel;
 
     private ObservableList<Inventaire_Item> inventaireItemList;
     private FilteredList<Inventaire_Item> filteredInventaireItemList;
     private Inventaire_Item selectedInventaireItem;
-    private final Properties themeProperties = new Properties();
+
     DatabaseHelper dbhelper = new DatabaseHelper();
 
     public InventaireItemController() throws SQLException {
@@ -219,7 +221,7 @@ public class InventaireItemController implements Initializable {
 
     }
 
-    @FXML
+
     public void addInventaireItem(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/add_form-view.fxml"));
@@ -274,6 +276,9 @@ public class InventaireItemController implements Initializable {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار عنصر للتحديث.");
 
         }
+    }
+    public void goFicheInventaire(ActionEvent event){
+      GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/inventaire/fiche_inventaire_view.fxml", event,true);
     }
 
     @FXML

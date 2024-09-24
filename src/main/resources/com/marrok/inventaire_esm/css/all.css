@@ -30,6 +30,16 @@
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
 }
+.btn_fiche_inv {
+    -fx-background-color: rgba(108, 117, 125, 0.96);
+    -fx-pref-height: 50px;
+    -fx-min-height: 50px;
+    -fx-font-family: 'Andalus';
+    -fx-font-size: 25px;
+    -fx-text-fill: white;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
 
 .add_btn {
     -fx-background-color: #28a745; /* Green #28a745 */
