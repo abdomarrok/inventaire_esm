@@ -275,40 +275,52 @@ public class FicheInventaireController implements Initializable {
     }
 
     private void createLogoRow(Sheet sheet, Workbook workbook) {
-        System.out.println();
+        System.out.println("here i am");
+
         // Load the image file
-        try (InputStream is = new FileInputStream("/com/marrok/inventaire_esm/img/esm-logo.png")) {
+        try (InputStream is = this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")) {
+
+            // Ensure the InputStream is not null
+            if (is == null) {
+                System.err.println("Logo file not found.");
+                return;
+            }
+
             // Add the image to the workbook
-            int pictureIdx = workbook.addPicture(is.readAllBytes(), Workbook.PICTURE_TYPE_PNG); // or PICTURE_TYPE_JPEG based on your image type
+            int pictureIdx = workbook.addPicture(is.readAllBytes(), Workbook.PICTURE_TYPE_PNG);
             CreationHelper helper = workbook.getCreationHelper();
             Drawing<?> drawing = sheet.createDrawingPatriarch();
 
-            // Create an anchor point
+            // Create an anchor point for the logo
             ClientAnchor anchor = helper.createClientAnchor();
-            anchor.setCol1(0); // Column A
-            anchor.setCol2(1); // Column B
-            anchor.setRow1(1); // Row 2
-            anchor.setRow2(2); // Row 3
+            anchor.setCol1(0); // Start at column A
+            anchor.setCol2(1); // End at column B
+            anchor.setRow1(1); // Start at row 2
+            anchor.setRow2(2); // End at row 3
             anchor.setAnchorType(ClientAnchor.AnchorType.MOVE_AND_RESIZE);
 
-            // Create the picture
+            // Create the picture and resize it
             Picture pict = drawing.createPicture(anchor, pictureIdx);
 
-            // Resize the image to the square dimensions of 40px by 40px
-            double scaleX = 40.0 / pict.getImageDimension().getWidth();  // Scaling factor for X
-            double scaleY = 40.0 / pict.getImageDimension().getHeight(); // Scaling factor for Y
+            // Get original image dimensions
+            int imageWidth = pict.getImageDimension().width;
+            int imageHeight = pict.getImageDimension().height;
 
-            // Apply the smaller scaling factor to maintain a square aspect ratio
-            double scale = Math.min(scaleX, scaleY);
+            // Set a target size of 40x40 px and calculate the scaling factor
+            double scaleX = 40.0 / imageWidth;
+            double scaleY = 40.0 / imageHeight;
+            double scale = Math.min(scaleX, scaleY); // Maintain aspect ratio by choosing the smaller scaling factor
+
+            // Resize the image
             pict.resize(scale);
 
             // Adjust the dimensions of the sheet
-            sheet.setColumnWidth(0, 40 * 256); // Set column A width to 40px
-            Row logoRow = sheet.getRow(1); // Get the second row (index 1)
+            sheet.setColumnWidth(0, 40 * 256); // Set column A width to fit the logo
+            Row logoRow = sheet.getRow(1); // Get or create the second row (index 1)
             if (logoRow == null) {
-                logoRow = sheet.createRow(1); // Create if it doesn't exist
+                logoRow = sheet.createRow(1);
             }
-            logoRow.setHeightInPoints(40); // Set row height to 40 points (40px)
+            logoRow.setHeightInPoints(40); // Set row height to 40 points
 
         } catch (IOException e) {
             e.printStackTrace();
