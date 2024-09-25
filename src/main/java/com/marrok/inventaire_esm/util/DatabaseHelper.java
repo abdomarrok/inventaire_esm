@@ -1036,6 +1036,58 @@ public DatabaseHelper() throws SQLException {
         return inventoryItems;
     }
 
+    public List<Inventaire_Item> getInventoryItemsByFilters(Integer serviceId, Integer localisationId, Integer year) throws SQLException {
+        List<Inventaire_Item> inventoryItems = new ArrayList<>();
+
+        StringBuilder query = new StringBuilder("SELECT ii.*, l.id_service " +
+                "FROM inventaire_item ii " +
+                "JOIN localisation l ON ii.id_localisation = l.id " +
+                "WHERE YEAR(ii.time) = ?");
+
+        // Add service and localisation filters only if they are provided (non-null)
+        if (serviceId != null) {
+            query.append(" AND l.id_service = ?");
+        }
+        if (localisationId != null) {
+            query.append(" AND ii.id_localisation = ?");
+        }
+
+        try (PreparedStatement statement = this.cnn.prepareStatement(query.toString())) {
+            // Set the year parameter
+            statement.setInt(1, year);
+
+            int parameterIndex = 2; // Start at 2 because year is the first parameter
+
+            // Set service and localisation parameters if they are not null
+            if (serviceId != null) {
+                statement.setInt(parameterIndex++, serviceId);
+            }
+            if (localisationId != null) {
+                statement.setInt(parameterIndex++, localisationId);
+            }
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int articleId = resultSet.getInt("id_article");
+                int localisationIdDb = resultSet.getInt("id_localisation");
+                int userId = resultSet.getInt("user_id");
+                int employerId = resultSet.getInt("id_employer");
+                String numInventaire = resultSet.getString("num_inventaire");
+
+                // Get the date as a string
+                String formattedDateTime = resultSet.getTimestamp("time").toString();
+
+                // Create an instance of Inventaire_Item using the appropriate constructor
+                Inventaire_Item item = new Inventaire_Item(id, articleId, localisationIdDb, userId, employerId, numInventaire, formattedDateTime);
+
+                inventoryItems.add(item);
+            }
+        }
+
+        return inventoryItems;
+    }
+
 
 
 }

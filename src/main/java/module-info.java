@@ -20,6 +20,8 @@ module com.marrok.inventaire_esm {
     requires jasperreports;
 
     requires org.apache.commons.csv;
+    requires org.apache.poi.ooxml;
+    requires org.apache.poi.poi;
 
     opens com.marrok.inventaire_esm to javafx.fxml;
     opens com.marrok.inventaire_esm.model to javafx.base;

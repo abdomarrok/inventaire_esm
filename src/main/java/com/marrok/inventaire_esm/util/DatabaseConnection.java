@@ -5,9 +5,12 @@ import java.io.IOException;
 import java.sql.*;
 
 public class DatabaseConnection {
-    private static final String DATABASE_URL = "jdbc:mysql://192.168.0.79:3306/testinv";
-    private static final String DATABASE_USER = "esm_inv1";
-    private static final String DATABASE_PASSWORD = "123456789";
+//    private static final String DATABASE_URL = "jdbc:mysql://192.168.0.79:3306/testinv";
+//    private static final String DATABASE_USER = "esm_inv1";
+//    private static final String DATABASE_PASSWORD = "123456789";
+    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/test";
+    private static final String DATABASE_USER = "root";
+    private static final String DATABASE_PASSWORD = "";
     private static DatabaseConnection instance;
     private Connection connection;
 
