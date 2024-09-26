@@ -17,6 +17,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.util.IOUtils;
+import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
+import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
@@ -145,24 +148,7 @@ public class FicheInventaireController implements Initializable {
         }
     }
 
-    /**
-     * private void generateReport(int year, String serviceName, String localisationName, List<Inventaire_Item> items) {
-     StringBuilder report = new StringBuilder("Inventory Report\n");
-     report.append("Year: ").append(year).append("\n");
-     report.append("Service: ").append(serviceName != null ? serviceName : "All Services").append("\n");
-     report.append("Localisation: ").append(localisationName != null ? localisationName : "All Localisations").append("\n\n");
-     report.append("Items:\n");
 
-     for (Inventaire_Item item : items) {
-     report.append("Code barre: ").append(item.getId())
-     .append(", Designation: ").append(item.getArticle_id())
-     .append(", N° Inventaire: ").append(item.getNum_inventaire()).append("\n");
-     }
-
-     // Display the report (replace with actual report generation logic)
-     System.out.println(report.toString());
-     }
-     //  */
     /**
      * private void generateReport(int year, String serviceName, String localisationName, List<Inventaire_Item> items) {
      * Workbook workbook = new XSSFWorkbook(); // Create a new Excel workbook
@@ -209,6 +195,7 @@ public class FicheInventaireController implements Initializable {
      * }
      * }
      */
+
     private void generateReport(int year, String serviceName, String localisationName, List<Inventaire_Item> items) {
         Workbook workbook = new XSSFWorkbook(); // Create a new Excel workbook
         Sheet sheet = workbook.createSheet("Inventory Report"); // Create a new sheet in the workbook
@@ -275,7 +262,7 @@ public class FicheInventaireController implements Initializable {
     }
 
     private void createLogoRow(Sheet sheet, Workbook workbook) {
-        System.out.println("here i am");
+        System.out.println("Adding logo...");
 
         // Load the image file
         try (InputStream is = this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")) {
@@ -286,45 +273,66 @@ public class FicheInventaireController implements Initializable {
                 return;
             }
 
-            // Add the image to the workbook
-            int pictureIdx = workbook.addPicture(is.readAllBytes(), Workbook.PICTURE_TYPE_PNG);
-            CreationHelper helper = workbook.getCreationHelper();
-            Drawing<?> drawing = sheet.createDrawingPatriarch();
+            // Read and add image to workbook
+            byte[] inputImageBytes1 = IOUtils.toByteArray(is);
+            int inputImagePictureID1 = workbook.addPicture(inputImageBytes1, Workbook.PICTURE_TYPE_PNG);
 
-            // Create an anchor point for the logo
-            ClientAnchor anchor = helper.createClientAnchor();
-            anchor.setCol1(0); // Start at column A
-            anchor.setCol2(1); // End at column B
-            anchor.setRow1(1); // Start at row 2
-            anchor.setRow2(2); // End at row 3
-            anchor.setAnchorType(ClientAnchor.AnchorType.MOVE_AND_RESIZE);
+            // Add logo drawing
+            XSSFDrawing drawing = (XSSFDrawing) sheet.createDrawingPatriarch();
+            XSSFClientAnchor anchor = new XSSFClientAnchor();
 
-            // Create the picture and resize it
-            Picture pict = drawing.createPicture(anchor, pictureIdx);
-
-            // Get original image dimensions
-            int imageWidth = pict.getImageDimension().width;
-            int imageHeight = pict.getImageDimension().height;
-
-            // Set a target size of 40x40 px and calculate the scaling factor
-            double scaleX = 40.0 / imageWidth;
-            double scaleY = 40.0 / imageHeight;
-            double scale = Math.min(scaleX, scaleY); // Maintain aspect ratio by choosing the smaller scaling factor
-
-            // Resize the image
-            pict.resize(scale);
-
-            // Adjust the dimensions of the sheet
-            sheet.setColumnWidth(0, 40 * 256); // Set column A width to fit the logo
-            Row logoRow = sheet.getRow(1); // Get or create the second row (index 1)
+            // Set height for the row containing the logo
+            Row logoRow = sheet.getRow(1); // Row index 1 corresponds to row 2 in Excel
             if (logoRow == null) {
-                logoRow = sheet.createRow(1);
+                logoRow = sheet.createRow(1); // Create the row if it doesn't exist
             }
-            logoRow.setHeightInPoints(40); // Set row height to 40 points
+            logoRow.setHeightInPoints(50); // Set the height (adjust as needed)
 
+            // Set anchor for the image
+            anchor.setRow1(1);  // Start from row 2 (Excel rows are zero-indexed)
+            anchor.setRow2(2);  // End at row 2 (image will fit in 1 row)
+
+            // Define the width of the image (in pixels)
+            int imageWidthInPixels = 10; // Set your desired width here
+
+            // Convert pixel width to Excel column width (1 character width = 256 pixels)
+            int columnWidthInUnits = (int) Math.round(imageWidthInPixels / 7.5); // Approximate conversion
+            int startCol = 1; // Starting column (C)
+            int endCol = startCol + columnWidthInUnits; // Calculate end column based on width
+
+            // Adjust anchor columns for centering the image
+            anchor.setCol1(startCol);  // Start at column C
+            anchor.setCol2(endCol);     // End at the calculated column
+
+            // Center the image horizontally within the merged region
+            anchor.setAnchorType(ClientAnchor.AnchorType.DONT_MOVE_AND_RESIZE); // Prevent resizing on row/column changes
+            drawing.createPicture(anchor, inputImagePictureID1);
+            // Set fixed column widths for better control
+            sheet.autoSizeColumn(0);
+            sheet.autoSizeColumn(1);
+            sheet.autoSizeColumn(2);
+            // Create new CellRangeAddress for the merged region
+            CellRangeAddress newRegion = new CellRangeAddress(1, 1, 0, 2); // A2:D2
+            // Check for overlapping with existing merged regions
+            if (!isOverlappingMergedRegion(sheet, newRegion)) {
+                sheet.addMergedRegion(newRegion); // Merging A2:D2 for logo area
+            } else {
+                System.err.println("Merged region A2:D2 overlaps with an existing region.");
+            }
         } catch (IOException e) {
+            System.err.println("Error adding logo: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private boolean isOverlappingMergedRegion(Sheet sheet, CellRangeAddress newRegion) {
+        for (int i = 0; i < sheet.getNumMergedRegions(); i++) {
+            CellRangeAddress existingRegion = sheet.getMergedRegion(i);
+            if (existingRegion.intersects(newRegion)) { // Check intersection with new region
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -361,11 +369,23 @@ public class FicheInventaireController implements Initializable {
             String articlename = dbhelper.getArticleById(item.getArticle_id()).getName();
             row.createCell(1).setCellValue(articlename != null ? articlename : "not known article");
             row.createCell(2).setCellValue(item.getNum_inventaire());
+
+            // Adjust column widths for better readabilit
+            sheet.autoSizeColumn(0);
+            sheet.autoSizeColumn(1);
+            sheet.autoSizeColumn(2);
+
             for (int i = 0; i < 3; i++) {
                 Cell cell = row.getCell(i);
                 CellStyle cellStyle = workbook.createCellStyle();
                 cellStyle.setWrapText(true);
+                cellStyle.setBorderBottom(BorderStyle.THIN);
+                cellStyle.setBorderTop(BorderStyle.THIN);
+                cellStyle.setBorderLeft(BorderStyle.THIN);
+                cellStyle.setBorderRight(BorderStyle.THIN);
+                cellStyle.setAlignment(HorizontalAlignment.CENTER);
                 cell.setCellStyle(cellStyle);
+
             }
         }
     }
