@@ -3,6 +3,7 @@ package com.marrok.inventaire_esm.controller.inventaire;
 import com.marrok.inventaire_esm.model.Inventaire_Item;
 import com.marrok.inventaire_esm.model.Service;
 import com.marrok.inventaire_esm.model.Localisation;  // Add Localisation model
+import com.marrok.inventaire_esm.util.DatabaseConnection;
 import com.marrok.inventaire_esm.util.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.collections.FXCollections;
@@ -15,6 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.util.IOUtils;
@@ -24,10 +27,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class FicheInventaireController implements Initializable {
     @FXML
@@ -148,6 +150,44 @@ public class FicheInventaireController implements Initializable {
         }
     }
 
+    public void generateJasperReport(ActionEvent event) {
+        Connection connection = null;
+        try {
+            // Get a new database connection (ensure it's not a singleton unless pooled)
+            connection = DatabaseConnection.getInstance().getConnection();
+
+            // Load the report from the resources folder
+            InputStream reportStream = getClass().getResourceAsStream("/com/marrok/inventaire_esm/view/inventaire/report.jrxml");
+            if (reportStream == null) {
+                throw new FileNotFoundException("Report file not found.");
+            }
+
+            // Compile the report
+            JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
+            // Parameters for the report (if any)
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("Title", "Simple Jasper Report");
+
+            // Fill the report with data from the database connection
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+
+            // View the report
+            JasperViewer viewer = new JasperViewer(jasperPrint, false);
+            viewer.setVisible(true);
+
+        } catch (FileNotFoundException fnf) {
+            System.out.println("Report file not found: " + fnf.getMessage());
+            fnf.printStackTrace();
+        } catch (SQLException sqlEx) {
+            System.out.println("SQL Error: " + sqlEx.getMessage());
+            sqlEx.printStackTrace();
+        } catch (Exception ex) {
+            System.out.println("Error generating report: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+
+    }
 
     /**
      * private void generateReport(int year, String serviceName, String localisationName, List<Inventaire_Item> items) {
