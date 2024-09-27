@@ -146,6 +146,19 @@
             <artifactId>xmlbeans</artifactId>
             <version>5.1.0</version>
         </dependency>
+
+<!--        filter view gemsfx-->
+        <dependency>
+            <groupId>com.dlsc.gemsfx</groupId>
+            <artifactId>gemsfx</artifactId>
+            <version>2.16.0</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.brouillard.oss</groupId>
+            <artifactId>cssfx</artifactId>
+            <version>11.5.1</version>
+        </dependency>
+
     </dependencies>
 
 
