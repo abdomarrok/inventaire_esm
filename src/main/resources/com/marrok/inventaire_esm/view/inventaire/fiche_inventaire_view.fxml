@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.inventaire.FicheInventaireController">
+
+    <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <center>
+            <GridPane alignment="CENTER" hgap="10" styleClass="background" vgap="10">
+
+                <Label styleClass="lbl" text="إختر السنة" GridPane.columnIndex="2" />
+                <ChoiceBox fx:id="inv_year_choiceBox" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+
+                <Label styleClass="lbl" text="اختر المصلحة" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <ChoiceBox fx:id="selected_service_choiceBox" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+
+                <Label styleClass="lbl" text="اختر الموقع" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <ChoiceBox fx:id="selected_localisation_choiceBox" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+
+                <Button alignment="CENTER" contentDisplay="CENTER" onAction="#extacteFicheInventaire" styleClass="btn_fiche_inv" text="إستخـــــراج" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            <Button alignment="CENTER" contentDisplay="CENTER" layoutX="465.0" layoutY="314.0" onAction="#generateJasperReport" styleClass="btn_fiche_inv" text="إستخـــــراجpdf " GridPane.rowIndex="3" />
+
+                <columnConstraints>
+                    <ColumnConstraints />
+                    <ColumnConstraints />
+                    <ColumnConstraints />
+                    <ColumnConstraints />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                    <RowConstraints />
+                </rowConstraints>
+            </GridPane>
+        </center>
+
+        <top>
+            <HBox fx:id="topBox" alignment="CENTER" prefHeight="64.0" prefWidth="810.0" spacing="50.0" styleClass="header_bar" BorderPane.alignment="CENTER">
+                <children>
+                    <Label fx:id="titleLabel" styleClass="titleLabel" text="استخراج ملف الجرد" HBox.hgrow="SOMETIMES" />
+                </children>
+                <BorderPane.margin>
+                    <Insets />
+                </BorderPane.margin>
+            </HBox>
+        </top>
+
+        <bottom>
+            <Button fx:id="bk_Dashboard_from_fiche_inventaire" onAction="#goBackDashboard" text="الرئيسية" BorderPane.alignment="BOTTOM_RIGHT">
+                <styleClass>
+                    <String fx:value="btn" />
+                </styleClass>
+            </Button>
+        </bottom>
+    </BorderPane>
+
+    <stylesheets>
+        <URL value="@../../css/all.css" />
+    </stylesheets>
+</AnchorPane>
