@@ -224,7 +224,7 @@ public class InventaireItemController implements Initializable {
 
     public void addInventaireItem(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/add_form-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/add_form-view_test.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(loader.load());
 
@@ -232,7 +232,7 @@ public class InventaireItemController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("إضافة عنصر الجرد");
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
-            AddController controller = loader.getController();
+            AddController_test controller = loader.getController();
             controller.setParentController(this);
 
             stage.showAndWait();
@@ -250,7 +250,7 @@ public class InventaireItemController implements Initializable {
         if (selectedItem != null) {
             try {
                 // Open a form or dialog to allow the user to update the selected item
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/update_form-view.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/update_form-view_test.fxml"));
                 Stage stage = new Stage();
                 Scene scene = new Scene(loader.load());
 
@@ -259,7 +259,7 @@ public class InventaireItemController implements Initializable {
                 stage.setTitle("تحديث عنصر الجرد");
 
                 stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
-                UpdateController controller = loader.getController();
+                UpdateController_test controller = loader.getController();
                 controller.setInventaireItem(selectedItem);
                 controller.setParentController(this);
 

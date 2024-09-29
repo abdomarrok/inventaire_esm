@@ -8,7 +8,10 @@
     -fx-font-family: 'Arial';
     -fx-font-size: 20px;
 }
-
+.filterview {
+    -fx-font-family: 'Andalus';
+    -fx-font-size: 14px;
+}
 .title_dashboard ,.titleLabel {
     -fx-font-family: 'Andalus';
     -fx-font-size: 60px;
@@ -255,3 +258,4 @@
 .choice-box .arrow-button:hover {
     -fx-background-color: #0056a3; /* Darker blue on hover */
 }
+

@@ -2,7 +2,7 @@ module com.marrok.inventaire_esm {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
-    requires java.logging;
+
     requires java.sql;
 
     requires org.controlsfx.controls;
@@ -22,6 +22,10 @@ module com.marrok.inventaire_esm {
     requires org.apache.commons.csv;
     requires org.apache.poi.ooxml;
     requires org.apache.poi.poi;
+    requires java.logging;
+    requires com.dlsc.gemsfx;
+    requires fr.brouillard.oss.cssfx;
+
 
     opens com.marrok.inventaire_esm to javafx.fxml;
     opens com.marrok.inventaire_esm.model to javafx.base;
