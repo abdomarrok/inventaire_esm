@@ -2,29 +2,9 @@
 <jasperReport name="InventaireReport" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c5b33e49-a311-488b-a33b-1c1b6a447ae6">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
 	<parameter name="logo" class="java.lang.Object"/>
-	<query language="sql"><![CDATA[
-		
-            SELECT
-                ii.id,
-                ii.id_article,
-                a.name AS article_name,
-                ii.id_localisation,
-                l.loc_name AS localisation_name,
-                s.name AS service_name,
-                ii.user_id,
-                ii.time,
-                ii.num_inventaire,
-                ii.id_employer
-            FROM
-                inventaire_item ii
-            JOIN
-                article a ON ii.id_article = a.id
-            JOIN
-                localisation l ON ii.id_localisation = l.id
-            LEFT JOIN
-                service s ON l.id_service = s.id
-        
-	]]></query>
+	<parameter name="startDate" class="java.lang.String"/>
+	<parameter name="serviceId" class="java.lang.Integer"/>
+	<parameter name="localisationId" class="java.lang.Integer"/>
 	<field name="id" class="java.lang.Integer"/>
 	<field name="id_article" class="java.lang.Integer"/>
 	<field name="article_name" class="java.lang.String"/>
@@ -35,6 +15,33 @@
 	<field name="time" class="java.sql.Timestamp"/>
 	<field name="num_inventaire" class="java.lang.String"/>
 	<field name="id_employer" class="java.lang.Integer"/>
+	<query language="sql"><![CDATA[
+ SELECT
+    ii.id,
+    ii.id_article,
+    a.name AS article_name,
+    ii.id_localisation,
+    l.loc_name AS localisation_name,
+    s.name AS service_name,
+    ii.user_id,
+    ii.time,
+    ii.num_inventaire,
+    ii.id_employer
+FROM
+    inventaire_item ii
+JOIN
+    article a ON ii.id_article = a.id
+JOIN
+    localisation l ON ii.id_localisation = l.id
+LEFT JOIN
+    service s ON l.id_service = s.id
+WHERE
+    (l.id_service = $P{serviceId} OR $P{serviceId} IS NULL)
+    AND (ii.id_localisation = $P{localisationId} OR $P{localisationId} IS NULL)
+    AND YEAR(ii.time) = $P{startDate}
+
+    ]]></query>
+
 	<title height="168">
 		<element kind="staticText" uuid="2921270c-4d99-4e64-8282-d1add65e19a1" x="10" y="-20" width="500" height="91" fontSize="19.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[République Algérienne Démocratique et Populaire  Ministère de la Justice                                                 Ecole Supérieure de la Magistrature]]></text>

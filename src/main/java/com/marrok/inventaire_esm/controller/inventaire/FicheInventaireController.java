@@ -44,7 +44,7 @@ public class FicheInventaireController implements Initializable {
     private ChoiceBox<String> selected_service_choiceBox; // Typed ChoiceBox for Service
     @FXML
     private ChoiceBox<String> selected_localisation_choiceBox; // Optional Localisation choice box
-
+    Map<String, Object> parameters = new HashMap<>();
     private ObservableList<Service> servicesList;
     private ObservableList<Localisation> localisationsList;
     private DatabaseHelper dbhelper = new DatabaseHelper();
@@ -100,11 +100,12 @@ public class FicheInventaireController implements Initializable {
         String selectedServiceName = selected_service_choiceBox.getValue();
         String selectedLocalisationName = selected_localisation_choiceBox.getValue();
 
+
         if (selectedYear == null) {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "Selection Error", "Please select a year.");
             return; // Exit if year is not selected
         }
-
+        parameters.put("startDate", selectedYear); // set your date range
         Integer serviceId = null;  // Initialize as null for optional service
         Integer localisationId = null; // Initialize as null for optional localisation
 
@@ -116,11 +117,14 @@ public class FicheInventaireController implements Initializable {
 
             if (selectedServiceOpt.isPresent()) {
                 serviceId = selectedServiceOpt.get().getId();
+                parameters.put("serviceId", serviceId);
+
             } else {
                 GeneralUtil.showAlert(Alert.AlertType.WARNING, "Service Error", "Selected service not found.");
                 return;
             }
         }
+
 
         // If "All Localisations" is not selected, find the corresponding localisation ID
         if (selectedLocalisationName != null && !"All Localisations".equals(selectedLocalisationName)) {
@@ -130,6 +134,7 @@ public class FicheInventaireController implements Initializable {
 
             if (selectedLocalisationOpt.isPresent()) {
                 localisationId = selectedLocalisationOpt.get().getId();
+                parameters.put("localisationId", localisationId);
             } else {
                 GeneralUtil.showAlert(Alert.AlertType.WARNING, "Localisation Error", "Selected localisation not found.");
                 return;
@@ -171,8 +176,54 @@ public class FicheInventaireController implements Initializable {
 
 
             // Parameters for the report (if any)
-            Map<String, Object> parameters = new HashMap<>();
+
             parameters.put("logo", getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"));
+
+            // Get the selected year, service, and localisation
+            Integer selectedYear = inv_year_choiceBox.getValue();
+            String selectedServiceName = selected_service_choiceBox.getValue();
+            String selectedLocalisationName = selected_localisation_choiceBox.getValue();
+
+
+            if (selectedYear == null) {
+                GeneralUtil.showAlert(Alert.AlertType.WARNING, "Selection Error", "Please select a year.");
+                return; // Exit if year is not selected
+            }
+            parameters.put("startDate", selectedYear); // set your date range
+            Integer serviceId = null;  // Initialize as null for optional service
+            Integer localisationId = null; // Initialize as null for optional localisation
+
+            // If "All Services" is not selected, find the corresponding service ID
+            if (selectedServiceName != null && !"All Services".equals(selectedServiceName)) {
+                Optional<Service> selectedServiceOpt = servicesList.stream()
+                        .filter(service -> service.getName().equals(selectedServiceName))
+                        .findFirst();
+
+                if (selectedServiceOpt.isPresent()) {
+                    serviceId = selectedServiceOpt.get().getId();
+                    parameters.put("serviceId", serviceId);
+
+                } else {
+                    GeneralUtil.showAlert(Alert.AlertType.WARNING, "Service Error", "Selected service not found.");
+                    return;
+                }
+            }
+
+
+            // If "All Localisations" is not selected, find the corresponding localisation ID
+            if (selectedLocalisationName != null && !"All Localisations".equals(selectedLocalisationName)) {
+                Optional<Localisation> selectedLocalisationOpt = localisationsList.stream()
+                        .filter(localisation -> localisation.getLocName().equals(selectedLocalisationName))
+                        .findFirst();
+
+                if (selectedLocalisationOpt.isPresent()) {
+                    localisationId = selectedLocalisationOpt.get().getId();
+                    parameters.put("localisationId", localisationId);
+                } else {
+                    GeneralUtil.showAlert(Alert.AlertType.WARNING, "Localisation Error", "Selected localisation not found.");
+                    return;
+                }
+            }
 
             // Fill the report with data from the database connection
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
