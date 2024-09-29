@@ -58,10 +58,11 @@ public class UpdateController_test implements Initializable {
         initTable();
         loadChoiceBoxData();
         try {
-            loadTableData(); // Load data once
             loadFilter();
+            loadTableData(); // Load data once
+
         } catch (SQLException e) {
-            showAlert(Alert.AlertType.ERROR, "Erreur", e.getMessage());
+            throw new RuntimeException(e);
         }
         CSSFX.start();
     }
@@ -70,22 +71,7 @@ public class UpdateController_test implements Initializable {
         this.parentController = parentController;
     }
 
-    private void initTable() {
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        article_name.setCellValueFactory(new PropertyValueFactory<>("name"));
-    }
-
-    private void loadTableData() throws SQLException {
-        List<Article> articles = dbhelper.getArticles();
-        articleList = FXCollections.observableArrayList(articles);
-        tbData.setItems(articleList); // Set the articles into the table
-        if (inventaireItem != null) {
-            selectedArticle = dbhelper.getArticleById(inventaireItem.getArticle_id());
-        }
-
-    }
-
-    private void loadFilter() {
+    private void loadFilter() throws SQLException {
         filterView.getFilterGroups().clear();
         filterView.setTextFilterProvider(text -> article -> {
             if (text == null || text.isEmpty()) {
@@ -95,20 +81,28 @@ public class UpdateController_test implements Initializable {
             return article.getName().toLowerCase().contains(lowerCase) ||
                     String.valueOf(article.getId()).toLowerCase().contains(lowerCase);
         });
-
-        SortedList<Article> sortedList = new SortedList<>(tbData.getItems());
-
+        loadTableData();
+        SortedList<Article> sortedList = new SortedList<>(filterView.getFilteredItems());
+        tbData.setItems(sortedList);
         sortedList.comparatorProperty().bind(tbData.comparatorProperty());
-        if (inventaireItem != null) {
-            tbData.setItems(sortedList);
-            selectedArticle = dbhelper.getArticleById(inventaireItem.getArticle_id());
-            tbData.getSelectionModel().select(selectedArticle);
-        }else {
-            System.out.println( " load filtere selectedArticle"+selectedArticle );
-        }
+
 
 
     }
+    private void initTable() {
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        article_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+    }
+
+    private void loadTableData() throws SQLException {
+        DatabaseHelper dbHelper = new DatabaseHelper();
+        List<Article> articles = dbHelper.getArticles();
+        articleList = FXCollections.observableArrayList(articles);
+        filterView.getItems().setAll(articleList); // Set the articles into the table
+
+    }
+
+
 
     public void setInventaireItem(Inventaire_Item inventaireItem) {
         this.inventaireItem = inventaireItem;

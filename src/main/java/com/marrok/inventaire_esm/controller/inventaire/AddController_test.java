@@ -62,6 +62,11 @@ public class AddController_test implements Initializable {
         CSSFX.start();
     }
 
+    public void setParentController(InventaireItemController parentController) {
+        this.parentController = parentController;
+    }
+
+
     private void loadFilter() throws SQLException {
         filterView.getFilterGroups().clear();
         filterView.setTextFilterProvider(text-> article -> {
@@ -89,9 +94,6 @@ public class AddController_test implements Initializable {
         List<Article> articles = dbHelper.getArticles();
         articlelist =  FXCollections.observableArrayList(articles);
         filterView.getItems().setAll(articlelist); // Set the articles into the table
-    }
-    public void setParentController(InventaireItemController parentController) {
-        this.parentController = parentController;
     }
 
     @FXML

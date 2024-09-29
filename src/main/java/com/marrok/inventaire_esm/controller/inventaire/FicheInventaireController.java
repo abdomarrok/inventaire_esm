@@ -165,9 +165,9 @@ public class FicheInventaireController implements Initializable {
             // Compile the report
             JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
 
+
             // Parameters for the report (if any)
             Map<String, Object> parameters = new HashMap<>();
-            parameters.put("Title", "Simple Jasper Report");
 
             // Fill the report with data from the database connection
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
