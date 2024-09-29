@@ -16,7 +16,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import net.sf.jasperreports.engine.*;
+
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
@@ -168,6 +172,7 @@ public class FicheInventaireController implements Initializable {
 
             // Parameters for the report (if any)
             Map<String, Object> parameters = new HashMap<>();
+            parameters.put("logo", getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"));
 
             // Fill the report with data from the database connection
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
