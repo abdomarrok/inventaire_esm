@@ -1,5 +1,4 @@
 package com.marrok.inventaire_esm.controller.inventaire;
-
 import com.marrok.inventaire_esm.model.Inventaire_Item;
 import com.marrok.inventaire_esm.model.Service;
 import com.marrok.inventaire_esm.model.Localisation;  // Add Localisation model
@@ -16,19 +15,19 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
+import net.sf.jasperreports.engine.fill.JRFillParameter;
+
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFDrawing;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.io.*;
 import java.net.URL;
 import java.sql.Connection;
@@ -63,7 +62,6 @@ public class FicheInventaireController implements Initializable {
         // Populate the ChoiceBox with years
         inv_year_choiceBox.getItems().addAll(FXCollections.observableArrayList(availableYears));
     }
-
     // Load services into the service ChoiceBox
     @FXML
     private void loadServices() {
@@ -77,21 +75,17 @@ public class FicheInventaireController implements Initializable {
 
         selected_service_choiceBox.setItems(serviceNames);
     }
-
     // Load localisations into the localisation ChoiceBox
     @FXML
     private void loadLocalisations() {
         localisationsList = FXCollections.observableArrayList(dbhelper.getLocalisations());
         ObservableList<String> localisationNames = FXCollections.observableArrayList();
-
         localisationNames.add("All Localisations"); // Add "All" option for optional selection
         for (Localisation localisation : localisationsList) {
             localisationNames.add(localisation.getLocName());
         }
-
         selected_localisation_choiceBox.setItems(localisationNames);
     }
-
     // Handle the extraction of the inventory report
     @FXML
     public void extacteFicheInventaire(ActionEvent event) {
@@ -99,8 +93,6 @@ public class FicheInventaireController implements Initializable {
         Integer selectedYear = inv_year_choiceBox.getValue();
         String selectedServiceName = selected_service_choiceBox.getValue();
         String selectedLocalisationName = selected_localisation_choiceBox.getValue();
-
-
         if (selectedYear == null) {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "Selection Error", "Please select a year.");
             return; // Exit if year is not selected
@@ -120,12 +112,10 @@ public class FicheInventaireController implements Initializable {
                 parameters.put("serviceId", serviceId);
 
             } else {
-                GeneralUtil.showAlert(Alert.AlertType.WARNING, "Service Error", "Selected service not found.");
+                parameters.put("service_name", "All Services");
                 return;
             }
         }
-
-
         // If "All Localisations" is not selected, find the corresponding localisation ID
         if (selectedLocalisationName != null && !"All Localisations".equals(selectedLocalisationName)) {
             Optional<Localisation> selectedLocalisationOpt = localisationsList.stream()
@@ -136,11 +126,10 @@ public class FicheInventaireController implements Initializable {
                 localisationId = selectedLocalisationOpt.get().getId();
                 parameters.put("localisationId", localisationId);
             } else {
-                GeneralUtil.showAlert(Alert.AlertType.WARNING, "Localisation Error", "Selected localisation not found.");
+                parameters.put("localisation_name", "All Localisations");
                 return;
             }
         }
-
         // Logic to extract the inventory report based on selected service, localisation, and year
         try {
             List<Inventaire_Item> inventoryItems = dbhelper.getInventoryItemsByFilters(serviceId, localisationId, selectedYear);
@@ -149,7 +138,6 @@ public class FicheInventaireController implements Initializable {
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "No Data", "No inventory items found for the selected filters.");
                 return; // Exit if no items found
             }
-
             // Generate the report
             generateReport(selectedYear, selectedServiceName, selectedLocalisationName, inventoryItems);
 
@@ -160,9 +148,12 @@ public class FicheInventaireController implements Initializable {
     }
 
     public void generateJasperReport(ActionEvent event) {
+        Integer selectedYear = inv_year_choiceBox.getValue();
+        String selectedServiceName = selected_service_choiceBox.getValue();
+        String selectedLocalisationName = selected_localisation_choiceBox.getValue();
         Connection connection = null;
         try {
-            // Get a new database connection (ensure it's not a singleton unless pooled)
+            // Get a new database connection
             connection = DatabaseConnection.getInstance().getConnection();
 
             // Load the report from the resources folder
@@ -173,28 +164,27 @@ public class FicheInventaireController implements Initializable {
 
             // Compile the report
             JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
-
-
-            // Parameters for the report (if any)
-
             parameters.put("logo", getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"));
 
-            // Get the selected year, service, and localisation
-            Integer selectedYear = inv_year_choiceBox.getValue();
-            String selectedServiceName = selected_service_choiceBox.getValue();
-            String selectedLocalisationName = selected_localisation_choiceBox.getValue();
 
-
+            // Check if year is selected
             if (selectedYear == null) {
                 GeneralUtil.showAlert(Alert.AlertType.WARNING, "Selection Error", "Please select a year.");
-                return; // Exit if year is not selected
+                return;
             }
-            parameters.put("startDate", selectedYear); // set your date range
-            Integer serviceId = null;  // Initialize as null for optional service
-            Integer localisationId = null; // Initialize as null for optional localisation
 
-            // If "All Services" is not selected, find the corresponding service ID
-            if (selectedServiceName != null && !"All Services".equals(selectedServiceName)) {
+            parameters.put("startDate", selectedYear); // Set your date range
+
+            Integer serviceId = null;
+            Integer localisationId = null;
+
+            // Handle service selection
+            if (selectedServiceName == null ) {
+                // If no service or "All Services" selected, set service_name as "All Services"
+                parameters.put("selectedServiceName", "All Services");
+
+            } else {
+
                 Optional<Service> selectedServiceOpt = servicesList.stream()
                         .filter(service -> service.getName().equals(selectedServiceName))
                         .findFirst();
@@ -202,16 +192,19 @@ public class FicheInventaireController implements Initializable {
                 if (selectedServiceOpt.isPresent()) {
                     serviceId = selectedServiceOpt.get().getId();
                     parameters.put("serviceId", serviceId);
-
+                    parameters.put("selectedServiceName", selectedServiceName);
                 } else {
-                    GeneralUtil.showAlert(Alert.AlertType.WARNING, "Service Error", "Selected service not found.");
+                    parameters.put("selectedServiceName", "All Services");
                     return;
                 }
             }
 
-
-            // If "All Localisations" is not selected, find the corresponding localisation ID
-            if (selectedLocalisationName != null && !"All Localisations".equals(selectedLocalisationName)) {
+            // Handle localisation selection
+            if (selectedLocalisationName == null) {
+                // If no localisation or "All Localisations" selected, set localisation_name as "All Localisations"
+                parameters.put("selectedLocalisationName", "All Localisations");
+            } else {
+                // Find the localisation ID by name if a specific localisation is selected
                 Optional<Localisation> selectedLocalisationOpt = localisationsList.stream()
                         .filter(localisation -> localisation.getLocName().equals(selectedLocalisationName))
                         .findFirst();
@@ -219,8 +212,10 @@ public class FicheInventaireController implements Initializable {
                 if (selectedLocalisationOpt.isPresent()) {
                     localisationId = selectedLocalisationOpt.get().getId();
                     parameters.put("localisationId", localisationId);
+                    parameters.put("selectedLocalisationName", selectedLocalisationName);
+
                 } else {
-                    GeneralUtil.showAlert(Alert.AlertType.WARNING, "Localisation Error", "Selected localisation not found.");
+                    parameters.put("selectedLocalisationName", selectedLocalisationName);
                     return;
                 }
             }
@@ -242,88 +237,22 @@ public class FicheInventaireController implements Initializable {
             System.out.println("Error generating report: " + ex.getMessage());
             ex.printStackTrace();
         }
-
     }
 
-    /**
-     * private void generateReport(int year, String serviceName, String localisationName, List<Inventaire_Item> items) {
-     * Workbook workbook = new XSSFWorkbook(); // Create a new Excel workbook
-     * Sheet sheet = workbook.createSheet("Inventory Report"); // Create a new sheet in the workbook
-     * <p>
-     * // Create header row
-     * Row headerRow = sheet.createRow(0);
-     * headerRow.createCell(0).setCellValue("Code barre");
-     * headerRow.createCell(1).setCellValue("Designation");
-     * headerRow.createCell(2).setCellValue("N° Inventaire");
-     * <p>
-     * // Populate rows with data
-     * int rowIndex = 1; // Start after the header row
-     * for (Inventaire_Item item : items) {
-     * Row row = sheet.createRow(rowIndex++);
-     * row.createCell(0).setCellValue(item.getId());
-     * row.createCell(1).setCellValue(item.getArticle_id());
-     * row.createCell(2).setCellValue(item.getNum_inventaire());
-     * }
-     * <p>
-     * // Adjust column widths for better readability
-     * sheet.autoSizeColumn(0);
-     * sheet.autoSizeColumn(1);
-     * sheet.autoSizeColumn(2);
-     * <p>
-     * // Use FileChooser to let the user select where to save the Excel file
-     * FileChooser fileChooser = new FileChooser();
-     * fileChooser.setTitle("Save Excel Report");
-     * fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
-     * <p>
-     * File file = fileChooser.showSaveDialog(new Stage());
-     * <p>
-     * if (file != null) {
-     * try (FileOutputStream fileOut = new FileOutputStream(file)) {
-     * workbook.write(fileOut); // Write workbook to the chosen file
-     * workbook.close();
-     * GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "The report has been saved successfully.");
-     * } catch (IOException e) {
-     * e.printStackTrace();
-     * GeneralUtil.showAlert(Alert.AlertType.ERROR, "File Error", "An error occurred while saving the Excel file.");
-     * }
-     * } else {
-     * GeneralUtil.showAlert(Alert.AlertType.WARNING, "Save Cancelled", "No file was selected.");
-     * }
-     * }
-     */
+
 
     private void generateReport(int year, String serviceName, String localisationName, List<Inventaire_Item> items) {
         Workbook workbook = new XSSFWorkbook(); // Create a new Excel workbook
         Sheet sheet = workbook.createSheet("Inventory Report"); // Create a new sheet in the workbook
-
-        // Set margins for the sheet
         setSheetMargins(sheet);
-
-        // Create header row for the fixed header
         createHeaderRow(sheet, workbook);
-
-
-        // logo
         createLogoRow(sheet, workbook);
-        // Title
         createTitleRow(sheet, workbook);
-
-        // Localisation
         createLocalisationRow(sheet, localisationName);
-
-        // Create header row for the table
         createTableHeaderRow(sheet, workbook);
-
-        // Populate rows with data
         populateDataRows(sheet, items, workbook);
-
-        // Add total number of articles
         addTotalRow(sheet, items.size());
-
-        // Add responsible person section
         addResponsiblePersonSection(sheet);
-
-        // Use FileChooser to let the user select where to save the Excel file
         saveWorkbook(workbook);
     }
 
@@ -335,23 +264,12 @@ public class FicheInventaireController implements Initializable {
     }
 
     private void createHeaderRow(Sheet sheet, Workbook workbook) {
-        // Create the header row
         Row headerRow = sheet.createRow(0);
-
-        // Create a cell and set its value
         Cell headerCell = headerRow.createCell(0);
         headerCell.setCellValue("République Algérienne Démocratique et Populaire\nMinistère de la Justice\nEcole Supérieure de la Magistrature");
-
-        // Set the cell style
         headerCell.setCellStyle(createHeaderCellStyle(workbook));
-
-        // Merge cells from A1 to C1
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 2));
-
-        // Adjust the row height to fit the content
         headerRow.setHeightInPoints(60); // Adjust the height as needed
-
-        // Set column widths for columns A to C to fit the content
         sheet.setColumnWidth(0, 256 * 30); // Column A width
         sheet.setColumnWidth(1, 256 * 30); // Column B width
         sheet.setColumnWidth(2, 256 * 30); // Column C width
@@ -359,47 +277,32 @@ public class FicheInventaireController implements Initializable {
 
     private void createLogoRow(Sheet sheet, Workbook workbook) {
         System.out.println("Adding logo...");
-
-        // Load the image file
         try (InputStream is = this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")) {
-
-            // Ensure the InputStream is not null
             if (is == null) {
                 System.err.println("Logo file not found.");
                 return;
             }
-
-            // Read and add image to workbook
             byte[] inputImageBytes1 = IOUtils.toByteArray(is);
             int inputImagePictureID1 = workbook.addPicture(inputImageBytes1, Workbook.PICTURE_TYPE_PNG);
-
-            // Add logo drawing
             XSSFDrawing drawing = (XSSFDrawing) sheet.createDrawingPatriarch();
             XSSFClientAnchor anchor = new XSSFClientAnchor();
-
-            // Set height for the row containing the logo
             Row logoRow = sheet.getRow(1); // Row index 1 corresponds to row 2 in Excel
             if (logoRow == null) {
                 logoRow = sheet.createRow(1); // Create the row if it doesn't exist
             }
             logoRow.setHeightInPoints(50); // Set the height (adjust as needed)
-
             // Set anchor for the image
             anchor.setRow1(1);  // Start from row 2 (Excel rows are zero-indexed)
             anchor.setRow2(2);  // End at row 2 (image will fit in 1 row)
-
             // Define the width of the image (in pixels)
             int imageWidthInPixels = 10; // Set your desired width here
-
             // Convert pixel width to Excel column width (1 character width = 256 pixels)
             int columnWidthInUnits = (int) Math.round(imageWidthInPixels / 7.5); // Approximate conversion
             int startCol = 1; // Starting column (C)
             int endCol = startCol + columnWidthInUnits; // Calculate end column based on width
-
             // Adjust anchor columns for centering the image
             anchor.setCol1(startCol);  // Start at column C
             anchor.setCol2(endCol);     // End at the calculated column
-
             // Center the image horizontally within the merged region
             anchor.setAnchorType(ClientAnchor.AnchorType.DONT_MOVE_AND_RESIZE); // Prevent resizing on row/column changes
             drawing.createPicture(anchor, inputImagePictureID1);
@@ -569,7 +472,6 @@ public class FicheInventaireController implements Initializable {
         style.setAlignment(HorizontalAlignment.CENTER);
         return style;
     }
-
 
     // Navigate back to the dashboard
     @FXML

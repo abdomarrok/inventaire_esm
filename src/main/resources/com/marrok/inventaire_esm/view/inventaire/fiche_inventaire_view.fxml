@@ -12,22 +12,22 @@
         <center>
             <GridPane alignment="CENTER" hgap="10" styleClass="background" vgap="10">
 
-                <Label styleClass="lbl" text="إختر السنة" GridPane.columnIndex="2" />
+                <Label alignment="CENTER" contentDisplay="CENTER" styleClass="lbl" text="إختر السنة" textAlignment="CENTER" GridPane.columnIndex="2" />
                 <ChoiceBox fx:id="inv_year_choiceBox" GridPane.columnIndex="0" GridPane.rowIndex="0" />
 
                 <Label styleClass="lbl" text="اختر المصلحة" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                 <ChoiceBox fx:id="selected_service_choiceBox" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
-                <Label styleClass="lbl" text="اختر الموقع" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <Label alignment="CENTER" contentDisplay="CENTER" styleClass="lbl" text="اختر الموقع" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                 <ChoiceBox fx:id="selected_localisation_choiceBox" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 
-                <Button alignment="CENTER" contentDisplay="CENTER" onAction="#extacteFicheInventaire" styleClass="btn_fiche_inv" text="إستخـــــراج" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                <Button alignment="CENTER" contentDisplay="CENTER" onAction="#extacteFicheInventaire" styleClass="btn_fiche_inv" text="excel إستخـــــراج" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
             <Button alignment="CENTER" contentDisplay="CENTER" layoutX="465.0" layoutY="314.0" onAction="#generateJasperReport" styleClass="btn_fiche_inv" text="إستخـــــراجpdf " GridPane.rowIndex="3" />
 
                 <columnConstraints>
+                    <ColumnConstraints halignment="CENTER" />
                     <ColumnConstraints />
-                    <ColumnConstraints />
-                    <ColumnConstraints />
+                    <ColumnConstraints halignment="CENTER" />
                     <ColumnConstraints />
                 </columnConstraints>
                 <rowConstraints>
