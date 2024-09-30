@@ -39,6 +39,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class DetailController {
+    public Label inventaire_status;
     @FXML
     private Label numInventaireLabel;
     @FXML
@@ -86,6 +87,7 @@ public class DetailController {
                 idLocalisationLabel.setText(locationName);
                 timeLabel.setText(selectedInventaire.getFormattedDateTime());
                 userName = dbhelper.getUserNameById(currentInventaireItem.getUser_id());
+                inventaire_status.setText(currentInventaireItem.getStatus());
                 userIdLabel.setText(userName);
             } else {
                 System.out.println(" else currentarticle != null && currentInventaireItem != null");

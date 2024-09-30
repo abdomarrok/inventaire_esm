@@ -6,9 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="dashboard_id" fx:id="fx_dashboard_id" minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background"
-            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.marrok.inventaire_esm.controller.inventaire.InventaireItemController">
+<AnchorPane id="dashboard_id" fx:id="fx_dashboard_id" minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.inventaire.InventaireItemController">
     <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <right>
             <VBox fx:id="leftBox" prefHeight="444.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
@@ -46,8 +44,8 @@
                             <TableColumn fx:id="articleIdColumn" text="معرف المادة" />
                             <TableColumn fx:id="localisationIdColumn" text=" الموقع" />
                             <TableColumn fx:id="employerIdColumn" text="الموظف المعني" />
-                            <TableColumn fx:id="timeColumn" text="الوقت" />
                             <TableColumn fx:id="barcodeColumn" text="رقم الجرد" />
+                            <TableColumn fx:id="statusColmun" text="الحالة" />
                         </columns>
                   <columnResizePolicy>
                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

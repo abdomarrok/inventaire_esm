@@ -21,11 +21,14 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Properties;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ResourceBundle;
 
 public class InventaireItemController implements Initializable {
@@ -43,7 +46,7 @@ public class InventaireItemController implements Initializable {
 
     public TableColumn<Inventaire_Item, String> employerIdColumn;
 
-    public TableColumn<Inventaire_Item, String> timeColumn;
+    public TableColumn<Inventaire_Item, String> statusColmun;
 
     public TableColumn<Inventaire_Item, String> barcodeColumn;
 
@@ -144,7 +147,8 @@ public class InventaireItemController implements Initializable {
         });
 
 
-        timeColumn.setCellValueFactory(new PropertyValueFactory<>("formattedDateTime"));
+        statusColmun.setCellValueFactory(new PropertyValueFactory<>("status"));
+
         barcodeColumn.setCellValueFactory(new PropertyValueFactory<>("num_inventaire"));
     }
 
@@ -224,7 +228,7 @@ public class InventaireItemController implements Initializable {
 
     public void addInventaireItem(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/add_form-view_test.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/add_form-view.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(loader.load());
 
@@ -232,7 +236,7 @@ public class InventaireItemController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("إضافة عنصر الجرد");
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
-            AddController_test controller = loader.getController();
+            AddController controller = loader.getController();
             controller.setParentController(this);
 
             stage.showAndWait();
@@ -250,7 +254,7 @@ public class InventaireItemController implements Initializable {
         if (selectedItem != null) {
             try {
                 // Open a form or dialog to allow the user to update the selected item
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/update_form-view_test.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/update_form-view.fxml"));
                 Stage stage = new Stage();
                 Scene scene = new Scene(loader.load());
 
@@ -259,7 +263,7 @@ public class InventaireItemController implements Initializable {
                 stage.setTitle("تحديث عنصر الجرد");
 
                 stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
-                UpdateController_test controller = loader.getController();
+                UpdateController controller = loader.getController();
                 controller.setInventaireItem(selectedItem);
                 controller.setParentController(this);
 

@@ -49,7 +49,9 @@ public class FicheInventaireController implements Initializable {
     private DatabaseHelper dbhelper = new DatabaseHelper();
 
     // Define available years for the ChoiceBox
-    Integer[] availableYears = {2024, 2025, 2026, 2027};
+    Integer[] availableYears = {2013,2014,2015,2016,2017
+                                ,2018,2019,2020,2021,2022,
+                                2023,2024, 2025, 2026, 2027};
 
     public FicheInventaireController() throws SQLException {
         // Constructor code if needed

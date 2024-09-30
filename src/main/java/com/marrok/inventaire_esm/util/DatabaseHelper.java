@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -954,17 +955,25 @@ public DatabaseHelper() throws SQLException {
             return false;
         }
     }
-
-    public  boolean addInventaireItem(Inventaire_Item item) {
-        String query = "INSERT INTO inventaire_item (id_localisation, user_id, id_article, time,id_employer,num_inventaire,status) VALUES (?, ?, ?, ?,?,?,?)";
+    public boolean addInventaireItem(Inventaire_Item item) {
+        String query = "INSERT INTO inventaire_item (id_localisation, user_id, id_article, time, id_employer, num_inventaire, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (
-             PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
+                PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
 
             preparedStatement.setInt(1, item.getLocalisation_id());
             preparedStatement.setInt(2, item.getUser_id());
             preparedStatement.setInt(3, item.getArticle_id());
-            preparedStatement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+
+            // Use DateTimeFormatter to parse the date in "2024-09-26" format
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate localDate = LocalDate.parse(item.getFormattedDateTime(), formatter);
+
+            // Convert LocalDate to LocalDateTime at the start of the day (00:00:00)
+            LocalDateTime localDateTime = localDate.atStartOfDay();
+
+            // Set the parsed LocalDateTime as a Timestamp
+            preparedStatement.setTimestamp(4, Timestamp.valueOf(localDateTime));
             preparedStatement.setInt(5, item.getEmployer_id());
             preparedStatement.setString(6, item.getNum_inventaire());
             preparedStatement.setString(7, item.getStatus());
@@ -974,10 +983,13 @@ public DatabaseHelper() throws SQLException {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle exception
+            return false;
+        } catch (DateTimeParseException e) {
+            e.printStackTrace();
             return false;
         }
     }
+
 
 
 
@@ -987,6 +999,16 @@ public DatabaseHelper() throws SQLException {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
+                    // Convert Timestamp to LocalDateTime
+                    LocalDateTime dateTime = rs.getTimestamp("time").toLocalDateTime();
+
+                    DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                    String displayDate = dateTime.format(displayFormatter);
+
+                    // Format the LocalDateTime to "yyyy-MM-dd" for storing in the Inventaire_Item
+                    DateTimeFormatter storageFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    String storageDate = dateTime.format(storageFormatter);
+
                     return new Inventaire_Item(
                             rs.getInt("id"),
                             rs.getInt("id_article"),
@@ -994,9 +1016,8 @@ public DatabaseHelper() throws SQLException {
                             rs.getInt("user_id"),
                             rs.getInt("id_employer"),
                             rs.getString("num_inventaire"),
-                            String.valueOf(rs.getTimestamp("time").toLocalDateTime()),
+                            storageDate,  // Store the formatted date as a string
                             rs.getString("status")
-
                     );
                 }
             }
