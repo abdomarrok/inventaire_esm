@@ -8,6 +8,7 @@ public class Inventaire_Item {
     private int employer_id;
     private String num_inventaire;
     private String formattedDateTime;
+    private String status;
 
     public Inventaire_Item(int id, int article_id, int localisation_id, int user_id, int employer_id, String num_inventaire) {
         this.id = id;
@@ -18,6 +19,16 @@ public class Inventaire_Item {
         this.num_inventaire = num_inventaire;
     }
 
+    public Inventaire_Item(int id, int article_id, int localisation_id, int user_id, int employer_id, String num_inventaire, String formattedDateTime, String status) {
+        this.id = id;
+        this.article_id = article_id;
+        this.localisation_id = localisation_id;
+        this.user_id = user_id;
+        this.employer_id = employer_id;
+        this.num_inventaire = num_inventaire;
+        this.formattedDateTime = formattedDateTime;
+        this.status = status;
+    }
 
     public String getFormattedDateTime() {
         return formattedDateTime;
@@ -94,6 +105,14 @@ public class Inventaire_Item {
         this.employer_id = employer_id;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Inventaire_Item{" +
@@ -103,6 +122,8 @@ public class Inventaire_Item {
                 ", user_id=" + user_id +
                 ", employer_id=" + employer_id +
                 ", num_inventaire='" + num_inventaire + '\'' +
+                ", formattedDateTime='" + formattedDateTime + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

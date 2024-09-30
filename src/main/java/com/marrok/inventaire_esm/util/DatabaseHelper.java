@@ -661,8 +661,9 @@ public DatabaseHelper() throws SQLException {
                 String formattedDateTime = dateTime.format(formatter);
 
                 String num_inventaire = resultSet.getString("num_inventaire");
+                String status=resultSet.getString("status");
 
-                Inventaire_Item item = new Inventaire_Item(id_inventaire, id_article, id_localisation, id_user,employer_id,  num_inventaire,formattedDateTime);
+                Inventaire_Item item = new Inventaire_Item(id_inventaire, id_article, id_localisation, id_user,employer_id,  num_inventaire,formattedDateTime,status);
                 inventaireItems.add(item);
             }
 
@@ -674,7 +675,7 @@ public DatabaseHelper() throws SQLException {
         return inventaireItems;
     }
     public void insertInventaireItems(List<Inventaire_Item> inventaireItems) throws SQLException {
-        String query = "INSERT INTO inventaire_item (id_article, user_id, id_localisation, id_employer, num_inventaire, time) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO inventaire_item (id_article, user_id, id_localisation, id_employer, num_inventaire, time,status) VALUES (?, ?, ?, ?, ?, ?,?)";
 
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
             for (Inventaire_Item item : inventaireItems) {
@@ -688,6 +689,7 @@ public DatabaseHelper() throws SQLException {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
                 LocalDateTime dateTime = LocalDateTime.parse(item.getFormattedDateTime(), formatter);
                 preparedStatement.setTimestamp(6, Timestamp.valueOf(dateTime));
+                preparedStatement.setString(7, item.getStatus());
 
                 preparedStatement.addBatch();
             }
@@ -933,7 +935,7 @@ public DatabaseHelper() throws SQLException {
 
     public  boolean updateInventaireItem(Inventaire_Item inventaireItem) {
         System.out.println("from dbhelper"+inventaireItem.toString());
-        String query = "UPDATE inventaire_item SET id_article = ?, id_employer = ? , id_localisation = ?, user_id = ?, time = ?, num_inventaire = ? WHERE id = ?";
+        String query = "UPDATE inventaire_item SET id_article = ?, id_employer = ? , id_localisation = ?, user_id = ?, time = ?, num_inventaire = ? ,status= ? WHERE id = ?";
         try (
              PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setInt(1, inventaireItem.getArticle_id());
@@ -942,7 +944,8 @@ public DatabaseHelper() throws SQLException {
             stmt.setInt(4, inventaireItem.getUser_id());
             stmt.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
             stmt.setString(6, inventaireItem.getNum_inventaire());
-            stmt.setInt(7, inventaireItem.getId());
+            stmt.setString(7, inventaireItem.getStatus());
+            stmt.setInt(8, inventaireItem.getId());
 
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
@@ -953,7 +956,7 @@ public DatabaseHelper() throws SQLException {
     }
 
     public  boolean addInventaireItem(Inventaire_Item item) {
-        String query = "INSERT INTO inventaire_item (id_localisation, user_id, id_article, time,id_employer,num_inventaire) VALUES (?, ?, ?, ?,?,?)";
+        String query = "INSERT INTO inventaire_item (id_localisation, user_id, id_article, time,id_employer,num_inventaire,status) VALUES (?, ?, ?, ?,?,?,?)";
 
         try (
              PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
@@ -964,6 +967,7 @@ public DatabaseHelper() throws SQLException {
             preparedStatement.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
             preparedStatement.setInt(5, item.getEmployer_id());
             preparedStatement.setString(6, item.getNum_inventaire());
+            preparedStatement.setString(7, item.getStatus());
 
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
@@ -990,7 +994,8 @@ public DatabaseHelper() throws SQLException {
                             rs.getInt("user_id"),
                             rs.getInt("id_employer"),
                             rs.getString("num_inventaire"),
-                            String.valueOf(rs.getTimestamp("time").toLocalDateTime())
+                            String.valueOf(rs.getTimestamp("time").toLocalDateTime()),
+                            rs.getString("status")
 
                     );
                 }
@@ -1002,39 +1007,8 @@ public DatabaseHelper() throws SQLException {
         return null; // Return null if inventaire_item is not found
     }
 
-    public List<Inventaire_Item> getInventoryItemsByServiceAndYear(int serviceId, int year) throws SQLException {
-        List<Inventaire_Item> inventoryItems = new ArrayList<>();
-        String query = "SELECT ii.*, l.id_service " +
-                "FROM inventaire_item ii " +
-                "JOIN localisation l ON ii.id_localisation = l.id " +
-                "WHERE l.id_service = ? AND YEAR(ii.time) = ?";
 
-        try (PreparedStatement statement = this.cnn.prepareStatement(query)) {
-            statement.setInt(1, serviceId);
-            statement.setInt(2, year);
 
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                int articleId = resultSet.getInt("id_article");
-                int localisationId = resultSet.getInt("id_localisation");
-                int userId = resultSet.getInt("user_id");
-                int employerId = resultSet.getInt("id_employer");
-                String numInventaire = resultSet.getString("num_inventaire");
-
-                // Get the date as a string
-                String formattedDateTime = resultSet.getTimestamp("time").toString(); // Convert to String format
-
-                // Create an instance of Inventaire_Item using the appropriate constructor
-                Inventaire_Item item = new Inventaire_Item(id, articleId, localisationId, userId, employerId, numInventaire, formattedDateTime);
-
-                inventoryItems.add(item);
-            }
-        }
-
-        return inventoryItems;
-    }
 
     public List<Inventaire_Item> getInventoryItemsByFilters(Integer serviceId, Integer localisationId, Integer year) throws SQLException {
         List<Inventaire_Item> inventoryItems = new ArrayList<>();
@@ -1074,12 +1048,13 @@ public DatabaseHelper() throws SQLException {
                 int userId = resultSet.getInt("user_id");
                 int employerId = resultSet.getInt("id_employer");
                 String numInventaire = resultSet.getString("num_inventaire");
+                String status = resultSet.getString("status");
 
                 // Get the date as a string
                 String formattedDateTime = resultSet.getTimestamp("time").toString();
 
                 // Create an instance of Inventaire_Item using the appropriate constructor
-                Inventaire_Item item = new Inventaire_Item(id, articleId, localisationIdDb, userId, employerId, numInventaire, formattedDateTime);
+                Inventaire_Item item = new Inventaire_Item(id, articleId, localisationIdDb, userId, employerId, numInventaire, formattedDateTime,status);
 
                 inventoryItems.add(item);
             }

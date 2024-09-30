@@ -179,7 +179,7 @@ public class FicheInventaireController implements Initializable {
             Integer localisationId = null;
 
             // Handle service selection
-            if (selectedServiceName == null ) {
+            if (selectedServiceName == null || selectedServiceName.equals("All Services") ) {
                 // If no service or "All Services" selected, set service_name as "All Services"
                 parameters.put("selectedServiceName", "All Services");
 
@@ -200,7 +200,7 @@ public class FicheInventaireController implements Initializable {
             }
 
             // Handle localisation selection
-            if (selectedLocalisationName == null) {
+            if (selectedLocalisationName == null || selectedLocalisationName.equals("All Localisations")) {
                 // If no localisation or "All Localisations" selected, set localisation_name as "All Localisations"
                 parameters.put("selectedLocalisationName", "All Localisations");
             } else {
