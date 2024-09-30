@@ -1002,12 +1002,9 @@ public DatabaseHelper() throws SQLException {
                     // Convert Timestamp to LocalDateTime
                     LocalDateTime dateTime = rs.getTimestamp("time").toLocalDateTime();
 
-                    DateTimeFormatter displayFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-                    String displayDate = dateTime.format(displayFormatter);
-
-                    // Format the LocalDateTime to "yyyy-MM-dd" for storing in the Inventaire_Item
-                    DateTimeFormatter storageFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                    String storageDate = dateTime.format(storageFormatter);
+                    // Format the LocalDateTime to "dd/MM/yyyy"
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                    String formattedDate = dateTime.format(formatter);
 
                     return new Inventaire_Item(
                             rs.getInt("id"),
@@ -1016,7 +1013,7 @@ public DatabaseHelper() throws SQLException {
                             rs.getInt("user_id"),
                             rs.getInt("id_employer"),
                             rs.getString("num_inventaire"),
-                            storageDate,  // Store the formatted date as a string
+                            formattedDate,  // Store the formatted date as a string
                             rs.getString("status")
                     );
                 }
