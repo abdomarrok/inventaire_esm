@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -25,6 +27,7 @@ import static com.marrok.inventaire_esm.util.GeneralUtil.showAlert;
 public class UpdateController implements Initializable {
 
     public ChoiceBox<String> status_inventaire;
+    public DatePicker calendarPicker1;
     @FXML
     private ChoiceBox<String> locationChoiceBox;
 
@@ -126,6 +129,10 @@ public class UpdateController implements Initializable {
             locationChoiceBox.setValue(selectedLoc);
             employerChoiceBox.setValue(selectedEmployer);
             status_inventaire.setValue(selectedstatus);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDate selectedDate = LocalDate.parse(inventaireItem.getFormattedDateTime(), formatter);
+
+            calendarPicker1.setValue(selectedDate);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -145,8 +152,13 @@ public class UpdateController implements Initializable {
             int inv_id = inventaireItem.getId();
             int user_id = SessionManager.getActiveUserId();
             String status = status_inventaire.getValue();
+            String inv_status = status_inventaire.getValue();
+            LocalDate selectedDate = calendarPicker1.getValue();
+            String inv_date = selectedDate != null ? selectedDate.toString() : "";
+            System.out.println("AddController.handleAdd selected date= "+inv_date);
+
             Inventaire_Item updated_item = new Inventaire_Item(inv_id, article_id,
-                    loc_id, user_id, employer_id, employerInventaireCode.getText(), inventaireItem.getFormattedDateTime() ,status);
+                    loc_id, user_id, employer_id, employerInventaireCode.getText(),inv_date ,status);
 
             dbhelper.updateInventaireItem(updated_item);
             parentController.refreshTableData(); // Refresh the table data in the parent controller

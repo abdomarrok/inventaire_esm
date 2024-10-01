@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 public class AddController implements Initializable {
 
     public ChoiceBox<String> status_inventaire;
-    public CalendarPicker calendarPicker;
+    public DatePicker calendarPicker1;
     @FXML
     private ChoiceBox<String> locationChoiceBox;
 
@@ -120,13 +120,13 @@ public class AddController implements Initializable {
             String employerName = employerChoiceBox.getValue();
             int employerId = dbhelper.getEmployerIdByName(employerName);
             String inv_status = status_inventaire.getValue();
-            LocalDate selectedDate = calendarPicker.getValue();
+            LocalDate selectedDate = calendarPicker1.getValue();
             String inv_date = selectedDate != null ? selectedDate.toString() : "";
             System.out.println("AddController.handleAdd selected date= "+inv_date);
 
             if (employerId != -1 && employerInventaireCode.getText() != null) { // Check if employer was successfully found
-                Inventaire_Item newItem = new Inventaire_Item(0, articleId, localisationId, userId,
-                        employerId, employerInventaireCode.getText(),inv_date,inv_status);
+                Inventaire_Item newItem = new Inventaire_Item(0, articleId,
+                        localisationId, userId, employerId, employerInventaireCode.getText(),inv_date,inv_status);
 
                 if (dbhelper.addInventaireItem(newItem)) {
                     parentController.refreshTableData();

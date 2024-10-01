@@ -15,7 +15,6 @@
         <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="lbl" text="المكان" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <ChoiceBox fx:id="locationChoiceBox" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
 
-
         <Label alignment="CENTER" styleClass="lbl" text="العنصر" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <VBox alignment="CENTER" prefHeight="321.0" prefWidth="248.0" spacing="10.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2">
         <FilterView fx:id="filterView" minWidth="400.0" nodeOrientation="RIGHT_TO_LEFT" styleClass="filterview" title="بحث عن العنصر" />
@@ -36,10 +35,10 @@
         <ChoiceBox fx:id="employerChoiceBox" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
         <Label alignment="CENTER" styleClass="lbl" text="رقم الجرد" GridPane.columnIndex="1" GridPane.rowIndex="4" />
         <TextField fx:id="employerInventaireCode" promptText="0000000000" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-        <Label alignment="CENTER" layoutX="440.0" layoutY="577.0" styleClass="lbl" text="حالة الجرد" GridPane.columnIndex="1" GridPane.rowIndex="5"  />
-        <ChoiceBox fx:id="status_inventaire"  GridPane.columnIndex="0"  GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-        <Label alignment="CENTER" layoutX="440.0" layoutY="577.0" styleClass="lbl" text="التاريخ" GridPane.columnIndex="1" GridPane.rowIndex="6"  />
-        <CalendarPicker fx:id="calendarPicker" GridPane.columnIndex="0"  GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+        <Label alignment="CENTER" layoutX="440.0" layoutY="577.0" styleClass="lbl" text="حالة الجرد" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <ChoiceBox fx:id="status_inventaire" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+        <Label alignment="CENTER" layoutX="440.0" layoutY="577.0" styleClass="lbl" text="التاريخ" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+        <DatePicker fx:id="calendarPicker1" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
         <Button fx:id="saveButton" alignment="CENTER" onAction="#handleAdd" prefHeight="26.0" prefWidth="97.0" text="اظف" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="7">
 
             <styleClass>
@@ -56,6 +55,7 @@
 
 
 
+
     </children>
 
     <columnConstraints>
@@ -69,6 +69,8 @@
         <RowConstraints />
         <RowConstraints />
         <RowConstraints prefHeight="50.0" />
+      <RowConstraints />
+      <RowConstraints />
       <RowConstraints />
     </rowConstraints>
     <padding>

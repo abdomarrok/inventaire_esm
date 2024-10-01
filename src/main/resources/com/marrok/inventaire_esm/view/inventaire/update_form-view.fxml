@@ -33,13 +33,15 @@
     <TextField fx:id="employerInventaireCode" promptText="0000000000" GridPane.columnIndex="0" GridPane.rowIndex="4" />
     <Label alignment="CENTER" layoutX="440.0" layoutY="577.0" styleClass="lbl" text="حالة الجرد" GridPane.columnIndex="1" GridPane.rowIndex="5"  />
     <ChoiceBox fx:id="status_inventaire"  GridPane.columnIndex="0"  GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-    <Button fx:id="updateButton" onAction="#handleUpdate" text="تحديث" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+    <Label alignment="CENTER" layoutX="440.0" layoutY="577.0" styleClass="lbl" text="التاريخ" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+    <DatePicker fx:id="calendarPicker1" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+    <Button fx:id="updateButton" onAction="#handleUpdate" text="تحديث" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="7">
         <styleClass>
         <String fx:value="btn" />
         <String fx:value="add_btn" />
     </styleClass>
     </Button>
-    <Button fx:id="cancelButton" onAction="#handleCancel" text="الغاء" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6">
+    <Button fx:id="cancelButton" onAction="#handleCancel" text="الغاء" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7">
         <styleClass>
             <String fx:value="btn" />
             <String fx:value="cencel_btn" />
