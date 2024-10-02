@@ -54,9 +54,6 @@
                             <TableColumn fx:id="userNameColumn" text="اسم المستخدم" />
                             <TableColumn fx:id="roleColumn" text="الدور" />
                         </columns>
-                        <columnResizePolicy>
-                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                        </columnResizePolicy>
                     </TableView>
                 </children>
             </VBox>

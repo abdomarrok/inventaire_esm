@@ -18,6 +18,9 @@ module com.marrok.inventaire_esm {
     requires com.google.zxing.javase;
     requires javafx.swing;
     requires jasperreports;
+    requires com.fasterxml.jackson.core;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.dataformat.xml;
 
     requires org.apache.commons.csv;
     requires org.apache.poi.ooxml;

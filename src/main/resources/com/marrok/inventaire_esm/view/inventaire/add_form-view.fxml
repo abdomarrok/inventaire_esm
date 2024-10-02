@@ -39,7 +39,7 @@
         <ChoiceBox fx:id="status_inventaire" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
         <Label alignment="CENTER" layoutX="440.0" layoutY="577.0" styleClass="lbl" text="التاريخ" GridPane.columnIndex="1" GridPane.rowIndex="6" />
         <DatePicker fx:id="calendarPicker1" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-        <Button fx:id="saveButton" alignment="CENTER" onAction="#handleAdd" prefHeight="26.0" prefWidth="97.0" text="اظف" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="7">
+        <Button fx:id="saveButton" alignment="CENTER" onAction="#handleAdd" prefHeight="26.0" prefWidth="97.0" text="اضافة" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="7">
 
             <styleClass>
                 <String fx:value="btn" />
