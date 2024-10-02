@@ -219,7 +219,7 @@ public class DetailController {
     private BufferedImage generateBarcode(String text) throws WriterException {
         int width = 300;
         int height = 300;
-        BitMatrix bitMatrix = new com.google.zxing.MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height);
+        BitMatrix bitMatrix = new com.google.zxing.MultiFormatWriter().encode(text, BarcodeFormat.CODE_128, width, height);
         return MatrixToImageWriter.toBufferedImage(bitMatrix);
     }
 }

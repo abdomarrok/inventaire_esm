@@ -366,7 +366,7 @@ public class FicheInventaireController implements Initializable {
         int rowIndex = 6; // Start after the table header row
         for (Inventaire_Item item : items) {
             Row row = sheet.createRow(rowIndex++);
-            row.createCell(0).setCellValue(item.getId());
+            row.createCell(0).setCellValue(item.getArticle_id());
             String articlename = dbhelper.getArticleById(item.getArticle_id()).getName();
             row.createCell(1).setCellValue(articlename != null ? articlename : "not known article");
             row.createCell(2).setCellValue(item.getNum_inventaire());

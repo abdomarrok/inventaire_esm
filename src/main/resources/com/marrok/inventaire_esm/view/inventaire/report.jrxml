@@ -87,7 +87,7 @@
 	<detail>
 		<band height="20">
 			<element kind="textField" uuid="46a1d92f-2879-44c0-809e-7b75efc423ee" x="0" y="0" width="50" height="20" hTextAlign="Center" vTextAlign="Middle">
-				<expression><![CDATA[$F{id}]]></expression>
+				<expression><![CDATA[$F{id_article}]]></expression>
 			</element>
 			<element kind="textField" uuid="dac428d0-1a54-4d16-a3d4-ba35730db0a8" x="50" y="0" width="330" height="20" hTextAlign="Center" vTextAlign="Middle">
 				<expression><![CDATA[$F{article_name}]]></expression>
