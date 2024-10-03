@@ -1,7 +1,8 @@
 
 /* Table View Styles */
 .tableview {
-    -fx-control-inner-background: white; /* White background */
+    /*-fx-control-inner-background: white; !* White background *!*/
+    -fx-control-inner-background:  #fff6de; /* White background */
     -fx-selection-bar: #343a40; /* Blue selection bar */
     -fx-selection-bar-non-focused: #a9d5f2; /* Light blue selection bar for non-focused state */
     -fx-font-family: 'Andalus';

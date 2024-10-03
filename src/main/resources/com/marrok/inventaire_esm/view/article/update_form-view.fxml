@@ -14,7 +14,7 @@
             </font>
         </Label>
         <Label styleClass="lbl" text="الاسم :" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-        <TextField fx:id="nameField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+        <TextField fx:id="nameField" styleClass="input_fieald" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
 
         <Label styleClass="lbl" text="الوحدة :" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
         <TextField fx:id="uniteField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />

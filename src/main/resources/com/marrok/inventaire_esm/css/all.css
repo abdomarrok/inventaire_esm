@@ -1,7 +1,7 @@
 /* Global Styles */
 .background {
     -fx-padding: 20;
-    -fx-background-color: #ffffff;
+    -fx-background-color: #fff1dc;
 }
 .bodybg{
     -fx-background-image: url('../img/inventorybg.jpg');
@@ -71,11 +71,11 @@
     -fx-background-color: #FFC107; /* Amber */
 }
 .lgn_btn {
-    -fx-background-color: #6c757d; /* Blueish-gray */
+    -fx-background-color: #deac80; /* Blueish-gray */
     -fx-font-family: 'Andalus';
     -fx-background-radius: 20px;
     -fx-font-size: 20px;
-    -fx-text-fill: white;
+    -fx-text-fill: black;
     -fx-font-weight: bold;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 1);
 }
@@ -146,7 +146,9 @@
 
 
 .lgn_btn:hover {
-    -fx-background-color: #5a6268; /* Darker blueish-gray on hover */
+
+    -fx-background-color: derive(#deac80, 30%);
+    -fx-text-fill:  #fff1dc;
 }
 
 .lgn_btn:pressed {
@@ -156,9 +158,8 @@
 }
 
 /* TextField and PasswordField Styles */
-.userId, .password {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #ced4da;
+.userId , .password {
+    -fx-background-color: white;
     -fx-border-width: 1px;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
@@ -170,7 +171,7 @@
 }
 
 .userId:hover, .password:hover {
-    -fx-background-color: #f1f3f5;
+    -fx-background-color: #fff1dc;
     -fx-border-color: #adb5bd;
 }
 
@@ -239,7 +240,7 @@
 
 /* Search Field Styles */
 .searchField {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #fff6de;
     -fx-border-color: #ced4da;
     -fx-border-width: 1px;
     -fx-border-radius: 30px;
@@ -273,7 +274,7 @@
     -fx-pref-height: 26px;
     -fx-background-radius: 5px;
     -fx-border-radius: 5px;
-    -fx-border-color: #ccc;
+    -fx-border-color: #fff1dc;
     -fx-border-width: 1px;
     -fx-padding: 5px;
 }
@@ -284,7 +285,7 @@
     -fx-pref-height: 26px;
     -fx-background-radius: 5px;
     -fx-border-radius: 5px;
-    -fx-border-color: #ccc;
+    -fx-border-color: #fff1dc;
     -fx-border-width: 1px;
     -fx-padding: 5px;
 }
