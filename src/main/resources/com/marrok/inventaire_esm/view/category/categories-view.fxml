@@ -12,7 +12,7 @@
         <top>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
                 <children>
-                    <TextField fx:id="search_cat_txt" alignment="CENTER" minWidth="200" promptText="بحث..." styleClass="searchField" />
+                    <TextField fx:id="search_cat_txt" alignment="CENTER" minWidth="200" promptText="بحث..." />
                     <Label styleClass="titleLabel" text="تسيير الفئات" HBox.hgrow="SOMETIMES" />
 
 
