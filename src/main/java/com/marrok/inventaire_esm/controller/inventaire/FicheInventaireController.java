@@ -159,7 +159,7 @@ public class FicheInventaireController implements Initializable {
             connection = DatabaseConnection.getInstance().getConnection();
 
             // Load the report from the resources folder
-            InputStream reportStream = getClass().getResourceAsStream("/com/marrok/inventaire_esm/view/inventaire/report.jrxml");
+            InputStream reportStream = getClass().getResourceAsStream("/com/marrok/inventaire_esm/reports/report.jrxml");
             if (reportStream == null) {
                 throw new FileNotFoundException("Report file not found.");
             }
