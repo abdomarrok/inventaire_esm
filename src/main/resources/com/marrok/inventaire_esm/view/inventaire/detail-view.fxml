@@ -7,70 +7,84 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="CENTER" hgap="10" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.inventaire.DetailController">
+<AnchorPane styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.inventaire.DetailController">
 
-    <columnConstraints>
-        <ColumnConstraints />
-        <ColumnConstraints minWidth="200.0" />
-        <ColumnConstraints />
-    </columnConstraints>
+    <!-- Main VBox to hold all elements vertically -->
+    <VBox alignment="TOP_CENTER" nodeOrientation="RIGHT_TO_LEFT" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
 
-    <children>
-        <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="RIGHT" styleClass="titleLabel" text="تفاصيل الجرد" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.halignment="CENTER" />
+        <!-- Title Label -->
+        <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="RIGHT" styleClass="titleLabel" text="تفاصيل الجرد" />
 
-        <!-- Labels for details -->
-        <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="lbl" text="المعرف:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-        <Label fx:id="idLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+        <!-- Details Section -->
+        <GridPane alignment="CENTER" hgap="10" vgap="15">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" minWidth="100" />
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="200" />
+            </columnConstraints>
 
-        <Label alignment="CENTER" styleClass="lbl" text=" العنصر:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-        <Label fx:id="idArticleLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+            <!-- Row 1 -->
+            <Label styleClass="lbl" text="المعرف:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+            <Label fx:id="idLabel" styleClass="lbl" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-        <Label alignment="CENTER" styleClass="lbl" text="الموقع:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-        <Label fx:id="idLocalisationLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+            <!-- Row 2 -->
+            <Label styleClass="lbl" text="العنصر:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <Label fx:id="idArticleLabel" styleClass="lbl" GridPane.columnIndex="1" GridPane.rowIndex="1" />
 
-        <Label alignment="CENTER" styleClass="lbl" text="المستخدم:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
-        <Label fx:id="userIdLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
+            <!-- Row 3 -->
+            <Label styleClass="lbl" text="الموقع:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Label fx:id="idLocalisationLabel" styleClass="lbl" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-        <Label alignment="CENTER" styleClass="lbl" text="الوقت:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
-        <Label fx:id="timeLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
-        <Label alignment="CENTER" styleClass="lbl" text="الموظف:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
-        <Label fx:id="idEmployerLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
-        <Label alignment="CENTER" styleClass="lbl" text="رقم الجرد:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
-        <Label fx:id="numInventaireLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
-        <Label alignment="CENTER" styleClass="lbl" text="حالة الجرد:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
-        <Label fx:id="inventaire_status" styleClass="lbl" text="empty" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
-        <Label alignment="CENTER" styleClass="lbl" text="كود" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="10" />
-        <ImageView fx:id="barcodeImageView" preserveRatio="true" styleClass="bar_code" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="10" />
+            <!-- Row 4 -->
+            <Label styleClass="lbl" text="المستخدم:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+            <Label fx:id="userIdLabel" styleClass="lbl" GridPane.columnIndex="1" GridPane.rowIndex="3" />
 
-        <!-- Button for printing -->
-        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#printDetInvetaire" text="طباعة" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="11" GridPane.valignment="CENTER">
+            <!-- Row 5 -->
+            <Label styleClass="lbl" text="الوقت:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+            <Label fx:id="timeLabel" styleClass="lbl" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+
+            <!-- Row 6 -->
+            <Label styleClass="lbl" text="الموظف:" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+            <Label fx:id="idEmployerLabel" styleClass="lbl" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+
+            <!-- Row 7 -->
+            <Label styleClass="lbl" text="رقم الجرد:" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <Label fx:id="numInventaireLabel" styleClass="lbl" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+
+            <!-- Row 8 -->
+            <Label styleClass="lbl" text="حالة الجرد:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+            <Label fx:id="inventaire_status" styleClass="lbl" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+
+            <!-- Row 9 - Barcode -->
+            <Label styleClass="lbl" text="كود:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+            <ImageView fx:id="barcodeImageView" fitWidth="150" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+        </GridPane>
+
+        <!-- Print Button -->
+        <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="100" mnemonicParsing="false" onAction="#printDetInvetaire" text="طباعة">
             <styleClass>
                 <String fx:value="btn" />
                 <String fx:value="add_btn" />
             </styleClass>
-         <opaqueInsets>
-            <Insets top="10.0" />
-         </opaqueInsets>
+            <padding>
+                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+            </padding>
         </Button>
-    </children>
-
-    <rowConstraints>
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints minHeight="20.0" />
-      <RowConstraints />
-      <RowConstraints />
-    </rowConstraints>
+    </VBox>
 
     <stylesheets>
-<!--        <URL value="@../../css/nord-light.css" />-->
-        <URL value="@../../css/all.css" />
+        <!-- Uncomment and adjust the paths as necessary -->
+<!--         <URL value="@../../css/nord-light.css" />-->
+         <URL value="@../../css/all.css" />
     </stylesheets>
-</GridPane>
+</AnchorPane>
