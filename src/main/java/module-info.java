@@ -9,8 +9,6 @@ module com.marrok.inventaire_esm {
 
     requires javafx.base;
     requires java.desktop;
-
-    requires org.apache.pdfbox;
     requires mysql.connector.java;
     requires com.jfoenix;
     requires com.ibm.icu;
