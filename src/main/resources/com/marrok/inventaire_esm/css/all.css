@@ -7,6 +7,10 @@
     -fx-background-image: url('../img/inventorybg.jpg');
     -fx-background-size: 100% 100%;
 }
+.bodybg_fiche_inventire{
+    -fx-background-image: url('../img/inventory_file.jpg');
+    -fx-background-size: 100% 100%;
+}
 .lbl {
     -fx-font-family: 'Arial';
     -fx-font-size: 20px;
@@ -49,14 +53,19 @@
     -fx-background-radius: 10px;
 }
 .btn_fiche_inv {
-    -fx-background-color: #343a40;
+    -fx-background-color:  #e48c31;
     -fx-pref-height: 50px;
     -fx-min-height: 50px;
     -fx-font-family: 'Andalus';
     -fx-font-size: 25px;
-    -fx-text-fill: white;
+    -fx-text-fill: #343a40;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
+}
+
+.lbl_fiche_inv{
+    -fx-font-family: 'Andalus';
+    -fx-font-size: 20px;
 }
 
 .add_btn {

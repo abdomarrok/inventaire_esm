@@ -1,99 +1,130 @@
-<<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
 <jasperReport name="InventaireReport" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c5b33e49-a311-488b-a33b-1c1b6a447ae6">
-    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
-    <parameter name="inventaireItemId" class="java.lang.Integer"/>
-    <query language="sql"><![CDATA[
-        SELECT
-            ii.id,
-            ii.id_article,
-            a.name AS article_name,
-            ii.id_localisation,
-            l.loc_name AS localisation_name,
-            s.name AS service_name,
-            ii.user_id,
-            ii.time,
-            ii.num_inventaire,
-            ii.status,
-            ii.id_employer
-        FROM
-            inventaire_item ii
-        JOIN
-            article a ON ii.id_article = a.id
-        JOIN
-            localisation l ON ii.id_localisation = l.id
-        LEFT JOIN
-            service s ON l.id_service = s.id
-        WHERE
-            ii.id = $P{inventaireItemId}  -- Fetching specific item by ID
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
+	<parameter name="logo" class="java.lang.Object"/>
+	<parameter name="startDate" class="java.lang.Integer"/>
+	<parameter name="serviceId" class="java.lang.Integer"/>
+	<parameter name="localisationId" class="java.lang.Integer"/>
+	<parameter name="selectedServiceName" class="java.lang.String"/>
+	<parameter name="selectedLocalisationName" class="java.lang.String"/>
+	<query language="sql"><![CDATA[
+ SELECT
+        ii.id,
+        ii.id_article,
+        a.name AS article_name,
+        ii.id_localisation,
+        l.loc_name AS localisation_name,
+        s.name AS service_name,
+        ii.user_id,
+        ii.time,
+        ii.num_inventaire,
+        ii.status,
+        ii.id_employer,
+         (SELECT COUNT(*)
+FROM inventaire_item ii
+JOIN localisation l ON ii.id_localisation = l.id
+WHERE
+    ($P{serviceId} IS NULL OR l.id_service = $P{serviceId})
+    AND ($P{localisationId} IS NULL OR ii.id_localisation = $P{localisationId})
+    AND YEAR(ii.time) = $P{startDate}) AS total_articles
+    FROM
+        inventaire_item ii
+    JOIN
+        article a ON ii.id_article = a.id
+    JOIN
+        localisation l ON ii.id_localisation = l.id
+    LEFT JOIN
+        service s ON l.id_service = s.id
+    WHERE
+        ($P{serviceId} IS NULL OR l.id_service = $P{serviceId})
+        AND ($P{localisationId} IS NULL OR ii.id_localisation = $P{localisationId})
+        AND YEAR(ii.time) = $P{startDate}
+
+
     ]]></query>
-    <field name="id" class="java.lang.Integer"/>
-    <field name="id_article" class="java.lang.Integer"/>
-    <field name="article_name" class="java.lang.String"/>
-    <field name="id_localisation" class="java.lang.Integer"/>
-    <field name="localisation_name" class="java.lang.String"/>
-    <field name="service_name" class="java.lang.String"/>
-    <field name="user_id" class="java.lang.Integer"/>
-    <field name="time" class="java.sql.Timestamp"/>
-    <field name="num_inventaire" class="java.lang.String"/>
-    <field name="status" class="java.lang.String"/>
-    <field name="id_employer" class="java.lang.Integer"/>
-
-    <title height="214">
-        <element kind="staticText" uuid="2921270c-4d99-4e64-8282-d1add65e19a1" x="10" y="-20" width="500" height="91" fontSize="19.0" bold="true" hTextAlign="Center">
-            <text><![CDATA[ République Algérienne Démocratique et Populaire  Ministère de la Justice Ecole Supérieure de la Magistrature]]></text>
-        </element>
-        <element kind="staticText" uuid="fd868f22-3db2-486b-a9d8-193205baacf4" x="145" y="130" width="260" height="30" fontSize="16.0" bold="true" hTextAlign="Center">
-            <text><![CDATA[Fiche d'inventaire]]></text>
-        </element>
-        <element kind="image" uuid="be472a83-68e7-4ccb-943c-7973067e7fcd" x="250" y="70" width="50" height="50">
-            <expression><![CDATA[$P{logo}]]></expression>
-        </element>
-    </title>
-
-    <columnHeader height="35">
-        <element kind="staticText" uuid="641ed749-4bbe-4bc3-8c91-16208980d78c" mode="Opaque" x="0" y="0" width="50" height="20" backcolor="#CCCCCC" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
-            <text><![CDATA[Code barre]]></text>
-        </element>
-        <element kind="staticText" uuid="3ab6845e-94ad-4676-8042-ea0be1d3d4ee" mode="Opaque" x="50" y="0" width="330" height="20" backcolor="#CCCCCC" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
-            <text><![CDATA[Désignation]]></text>
-        </element>
-        <element kind="staticText" uuid="f1bd9eba-2c8e-48d6-9e8c-6569a0a35889" mode="Opaque" x="380" y="0" width="100" height="20" backcolor="#CCCCCC" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
-            <text><![CDATA[N° Inventaire]]></text>
-        </element>
-        <element kind="staticText" uuid="0e993849-d26a-482d-b3f4-0e2ab15abbc0" mode="Opaque" x="480" y="0" width="75" height="20" backcolor="#CCCCCC" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
-            <text><![CDATA[Etat]]></text>
-        </element>
-    </columnHeader>
-
-    <detail>
-        <band height="20">
-            <element kind="textField" uuid="46a1d92f-2879-44c0-809e-7b75efc423ee" x="0" y="0" width="50" height="20" hTextAlign="Center" vTextAlign="Middle">
-                <expression><![CDATA[$F{id_article}]]></expression>
-            </element>
-            <element kind="textField" uuid="dac428d0-1a54-4d16-a3d4-ba35730db0a8" x="50" y="0" width="330" height="20" hTextAlign="Center" vTextAlign="Middle">
-                <expression><![CDATA[$F{article_name}]]></expression>
-            </element>
-            <element kind="textField" uuid="d0470687-a2f1-4a67-a5e5-d2a56a7ebb58" x="380" y="0" width="100" height="20" hTextAlign="Left" vTextAlign="Middle">
-                <expression><![CDATA[$F{num_inventaire}]]></expression>
-            </element>
-            <element kind="textField" uuid="7bf335ad-fe29-48d0-8014-ab1bd1453967" x="480" y="0" width="75" height="20" hTextAlign="Center" vTextAlign="Middle">
-                <expression><![CDATA[$F{status}]]></expression>
-            </element>
-        </band>
-    </detail>
-
-    <lastPageFooter height="160">
-        <element kind="staticText" uuid="0c1f56b3-9ce7-40e3-b5ba-663dcaee2129" x="0" y="43" width="170" height="30" fontSize="12.0" bold="true">
-            <text><![CDATA[Le Responsable du Bureau:]]></text>
-        </element>
-        <element kind="staticText" uuid="cd25a01e-8fef-4757-9a68-1323d78aadcf" x="0" y="70" width="170" height="30" fontSize="12.0" bold="true">
-            <text><![CDATA[NOM:]]></text>
-        </element>
-        <element kind="staticText" uuid="22636421-63dc-4f2f-bbaa-922e783dc2f9" x="0" y="102" width="170" height="30" fontSize="12.0" bold="true">
-            <text><![CDATA[PRENOM:]]></text>
-        </element>
-        <element kind="staticText" uuid="ab72c62b-5edb-4867-91ed-67688bbe5b5e" x="0" y="130" width="170" height="30" fontSize="12.0" bold="true">
-            <text><![CDATA[DATE:]]></text>
-        </element>
-    </lastPageFooter>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="id_article" class="java.lang.Integer"/>
+	<field name="article_name" class="java.lang.String"/>
+	<field name="id_localisation" class="java.lang.Integer"/>
+	<field name="localisation_name" class="java.lang.String"/>
+	<field name="service_name" class="java.lang.String"/>
+	<field name="user_id" class="java.lang.Integer"/>
+	<field name="time" class="java.sql.Timestamp"/>
+	<field name="num_inventaire" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="id_employer" class="java.lang.Integer"/>
+	<field name="total_articles" class="java.lang.Integer"/>
+	<title height="214">
+		<element kind="staticText" uuid="2921270c-4d99-4e64-8282-d1add65e19a1" x="10" y="-20" width="500" height="91" fontSize="19.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[ République Algérienne Démocratique et Populaire  Ministère de la Justice                                                 Ecole Supérieure de la Magistrature]]></text>
+		</element>
+		<element kind="staticText" uuid="fd868f22-3db2-486b-a9d8-193205baacf4" x="145" y="130" width="260" height="30" fontSize="16.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Fiche d'inventaire]]></text>
+		</element>
+		<element kind="image" uuid="be472a83-68e7-4ccb-943c-7973067e7fcd" x="250" y="70" width="50" height="50">
+			<expression><![CDATA[$P{logo}]]></expression>
+		</element>
+		<element kind="textField" uuid="66469f9f-c04e-4ba0-a9a5-5e68da11ff9b" x="455" y="185" width="100" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA[$P{selectedServiceName}]]></expression>
+		</element>
+		<element kind="staticText" uuid="f41b129d-7d6a-4b64-91d1-eec267c94aa8" mode="Opaque" x="340" y="180" width="100" height="30" backcolor="#CCCCCC" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Service]]></text>
+		</element>
+		<element kind="textField" uuid="259b6d4f-90f2-45b4-9468-bb488dde6492" x="100" y="185" width="100" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA[$P{selectedLocalisationName}]]></expression>
+		</element>
+		<element kind="staticText" uuid="fcf0c65f-6b89-458f-b9a3-52af22a6601b" mode="Opaque" x="0" y="180" width="100" height="30" backcolor="#CCCCCC" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Localisation]]></text>
+		</element>
+	</title>
+	<columnHeader height="35">
+		<element kind="staticText" uuid="641ed749-4bbe-4bc3-8c91-16208980d78c" mode="Opaque" x="0" y="0" width="50" height="20" backcolor="#CCCCCC" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Code barre]]></text>
+		</element>
+		<element kind="staticText" uuid="3ab6845e-94ad-4676-8042-ea0be1d3d4ee" mode="Opaque" x="50" y="0" width="330" height="20" backcolor="#CCCCCC" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Désignation]]></text>
+		</element>
+		<element kind="staticText" uuid="f1bd9eba-2c8e-48d6-9e8c-6569a0a35889" mode="Opaque" x="380" y="0" width="100" height="20" backcolor="#CCCCCC" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[N° Inventaire]]></text>
+		</element>
+		<element kind="staticText" uuid="0e993849-d26a-482d-b3f4-0e2ab15abbc0" mode="Opaque" x="480" y="0" width="75" height="20" backcolor="#CCCCCC" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Etat]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<element kind="textField" uuid="46a1d92f-2879-44c0-809e-7b75efc423ee" x="0" y="0" width="50" height="20" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{id_article}]]></expression>
+			</element>
+			<element kind="textField" uuid="dac428d0-1a54-4d16-a3d4-ba35730db0a8" x="50" y="0" width="330" height="20" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{article_name}]]></expression>
+			</element>
+			<element kind="textField" uuid="d0470687-a2f1-4a67-a5e5-d2a56a7ebb58" x="380" y="0" width="100" height="20" hTextAlign="Left" vTextAlign="Middle">
+				<expression><![CDATA[$F{num_inventaire}]]></expression>
+			</element>
+			<element kind="textField" uuid="7bf335ad-fe29-48d0-8014-ab1bd1453967" x="480" y="0" width="75" height="20" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{status}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<lastPageFooter height="160">
+		<element kind="staticText" uuid="0c1f56b3-9ce7-40e3-b5ba-663dcaee2129" x="0" y="43" width="170" height="30" fontSize="12.0" bold="true">
+			<text><![CDATA[Le Responsable du Bureau:]]></text>
+		</element>
+		<element kind="staticText" uuid="cd25a01e-8fef-4757-9a68-1323d78aadcf" x="0" y="70" width="170" height="30" fontSize="12.0" bold="true">
+			<text><![CDATA[NOM:]]></text>
+		</element>
+		<element kind="staticText" uuid="22636421-63dc-4f2f-bbaa-922e783dc2f9" x="0" y="102" width="170" height="30" fontSize="12.0" bold="true">
+			<text><![CDATA[PRENOM:]]></text>
+		</element>
+		<element kind="staticText" uuid="ab72c62b-5edb-4867-91ed-67688bbe5b5e" x="0" y="130" width="170" height="30" fontSize="12.0" bold="true">
+			<text><![CDATA[FONCTION:]]></text>
+		</element>
+		<element kind="staticText" uuid="d58e29da-8d83-41c6-9be9-ebe06463abb7" x="20" y="0" width="130" height="25" fontSize="12.0" bold="true">
+			<text><![CDATA[Nombre d'articles : ]]></text>
+		</element>
+		<element kind="textField" uuid="c6457e25-0b13-40cd-8ffe-fad039a09d22" x="150" y="0" width="45" height="25" fontSize="12.0" bold="true">
+			<expression><![CDATA[$F{total_articles}]]></expression>
+		</element>
+	</lastPageFooter>
 </jasperReport>

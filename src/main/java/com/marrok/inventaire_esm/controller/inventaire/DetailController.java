@@ -253,11 +253,7 @@ public class DetailController {
 //        }
 //    }
 
-    private String bidiReorder(String text) throws ArabicShapingException {
-        Bidi bidi = new Bidi(new ArabicShaping(ArabicShaping.LETTERS_SHAPE).shape(text), Bidi.DIRECTION_RIGHT_TO_LEFT);
-        bidi.setReorderingMode(Bidi.REORDER_RUNS_ONLY);
-        return bidi.writeReordered(Bidi.DO_MIRRORING);
-    }
+  
 
     private BufferedImage generateBarcode(String text) throws WriterException {
         int width = 400;
