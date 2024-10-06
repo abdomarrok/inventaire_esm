@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.settings.SettingsView">
+<AnchorPane minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="bodybg_fiche_inventire" stylesheets="@../../css/all.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.settings.SettingsView">
     <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <!-- Title Section -->
         <top>
             <VBox alignment="TOP_CENTER" spacing="10.0">
                 <Label styleClass="titleLabel" text="الإعدادات" />
             </VBox>
+            <Button contentDisplay="GRAPHIC_ONLY" onAction="#go_Dashboard" styleClass="smallDashboard_btn" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                <graphic>
+                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../../img/home.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+                <BorderPane.margin>
+                    <Insets bottom="10.0" left="10.0" top="10.0" />
+                </BorderPane.margin>
+            </Button>
         </top>
         <center>
 
@@ -33,17 +45,6 @@
             </VBox>
         </center>
 
-        <bottom>
-            <Button mnemonicParsing="false" onAction="#go_Dashboard" text="الرئيسية" textAlignment="CENTER" BorderPane.alignment="BOTTOM_RIGHT">
-                <BorderPane.margin>
-                    <Insets bottom="10.0" right="10.0" />
-                </BorderPane.margin>
-                <styleClass>
-                    <String fx:value="btn" />
-                    <String fx:value="go_back_dash_btn" />
-                </styleClass>
-            </Button>
-        </bottom>
         <stylesheets>
             <URL value="@../../css/all.css" />
         </stylesheets>

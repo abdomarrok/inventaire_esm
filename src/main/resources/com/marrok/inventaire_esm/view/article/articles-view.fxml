@@ -13,7 +13,7 @@
        <top>
            <HBox fx:id="topBox" alignment="CENTER" prefHeight="64.0" prefWidth="810.0" spacing="50.0" styleClass="header_bar" BorderPane.alignment="CENTER">
                <children>
-                   <TextField fx:id="searchField" alignment="CENTER" minWidth="200" promptText="بحث..." styleClass="searchField" />
+                   <TextField fx:id="searchField" alignment="CENTER" minWidth="200" promptText="بحث..." />
                    <Label fx:id="titleLabel" styleClass="titleLabel" text="إدارة المـــواد" HBox.hgrow="SOMETIMES" />
 
 
@@ -22,6 +22,19 @@
                    <Insets />
                </BorderPane.margin>
            </HBox>
+
+           <Button fx:id="bk_Dashboard_from_products" contentDisplay="GRAPHIC_ONLY" styleClass="smallDashboard_btn" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <graphic>
+                   <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                       <image>
+                           <Image url="@../../img/home.png" />
+                       </image>
+                   </ImageView>
+               </graphic>
+            <BorderPane.margin>
+               <Insets bottom="10.0" />
+            </BorderPane.margin>
+           </Button>
        </top>
     <right>
         <VBox fx:id="leftBox" prefHeight="444.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
@@ -71,14 +84,14 @@
     <bottom>
         <ButtonBar buttonMinWidth="40.0">
         <buttons>
-                <Button fx:id="bk_Dashboard_from_products" text="الرئيسية" ButtonBar.buttonData="RIGHT">
-            <BorderPane.margin>
-               <Insets bottom="50.0" right="50.0" />
-            </BorderPane.margin>
-            <styleClass>
-               <String fx:value="btn" />
-            </styleClass>
-                </Button>
+<!--                <Button fx:id="bk_Dashboard_from_products" text="الرئيسية" ButtonBar.buttonData="RIGHT">-->
+<!--            <BorderPane.margin>-->
+<!--               <Insets bottom="50.0" right="50.0" />-->
+<!--            </BorderPane.margin>-->
+<!--            <styleClass>-->
+<!--               <String fx:value="btn" />-->
+<!--            </styleClass>-->
+<!--                </Button>-->
 
         <Button fx:id="export_articles_btn" contentDisplay="LEFT" onAction="#exportArticle" styleClass="export_btn" text="تصدير" ButtonBar.buttonData="LEFT">
             <graphic>

@@ -6,6 +6,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <AnchorPane id="dashboard_id" fx:id="fx_dashboard_id" minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.employer.EmployerController">
     <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
@@ -15,18 +17,24 @@
                     <TextField fx:id="searchField" alignment="CENTER" minWidth="200" promptText="بحث..." styleClass="searchField" />
 
                     <Label fx:id="titleLabel" styleClass="titleLabel" text="إدارة المــوظفين" HBox.hgrow="SOMETIMES" />
-                    <!--                    <ToggleButton fx:id="switchThemeBtn_employer" alignment="TOP_RIGHT" contentDisplay="GRAPHIC_ONLY" maxHeight="24" maxWidth="24" onAction="#switchTheme" styleClass="toggle_button" textAlignment="RIGHT">-->
-                    <!--                        <graphic>-->
-                    <!--                            <ImageView fitHeight="24" fitWidth="24" pickOnBounds="true" preserveRatio="true">-->
-                    <!--                                <Image requestedHeight="24" requestedWidth="24" url="@../../img/dark_icon.png" />-->
-                    <!--                            </ImageView>-->
-                    <!--                        </graphic>-->
-                    <!--                    </ToggleButton>-->
+
                 </children>
                 <BorderPane.margin>
                     <Insets />
                 </BorderPane.margin>
             </HBox>
+            <Button fx:id="bk_Dashboard_from_employers" contentDisplay="GRAPHIC_ONLY" styleClass="smallDashboard_btn" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                <graphic>
+                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../../img/home.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+                <BorderPane.margin>
+                    <Insets bottom="10.0" />
+                </BorderPane.margin>
+            </Button>
         </top>
         <right>
             <VBox fx:id="leftBox" prefHeight="444.0" prefWidth="100.0" spacing="20.0" styleClass="left_panel" BorderPane.alignment="CENTER">
@@ -72,19 +80,7 @@
                 </children>
             </VBox>
         </center>
-        <bottom>
 
-            <Button fx:id="bk_Dashboard_from_employers" text="الرئيسية" BorderPane.alignment="BOTTOM_RIGHT">
-                <BorderPane.margin>
-                    <Insets />
-                </BorderPane.margin>
-                <styleClass>
-                    <String fx:value="btn" />
-                    <String fx:value="go_back_dash_btn" />
-                </styleClass>
-            </Button>
-
-        </bottom>
 
     </BorderPane>
     <stylesheets>
