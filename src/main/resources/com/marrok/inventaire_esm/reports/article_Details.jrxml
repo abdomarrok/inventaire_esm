@@ -1,0 +1,80 @@
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="ArticleDetails" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d85a174c-e5d1-4671-9535-6355636e4eae">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
+	<parameter name="article_id" class="java.lang.Integer"/>
+	<query language="sql"><![CDATA[
+        
+            SELECT 
+                id, 
+                name, 
+                unite, 
+                description, 
+                quantity, 
+                remarque, 
+                id_category
+            FROM 
+                article 
+            WHERE 
+                id = $P{article_id}
+        
+    ]]></query>
+	<field name="id" class="java.lang.Integer"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="unite" class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.Integer"/>
+	<field name="remarque" class="java.lang.String"/>
+	<field name="id_category" class="java.lang.Integer"/>
+	<title height="60">
+		<element kind="staticText" uuid="afc5e77c-017f-4b4b-8452-410f233a8d2d" x="200" y="20" width="200" height="40" fontSize="18.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[تفاصيل العنصر]]></text>
+		</element>
+	</title>
+	<detail>
+		<band height="200">
+			<element kind="textField" uuid="db47c51e-1174-4b53-9a21-6761f21c98a2" x="180" y="0" width="260" height="20" hTextAlign="Right">
+				<expression><![CDATA[$F{id}]]></expression>
+			</element>
+			<element kind="staticText" uuid="17d77697-8f53-44bb-8cb7-4c4bde477cc8" x="450" y="0" width="100" height="20" hTextAlign="Right">
+				<text><![CDATA[المعرف:]]></text>
+			</element>
+			<element kind="textField" uuid="aba34561-033b-4553-989a-33b4b92b3c6a" x="180" y="30" width="260" height="20" hTextAlign="Right">
+				<expression><![CDATA[$F{name}]]></expression>
+			</element>
+			<element kind="staticText" uuid="cdf1091b-4176-4d15-8990-30456c72c4da" x="450" y="30" width="100" height="20" hTextAlign="Right">
+				<text><![CDATA[اسم العنصر:]]></text>
+			</element>
+			<element kind="textField" uuid="82fa5d9f-8b93-4c52-898f-9608d5f5ed2e" x="180" y="60" width="260" height="20" hTextAlign="Right">
+				<expression><![CDATA[$F{unite}]]></expression>
+			</element>
+			<element kind="staticText" uuid="5970db32-c3af-4665-a13a-c8d291ad2ccf" x="450" y="60" width="100" height="20" hTextAlign="Right">
+				<text><![CDATA[الوحدة:]]></text>
+			</element>
+			<element kind="textField" uuid="ae828c7e-347d-47ff-8577-241918b2307a" x="180" y="90" width="260" height="20" hTextAlign="Right">
+				<expression><![CDATA[$F{quantity}]]></expression>
+			</element>
+			<element kind="staticText" uuid="937d8b83-44d3-45de-b1fe-5f69c5f3cc83" x="450" y="90" width="100" height="20" hTextAlign="Right">
+				<text><![CDATA[الكمية:]]></text>
+			</element>
+			<element kind="textField" uuid="46c30ba2-3b65-45f3-8999-b0f4cdb9d408" x="180" y="120" width="260" height="20" hTextAlign="Right">
+				<expression><![CDATA[$F{remarque}]]></expression>
+			</element>
+			<element kind="staticText" uuid="cb5f9d28-16d7-4378-b46d-90b21b15fa16" x="450" y="120" width="100" height="20" hTextAlign="Right">
+				<text><![CDATA[ملاحظة:]]></text>
+			</element>
+			<element kind="textField" uuid="ddef9a22-5d2e-4eec-92b4-4b46a07c3439" x="180" y="150" width="260" height="20" hTextAlign="Right">
+				<expression><![CDATA[$F{id_category}]]></expression>
+			</element>
+			<element kind="staticText" uuid="0e5a1e39-70be-4fe2-8b6d-5ff3d7c8ed82" x="450" y="150" width="100" height="20" hTextAlign="Right">
+				<text><![CDATA[الفئة:]]></text>
+			</element>
+			<element kind="textField" uuid="6d61a7ab-e4cf-43a4-81a5-6c52a3cbfcb1" x="180" y="180" width="260" height="20" hTextAlign="Right">
+				<expression><![CDATA[$F{description}]]></expression>
+			</element>
+			<element kind="staticText" uuid="f6ae58d1-b84b-4144-9b14-21b6b23253a8" x="450" y="180" width="100" height="20" hTextAlign="Right">
+				<text><![CDATA[الوصف:]]></text>
+			</element>
+		</band>
+	</detail>
+	<pageFooter height="20"/>
+</jasperReport>
