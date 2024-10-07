@@ -11,25 +11,33 @@
     <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
         <top>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
+
+            <HBox fx:id="topBox" alignment="CENTER">
                 <children>
-                    <TextField fx:id="search_cat_txt" alignment="CENTER" minWidth="200" promptText="بحث..." />
-                    <Label styleClass="titleLabel" text="تسيير الفئات" HBox.hgrow="SOMETIMES" />
+                    <HBox alignment="CENTER" prefHeight="96.0" prefWidth="70.0">
+                        <Button contentDisplay="GRAPHIC_ONLY" onAction="#go_Dashboard" styleClass="smallDashboard_btn" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                            <graphic>
+                                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../img/home.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <BorderPane.margin>
+                                <Insets bottom="10.0" />
+                            </BorderPane.margin>
+                        </Button>
+                    </HBox>
+                    <HBox alignment="CENTER" prefHeight="96.0" prefWidth="887.0" spacing="50.0">
+                        <TextField fx:id="search_cat_txt" alignment="CENTER" minWidth="200" promptText="بحث..." />
+                                          <Label styleClass="titleLabel" text="تسيير الفئات" HBox.hgrow="SOMETIMES" />
+                    </HBox>
 
-
-                </children></HBox>
-            <Button contentDisplay="GRAPHIC_ONLY" onAction="#go_Dashboard" styleClass="smallDashboard_btn" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
-                <graphic>
-                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                            <Image url="@../../img/home.png" />
-                        </image>
-                    </ImageView>
-                </graphic>
-            <BorderPane.margin>
-               <Insets bottom="10.0" />
-            </BorderPane.margin>
-            </Button>
+                </children>
+                <BorderPane.margin>
+                    <Insets />
+                </BorderPane.margin>
+            </HBox>
         </top>
         <right>
 

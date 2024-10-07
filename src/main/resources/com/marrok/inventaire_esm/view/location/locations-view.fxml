@@ -39,7 +39,7 @@
             <buttons>
                 <VBox prefHeight="407.0" prefWidth="114.0" spacing="10.0">
                     <children>
-                        <Button fx:id="addButton" contentDisplay="CENTER" onAction="#addLocation" text="أظف" textAlignment="CENTER">
+                        <Button fx:id="addButton" contentDisplay="CENTER" onAction="#addLocation" text="إضافة" textAlignment="CENTER">
                             <styleClass>
                                 <String fx:value="btn" />
                                 <String fx:value="add_btn" />

@@ -72,29 +72,35 @@
 
         </bottom>
         <top>
-            <HBox fx:id="topBox" alignment="CENTER" prefHeight="64.0" prefWidth="810.0" spacing="50.0" styleClass="header_bar" BorderPane.alignment="CENTER">
+            <HBox fx:id="topBox" alignment="CENTER">
                 <children>
+                    <HBox alignment="CENTER" prefHeight="96.0" prefWidth="70.0">
+                        <Button fx:id="bk_Dashboard_from_inventaireitem" contentDisplay="GRAPHIC_ONLY" styleClass="smallDashboard_btn" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                            <graphic>
+                                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../img/home.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <BorderPane.margin>
+                                <Insets bottom="10.0" />
+                            </BorderPane.margin>
+                        </Button>
+                    </HBox>
+                    <HBox alignment="CENTER" prefHeight="96.0" prefWidth="887.0" spacing="50.0">
                     <TextField fx:id="searchField" alignment="CENTER" minWidth="200" promptText="بحث..." styleClass="searchField" />
                     <Label fx:id="titleLabel" styleClass="titleLabel" text="إدارة الجــــــرد" HBox.hgrow="SOMETIMES" />
+                    </HBox>
 
                 </children>
                 <BorderPane.margin>
                     <Insets />
                 </BorderPane.margin>
             </HBox>
-            <Button fx:id="bk_Dashboard_from_inventaireitem" contentDisplay="GRAPHIC_ONLY" styleClass="smallDashboard_btn" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
-                <graphic>
-                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                            <Image url="@../../img/home.png" />
-                        </image>
-                    </ImageView>
-                </graphic>
-            <BorderPane.margin>
-               <Insets bottom="10.0" />
-            </BorderPane.margin>
-            </Button>
         </top>
+
+
     </BorderPane>
     <stylesheets>
 <!--        <URL value="@../../css/nord-light.css" />-->

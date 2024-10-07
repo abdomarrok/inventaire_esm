@@ -75,6 +75,9 @@ public class DashboardController extends AnchorPane implements Initializable {
             case "Admin":
                 // Admin sees everything
                 break;
+            case "Editor":
+                settings_button.setDisable(true);
+                break;
             case "User":
                 // User sees limited options
                 employers_button.setDisable(true);

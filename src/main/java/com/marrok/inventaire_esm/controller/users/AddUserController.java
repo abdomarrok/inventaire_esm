@@ -43,7 +43,7 @@ public class AddUserController implements Initializable {
 
     private void initializeRoleChoiceBox() {
         // Initialize the ChoiceBox with roles
-        roleChoiceBox.getItems().addAll("Admin", "User"); // Add roles as needed
+        roleChoiceBox.getItems().addAll("Admin", "User","Editor"); // Add roles as needed
         roleChoiceBox.getSelectionModel().selectFirst(); // Select default role
     }
 
