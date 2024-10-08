@@ -32,18 +32,50 @@
             <VBox alignment="CENTER" spacing="10.0">
 
                 <!-- Backup Data -->
-                <VBox alignment="CENTER" spacing="5.0">
-                    <Button fx:id="backupButton" onAction="#handleBackupData" styleClass="lgn_btn" text="نسخ احتياطي" />
-                </VBox>
+                <VBox alignment="CENTER_RIGHT" spacing="20.0">
+                    <Button fx:id="backupButton"  alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0"  onAction="#handleBackupData" prefWidth="265.0" style="-fx-background-color: #e3bd98;" styleClass="dashboard_tub" text="نسخ احتياطي" textAlignment="RIGHT">
+                        <graphic>
+                            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../../img/bckup.png" />
+                                </image>
+                            </ImageView>
+                        </graphic>
+                    </Button>
 
-                <!-- Logout -->
-                <VBox alignment="CENTER" spacing="5.0">
-                    <Button fx:id="logoutButton" alignment="CENTER" onAction="#handleLogout" prefWidth="108.0" styleClass="lgn_btn" text="تسجيل الخروج" />
-               <Button fx:id="users_btn" alignment="CENTER" layoutX="456.0" layoutY="10.0" onAction="#goUsers" prefWidth="108.0" styleClass="lgn_btn" text="المستخدمين" />
+               <Button fx:id="users_btn"  alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#goUsers" prefWidth="265.0" style="-fx-background-color: #e3bd98;" styleClass="dashboard_tub" text="المستخدمين" textAlignment="RIGHT">
+                   <graphic>
+                       <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                               <Image url="@../../img/multiple-users-silhouette.png" />
+                           </image>
+                       </ImageView>
+                   </graphic>
+               </Button>
+               <VBox.margin>
+                  <Insets right="50.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" right="10.0" top="10.0" />
+               </padding>
                 </VBox>
                 
             </VBox>
         </center>
+        <bottom>
+            <Button fx:id="logoutButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" onAction="#handleLogout" styleClass="smallDashboard_btn" text="تسجيل الخروج" BorderPane.alignment="TOP_RIGHT">
+                <graphic>
+                    <ImageView fitHeight="35.0" fitWidth="35.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../../img/EXIT.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            <BorderPane.margin>
+               <Insets bottom="10.0" right="10.0" />
+            </BorderPane.margin>
+            </Button>
+        </bottom>
 
         <stylesheets>
             <URL value="@../../css/all.css" />
