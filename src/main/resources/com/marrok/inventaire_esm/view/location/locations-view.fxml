@@ -32,7 +32,7 @@
                        </Button>
                    </HBox>
                    <HBox alignment="CENTER" prefHeight="96.0" prefWidth="887.0" spacing="50.0">
-                       <TextField fx:id="search_location_txt" alignment="CENTER" minWidth="200" promptText="بحث..." />
+                       <TextField fx:id="search_location_txt" alignment="CENTER_RIGHT" minWidth="200" promptText="بحث..." />
                        <Label styleClass="titleLabel" text="تسيير الاماكن" />
                    </HBox>
 
@@ -80,7 +80,7 @@
     <center>
         <VBox prefHeight="362.0" prefWidth="710.0" BorderPane.alignment="CENTER">
             <children>
-                <TableView fx:id="location_tableView" nodeOrientation="RIGHT_TO_LEFT" prefHeight="241.0" prefWidth="710.0" styleClass="tableview" stylesheets="@../../css/tableview.css">
+                <TableView fx:id="location_tableView" editable="true" nodeOrientation="RIGHT_TO_LEFT" prefHeight="241.0" prefWidth="710.0" styleClass="tableview" stylesheets="@../../css/tableview.css">
                     <columns>
                         <TableColumn fx:id="location_id" prefWidth="154.0" text="المعرف" />
                         <TableColumn fx:id="location_name" prefWidth="270.0" text="اسم المكان" />

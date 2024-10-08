@@ -13,7 +13,7 @@
 
 
         <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="lbl" text="المكان" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <ChoiceBox fx:id="locationChoiceBox" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+        <ChoiceBox fx:id="locationChoiceBox" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
 
         <Label alignment="CENTER" styleClass="lbl" text="العنصر" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <VBox alignment="CENTER" prefHeight="321.0" prefWidth="248.0" spacing="10.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2">
@@ -32,13 +32,13 @@
 <!--        <ChoiceBox fx:id="articleChoiceBox" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />-->
 
         <Label alignment="CENTER" styleClass="lbl" text="الموظف" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-        <ChoiceBox fx:id="employerChoiceBox" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <ChoiceBox fx:id="employerChoiceBox" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
         <Label alignment="CENTER" styleClass="lbl" text="رقم الجرد" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-        <TextField fx:id="employerInventaireCode" promptText="0000000000" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <TextField fx:id="employerInventaireCode" alignment="CENTER" promptText="0000000000" GridPane.columnIndex="0" GridPane.rowIndex="4" />
         <Label alignment="CENTER" layoutX="440.0" layoutY="577.0" styleClass="lbl" text="حالة الجرد" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-        <ChoiceBox fx:id="status_inventaire" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+        <ChoiceBox fx:id="status_inventaire" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
         <Label alignment="CENTER" layoutX="440.0" layoutY="577.0" styleClass="lbl" text="التاريخ" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-        <DatePicker fx:id="calendarPicker1" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+        <DatePicker fx:id="calendarPicker1" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
         <Button fx:id="saveButton" alignment="CENTER" onAction="#handleAdd" prefHeight="26.0" prefWidth="97.0" text="اضافة" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="7">
 
             <styleClass>

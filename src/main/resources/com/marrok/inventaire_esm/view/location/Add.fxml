@@ -17,7 +17,7 @@
             <TextField fx:id="floorField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
             <Label styleClass="lbl" text="رقم المصلحة" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
 <!--            <TextField fx:id="serviceField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" /> -->
-            <ChoiceBox fx:id="serviceField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="serviceField" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
             <Button onAction="#handleAdd" text="إضافة" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                 <styleClass>
                     <String fx:value="btn" />
