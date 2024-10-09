@@ -67,6 +67,7 @@ public class LoginController extends AnchorPane implements Initializable {
         }
     } catch (SQLException e) {
         e.printStackTrace();
+        GeneralUtil.showAlert(Alert.AlertType.ERROR,"فشل في الاتصال",e.getMessage());
         // Handle exception, possibly by showing an alert to the user
     }
 }

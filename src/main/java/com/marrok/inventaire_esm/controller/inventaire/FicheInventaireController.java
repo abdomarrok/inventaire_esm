@@ -32,6 +32,7 @@ import java.io.*;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class FicheInventaireController implements Initializable {
@@ -176,6 +177,8 @@ public class FicheInventaireController implements Initializable {
             }
 
             parameters.put("startDate", selectedYear); // Set your date range
+            String currentDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
+            parameters.put("currentDate",currentDate);
 
             Integer serviceId = null;
             Integer localisationId = null;

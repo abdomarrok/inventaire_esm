@@ -30,7 +30,7 @@
         </ImageView>
         <Button fx:id="login" alignment="CENTER" contentDisplay="CENTER" layoutX="171.0" layoutY="411.0" onAction="#processLogin" prefHeight="30.0" prefWidth="200.0" styleClass="lgn_btn" text="دخول" AnchorPane.bottomAnchor="96.84246826171875" />
     <stylesheets>
-<!--        <URL value="@../../css/nord-light.css" />-->
+<!--        <URL value="@../../css/darcula.css" />-->
         <URL value="@../../css/all.css" />
     </stylesheets>
 </AnchorPane>

@@ -6,6 +6,7 @@
 	<parameter name="serviceId" class="java.lang.Integer"/>
 	<parameter name="localisationId" class="java.lang.Integer"/>
 	<parameter name="selectedServiceName" class="java.lang.String"/>
+	<parameter name="currentDate" class="java.lang.String"/>
 	<parameter name="selectedLocalisationName" class="java.lang.String"/>
 	<query language="sql"><![CDATA[
  SELECT
@@ -107,7 +108,12 @@ WHERE
 			</element>
 		</band>
 	</detail>
-	<lastPageFooter height="160">
+	<pageFooter height="47">
+		<element kind="textField" uuid="ff5804d6-9e0c-4b1c-83c8-4d4235d24707" x="0" y="20" width="100" height="20">
+			<expression><![CDATA[$P{currentDate}]]></expression>
+		</element>
+	</pageFooter>
+	<lastPageFooter height="206">
 		<element kind="staticText" uuid="0c1f56b3-9ce7-40e3-b5ba-663dcaee2129" x="0" y="43" width="170" height="30" fontSize="12.0" bold="true">
 			<text><![CDATA[Le Responsable du Bureau:]]></text>
 		</element>
@@ -120,11 +126,14 @@ WHERE
 		<element kind="staticText" uuid="ab72c62b-5edb-4867-91ed-67688bbe5b5e" x="0" y="130" width="170" height="30" fontSize="12.0" bold="true">
 			<text><![CDATA[FONCTION:]]></text>
 		</element>
-		<element kind="staticText" uuid="d58e29da-8d83-41c6-9be9-ebe06463abb7" x="20" y="0" width="130" height="25" fontSize="12.0" bold="true">
+		<element kind="staticText" uuid="d58e29da-8d83-41c6-9be9-ebe06463abb7" x="15" y="10" width="130" height="25" fontSize="12.0" bold="true">
 			<text><![CDATA[Nombre d'articles : ]]></text>
 		</element>
-		<element kind="textField" uuid="c6457e25-0b13-40cd-8ffe-fad039a09d22" x="150" y="0" width="45" height="25" fontSize="12.0" bold="true">
+		<element kind="textField" uuid="c6457e25-0b13-40cd-8ffe-fad039a09d22" x="145" y="10" width="45" height="25" fontSize="12.0" bold="true">
 			<expression><![CDATA[$F{total_articles}]]></expression>
+		</element>
+		<element kind="textField" uuid="45dedc9c-10e8-43dd-9a37-9d71197fcecf" x="0" y="180" width="100" height="20">
+			<expression><![CDATA[$P{currentDate}]]></expression>
 		</element>
 	</lastPageFooter>
 </jasperReport>
