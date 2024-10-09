@@ -1,4 +1,16 @@
 /* Global Styles */
+
+@import "../fonts/ReemKufi-Bold.ttf";
+
+@font-face {
+    font-family: "Reem Kufi";
+    src: url("../fonts/ReemKufi-Bold.ttf");
+}
+
+.test{
+    -fx-font-family: "Reem Kufi";
+}
+
 .background {
     -fx-padding: 20;
     -fx-background-color: #fff1dc;
@@ -145,7 +157,7 @@
 /* Bar Code Style for Code 128 */
 .bar_code {
 
-  
+
     -fx-border-color: #2F7D57; /* Border color */
     -fx-border-width: 2px; /* Border width */
     -fx-border-radius: 5px; /* Slightly rounded corners */
