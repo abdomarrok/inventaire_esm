@@ -208,7 +208,6 @@ public class ArticleController implements Initializable {
             AddController controller = loader.getController();
             controller.setDashboardController(this);
 
-            stage.showAndWait();
         } catch (IOException e) {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة العنصر.");
             e.printStackTrace();

@@ -1,12 +1,20 @@
-
+@font-face {
+    font-family: "Cairo";
+    src: url("../fonts/Cairo-Variable.ttf");
+}
+.testtable{
+    -fx-font-family: "Cairo";
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}
 /* Table View Styles */
 .tableview {
     /*-fx-control-inner-background: white; !* White background *!*/
     -fx-control-inner-background:  #fff6de; /* White background */
     -fx-selection-bar: #343a40; /* Blue selection bar */
     -fx-selection-bar-non-focused: #a9d5f2; /* Light blue selection bar for non-focused state */
-    -fx-font-family: 'Andalus';
-    -fx-font-size: 16px;
+    -fx-font-family: "Cairo";
+    -fx-font-size: 14px;
     -fx-background-color: transparent;
     -fx-background-radius: 50px;
     -fx-border-radius: 10px;

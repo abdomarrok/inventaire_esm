@@ -33,13 +33,15 @@ public class AddController implements Initializable {
     public ChoiceBox<Category> categoryChoiceBox;
     public ChoiceBox<Localisation> localisationChoiceBox;
     private ArticleController articleController;
+
     private DatabaseHelper dbhelper=new DatabaseHelper();
 
     public AddController() throws SQLException {
     }
 
-    public void setDashboardController(ArticleController articleController) {
+    public void setDashboardController(ArticleController articleController ) {
         this.articleController = articleController;
+
         loadCategories();
 //        loadServices();
 //        serviceChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -148,8 +150,9 @@ public class AddController implements Initializable {
     }
 
     private void closeForm() {
-        Stage stage = (Stage) nameField.getScene().getWindow();
+        Stage stage = (Stage) categoryChoiceBox.getScene().getWindow();
         stage.close();
+
     }
 
     @Override

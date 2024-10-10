@@ -29,7 +29,7 @@
 
                    <HBox alignment="CENTER" prefHeight="96.0" prefWidth="887.0" spacing="50.0">
                        <TextField fx:id="searchField" alignment="CENTER_RIGHT" minWidth="200" promptText="بحث..." />
-                       <Label fx:id="titleLabel" prefHeight="96.0" prefWidth="260.0" styleClass="test" text="إدارة المـــواد" HBox.hgrow="SOMETIMES" />
+                       <Label fx:id="titleLabel" prefHeight="96.0" prefWidth="260.0" styleClass="titleLabel" text="إدارة المــــواد" HBox.hgrow="SOMETIMES" />
                    </HBox>
 
                    

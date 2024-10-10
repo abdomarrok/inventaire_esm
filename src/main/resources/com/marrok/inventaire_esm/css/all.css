@@ -41,7 +41,7 @@
     -fx-font-size: 20px;
 }
 .filterview {
-    -fx-font-family: 'Andalus';
+    -fx-font-family: "Cairo";
     -fx-font-size: 14px;
 }
 .title_dashboard ,.titleLabel {
@@ -94,7 +94,7 @@
 }
 
 .add_btn {
-    -fx-background-color: #28a745; /* Green #28a745 */
+    -fx-background-color: #0aa457; /* Green #28a745 */
 }
 
 .btn-danger {
@@ -102,7 +102,7 @@
 }
 
 .cencel_btn {
-    -fx-background-color: #FFC107; /* Amber */
+    -fx-background-color:  #343a40; /* Amber */
 }
 .lgn_btn {
     -fx-background-color: #deac80; /* Blueish-gray */
@@ -110,7 +110,7 @@
     -fx-font-size: 20px;
     -fx-background-radius: 20px;
     -fx-text-fill: black;
-    -fx-font-weight: bold;
+    /*-fx-font-weight: bold;*/
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 1);
 }
 /* Button Style */
@@ -169,8 +169,6 @@
 
 /* Bar Code Style for Code 128 */
 .bar_code {
-
-
     -fx-border-color: #2F7D57; /* Border color */
     -fx-border-width: 2px; /* Border width */
     -fx-border-radius: 5px; /* Slightly rounded corners */
@@ -198,11 +196,11 @@
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
     -fx-padding: 8px;
-    -fx-font-size: 16px;
     -fx-font-family: "Cairo";
     -fx-text-fill: #343a40;
     -fx-prompt-text-fill: derive(-fx-text-fill, 30%);
 }
+
 
 .userId:hover, .password:hover {
     -fx-background-color: #fff1dc;
@@ -219,9 +217,9 @@
     -fx-background-radius: 25;
     -fx-border-radius: 25;
     -fx-padding: 10px;
-    -fx-font-size: 25px;
+    -fx-font-size: 21px;
     -fx-font-weight: bold;
-    -fx-font-family: 'Andalus';
+    -fx-font-family: "Cairo";
     -fx-alignment: TOP_RIGHT;
     -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.2), 6, 0, 0, 2);
     -fx-background-color: #ffffff; /* Add a default background */
@@ -281,7 +279,7 @@
     -fx-background-radius: 30px;
     -fx-padding: 8px;
     -fx-font-size: 14px;
-    -fx-font-family: 'Arial';
+    -fx-font-family: "Cairo";
     -fx-text-fill: #343a40;
     -fx-prompt-text-fill: derive(-fx-text-fill, 30%);
 }
@@ -297,24 +295,9 @@
     -fx-border-width: 2px;
 }
 
-
-
-
-
 /* TextField and ChoiceBox Styles */
-/*.text-field {*/
-/*    -fx-font-family: 'Arial';*/
-/*    -fx-font-size: 14px;*/
-/*    -fx-pref-height: 26px;*/
-/*    -fx-background-radius: 5px;*/
-/*    -fx-border-radius: 5px;*/
-/*    -fx-border-color: #fff1dc;*/
-/*    -fx-border-width: 1px;*/
-/*    -fx-padding: 5px;*/
-/*}*/
-
-.choice-box {
-    -fx-font-family: 'Arial';
+.text-field .choice-box {
+     -fx-font-family: "Cairo";
     -fx-font-size: 14px;
     -fx-pref-height: 26px;
     -fx-background-radius: 5px;
@@ -323,6 +306,8 @@
     -fx-border-width: 1px;
     -fx-padding: 5px;
 }
+
+
 
 .choice-box .arrow {
     -fx-background-color: #0078d7; /* Blue arrow color */

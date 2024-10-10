@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane hgap="10" prefHeight="359.0" prefWidth="486.0" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.category.AddController">
+<GridPane hgap="10" prefHeight="359.0" prefWidth="477.0" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.category.AddController">
 
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" />

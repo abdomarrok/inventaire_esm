@@ -5,40 +5,40 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane hgap="10" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.article.DetailController">
+<GridPane hgap="10" prefHeight="482.0" prefWidth="334.0" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.article.DetailController">
 
     <columnConstraints>
-        <ColumnConstraints />
-        <ColumnConstraints minWidth="200.0" />
-        <ColumnConstraints />
+        <ColumnConstraints hgrow="ALWAYS" />
+        <ColumnConstraints minWidth="150.0" />
+      <ColumnConstraints />
     </columnConstraints>
 
     <children>
-        <Label fx:id="titleLabel" alignment="CENTER" styleClass="titleLabel" text="تفاصيل العنصر" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.halignment="CENTER" />
+        <Label fx:id="titleLabel" alignment="CENTER" prefHeight="96.0" prefWidth="275.0" styleClass="titleLabel" text="تفاصيل العنصر" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" />
 
         <!-- Labels for details -->
-        <Label fx:id="idLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.rowIndex="2" GridPane.halignment="CENTER" />
-        <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="lbl" text="المعرف:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <Label fx:id="idLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="lbl" text="المعرف:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
 
-        <Label fx:id="nameLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.halignment="CENTER" />
-        <Label alignment="CENTER" styleClass="lbl" text="اسم العنصر:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <Label fx:id="nameLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <Label alignment="CENTER" styleClass="lbl" text="اسم العنصر:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
 
-        <Label fx:id="unitLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.rowIndex="4"  GridPane.halignment="CENTER" />
-        <Label alignment="CENTER" styleClass="lbl" text="الوحدة:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+        <Label fx:id="unitLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+        <Label alignment="CENTER" styleClass="lbl" text="الوحدة:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
 
-        <Label fx:id="quantityLabel" styleClass="lbl" textFill="green" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.halignment="CENTER" />
-        <Label alignment="CENTER" styleClass="lbl" text="الكمية:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+        <Label fx:id="quantityLabel" styleClass="lbl" textFill="green" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+        <Label alignment="CENTER" styleClass="lbl" text="الكمية:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
 
-        <Label fx:id="remarkLabel" styleClass="lbl" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.halignment="CENTER" />
-        <Label alignment="CENTER" styleClass="lbl" text="ملاحظة:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+        <Label fx:id="remarkLabel" styleClass="lbl" wrapText="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+        <Label alignment="CENTER" styleClass="lbl" text="ملاحظة:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
 
-        <Label fx:id="categoryLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.rowIndex="7" GridPane.halignment="CENTER" />
-        <Label alignment="CENTER" styleClass="lbl" text="الفئة:" GridPane.columnIndex="1" GridPane.rowIndex="7" GridPane.halignment="CENTER" />
+        <Label fx:id="categoryLabel" styleClass="lbl" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+        <Label alignment="CENTER" styleClass="lbl" text="الفئة:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
 
 
 
-        <Label fx:id="descriptionLabel" styleClass="lbl" wrapText="true" GridPane.columnIndex="0" GridPane.rowIndex="8" GridPane.halignment="CENTER"/>
-        <Label alignment="CENTER" styleClass="lbl" text="الوصف:" GridPane.columnIndex="1" GridPane.rowIndex="8" GridPane.halignment="CENTER" />
+        <Label fx:id="descriptionLabel" styleClass="lbl" wrapText="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+        <Label alignment="CENTER" styleClass="lbl" text="الوصف:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
 
         <!-- Button for printing -->
         <Button fx:id="print_det_article_btn" mnemonicParsing="false" onAction="#printDetArticle" text="طباعة" GridPane.columnIndex="0" GridPane.rowIndex="9">
@@ -59,6 +59,7 @@
         <RowConstraints />
         <RowConstraints />
         <RowConstraints />
+      <RowConstraints />
 
 
 
