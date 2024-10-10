@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="CENTER" hgap="10" styleClass="background" vgap="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.inventaire.AddController">
+<GridPane alignment="CENTER" hgap="10" minWidth="500.0" styleClass="background" vgap="10" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.inventaire.AddController">
     <children>
         <Label fx:id="titleLabel" alignment="CENTER" styleClass="titleLabel" text="إضافة جــــرد" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
 
@@ -16,8 +16,11 @@
         <ChoiceBox fx:id="locationChoiceBox" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
 
         <Label alignment="CENTER" styleClass="lbl" text="العنصر" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-        <VBox alignment="CENTER" prefHeight="321.0" prefWidth="248.0" spacing="10.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-        <FilterView fx:id="filterView" minWidth="400.0" nodeOrientation="RIGHT_TO_LEFT" styleClass="filterview" title="بحث عن العنصر" />
+        <VBox alignment="CENTER" prefHeight="321.0" prefWidth="248.0" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+        <FilterView fx:id="filterView" nodeOrientation="RIGHT_TO_LEFT" styleClass="filterview" title="">
+            <VBox.margin>
+               <Insets bottom="-10.0" />
+            </VBox.margin></FilterView>
 
             <TableView fx:id="tbData" maxWidth="Infinity" nodeOrientation="RIGHT_TO_LEFT" styleClass="tableview" stylesheets="@../../css/tableview.css" HBox.hgrow="ALWAYS">
                 <columns>
@@ -27,6 +30,9 @@
                 <columnResizePolicy>
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                 </columnResizePolicy>
+            <padding>
+               <Insets top="-10.0" />
+            </padding>
             </TableView>
         </VBox>
 <!--        <ChoiceBox fx:id="articleChoiceBox" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />-->
@@ -39,19 +45,32 @@
         <ChoiceBox fx:id="status_inventaire" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
         <Label alignment="CENTER" layoutX="440.0" layoutY="577.0" styleClass="lbl" text="التاريخ" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
         <DatePicker fx:id="calendarPicker1" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-        <Button fx:id="saveButton" alignment="CENTER" onAction="#handleAdd" prefHeight="26.0" prefWidth="97.0" text="اضافة" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="7">
 
-            <styleClass>
-                <String fx:value="btn" />
-                <String fx:value="add_btn" />
-            </styleClass>
-        </Button>
-        <Button fx:id="cancelButton" onAction="#handleCancel" prefHeight="26.0" prefWidth="97.0" text="الغاء" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7">
-            <styleClass>
-                <String fx:value="btn" />
-                <String fx:value="cencel_btn" />
-            </styleClass>
-        </Button>
+        <HBox spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="7">
+            <Button fx:id="cancelButton" onAction="#handleCancel" prefHeight="26.0" prefWidth="97.0" text="الغاء">
+                <styleClass>
+                    <String fx:value="btn" />
+                    <String fx:value="cencel_btn" />
+                </styleClass>
+                <GridPane.margin>
+                    <Insets />
+                </GridPane.margin>
+            </Button>
+            <Button fx:id="saveButton" alignment="CENTER" onAction="#handleAdd" prefHeight="26.0" prefWidth="97.0" text="اضافة">
+
+                <styleClass>
+                    <String fx:value="btn" />
+                    <String fx:value="add_btn" />
+                </styleClass>
+                <GridPane.margin>
+                    <Insets />
+                </GridPane.margin>
+            </Button>
+         <GridPane.margin>
+            <Insets top="40.0" />
+         </GridPane.margin>
+
+        </HBox>
 
 
 
@@ -69,8 +88,8 @@
         <RowConstraints />
         <RowConstraints />
         <RowConstraints prefHeight="50.0" />
-      <RowConstraints />
-      <RowConstraints />
+       <RowConstraints />
+       <RowConstraints />
       <RowConstraints />
     </rowConstraints>
     <padding>

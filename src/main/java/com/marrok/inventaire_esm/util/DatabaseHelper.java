@@ -210,6 +210,7 @@ public DatabaseHelper() throws SQLException {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            GeneralUtil.showAlert(Alert.AlertType.ERROR,"ERROR",e.getMessage());
             // Handle exception
         }
         return false;
@@ -346,7 +347,7 @@ public DatabaseHelper() throws SQLException {
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle exception
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل حذف الفئة", e.getMessage());
         }
         return false;
     }

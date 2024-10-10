@@ -129,15 +129,25 @@ public class CategoriesController implements Initializable {
         Category selectedCategory = (Category) cat_tableView.getSelectionModel().getSelectedItem();
 
         if (selectedCategory != null) {
-            boolean success = dbhelper.deleteCategory(selectedCategory.getId());
+            boolean test = GeneralUtil.showConfirmationDialog("تاكيد", "هل متاكد انك تريد حذف هذا الجرد" + selectedCategory.getName());
+            if (test) {
+                try{
 
-            if (success) {
-                categoryList.remove(selectedCategory);
-                GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف الفئة", "تم حذف الفئة بنجاح.");
-            } else {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل حذف الفئة", "فشل في حذف الفئة.");
+                    boolean success = dbhelper.deleteCategory(selectedCategory.getId());
+                    if (success) {
+                        categoryList.remove(selectedCategory);
+                        GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف الفئة", "تم حذف الفئة بنجاح.");
+                    }
+                } catch (Exception e){
+                    e.printStackTrace();
+                    GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل حذف الفئة", e.getMessage());
+
+                }
+
+
+
             }
-        } else {
+        }else {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار فئة للحذف.");
         }
 

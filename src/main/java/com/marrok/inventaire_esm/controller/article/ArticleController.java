@@ -246,14 +246,20 @@ public class ArticleController implements Initializable {
         Article selectedArticle = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedArticle != null) {
-            try{
-              if(dbhelper.deleteArticle(selectedArticle.getId())){
-                  articleList.remove(selectedArticle);
-                  GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف العنصر", "تم حذف العنصر بنجاح.");
 
-              }
-            } catch(Exception e) {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل في حذف العنصر", e.getMessage());
+            boolean test = GeneralUtil.showConfirmationDialog("تاكيد", "هل متاكد انك تريد حذف" + selectedArticle.getName());
+            if (test) {
+                try {
+                    if (dbhelper.deleteArticle(selectedArticle.getId())) {
+                        articleList.remove(selectedArticle);
+                        GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف العنصر", "تم حذف العنصر بنجاح.");
+
+                    }else{
+                        GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل في حذف العنصر", "");
+                    }
+                } catch (Exception e) {
+                    GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل في حذف العنصر", e.getMessage());
+                }
             }
         } else {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار عنصر للحذف.");

@@ -15,6 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -47,8 +48,11 @@ public class LoginController extends AnchorPane implements Initializable {
     }
     @FXML
     public void processLogin2(KeyEvent keyEvent) {
-        login(keyEvent);
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            login(keyEvent); // Call the login method when Enter is pressed
+        }
     }
+
 
     public void login(Event event){
     String user = userId.getText();

@@ -286,21 +286,25 @@ public class InventaireItemController implements Initializable {
         Inventaire_Item selectedItem = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedItem != null) {
-            try {
-                boolean isDeleted = dbhelper.deleteInventaireItem(selectedItem.getId());
-                if (isDeleted) {
-                    refreshTableData();
-                    GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم حذف العنصر بنجاح.");
+            boolean test = GeneralUtil.showConfirmationDialog("تاكيد", "هل متاكد انك تريد حذف هذا الجرد" + selectedItem.getNum_inventaire());
+            if(test){
+                try {
+                    boolean isDeleted = dbhelper.deleteInventaireItem(selectedItem.getId());
+                    if (isDeleted) {
+                        refreshTableData();
+                        GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم حذف العنصر بنجاح.");
 
-                } else {
-                    GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر حذف العنصر.");
+                    } else {
+                        GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر حذف العنصر.");
+
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();  // Optional: Log the exception
+                    GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "حدث خطأ أثناء محاولة حذف العنصر.");
 
                 }
-            } catch (Exception e) {
-                e.printStackTrace();  // Optional: Log the exception
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "حدث خطأ أثناء محاولة حذف العنصر.");
-
             }
+
         } else {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار عنصر للحذف.");
         }

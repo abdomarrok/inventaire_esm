@@ -13,7 +13,7 @@
 
     <Label alignment="CENTER" styleClass="lbl" text="العنصر" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
     <VBox alignment="CENTER" prefHeight="321.0" prefWidth="248.0" spacing="10.0" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-        <FilterView fx:id="filterView" minWidth="400.0" nodeOrientation="RIGHT_TO_LEFT" styleClass="filterview" title="بحث عن العنصر" VBox.vgrow="ALWAYS" />
+        <FilterView fx:id="filterView" nodeOrientation="RIGHT_TO_LEFT" styleClass="filterview" title="" VBox.vgrow="ALWAYS" />
 
         <TableView fx:id="tbData" maxWidth="Infinity" nodeOrientation="RIGHT_TO_LEFT" styleClass="tableview" stylesheets="@../../css/tableview.css" HBox.hgrow="ALWAYS">
             <columns>
@@ -35,19 +35,23 @@
     <ChoiceBox fx:id="status_inventaire" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
     <Label alignment="CENTER" layoutX="440.0" layoutY="577.0" styleClass="lbl" text="التاريخ" GridPane.columnIndex="1" GridPane.rowIndex="6" />
     <DatePicker fx:id="calendarPicker1" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-    <Button fx:id="updateButton" onAction="#handleUpdate" text="تحديث" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="7">
-        <styleClass>
-        <String fx:value="btn" />
-        <String fx:value="add_btn" />
-    </styleClass>
-    </Button>
-    <Button fx:id="cancelButton" onAction="#handleCancel" text="الغاء" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7">
-        <styleClass>
-            <String fx:value="btn" />
-            <String fx:value="cencel_btn" />
-        </styleClass>
-
-    </Button>
+   <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="7">
+      <children>
+          <Button fx:id="updateButton" onAction="#handleUpdate" text="تحديث">
+              <styleClass>
+              <String fx:value="btn" />
+              <String fx:value="add_btn" />
+          </styleClass>
+          </Button>
+          <Button fx:id="cancelButton" onAction="#handleCancel" text="الغاء">
+              <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="cencel_btn" />
+              </styleClass>
+      
+          </Button>
+      </children>
+   </HBox>
 
     <columnConstraints>
         <ColumnConstraints percentWidth="50.0" />
