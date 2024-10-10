@@ -230,6 +230,7 @@ public class FicheInventaireController implements Initializable {
 
             // View the report
             JasperViewer viewer = new JasperViewer(jasperPrint, false);
+            viewer.setTitle("مستخلص الجرد");
             viewer.setVisible(true);
 
         } catch (FileNotFoundException fnf) {

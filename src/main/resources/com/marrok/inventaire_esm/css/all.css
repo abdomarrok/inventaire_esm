@@ -1,14 +1,27 @@
 /* Global Styles */
 
-@import "../fonts/ReemKufi-Bold.ttf";
+@font-face {
+    font-family: "Ruge Boogie";
+    src: url("../fonts/RugeBoogie-Regular.ttf");
+}
 
+@font-face {
+    font-family: "Cairo";
+    src: url("../fonts/Cairo-Variable.ttf");
+}
 @font-face {
     font-family: "Reem Kufi";
     src: url("../fonts/ReemKufi-Bold.ttf");
 }
 
+
+
+
+
 .test{
-    -fx-font-family: "Reem Kufi";
+    -fx-font-family: "Cairo";
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
 }
 
 .background {
@@ -93,9 +106,9 @@
 }
 .lgn_btn {
     -fx-background-color: #deac80; /* Blueish-gray */
-    -fx-font-family: 'Andalus';
-    -fx-background-radius: 20px;
+    -fx-font-family: "Cairo";
     -fx-font-size: 20px;
+    -fx-background-radius: 20px;
     -fx-text-fill: black;
     -fx-font-weight: bold;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 1);
@@ -185,8 +198,8 @@
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
     -fx-padding: 8px;
-    -fx-font-size: 14px;
-    -fx-font-family: 'Arial';
+    -fx-font-size: 16px;
+    -fx-font-family: "Cairo";
     -fx-text-fill: #343a40;
     -fx-prompt-text-fill: derive(-fx-text-fill, 30%);
 }
@@ -289,16 +302,16 @@
 
 
 /* TextField and ChoiceBox Styles */
-.text-field {
-    -fx-font-family: 'Arial';
-    -fx-font-size: 14px;
-    -fx-pref-height: 26px;
-    -fx-background-radius: 5px;
-    -fx-border-radius: 5px;
-    -fx-border-color: #fff1dc;
-    -fx-border-width: 1px;
-    -fx-padding: 5px;
-}
+/*.text-field {*/
+/*    -fx-font-family: 'Arial';*/
+/*    -fx-font-size: 14px;*/
+/*    -fx-pref-height: 26px;*/
+/*    -fx-background-radius: 5px;*/
+/*    -fx-border-radius: 5px;*/
+/*    -fx-border-color: #fff1dc;*/
+/*    -fx-border-width: 1px;*/
+/*    -fx-padding: 5px;*/
+/*}*/
 
 .choice-box {
     -fx-font-family: 'Arial';

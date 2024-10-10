@@ -25,15 +25,17 @@
 /*    -fx-background-color: #a4330a;*/
 /*    -fx-font-family: "Qwitcher Grypen";*/
 /*}*/
-@import "../fonts/RugeBoogie-Regular.ttf";
 
 @font-face {
     font-family: "Ruge Boogie";
     src: url("../fonts/RugeBoogie-Regular.ttf");
 }
 
-@import "../fonts/ReemKufi-Bold.ttf";
 
+@font-face {
+    font-family: "Cairo";
+    src: url("../fonts/Cairo-Variable.ttf");
+}
 @font-face {
     font-family: "Reem Kufi";
     src: url("../fonts/ReemKufi-Bold.ttf");
@@ -42,6 +44,10 @@
 
 AnchorPane {
     -fx-background-color: #0a8da4;
+}
+.test{
+    -fx-font-family: "Cairo";
+    -fx-background-color: #b48d8d;
 }
 
 .btn1 {

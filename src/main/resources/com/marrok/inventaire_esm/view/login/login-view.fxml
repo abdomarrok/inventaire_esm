@@ -9,13 +9,13 @@
 <AnchorPane id="AnchorPane" onKeyPressed="#processLogin2" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.login.LoginController">
         <AnchorPane id="anchorPane2" layoutX="20.0" layoutY="240.0" prefHeight="137.0" prefWidth="500.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <children>
-                <TextField fx:id="userId" layoutX="50.0" layoutY="9.0" prefHeight="30.0" prefWidth="400.0" promptText="اسم المستخدم">
+                <TextField fx:id="userId" alignment="CENTER_RIGHT" layoutX="50.0" layoutY="9.0" prefHeight="30.0" prefWidth="400.0" promptText="اسم المستخدم">
                     <styleClass>
                         <String fx:value="userId" />
 
                     </styleClass>
                 </TextField>
-                <PasswordField fx:id="password" layoutX="50.0" layoutY="69.0" prefHeight="30.0" prefWidth="400.0" promptText="كلمة المرور">
+                <PasswordField fx:id="password" alignment="CENTER_RIGHT" layoutX="50.0" layoutY="69.0" prefHeight="30.0" prefWidth="400.0" promptText="كلمة المرور">
                     <styleClass>
                         <String fx:value="password" />
                     </styleClass>
