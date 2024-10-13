@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane hgap="10" prefHeight="484.0" prefWidth="439.0" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.article.AddController">
+<GridPane hgap="10" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.article.AddController">
 
     <columnConstraints>
         <ColumnConstraints halignment="CENTER" maxWidth="258.0" minWidth="105.0" prefWidth="253.0" />
@@ -57,14 +57,14 @@
          </GridPane.margin></Label>
         <ChoiceBox fx:id="categoryChoiceBox" prefHeight="38.0" prefWidth="260.0" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.rowIndex="6" />
 
-        <Button onAction="#addArticle" prefHeight="26.0" prefWidth="97.0" text="إضافة" textAlignment="RIGHT" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="7">
+        <Button onAction="#addArticle" prefHeight="26.0" prefWidth="97.0" text="إضافة" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7">
             <styleClass>
                 <String fx:value="btn" />
                 <String fx:value="add_btn" />
             </styleClass>
         </Button>
 
-        <Button alignment="CENTER" contentDisplay="CENTER" onAction="#cancel" prefHeight="26.0" prefWidth="99.0" text="إلغاء" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7">
+        <Button alignment="CENTER" contentDisplay="CENTER" onAction="#cancel" prefHeight="26.0" prefWidth="99.0" text="إلغاء" GridPane.halignment="CENTER" GridPane.rowIndex="7">
             <styleClass>
                 <String fx:value="btn" />
                 <String fx:value="btn-warning" />

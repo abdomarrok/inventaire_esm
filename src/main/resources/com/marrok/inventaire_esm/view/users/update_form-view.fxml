@@ -29,14 +29,14 @@
         <Label alignment="CENTER" styleClass="lbl" text="الدور:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
         <ChoiceBox fx:id="roleChoiceBox" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
 
-        <Button onAction="#updateUser" prefHeight="26.0" prefWidth="97.0" text="تحديث" textAlignment="RIGHT" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="4">
+        <Button onAction="#updateUser" prefHeight="26.0" prefWidth="97.0" text="تحديث" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
             <styleClass>
                 <String fx:value="btn" />
                 <String fx:value="add_btn" />
             </styleClass>
         </Button>
 
-        <Button onAction="#cancel" prefHeight="26.0" text="إلغاء" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+        <Button onAction="#cancel" text="إلغاء" GridPane.halignment="CENTER" GridPane.rowIndex="4">
             <styleClass>
                 <String fx:value="btn" />
                 <String fx:value="btn-warning" />

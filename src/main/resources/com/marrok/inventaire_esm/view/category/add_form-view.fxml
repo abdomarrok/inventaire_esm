@@ -5,11 +5,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane hgap="10" prefHeight="359.0" prefWidth="477.0" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.category.AddController">
+<GridPane hgap="10" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.category.AddController">
 
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="50.0" />
-        <ColumnConstraints hgrow="SOMETIMES" minWidth="150.0" />
+        <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" />
       <ColumnConstraints />
     </columnConstraints>
 
@@ -26,7 +26,7 @@
         <Label alignment="CENTER_RIGHT" styleClass="lbl" text="إسم الفئة:" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
         <TextField fx:id="nameField_cat_add" alignment="CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
-        <HBox alignment="CENTER" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <HBox alignment="CENTER" spacing="10" GridPane.columnSpan="2" GridPane.rowIndex="2">
             <children>
                 <Button onAction="#cancel" text="إلغاء">
                     <styleClass>
@@ -34,14 +34,14 @@
                         <String fx:value="cencel_btn" />
                     </styleClass>
                 </Button>
+                <Button alignment="CENTER" onAction="#addCategory" text="أضافة">
+                    <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="add_btn" />
+                    </styleClass>
+                </Button>
             </children>
         </HBox>
-          <Button onAction="#addCategory" text="أظف" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-              <styleClass>
-                  <String fx:value="btn" />
-                  <String fx:value="add_btn" />
-              </styleClass>
-          </Button>
     </children>
     <stylesheets>
 <!--        <URL value="@../../css/nord-light.css" />-->

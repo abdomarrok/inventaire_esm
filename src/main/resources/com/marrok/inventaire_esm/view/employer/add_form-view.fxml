@@ -29,7 +29,7 @@
         <Label alignment="CENTER" styleClass="lbl" text="الوظيفة:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
         <TextField fx:id="titleField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
 
-        <Button onAction="#handleAddEmployer" prefHeight="26.0" prefWidth="97.0" text="إضافة" textAlignment="RIGHT" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+        <Button onAction="#handleAddEmployer" prefHeight="26.0" prefWidth="97.0" text="إضافة" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
 
             <styleClass>
                 <String fx:value="btn" />
@@ -37,7 +37,7 @@
             </styleClass>
         </Button>
 
-        <Button onAction="#handleCancel" prefHeight="26.0" prefWidth="99.0" text="إلغاء" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
+        <Button onAction="#handleCancel" prefHeight="26.0" prefWidth="99.0" text="إلغاء" GridPane.halignment="CENTER" GridPane.rowIndex="4">
             <styleClass>
                 <String fx:value="btn" />
                 <String fx:value="cencel_btn" />
