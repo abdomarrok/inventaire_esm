@@ -16,6 +16,8 @@ module com.marrok.inventaire_esm {
     requires com.google.zxing.javase;
     requires javafx.swing;
     requires jasperreports;
+    requires barcode4j;
+
     requires com.fasterxml.jackson.core;
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.dataformat.xml;

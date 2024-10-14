@@ -2,6 +2,7 @@
 <jasperReport name="InventaireDetails" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1182687e-8368-44a6-aeea-a309fe2c9ced">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
 	<parameter name="inventaireItemId" class="java.lang.Integer"/>
+	<parameter name="img_bar_code" class="java.lang.Object"/>
 	<query language="SQL"><![CDATA[
 SELECT
     ii.id,
@@ -92,17 +93,16 @@ WHERE
 			<element kind="textField" uuid="ef123456-ef82-4012-b63f-4a7439dc8c66" x="310" y="90" width="100" height="20" hTextAlign="Right">
 				<expression><![CDATA[$F{employer_name}]]></expression>
 			</element>
-			<element kind="component" uuid="2763e632-7cba-456b-8149-d9fad3edf4ae" key="" x="210" y="165" width="200" height="50">
-				<component kind="barbecue" type="Code128" drawText="true" checksumRequired="false" barHeight="60">
-					<codeExpression><![CDATA[$F{num_inventaire}]]></codeExpression>
-				</component>
-				<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				<property name="com.jaspersoft.studio.unit.barWidth" value="px"/>
-				<property name="com.jaspersoft.studio.unit.barHeight" value="px"/>
-			</element>
 			<element kind="staticText" uuid="fb88c99a-55b9-4caf-815a-9d858165cc7e" x="480" y="180" width="60" height="20" fontSize="12.0" bold="true" hTextAlign="Right">
 				<text><![CDATA[الباركود :]]></text>
+			</element>
+			<element kind="image" uuid="6da7208b-02e5-4e8a-acf4-f81691406417" x="270" y="170" width="190" height="40" hImageAlign="Center">
+				<expression><![CDATA[$P{img_bar_code}]]></expression>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="textField" uuid="a7512e57-842e-4b5b-ad72-9fa255b68191" x="310" y="210" width="120" height="20" hTextAlign="Center">
+				<expression><![CDATA[$F{num_inventaire}]]></expression>
 			</element>
 		</band>
 	</detail>

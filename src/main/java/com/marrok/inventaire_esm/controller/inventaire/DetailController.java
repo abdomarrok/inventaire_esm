@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class DetailController {
     public Label inventaire_status;
@@ -47,6 +48,7 @@ public class DetailController {
     private Label userIdLabel;
     @FXML
     private ImageView barcodeImageView;
+    Map<String, Object> parameters = new HashMap<>();
 
     private Inventaire_Item inventaireItem;
     private Stage stage;
@@ -88,15 +90,14 @@ public class DetailController {
             BufferedImage barcodeImage = null;
             try {
                 barcodeImage = generateBarcode(inventaireItem.getNum_inventaire());
+                parameters.put("img_bar_code", barcodeImage);
                 // Convert BufferedImage to JavaFX Image
                 Image fxImage = SwingFXUtils.toFXImage(barcodeImage, null);
-
                 // Set the image to ImageView in FXML
                 barcodeImageView.setImage(fxImage);
             } catch (WriterException e) {
                 throw new RuntimeException(e);
             }
-
 
         }
     }
@@ -113,7 +114,6 @@ public class DetailController {
             }
             JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
             // Create parameters map
-            HashMap<String, Object> parameters = new HashMap<>();
             parameters.put("inventaireItemId", inventaireItemId);
 
             // Fill the report with data
