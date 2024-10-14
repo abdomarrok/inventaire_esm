@@ -42,7 +42,7 @@
                     <TableView fx:id="tableView" nodeOrientation="RIGHT_TO_LEFT" styleClass="tableview" stylesheets="@../../css/tableview.css">
                         <columns>
                             <TableColumn fx:id="idInventaireColumn" text="المعرف" />
-                            <TableColumn fx:id="articleIdColumn" text="معرف المادة" />
+                            <TableColumn fx:id="articleIdColumn" text="العنصر" />
                             <TableColumn fx:id="localisationIdColumn" text=" الموقع" />
                             <TableColumn fx:id="employerIdColumn" text="الموظف المعني" />
                             <TableColumn fx:id="barcodeColumn" text="رقم الجرد" />
