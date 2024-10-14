@@ -34,46 +34,29 @@ public class AddController implements Initializable {
     public ChoiceBox<Localisation> localisationChoiceBox;
     private ArticleController articleController;
 
-    private DatabaseHelper dbhelper=new DatabaseHelper();
+
 
     public AddController() throws SQLException {
     }
-
     public void setDashboardController(ArticleController articleController ) {
         this.articleController = articleController;
-
         loadCategories();
-//        loadServices();
-//        serviceChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue != null) {
-//                loadLocalisations(newValue.getId());
-//            }
-//        });
+    }
+    private DatabaseHelper dbhelper=new DatabaseHelper();
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Any required initialization can be done here
+        loadCategories();
     }
 
-//    private void loadServices() {
-//        List<Service> services = DatabaseHelper.getServices();
-//        ObservableList<Service> servicesObservableList = FXCollections.observableList(services);
-//        serviceChoiceBox.setItems(servicesObservableList);
-//
-//        serviceChoiceBox.setConverter(new StringConverter<Service>() {
-//            @Override
-//            public String toString(Service service) {
-//                return service != null ? service.getName() : "";
-//            }
-//
-//            @Override
-//            public Service fromString(String string) {
-//                return services.stream()
-//                        .filter(service -> service.getName().equals(string))
-//                        .findFirst()
-//                        .orElse(null);
-//            }
-//        });
-//    }
+
+
+
+
 
     private void loadCategories() {
         List<Category> categories = dbhelper.getCategories();
+        System.out.println("categories size"+categories.size());
         ObservableList<Category> categoriesObservableList = FXCollections.observableList(categories);
         categoryChoiceBox.setItems(categoriesObservableList);
 
@@ -155,8 +138,5 @@ public class AddController implements Initializable {
 
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        // Any required initialization can be done here
-    }
+
 }

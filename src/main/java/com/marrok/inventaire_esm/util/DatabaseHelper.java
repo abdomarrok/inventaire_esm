@@ -115,7 +115,7 @@ public DatabaseHelper() throws SQLException {
 
     public List<User> getUsers() throws SQLException {
         List<User> users = new ArrayList<>();
-        String query = "SELECT id, username, password, role FROM user";
+        String query = "SELECT id, username, password, role FROM user ORDER BY id DESC;";
 
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -154,7 +154,7 @@ public DatabaseHelper() throws SQLException {
     // Method to fetch all article names
     public List<String> getAllArticlesNames() {
         List<String> articles = new ArrayList<>();
-        String query = "SELECT name FROM article";
+        String query = "SELECT name FROM article ORDER BY name DESC;";
         try (
              PreparedStatement preparedStatement = this.cnn.prepareStatement(query);
              ResultSet rs = preparedStatement.executeQuery()) {
@@ -171,7 +171,7 @@ public DatabaseHelper() throws SQLException {
     // Method to fetch all articles
     public List<Article> getArticles() {
         List<Article> articles = new ArrayList<>();
-        String query = "SELECT id, name, unite, quantity, remarque, description, id_category FROM article";
+        String query = "SELECT id, name, unite, quantity, remarque, description, id_category FROM article ORDER BY id DESC;";
 
         try (PreparedStatement stmt = this.cnn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -299,7 +299,7 @@ public DatabaseHelper() throws SQLException {
 
     public List<Category> getCategories() {
         List<Category> categories = new ArrayList<>();
-        String query = "SELECT id, name_cat FROM category";
+        String query = "SELECT id, name_cat FROM category ORDER BY id DESC;";
 
         try (PreparedStatement stmt = this.cnn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -353,7 +353,7 @@ public DatabaseHelper() throws SQLException {
     }
 
     public int getCategoryByName(String categoryName) {
-        String query = "SELECT id FROM category WHERE name_cat = ?";
+        String query = "SELECT id FROM category WHERE name_cat = ? ORDER BY name_cat DESC;";
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setString(1, categoryName);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -386,7 +386,7 @@ public DatabaseHelper() throws SQLException {
 
     public List<Service> getServices() {
         List<Service> services = new ArrayList<>();
-        String query = "SELECT id, name FROM service";
+        String query = "SELECT id, name FROM service ORDER BY id DESC;";
 
         try (PreparedStatement stmt = this.cnn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -439,7 +439,7 @@ public DatabaseHelper() throws SQLException {
     }
     public List<Localisation> getLocalisations() {
         List<Localisation> localisations = new ArrayList<>();
-        String query = "SELECT * FROM localisation";
+        String query = "SELECT * FROM localisation ORDER BY id DESC;";
 
         try (PreparedStatement stmt = this.cnn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -527,7 +527,7 @@ public DatabaseHelper() throws SQLException {
     }
 
     public Localisation getLocalisationByName(String name) {
-        String query = "SELECT * FROM Localisation WHERE loc_name = ?";
+        String query = "SELECT * FROM Localisation WHERE loc_name = ? ORDER BY loc_name DESC;";
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setString(1, name);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -605,7 +605,7 @@ public DatabaseHelper() throws SQLException {
         Service service = null;
 
         try {
-            String query = "SELECT * FROM service WHERE name = ?";
+            String query = "SELECT * FROM service WHERE name = ? ORDER BY name DESC;";
             stmt = this.cnn.prepareStatement(query); // Using this.cnn to get the connection
             stmt.setString(1, serviceName);
             rs = stmt.executeQuery();
@@ -747,7 +747,7 @@ public DatabaseHelper() throws SQLException {
     }
     public ObservableList<Employer> getEmployers() {
         ObservableList<Employer> employerList = FXCollections.observableArrayList();
-        String query = "SELECT * FROM employeur";
+        String query = "SELECT * FROM employeur  ORDER BY id DESC";
         try (Statement stmt = this.cnn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
@@ -817,7 +817,7 @@ public DatabaseHelper() throws SQLException {
 
         try {
 
-            String query = "SELECT * FROM employeur";
+            String query = "SELECT * FROM employeur ORDER BY id DESC";
             statement = this.cnn.prepareStatement(query);
             resultSet = statement.executeQuery();
 

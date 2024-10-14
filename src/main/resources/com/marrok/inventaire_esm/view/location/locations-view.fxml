@@ -83,16 +83,14 @@
                 <TableView fx:id="location_tableView" editable="true" nodeOrientation="RIGHT_TO_LEFT" prefHeight="241.0" prefWidth="710.0" styleClass="tableview" stylesheets="@../../css/tableview.css">
                     <columns>
                         <TableColumn fx:id="location_id" prefWidth="154.0" text="المعرف" />
-                        <TableColumn fx:id="location_name" prefWidth="270.0" text="اسم المكان" />
+                        <TableColumn fx:id="location_name" text="اسم المكان" prefWidth="270.0" minWidth="100.0" maxWidth="400.0" />
+                        <TableColumn fx:id="service_name" text="المصلحة" minWidth="75.0" maxWidth="150.0" />
                         <TableColumn fx:id="floor_id" prefWidth="75.0" text="رقم الطابق" />
-                        <TableColumn fx:id="service_name" prefWidth="75.0" text="المصلحة" />
                     </columns>
-                  <columnResizePolicy>
-                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                  </columnResizePolicy>
                 </TableView>
             </children>
         </VBox>
+
     </center>
        <bottom>
 

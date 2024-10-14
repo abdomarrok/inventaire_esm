@@ -204,10 +204,10 @@ public class ArticleController implements Initializable {
             stage.initOwner(((Node) event.getSource()).getScene().getWindow());
             stage.setTitle("Add Article");
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
-            stage.showAndWait();
+
             AddController controller = loader.getController();
             controller.setDashboardController(this);
-
+            stage.showAndWait();
         } catch (IOException e) {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة العنصر.");
             e.printStackTrace();
