@@ -189,30 +189,30 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 6, 0, 0, 2);
 }
 
-/* TextField and PasswordField Styles */
-.userId , .password {
-    -fx-background-color: white;
+
+
+
+.userId, .password {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ced4da;
     -fx-border-width: 1px;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
     -fx-padding: 8px;
-    -fx-font-family: "Cairo";
+    -fx-font-size: 14px;
+    -fx-font-family: 'Arial';
     -fx-text-fill: #343a40;
     -fx-prompt-text-fill: derive(-fx-text-fill, 30%);
 }
-
-
 .userId:hover, .password:hover {
-    -fx-background-color: #fff1dc;
+    -fx-background-color: #f1f3f5;
     -fx-border-color: #adb5bd;
 }
-
 .userId:focused, .password:focused {
     -fx-background-color: #ffffff;
     -fx-border-color: #007bff;
     -fx-border-width: 2px;
 }
-
 .dashboard_tub {
     -fx-background-radius: 25;
     -fx-border-radius: 25;
