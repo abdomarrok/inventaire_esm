@@ -747,7 +747,7 @@ public DatabaseHelper() throws SQLException {
     }
     public ObservableList<Employer> getEmployers() {
         ObservableList<Employer> employerList = FXCollections.observableArrayList();
-        String query = "SELECT * FROM employeur  ORDER BY id DESC";
+        String query = "SELECT * FROM employeur";
         try (Statement stmt = this.cnn.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {

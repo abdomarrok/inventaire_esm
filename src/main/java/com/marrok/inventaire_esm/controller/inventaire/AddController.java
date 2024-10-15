@@ -2,6 +2,7 @@ package com.marrok.inventaire_esm.controller.inventaire;
 
 import com.dlsc.gemsfx.CalendarPicker;
 import com.dlsc.gemsfx.FilterView;
+import com.marrok.inventaire_esm.model.Employer;
 import com.marrok.inventaire_esm.model.Inventaire_Item;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import com.marrok.inventaire_esm.util.SessionManager;
@@ -30,24 +31,25 @@ public class AddController implements Initializable {
 
     public ChoiceBox<String> status_inventaire;
     public DatePicker calendarPicker1;
-    @FXML
-    private ChoiceBox<String> locationChoiceBox;
 
-    @FXML
-    private ChoiceBox<String> employerChoiceBox;
-    @FXML
-    private Button saveButton;
+    public ChoiceBox<String> locationChoiceBox;
+
+   public TableView<Employer> tbData2;
+   public TableColumn<Employer, Integer> id_E;
+   public TableColumn<Employer, String> firstname_E;
+   public TableColumn<Employer, String> lastname_E;
+    public Button saveButton;
     public FilterView<Article> filterView;
+    public FilterView<Employer> filterView2;
     public TableView<Article> tbData;
     public TableColumn<Article, Integer> id;
     public TableColumn<Article, String> article_name;
     private ObservableList<Article> articlelist;
-    @FXML
-    private Button cancelButton;
+    private ObservableList<Employer> emploerlist;
+    public Button cancelButton;
 
     private InventaireItemController parentController;
-    @FXML
-    private TextField employerInventaireCode;
+    public TextField employerInventaireCode;
 
     String[] inv_status = {"BON ETAT","MOYEN","MAUVAIS","VER ANNEXE-HARRACHE","EN PANNE"};
     DatabaseHelper dbhelper = new DatabaseHelper();
@@ -75,6 +77,7 @@ public class AddController implements Initializable {
 
     private void loadFilter() throws SQLException {
         filterView.getFilterGroups().clear();
+        filterView2.getFilterGroups().clear();
         filterView.setTextFilterProvider(text-> article -> {
             if(text==null||text.isEmpty()){
                 return true;
@@ -85,31 +88,56 @@ public class AddController implements Initializable {
                     String.valueOf(article.getId()).toLowerCase().contains(lowerCase);
 
         });
+
+
+        filterView2.setTextFilterProvider(text -> employer -> {
+            if(text==null || text.isEmpty()){
+                return true;
+            }
+            String lowerCase = text.toLowerCase();
+            return employer.getFirstName().toLowerCase().contains(lowerCase)||
+                   employer.getLastName().toLowerCase().contains(lowerCase)||
+                    String.valueOf(employer.getId()).toLowerCase().contains(lowerCase);
+        });
         loadTableData();
         SortedList<Article> sortedList = new SortedList<>(filterView.getFilteredItems());
+        SortedList<Employer> sortedList2 = new SortedList<>(filterView2.getFilteredItems());
         tbData.setItems(sortedList);
+        tbData2.setItems(sortedList2);
         sortedList.comparatorProperty().bind(tbData.comparatorProperty());
+        sortedList2.comparatorProperty().bind(tbData2.comparatorProperty());
     }
     private void initTable() {
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         article_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        /**    EMPLOYER   */
+        id_E.setCellValueFactory(new PropertyValueFactory<>("id"));
+        firstname_E.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastname_E.setCellValueFactory(new PropertyValueFactory<>("lastName"));
     }
 
     private void loadTableData() throws SQLException {
         DatabaseHelper dbHelper = new DatabaseHelper();
         List<Article> articles = dbHelper.getArticles();
+        List<Employer> employers = dbHelper.getEmployers();
+        for (Employer employer : employers) {
+            System.out.println("employer: " + employer.getFirstName());
+        }
         articlelist =  FXCollections.observableArrayList(articles);
-        filterView.getItems().setAll(articlelist); // Set the articles into the table
+        emploerlist =  FXCollections.observableArrayList(employers);
+        filterView.getItems().setAll(articlelist);
+        filterView2.getItems().setAll(emploerlist);
     }
 
-    @FXML
-    private void handleAdd(ActionEvent event) {
+    public void handleAdd(ActionEvent event) {
         // Get the selected article from the TableView
         Article selectedArticle = tbData.getSelectionModel().getSelectedItem();
+        Employer selectedEmployer=tbData2.getSelectionModel().getSelectedItem();
 
-        if (selectedArticle != null) {
+        if (selectedArticle != null  && selectedEmployer != null) {
             int articleId = selectedArticle.getId(); // Get the ID from the selected article
-
+            int employerId = selectedEmployer.getId();
             String selectedLocation = locationChoiceBox.getValue();
             // Assuming the format is "الطابق: <floor> <locationName>"
             String[] parts = selectedLocation.split(" {3,}");
@@ -117,8 +145,7 @@ public class AddController implements Initializable {
 
             int localisationId = dbhelper.getLocationIdByName(locationName);
             int userId = SessionManager.getActiveUserId(); // Fetch the logged-in user from SessionManager
-            String employerName = employerChoiceBox.getValue();
-            int employerId = dbhelper.getEmployerIdByName(employerName);
+
             String inv_status = status_inventaire.getValue();
             LocalDate selectedDate = calendarPicker1.getValue();
             String inv_date = selectedDate != null ? selectedDate.toString() : "";
@@ -144,14 +171,13 @@ public class AddController implements Initializable {
 
 
 
-    @FXML
-    private void handleCancel(ActionEvent event) {
+    public void handleCancel(ActionEvent event) {
         closeWindow();
     }
 
     private void loadChoiceBoxData() {
-        List<String> employers = dbhelper.getAllEmployersNames();
-        employerChoiceBox.getItems().addAll(employers);
+
+      //  employerChoiceBox.getItems().addAll(employers);
 
         List<Localisation> Locations = dbhelper.getLocalisations();
         List<String> locations_and_floor = new ArrayList<>();

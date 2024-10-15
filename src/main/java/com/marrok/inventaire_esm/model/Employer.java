@@ -13,6 +13,16 @@ public class Employer {
         this.title = title;
     }
 
+    @Override
+    public String toString() {
+        return "Employer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", title='" + title + '\'' +
+                '}';
+    }
+
     // Getters and setters
     public int getId() {
         return id;
