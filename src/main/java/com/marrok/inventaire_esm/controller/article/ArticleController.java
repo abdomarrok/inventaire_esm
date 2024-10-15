@@ -147,16 +147,11 @@ public class ArticleController implements Initializable {
             DatabaseHelper dbHelper = new DatabaseHelper();
             List<Article> articles = dbHelper.getArticles();
             articleList = FXCollections.observableArrayList(articles);
-
-            for (Article article : articleList) {
-                System.out.println(article.getIdCategory());
-            }
-
             filteredArticleList = new FilteredList<>(articleList, p -> true);
             tableView.setItems(filteredArticleList);
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle exception, possibly by showing an alert to the user
+
         }
     }
 

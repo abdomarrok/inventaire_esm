@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.sql.*;
 
 public class DatabaseConnection {
-    private static final String DATABASE_NAME = "inv";
-    private static final String DATABASE_URL = "jdbc:mysql://192.168.0.79:3306/"+DATABASE_NAME;
-    private static final String DATABASE_USER = "esm_inv1";
-    private static final String DATABASE_PASSWORD = "123456789";
+    private static final String DATABASE_NAME = "testinv";
+    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/"+DATABASE_NAME;
+    private static final String DATABASE_USER = "root";
+    private static final String DATABASE_PASSWORD = "";
 //    private static final String DATABASE_URL = "jdbc:mysql://192.168.0.79:3306/"+DATABASE_NAME;
 //    private static final String DATABASE_USER = "esm_inv1";
 //    private static final String DATABASE_PASSWORD = "123456789";
@@ -39,34 +39,7 @@ public class DatabaseConnection {
         return connection;
     }
 
-//    public static void backupDatabase(String backupPath) throws IOException {
-//        // Make sure the output path is a file
-//        File backupFile = new File(backupPath);
-//
-//        // Construct the correct mysqldump command
-//        ProcessBuilder processBuilder = new ProcessBuilder(
-//                "mysqldump",
-//                "-u" + DATABASE_USER,
-//                "-p" + DATABASE_PASSWORD,
-//                "inv",
-//                "-r", backupFile.getAbsolutePath()
-//        );
-//
-//        // Start the process
-//        try {
-//            Process process = processBuilder.start();
-//
-//            // Wait for the process to complete
-//            int processComplete = process.waitFor();
-//            if (processComplete == 0) {
-//                System.out.println("Backup completed successfully.");
-//            } else {
-//                System.out.println("Backup failed.");
-//            }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//    }
+
 
     public static void backupDatabase(String backupPath) throws SQLException, IOException {
         Connection connection = getInstance().getConnection();

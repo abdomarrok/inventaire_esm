@@ -5,7 +5,8 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="bodybg" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.stock_dashboard.StockDashboardController">
+<AnchorPane minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="bodybg" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.marrok.inventaire_esm.controller.stock_dashboard.StockDashboardController">
 
     <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <top>
