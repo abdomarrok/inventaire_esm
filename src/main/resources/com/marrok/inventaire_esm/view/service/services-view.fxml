@@ -28,7 +28,7 @@
                         </Button>
                     </HBox>
                     <HBox alignment="CENTER" prefHeight="96.0" prefWidth="887.0" spacing="50.0">
-                        <TextField fx:id="searchField" alignment="CENTER_RIGHT" minWidth="200" promptText="بحث ..." />
+                        <TextField fx:id="searchField" alignment="CENTER_RIGHT" minWidth="200" promptText="بحث ..." styleClass="searchField" />
                         <Label fx:id="titleLabel" styleClass="titleLabel" text="تسيير المصالح" HBox.hgrow="SOMETIMES" />
                     </HBox>
 
