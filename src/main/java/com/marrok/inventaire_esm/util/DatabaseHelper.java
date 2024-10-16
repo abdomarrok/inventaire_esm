@@ -421,7 +421,7 @@ public DatabaseHelper() throws SQLException {
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle exception
+
         }
         return false;
     }
@@ -434,9 +434,15 @@ public DatabaseHelper() throws SQLException {
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle exception
+            if (e instanceof SQLIntegrityConstraintViolationException) {
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل في حذف المصلحة", "هذه المصلحة مرفقة بجرد لا يجدر بك حذفها");
+            } else {
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل في حذف المصلحة", e.getMessage());
+            }
         }
         return false;
     }
+
     public List<Localisation> getLocalisations() {
         List<Localisation> localisations = new ArrayList<>();
         String query = "SELECT * FROM localisation ORDER BY id DESC;";

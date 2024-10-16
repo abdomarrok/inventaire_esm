@@ -109,10 +109,7 @@ public class DashboardController extends AnchorPane implements Initializable {
 
 
 
-    @FXML
-    public void go_Products(ActionEvent event) {
-        GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/article/articles-view.fxml", event,true);
-    }
+
 
     @FXML
     public void go_Services(ActionEvent event) {
@@ -135,7 +132,7 @@ public class DashboardController extends AnchorPane implements Initializable {
     }
 
 
-    public void go_Stock(ActionEvent event) {
+    public void go_StockDashboard(ActionEvent event) {
         GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/stock_dashboard/stock_dashboard_view.fxml", event,true);
     }
 }

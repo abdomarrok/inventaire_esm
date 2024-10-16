@@ -13,7 +13,7 @@
             <VBox layoutX="-23.0" layoutY="90.0" prefHeight="427.0" prefWidth="258.0" spacing="10.0">
 
                <children>
-                   <Button fx:id="stock_button" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#go_Stock" prefHeight="58.0" prefWidth="259.0" style="-fx-background-color: #deac80; " styleClass="dashboard_tub" text="المخزن">
+                   <Button fx:id="stock_button" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#go_StockDashboard" prefHeight="58.0" prefWidth="259.0" style="-fx-background-color: #deac80; " styleClass="dashboard_tub" text="المخزن">
                                   <graphic>
                                       <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                           <image>
@@ -32,7 +32,8 @@
                                   </graphic>
                               </Button>
 
-                              <Button fx:id="services_button" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#go_Services" prefHeight="58.0" prefWidth="265.0" style="-fx-background-color: #e6b955;" styleClass="dashboard_tub" text="المصالح">
+
+                   <Button fx:id="services_button" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#go_Services" prefHeight="58.0" prefWidth="265.0" style="-fx-background-color: #e6b955;" styleClass="dashboard_tub" text="المصالح">
                                   <graphic>
                                       <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                           <image>

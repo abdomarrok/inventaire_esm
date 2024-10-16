@@ -25,7 +25,7 @@ public class AddController implements Initializable {
 
     public String chosenCategory = "";
     public TextField nameField;
-    public TextField quantityField;
+//    public TextField quantityField;
     public TextField unitField;
     public TextField remarkField;
     public TextField descriptionField;
@@ -86,7 +86,7 @@ public class AddController implements Initializable {
 
     public void addArticle(ActionEvent event) {
         String name = nameField.getText().trim();
-        String quantityText = quantityField.getText().trim();
+//        String quantityText = quantityField.getText().trim();
         String unit = unitField.getText().trim();
         String remark = remarkField.getText().trim();
         String descriptionText = descriptionField.getText().trim();
@@ -101,20 +101,20 @@ public class AddController implements Initializable {
             return;
         }
 
-        int quantity;
-        try {
-            quantity = Integer.parseInt(quantityText);
-        } catch (NumberFormatException e) {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "كمية خاطئة", "يرجو ادخال كمية مناسبة");
-            return;
-        }
+//        int quantity;
+//        try {
+//            quantity = Integer.parseInt(quantityText);
+//        } catch (NumberFormatException e) {
+//            GeneralUtil.showAlert(Alert.AlertType.ERROR, "كمية خاطئة", "يرجو ادخال كمية مناسبة");
+//            return;
+//        }
 
         int categoryId = dbhelper.getCategoryByName(chosenCategory);
         if (categoryId == -1) {
 
         }
 
-        Article newArticle = new Article(0, name, unit, quantity, remark, descriptionText, categoryId);
+        Article newArticle = new Article(0, name, unit, 0, remark, descriptionText, categoryId);
         if (dbhelper.addArticle(newArticle)) {
             articleController.getArticleList().add(newArticle);
             articleController.loadData();

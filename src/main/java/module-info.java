@@ -60,6 +60,10 @@ module com.marrok.inventaire_esm {
     opens com.marrok.inventaire_esm.controller.stock_dashboard to javafx.fxml;
     exports com.marrok.inventaire_esm.controller.fournisseur;
     opens com.marrok.inventaire_esm.controller.fournisseur to javafx.fxml;
+    exports com.marrok.inventaire_esm.controller.bon_entree;
+    opens com.marrok.inventaire_esm.controller.bon_entree to javafx.fxml;
+    exports com.marrok.inventaire_esm.controller.bon_sortie;
+    opens com.marrok.inventaire_esm.controller.bon_sortie to javafx.fxml;
 
 
 

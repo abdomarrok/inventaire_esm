@@ -76,7 +76,20 @@ public class GeneralUtil {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    public static void goBackStockDashboard(ActionEvent event) {
+        Scene scene;
+        Parent root;
+        try {
+            FXMLLoader loader = new FXMLLoader(GeneralUtil.class.getResource("/com/marrok/inventaire_esm/view/stock_dashboard/stock_dashboard_view.fxml"));
+            root = loader.load();
+            scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public static void loadScene(String resourcePath, ActionEvent event, boolean isResizable) {
         FXMLLoader loader = new FXMLLoader(GeneralUtil.class.getResource(resourcePath));
         try {
@@ -115,4 +128,6 @@ public class GeneralUtil {
         BitMatrix bitMatrix = new com.google.zxing.MultiFormatWriter().encode(text, BarcodeFormat.CODE_128, width, height);
         return MatrixToImageWriter.toBufferedImage(bitMatrix);
     }
+
+
 }

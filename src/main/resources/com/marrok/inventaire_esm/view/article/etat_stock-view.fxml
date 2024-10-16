@@ -5,14 +5,15 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="dashboard_id" fx:id="fx_dashboard_id" minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../css/all.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.article.ArticleControllertest">
+<AnchorPane id="dashboard_id" fx:id="fx_dashboard_id" minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../css/all.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.article.EtatStockController">
    <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
        <top>
            <HBox fx:id="topBox" alignment="CENTER">
                <children>
                     <HBox alignment="CENTER" prefHeight="96.0" prefWidth="70.0">
-                        <Button fx:id="bk_Dashboard_from_products" contentDisplay="GRAPHIC_ONLY" styleClass="smallDashboard_btn" text="الرئيسية">
+                        <Button fx:id="bk_Dashboard_from_etat_stock" contentDisplay="GRAPHIC_ONLY" styleClass="smallDashboard_btn" text="الرئيسية">
                             <graphic>
                                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -28,7 +29,7 @@
 
                    <HBox alignment="CENTER" prefHeight="96.0" prefWidth="887.0" spacing="50.0">
                        <TextField fx:id="searchField" alignment="CENTER_RIGHT" minWidth="200" promptText="بحث..." styleClass="searchField" />
-                       <Label fx:id="titleLabel" prefHeight="96.0" prefWidth="260.0" styleClass="titleLabel" text="إدارة المــــواد" HBox.hgrow="SOMETIMES" />
+                       <Label fx:id="titleLabel" prefHeight="96.0" prefWidth="260.0" styleClass="titleLabel" text="حالة المخزون" HBox.hgrow="SOMETIMES" />
                    </HBox>
 
                    

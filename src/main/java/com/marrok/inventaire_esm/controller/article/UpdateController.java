@@ -25,8 +25,8 @@ public class UpdateController {
     public TextField nameField;
     @FXML
     public TextField uniteField;
-    @FXML
-    public TextField quantityField;
+//    @FXML
+//    public TextField quantityField;
     @FXML
     public TextField remarqueField;
     @FXML
@@ -49,7 +49,6 @@ public class UpdateController {
     public void setDashboardController(ArticleController articleController) {
         this.articleController = articleController;
         loadCategories();
-        //loadServices();
 
     }
     public void setArticleData(long article_id) {
@@ -60,7 +59,7 @@ public class UpdateController {
                 selectedArticle = article;
                 nameField.setText(article.getName());
                 uniteField.setText(article.getUnite());
-                quantityField.setText(String.valueOf(article.getQuantity()));
+//                quantityField.setText(String.valueOf(article.getQuantity()));
                 remarqueField.setText(article.getRemarque());
                 descriptionField.setText(article.getDescription());
 
@@ -87,7 +86,7 @@ public class UpdateController {
         selectedArticle.setName(nameField.getText());
         //selectedArticle.setIdPlace(localisationChoiceBox.getValue().getId());
         selectedArticle.setUnite(uniteField.getText());
-        selectedArticle.setQuantity(Integer.parseInt(quantityField.getText()));
+//        selectedArticle.setQuantity(Integer.parseInt(quantityField.getText()));
         selectedArticle.setRemarque(remarqueField.getText());
         int id_cat = dbhelper.getCategoryByName(categoryChoiceBox.getSelectionModel().getSelectedItem().getName());
         selectedArticle.setIdCategory(id_cat);
@@ -108,28 +107,6 @@ public class UpdateController {
         }
     }
 
-//    private void loadServices() {
-//        List<Service> services = DatabaseHelper.getServices();
-//        ObservableList<Service> servicesObservableList = FXCollections.observableList(services);
-//        serviceChoiceBox.setItems(servicesObservableList);
-//
-//        serviceChoiceBox.setConverter(new StringConverter<Service>() {
-//            @Override
-//            public String toString(Service service) {
-//                return service != null ? service.getName() : "";
-//            }
-//
-//            @Override
-//            public Service fromString(String string) {
-//                return services.stream()
-//                        .filter(service -> service.getName().equals(string))
-//                        .findFirst()
-//                        .orElse(null);
-//            }
-//        });
-//
-//
-//    }
 
     private void loadCategories() {
         // Fetch categories from the database
@@ -162,32 +139,7 @@ public class UpdateController {
         });
     }
 
-//    private void loadLocalisations(int serviceId) {
-//        List<Localisation> localisations = DatabaseHelper.getLocalisationsByServiceId(serviceId);
-//        ObservableList<Localisation> localisationsObservableList = FXCollections.observableList(localisations);
-//        localisationChoiceBox.setItems(localisationsObservableList);
-//
-//        localisationChoiceBox.setConverter(new StringConverter<Localisation>() {
-//            @Override
-//            public String toString(Localisation localisation) {
-//                return localisation != null ? localisation.getLocName() : "";
-//            }
-//
-//            @Override
-//            public Localisation fromString(String string) {
-//                return localisations.stream()
-//                        .filter(localisation -> localisation.getLocName().equals(string))
-//                        .findFirst()
-//                        .orElse(null);
-//            }
-//        });
-//
-//        localisationChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-//            if (newValue != null) {
-//                chosenLocalisation = newValue.getLocName();
-//            }
-//        });
-//    }
+
 
     @FXML
     public void cancel(ActionEvent event) {

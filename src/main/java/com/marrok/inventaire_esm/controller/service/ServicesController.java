@@ -142,23 +142,24 @@ public class ServicesController implements Initializable {
 
         }
     }
-
     @FXML
     public void deleteService(ActionEvent event) {
         Service selectedService = (Service) servicesTable.getSelectionModel().getSelectedItem();
+
         if (selectedService != null) {
             boolean success = dbhelper.deleteService(selectedService.getId());
+
             if (success) {
                 servicesList.remove(selectedService);
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف المصلحة", "تم حذف المصلحة بنجاح.");
             } else {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل في حذف المصلحة", "فشل في حذف المصلحة.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل في حذف المصلحة", "حدث خطأ أثناء حذف المصلحة.");
             }
         } else {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار مصلحة للحذف.");
         }
-
     }
+
 
 
     public ObservableList<Service> getServicesList() {

@@ -19,8 +19,8 @@
         <Label alignment="CENTER" styleClass="lbl" text="الوحدة :" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
         <TextField fx:id="uniteField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
 
-        <Label alignment="CENTER" styleClass="lbl" text="الكمية :" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-        <TextField fx:id="quantityField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+<!--        <Label alignment="CENTER" styleClass="lbl" text="الكمية :" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />-->
+<!--        <TextField fx:id="quantityField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />-->
 
         <Label alignment="CENTER" styleClass="lbl" text="ملاحظة:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
         <TextField fx:id="remarqueField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
