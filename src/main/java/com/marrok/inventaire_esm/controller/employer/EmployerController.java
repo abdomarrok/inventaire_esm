@@ -113,8 +113,6 @@ public class EmployerController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/employer/add_form-view.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(loader.load());
-//            TransitTheme transitTheme = new TransitTheme(Style.LIGHT);
-//            transitTheme.setScene(scene);
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("إضافة موظف");
@@ -138,8 +136,6 @@ public class EmployerController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/employer/update_form-view.fxml"));
                 Stage stage = new Stage();
                 Scene scene = new Scene(loader.load());
-//                TransitTheme transitTheme = new TransitTheme(Style.LIGHT);
-//                transitTheme.setScene(scene);
                 stage.setScene(scene);
                 stage.setTitle("تحديث موظف");
 

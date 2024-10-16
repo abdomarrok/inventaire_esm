@@ -10,10 +10,10 @@ public class Fournisseur {
     private String tel; // Telephone
     private String fax; // Fax
     private String address;
-    private long email; // Assuming email is stored as a long (might need to change if it's an actual email string)
+    private String email; // Assuming email is stored as a long (might need to change if it's an actual email string)
 
     // Constructor that matches the database table fields
-    public Fournisseur(int id, String name, String rc, String nif, String ai, String nis, String tel, String fax, String address, long email) {
+    public Fournisseur(int id, String name, String rc, String nif, String ai, String nis, String tel, String fax, String address, String email) {
         this.id = id;
         this.name = name;
         this.rc = rc;
@@ -28,6 +28,18 @@ public class Fournisseur {
 
     // Default constructor
     public Fournisseur() {
+    }
+
+    public Fournisseur(String name, String rc, String nif, String ai, String nis, String tel, String fax, String address, String email) {
+        this.name = name;
+        this.rc = rc;
+        this.nif = nif;
+        this.ai = ai;
+        this.nis = nis;
+        this.tel = tel;
+        this.fax = fax;
+        this.address = address;
+        this.email = email;
     }
 
     // Getters and setters
@@ -103,11 +115,11 @@ public class Fournisseur {
         this.address = address;
     }
 
-    public long getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(long email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 

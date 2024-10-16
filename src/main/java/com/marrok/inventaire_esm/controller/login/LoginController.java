@@ -77,7 +77,7 @@ public class LoginController extends AnchorPane implements Initializable {
 }
 
 private void showDashboard(Event event) {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/dashboard/dashboard-view_test.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/dashboard/dashboard-view.fxml"));
     try {
         Parent root = loader.load();
         Scene scene = new Scene(root);

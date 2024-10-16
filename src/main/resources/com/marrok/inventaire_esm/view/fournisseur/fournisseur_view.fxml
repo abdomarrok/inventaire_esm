@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.marrok.inventaire_esm.controller.fournisseur.FournisseurController">
+    <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <top>
+            <HBox fx:id="topBox" alignment="CENTER">
+                <children>
+                    <HBox alignment="CENTER" prefHeight="96.0" prefWidth="70.0">
+                        <Button fx:id="bk_Dashboard_from_fournisseur" contentDisplay="GRAPHIC_ONLY" styleClass="smallDashboard_btn" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                            <graphic>
+                                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../img/home.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <BorderPane.margin>
+                                <Insets bottom="10.0" />
+                            </BorderPane.margin>
+                        </Button>
+                    </HBox>
+                    <HBox alignment="CENTER" prefHeight="96.0" prefWidth="887.0" spacing="50.0">
+                        <TextField fx:id="searchField" alignment="CENTER_RIGHT" minWidth="200" promptText="بحث..." styleClass="searchField" />
+
+                        <Label fx:id="titleLabel" styleClass="titleLabel" text="إدارة المــوردين" HBox.hgrow="SOMETIMES" />
+                    </HBox>
+
+                </children>
+                <BorderPane.margin>
+                    <Insets />
+                </BorderPane.margin>
+            </HBox>
+        </top>
+        <right>
+            <VBox fx:id="leftBox" prefHeight="444.0" prefWidth="100.0" spacing="20.0" styleClass="left_panel" BorderPane.alignment="CENTER">
+
+                <Button fx:id="addButton" onAction="#addFournisseur" text="إضافة">
+                    <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="add_btn" />
+                    </styleClass>
+                </Button>
+                <Button fx:id="updateButton" onAction="#updateFournisseur" text="تحديث">
+                    <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-warning" />
+                    </styleClass>
+                </Button>
+                <Button fx:id="deleteButton" onAction="#deleteFournisseur" text="حذف">
+                    <styleClass>
+                        <String fx:value="btn" />
+                        <String fx:value="btn-danger" />
+                    </styleClass>
+                </Button>
+                <padding>
+                    <Insets left="10.0" right="10.0" />
+                </padding>
+
+            </VBox>
+        </right>
+        <center>
+            <VBox fx:id="centerBox" BorderPane.alignment="CENTER">
+                <children>
+                    <TableView fx:id="fournisseurTableView" editable="true" nodeOrientation="RIGHT_TO_LEFT" styleClass="tableview" stylesheets="@../../css/tableview.css" tableMenuButtonVisible="true">
+                        <columns>
+                            <!-- Column for ID -->
+                            <TableColumn fx:id="id_column" text="المعرف" />
+
+                            <!-- Column for Name -->
+                            <TableColumn fx:id="name_column" text="الاسم" />
+
+                            <!-- Column for RC -->
+                            <TableColumn fx:id="rc_column" text="السجل التجاري" />
+
+                            <!-- Column for NIF -->
+                            <TableColumn fx:id="nif_column" text="الرقم الجبائي" />
+
+                            <!-- Column for AI -->
+                            <TableColumn fx:id="ai_column" text="الرقم الضريبي" />
+
+                            <!-- Column for NIS -->
+                            <TableColumn fx:id="nis_column" text="رقم التعريف الإحصائي" />
+
+                            <!-- Column for Telephone -->
+                            <TableColumn fx:id="tel_column" text="الهاتف" />
+
+                            <!-- Column for Fax -->
+                            <TableColumn fx:id="fax_column" text="الفاكس" />
+
+                            <!-- Column for Address -->
+                            <TableColumn fx:id="address_column" text="العنوان" />
+
+                            <!-- Column for Email -->
+                            <TableColumn fx:id="email_column" text="البريد الإلكتروني" />
+                        </columns>
+                  <columnResizePolicy>
+                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                  </columnResizePolicy>
+                    </TableView>
+                </children>
+            </VBox>
+        </center>
+
+    </BorderPane>
+    <stylesheets>
+        <!--        <URL value="@../../css/nord-light.css" />-->
+        <URL value="@../../css/all.css" />
+    </stylesheets>
+</AnchorPane>

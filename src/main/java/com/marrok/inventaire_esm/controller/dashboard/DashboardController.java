@@ -107,10 +107,7 @@ public class DashboardController extends AnchorPane implements Initializable {
         GeneralUtil.goBackLogin(event);
     }
 
-    @FXML
-    public void go_Categories(ActionEvent event) {
 
-    }
 
     @FXML
     public void go_Products(ActionEvent event) {

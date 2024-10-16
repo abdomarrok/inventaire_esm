@@ -66,7 +66,7 @@ public class GeneralUtil {
         Scene scene;
         Parent root;
         try {
-            FXMLLoader loader = new FXMLLoader(GeneralUtil.class.getResource("/com/marrok/inventaire_esm/view/dashboard/dashboard-view_test.fxml"));
+            FXMLLoader loader = new FXMLLoader(GeneralUtil.class.getResource("/com/marrok/inventaire_esm/view/dashboard/dashboard-view.fxml"));
             root = loader.load();
             scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

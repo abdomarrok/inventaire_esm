@@ -29,6 +29,24 @@
                         </ImageView>
                     </graphic>
                 </Button>
+                <Button fx:id="category_button" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#go_Categories" prefHeight="58.0" prefWidth="264.0" style="-fx-background-color: #ed8759;" styleClass="dashboard_tub" text="الفئات">
+                    <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../img/categories.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="fornisseurs_button" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#go_Fornisseur" prefHeight="58.0" prefWidth="264.0" style="-fx-background-color: #999573; -fx-background-radius: 25; -fx-border-radius: 25;" styleClass="dashboard_tub" text="الموردين">
+                    <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../img/livreur.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
             </VBox>
         </AnchorPane>
         </center>
