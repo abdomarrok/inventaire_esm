@@ -61,6 +61,11 @@ public class Entree {
         this.idBe = idBe;
     }
 
+    // Calculate total price (HT)
+    public double getTotalprix_ht() {
+        return this.unitPrice * this.quantity;
+    }
+
     @Override
     public String toString() {
         return "Entree{" +
@@ -69,6 +74,7 @@ public class Entree {
                 ", quantity=" + quantity +
                 ", unitPrice=" + unitPrice +
                 ", idBe=" + idBe +
+                ", totalprix_ht=" + getTotalprix_ht() + // include in toString if needed
                 '}';
     }
 }

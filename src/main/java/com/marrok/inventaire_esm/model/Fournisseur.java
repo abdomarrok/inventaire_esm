@@ -125,17 +125,10 @@ public class Fournisseur {
 
     @Override
     public String toString() {
-        return "Fournisseur{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", rc='" + rc + '\'' +
-                ", nif='" + nif + '\'' +
-                ", ai='" + ai + '\'' +
-                ", nis='" + nis + '\'' +
-                ", tel='" + tel + '\'' +
-                ", fax='" + fax + '\'' +
-                ", address='" + address + '\'' +
-                ", email=" + email +
-                '}';
+        return
+                ", الاسم='" + name + '\''+
+                "الرقم التعريفي=" + id
+               ;
     }
+
 }

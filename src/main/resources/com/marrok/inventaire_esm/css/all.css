@@ -89,6 +89,17 @@
     -fx-background-radius: 10px;
 }
 
+
+.btn_bon {
+    -fx-background-color: #343a40;
+    -fx-font-family: 'Andalus';
+    -fx-font-size: 20px;
+    -fx-text-fill: #ffffff;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+}
+
+
 .lbl_fiche_inv{
     -fx-font-family: 'Andalus';
     -fx-font-size: 20px;

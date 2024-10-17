@@ -12,7 +12,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseHelper {
 
@@ -1207,6 +1209,61 @@ public DatabaseHelper() throws SQLException {
             return false; // Return false if an error occurred
         }
     }
+    public int createBonEntree(BonEntree bonEntree) {
+        String query = "INSERT INTO bon_entree (id_fournisseur, date, TVA) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setInt(1, bonEntree.getIdFournisseur());
+            preparedStatement.setDate(2, new java.sql.Date(bonEntree.getDate().getTime()));
+            preparedStatement.setInt(3, bonEntree.getTva());
+
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1); // Return the generated ID
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // Return -1 if failed to create Bon Entree
+    }
+
+    public boolean saveEntree(Entree entree) {
+        String query = "INSERT INTO entree (id_article, quantity, unit_price, id_be) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
+            preparedStatement.setInt(1, entree.getIdArticle());
+            preparedStatement.setInt(2, entree.getQuantity());
+            preparedStatement.setDouble(3, entree.getUnitPrice());
+            preparedStatement.setInt(4, entree.getIdBe()); // Set Bon Entree ID
+
+            return preparedStatement.executeUpdate() > 0; // Return true if insertion succeeds
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Return false if an error occurs
+        }
+    }
+
+    public Map<Integer, Integer> getTotalQuantitiesByArticle() {
+        Map<Integer, Integer> totalQuantities = new HashMap<>();
+        String query = "SELECT id_article, SUM(quantity) AS total_quantity FROM entree GROUP BY id_article ORDER BY total_quantity DESC";
+
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int articleId = resultSet.getInt("id_article");
+                int totalQuantity = resultSet.getInt("total_quantity");
+                totalQuantities.put(articleId, totalQuantity);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return totalQuantities;
+    }
+
 
 
 }

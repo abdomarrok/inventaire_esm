@@ -90,8 +90,6 @@ public class ArticleController implements Initializable {
         setupSearchFilter();
         setupTableSelectionListener();
 
-
-
     }
 
     private void showArticleDetails(long selectedArticle_id) {

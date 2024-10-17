@@ -101,13 +101,6 @@ public class AddController implements Initializable {
             return;
         }
 
-//        int quantity;
-//        try {
-//            quantity = Integer.parseInt(quantityText);
-//        } catch (NumberFormatException e) {
-//            GeneralUtil.showAlert(Alert.AlertType.ERROR, "كمية خاطئة", "يرجو ادخال كمية مناسبة");
-//            return;
-//        }
 
         int categoryId = dbhelper.getCategoryByName(chosenCategory);
         if (categoryId == -1) {
