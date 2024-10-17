@@ -26,49 +26,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BonEntreeController {
+
     DatabaseHelper dbhelper= new DatabaseHelper();
 
-    @FXML
-    private ChoiceBox<Fournisseur> fournisseurChoiceBox;
+    public ChoiceBox<Fournisseur> fournisseurChoiceBox;
 
-    @FXML
-    private DatePicker datePicker;
+    public DatePicker datePicker;
 
-    @FXML
-    private TableView<Entree> entreeTable;
+    public TableView<Entree> entreeTable;
 
-    @FXML
-    private TableColumn<Entree, String> articleColumn;
+    public TableColumn<Entree, String> articleColumn;
 
-    @FXML
-    private TableColumn<Entree, Integer> quantityColumn;
+    public TableColumn<Entree, Integer> quantityColumn;
 
-    @FXML
-    private TableColumn<Entree, Double> priceColumn;
+    public TableColumn<Entree, Double> priceColumn;
 
-    @FXML
-    private TableColumn<Entree, Double> totalColumn;
+    public TableColumn<Entree, Double> totalColumn;
 
-    @FXML
-    private Button addItemButton;
+    public Button addItemButton;
 
-    @FXML
-    private Button removeItemButton;
+    public Button removeItemButton;
 
-    @FXML
-    private Button cancelButton;
+    public Button cancelButton;
 
-    @FXML
-    private Button saveButton;
+    public Button saveButton;
+    public Button printButton;
 
     private ObservableList<Entree> entreesList = FXCollections.observableArrayList();
 
     public BonEntreeController() throws SQLException {
+
     }
 
     // Initialize the controller
     @FXML
     public void initialize() {
+        printButton.setDisable(true);
         setupTableColumns();
         populateFournisseurChoiceBox();
         entreeTable.setItems(entreesList);
@@ -113,7 +106,7 @@ public class BonEntreeController {
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load()));
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Select Article");
+            stage.setTitle("إختر عنصر");
 
             // Show the dialog and wait for it to close
             stage.showAndWait();
@@ -159,7 +152,9 @@ public class BonEntreeController {
 
         if (success) {
             GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "Bon Entree saved successfully.");
-            cancelBonEntree(event);
+            saveButton.setDisable(true);
+            printButton.setDisable(false);
+
         } else {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "Failure", "Failed to save Bon Entree.");
         }
@@ -199,4 +194,9 @@ public class BonEntreeController {
         return true; // Successfully saved the Bon Entree and all Entree records
     }
 
+    public void printBonEntree(ActionEvent event) {
+GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "to be done");
+        Stage stage = (Stage) printButton.getScene().getWindow();
+       stage.close();
+    }
 }

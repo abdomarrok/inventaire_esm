@@ -107,10 +107,6 @@ public class DashboardController extends AnchorPane implements Initializable {
         GeneralUtil.goBackLogin(event);
     }
 
-
-
-
-
     @FXML
     public void go_Services(ActionEvent event) {
         GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/service/services-view.fxml", event,true);
