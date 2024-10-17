@@ -79,7 +79,7 @@
     -fx-background-radius: 10px;
 }
 .btn_fiche_inv {
-    -fx-background-color:  #e48c31;
+    -fx-background-color: #e48c31;
     -fx-pref-height: 50px;
     -fx-min-height: 50px;
     -fx-font-family: 'Andalus';
@@ -89,6 +89,11 @@
     -fx-background-radius: 10px;
 }
 
+/* Hover effect for btn_fiche_inv */
+.btn_fiche_inv:hover {
+    -fx-background-color: #d37b29; /* Darker shade for hover */
+    -fx-text-fill: #ffffff; /* Change text color on hover */
+}
 
 .btn_bon {
     -fx-background-color: #343a40;
@@ -98,6 +103,13 @@
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
 }
+
+/* Hover effect for btn_bon */
+.btn_bon:hover {
+    -fx-background-color: #2c3e50; /* Lighter shade for hover */
+    -fx-text-fill: #e48c31; /* Change text color on hover */
+}
+
 
 
 .lbl_fiche_inv{

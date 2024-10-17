@@ -5,8 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="dashboard_id" fx:id="fx_dashboard_id" minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../css/all.css"
-            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.article.EtatStockController">
+<AnchorPane id="dashboard_id" fx:id="fx_dashboard_id" minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../css/all.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.article.EtatStockController">
    <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
        <top>
@@ -46,8 +45,8 @@
             <padding>
                 <Insets left="10.0" right="10.0" />
             </padding>
-            <Button fx:id="BonEntreeBtn" onAction="#goBonEntree" text="وصل استلام" />
-            <Button fx:id="BonSortieBtn" onAction="#goBonSortie" text="وصل إخراج" />
+            <Button fx:id="BonEntreeBtn" onAction="#goBonEntree" styleClass="btn_bon" text="وصل استلام" />
+            <Button fx:id="BonSortieBtn" onAction="#goBonSortie" styleClass="btn_bon" text="وصل إخراج" />
         </VBox>
     </right>
     <center>

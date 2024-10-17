@@ -2,6 +2,7 @@
 
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="900.0" spacing="20.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.bon_entree.BonEntreeController">
@@ -21,6 +22,8 @@
         </VBox>
     </HBox>
 
+
+
     <!-- TableView for multiple Bon Entrée items -->
     <VBox prefHeight="263.0" prefWidth="860.0" spacing="10" style="-fx-padding: 10;">
         <TableView fx:id="entreeTable">
@@ -37,8 +40,25 @@
 
         <!-- Add/Remove Item Buttons -->
         <HBox alignment="CENTER_RIGHT" spacing="10">
-            <Button fx:id="removeItemButton" onAction="#removeItem" text="إزالة" />
-            <Button fx:id="addItemButton" onAction="#addItem" text="إظافة" />
+            <Button fx:id="removeItemButton" contentDisplay="GRAPHIC_ONLY" onAction="#removeItem" styleClass="smallDashboard_btn" text="إزالة">
+                <graphic>
+                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../../img/minus.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Button fx:id="addItemButton" contentDisplay="GRAPHIC_ONLY" onAction="#addItem" styleClass="smallDashboard_btn" text="إظافة">
+                <graphic>
+                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../../img/plus.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+
         </HBox>
     </VBox>
 
