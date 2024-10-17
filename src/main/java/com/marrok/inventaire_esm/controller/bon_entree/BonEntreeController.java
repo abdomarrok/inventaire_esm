@@ -195,7 +195,7 @@ public class BonEntreeController {
     }
 
     public void printBonEntree(ActionEvent event) {
-GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "to be done");
+        GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "to be done");
         Stage stage = (Stage) printButton.getScene().getWindow();
        stage.close();
     }
