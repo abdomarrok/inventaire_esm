@@ -2,6 +2,8 @@ package com.marrok.inventaire_esm.controller.article;
 
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.util.DatabaseConnection;
+import com.marrok.inventaire_esm.util.DatabaseHelper;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -18,9 +20,10 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class DetailController {
-
+    private DatabaseHelper dbhelper=new DatabaseHelper();
     private Article article;
 
     @FXML
@@ -46,9 +49,14 @@ public class DetailController {
 
     private Stage stage;
 
+    public DetailController() throws SQLException {
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+
 
     public void setArticleDetails(Article detailedArticle) {
         this.article = detailedArticle;
@@ -56,7 +64,10 @@ public class DetailController {
             nameLabel.setText(article.getName());
             idLabel.setText(String.valueOf(article.getId()));
             unitLabel.setText(article.getUnite());
-            quantityLabel.setText(String.valueOf(article.getQuantity()));
+            Map<Integer, Integer> totalQuantities = dbhelper.getTotalQuantitiesByArticle();
+            int articleId = article.getId(); // Get the article ID
+            Integer totalQuantity = totalQuantities.get(articleId); // Get the total quantity for this article
+            quantityLabel.setText(String.valueOf(totalQuantity));
             remarkLabel.setText(article.getRemarque());
             categoryLabel.setText(String.valueOf(article.getIdCategory()));
             descriptionLabel.setText(article.getDescription());

@@ -47,8 +47,7 @@ public class ArticleController implements Initializable {
     public TableColumn<Article, String> nameColumn;
     @FXML
     public TableColumn<Article, String> unitColumn;
-    @FXML
-    public TableColumn<Article, Integer> quantityColumn;
+
     @FXML
     public TableColumn<Article, String> remarkColumn;
     @FXML
@@ -128,7 +127,6 @@ public class ArticleController implements Initializable {
         id_article_v.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
-        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         remarkColumn.setCellValueFactory(new PropertyValueFactory<>("remarque"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
@@ -164,7 +162,6 @@ public class ArticleController implements Initializable {
                 return article.getName().toLowerCase().contains(lowerCaseFilter)
                         || article.getUnite().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(article.getId()).contains(lowerCaseFilter)
-                        || String.valueOf(article.getQuantity()).toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(article.getIdCategory()).toLowerCase().contains(lowerCaseFilter);
             });
         });

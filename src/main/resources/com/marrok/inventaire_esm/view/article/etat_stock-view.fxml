@@ -41,12 +41,12 @@
 
        </top>
     <right>
-        <VBox fx:id="leftBox" spacing="20.0" BorderPane.alignment="CENTER">
+        <VBox fx:id="leftBox" alignment="CENTER" spacing="20.0">
             <padding>
                 <Insets left="10.0" right="10.0" />
             </padding>
-            <Button fx:id="BonEntreeBtn" onAction="#goBonEntree" styleClass="btn_bon" text="وصل استلام" />
-            <Button fx:id="BonSortieBtn" onAction="#goBonSortie" styleClass="btn_bon" text="وصل إخراج" />
+            <Button fx:id="BonEntreeBtn" onAction="#goBonEntree" styleClass="btn_bon" text="إضافة " />
+            <Button fx:id="BonSortieBtn" onAction="#goBonSortie" styleClass="btn_bon" text=" إخراج" />
         </VBox>
     </right>
     <center>
@@ -69,7 +69,6 @@
             </children>
         </VBox>
     </center>
-
 
    </BorderPane>
 </AnchorPane>

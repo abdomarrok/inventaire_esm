@@ -4,25 +4,37 @@
 	<parameter name="article_id" class="java.lang.Integer"/>
 	<query language="sql"><![CDATA[
         
-            SELECT 
-                id, 
-                name, 
-                unite, 
-                description, 
-                quantity, 
-                remarque, 
-                id_category
-            FROM 
-                article 
-            WHERE 
-                id = $P{article_id}
+          SELECT
+    a.id,
+    a.name,
+    a.unite,
+    a.description,
+    SUM(e.quantity) AS total_quantity,
+    a.remarque,
+    a.id_category
+FROM
+    article a
+LEFT JOIN
+    entree e
+ON
+    a.id = e.id_article
+WHERE
+    a.id = $P{article_id}
+GROUP BY
+    a.id,
+    a.name,
+    a.unite,
+    a.description,
+    a.remarque,
+    a.id_category
+
         
     ]]></query>
 	<field name="id" class="java.lang.Integer"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="unite" class="java.lang.String"/>
 	<field name="description" class="java.lang.String"/>
-	<field name="quantity" class="java.lang.Integer"/>
+	<field name="total_quantity" class="java.lang.Integer"/>
 	<field name="remarque" class="java.lang.String"/>
 	<field name="id_category" class="java.lang.Integer"/>
 	<title height="60">
@@ -51,7 +63,7 @@
 				<text><![CDATA[الوحدة:]]></text>
 			</element>
 			<element kind="textField" uuid="ae828c7e-347d-47ff-8577-241918b2307a" x="130" y="120" width="170" height="20" hTextAlign="Right">
-				<expression><![CDATA[$F{quantity}]]></expression>
+				<expression><![CDATA[$F{total_quantity}]]></expression>
 			</element>
 			<element kind="staticText" uuid="937d8b83-44d3-45de-b1fe-5f69c5f3cc83" x="310" y="120" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 				<text><![CDATA[الكمية:]]></text>

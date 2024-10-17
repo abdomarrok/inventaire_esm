@@ -6,7 +6,8 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="dashboard_id" fx:id="fx_dashboard_id" minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../css/all.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.article.ArticleController">
+<AnchorPane id="dashboard_id" fx:id="fx_dashboard_id" minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../css/all.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.article.ArticleController">
    <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
        <top>
@@ -74,7 +75,7 @@
                         <TableColumn fx:id="id_article_v" text="المعرف" />
                         <TableColumn fx:id="nameColumn" text="الاسم" />
                         <TableColumn fx:id="unitColumn" text="الوحدة" />
-                        <TableColumn fx:id="quantityColumn" text="الكمية" />
+<!--                        <TableColumn fx:id="quantityColumn" text="الكمية" />-->
                         <TableColumn fx:id="remarkColumn" text="ملاحظة" />
                         <TableColumn fx:id="descriptionColumn" text="الوصف" />
                         <TableColumn fx:id="categoryColmun" text="الفئة" />

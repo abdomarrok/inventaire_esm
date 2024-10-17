@@ -29,7 +29,7 @@
 
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-alignment: CENTER_RIGHT;
+    -fx-alignment: CENTER_LEFT;
 }
 .table-view .cell{
     -fx-cell-size: 30;
