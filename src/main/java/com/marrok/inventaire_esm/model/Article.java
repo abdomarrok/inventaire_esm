@@ -4,16 +4,16 @@ public class Article {
     private int id;
     private String name;
     private String unite;
-    private int quantity;
+//    private int quantity;
     private String remarque;
     private String description;
     private int idCategory; // Use camel case
 
-    public Article(int id, String name, String unit, int quantity, String remark, String descriptionText, int categoryId) {
+    public Article(int id, String name, String unit, /*int quantity, */ String remark, String descriptionText, int categoryId) {
         this.id = id;
         this.name = name;
         this.unite = unit;
-        this.quantity = quantity;
+//        this.quantity = quantity;
         this.remarque = remark;
         this.description = descriptionText;
         this.idCategory = categoryId; // Use camel case
@@ -22,10 +22,10 @@ public class Article {
     public Article() {
     }
 
-    public Article(String name, String unite, int quantity, String description, String remarque, int idCategory) {
+    public Article(String name, String unite, /*int quantity,*/ String description, String remarque, int idCategory) {
         this.name = name;
         this.unite = unite;
-        this.quantity = quantity;
+//        this.quantity = quantity;
         this.remarque = remarque;
         this.description = description;
         this.idCategory = idCategory; // Use camel case
@@ -56,13 +56,13 @@ public class Article {
         this.unite = unite;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+//    public int getQuantity() {
+//        return quantity;
+//    }
+//
+//    public void setQuantity(int quantity) {
+//        this.quantity = quantity;
+//    }
 
     public String getRemarque() {
         return remarque;
@@ -94,7 +94,7 @@ public class Article {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", unite='" + unite + '\'' +
-                ", quantity=" + quantity +
+//                ", quantity=" + quantity +
                 ", remarque='" + remarque + '\'' +
                 ", description='" + description + '\'' +
                 ", idCategory=" + idCategory + // Use camel case

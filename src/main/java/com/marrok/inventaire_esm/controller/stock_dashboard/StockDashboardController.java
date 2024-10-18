@@ -39,6 +39,7 @@ public class StockDashboardController implements Initializable {
     }
 
     public void go_bon_entrees_list(ActionEvent event) {
+        GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/bon_entree/bon_entree-view.fxml",event,true);
 
     }
 }

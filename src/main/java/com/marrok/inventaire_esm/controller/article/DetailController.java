@@ -35,8 +35,8 @@ public class DetailController {
     @FXML
     private Label unitLabel;
 
-    @FXML
-    private Label quantityLabel;
+//    @FXML
+//    private Label quantityLabel;
 
     @FXML
     private Label remarkLabel;
@@ -66,8 +66,8 @@ public class DetailController {
             unitLabel.setText(article.getUnite());
             Map<Integer, Integer> totalQuantities = dbhelper.getTotalQuantitiesByArticle();
             int articleId = article.getId(); // Get the article ID
-            Integer totalQuantity = totalQuantities.get(articleId); // Get the total quantity for this article
-            quantityLabel.setText(String.valueOf(totalQuantity));
+//            Integer totalQuantity = totalQuantities.get(articleId); // Get the total quantity for this article
+//           quantityLabel.setText(String.valueOf(totalQuantity));
             remarkLabel.setText(article.getRemarque());
             categoryLabel.setText(String.valueOf(article.getIdCategory()));
             descriptionLabel.setText(article.getDescription());

@@ -146,7 +146,7 @@ public class EtatStockController implements Initializable {
 
 
     private void initializeColumns() {
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
+            tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
 
         // Set cell value factories
         id_article_v.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -171,17 +171,12 @@ public class EtatStockController implements Initializable {
         });
     }
 
-    public void loadData() {
-        try {
-            DatabaseHelper dbHelper = new DatabaseHelper();
-            List<Article> articles = dbHelper.getArticles();
+    public void  loadData() {
+            List<Article> articles = dbhelper.getArticles();
             articleList = FXCollections.observableArrayList(articles);
             filteredArticleList = new FilteredList<>(articleList, p -> true);
             tableView.setItems(filteredArticleList);
-        } catch (SQLException e) {
-            e.printStackTrace();
 
-        }
     }
 
 
@@ -195,7 +190,6 @@ public class EtatStockController implements Initializable {
                 return article.getName().toLowerCase().contains(lowerCaseFilter)
                         || article.getUnite().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(article.getId()).contains(lowerCaseFilter)
-                        || String.valueOf(article.getQuantity()).toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(article.getIdCategory()).toLowerCase().contains(lowerCaseFilter);
             });
         });

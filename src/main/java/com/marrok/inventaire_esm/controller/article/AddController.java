@@ -107,7 +107,7 @@ public class AddController implements Initializable {
 
         }
 
-        Article newArticle = new Article(0, name, unit, 0, remark, descriptionText, categoryId);
+        Article newArticle = new Article(0, name, unit, remark, descriptionText, categoryId);
         if (dbhelper.addArticle(newArticle)) {
             articleController.getArticleList().add(newArticle);
             articleController.loadData();

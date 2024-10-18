@@ -69,7 +69,6 @@ public class AddEntreeController {
                 return article.getName().toLowerCase().contains(lowerCaseFilter)
                         || article.getUnite().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(article.getId()).contains(lowerCaseFilter)
-                        || String.valueOf(article.getQuantity()).toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(article.getIdCategory()).toLowerCase().contains(lowerCaseFilter);
             });
         });

@@ -173,7 +173,7 @@ public DatabaseHelper() throws SQLException {
     // Method to fetch all articles
     public List<Article> getArticles() {
         List<Article> articles = new ArrayList<>();
-        String query = "SELECT id, name, unite, quantity, remarque, description, id_category, last_edited FROM article ORDER BY last_edited DESC; ";
+        String query = "SELECT id, name, unite, remarque, description, id_category, last_edited FROM article ORDER BY last_edited DESC; ";
 
         try (PreparedStatement stmt = this.cnn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -183,7 +183,7 @@ public DatabaseHelper() throws SQLException {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("unite"),
-                        rs.getInt("quantity"),
+//                        rs.getInt("quantity"),
                         rs.getString("remarque"),
                         rs.getString("description"),
                         rs.getInt("id_category")
@@ -228,7 +228,7 @@ public DatabaseHelper() throws SQLException {
                             rs.getInt("id"),
                             rs.getString("name"),
                             rs.getString("unite"),
-                            rs.getInt("quantity"),
+//                            rs.getInt("quantity"),
                             rs.getString("remarque"),
                             rs.getString("description"),
                             rs.getInt("id_category")
@@ -243,14 +243,14 @@ public DatabaseHelper() throws SQLException {
     }
 
     public boolean addArticle(Article article) {
-        String query = "INSERT INTO article (name, unite, quantity, remarque, description, id_category) VALUES (?, ?, ?, ?, ?, ?)";
+     String query = "INSERT INTO article (name, unite,  remarque, description, id_category) VALUES (?, ?, ?,  ?, ?)";
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setString(1, article.getName());
             stmt.setString(2, article.getUnite());
-            stmt.setInt(3, article.getQuantity());
-            stmt.setString(4, article.getRemarque());
-            stmt.setString(5, article.getDescription());
-            stmt.setInt(6, article.getIdCategory());
+//            stmt.setInt(3, article.getQuantity());
+            stmt.setString(3, article.getRemarque());
+            stmt.setString(4, article.getDescription());
+            stmt.setInt(5, article.getIdCategory());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -268,15 +268,15 @@ public DatabaseHelper() throws SQLException {
 
 
     public boolean updateArticle(Article article) {
-        String query = "UPDATE article SET name = ?, unite = ?, quantity = ?, remarque = ?, description = ?, id_category = ? WHERE id = ?";
+        String query = "UPDATE article SET name = ?, unite = ?, remarque = ?, description = ?, id_category = ? WHERE id = ?";
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setString(1, article.getName());
             stmt.setString(2, article.getUnite());
-            stmt.setInt(3, article.getQuantity());
-            stmt.setString(4, article.getRemarque());
-            stmt.setString(5, article.getDescription());
-            stmt.setInt(6, article.getIdCategory());
-            stmt.setLong(7, article.getId());
+//            stmt.setInt(3, article.getQuantity());
+            stmt.setString(3, article.getRemarque());
+            stmt.setString(4, article.getDescription());
+            stmt.setInt(5, article.getIdCategory());
+            stmt.setLong(6, article.getId());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -644,7 +644,7 @@ public DatabaseHelper() throws SQLException {
     public List<Inventaire_Item> getInventaireItems() {
         List<Inventaire_Item> inventaireItems = new ArrayList<>();
 
-        String query = "SELECT * FROM inventaire_item ORDER BY time DESC";
+        String query = "SELECT * FROM inventaire_item  ORDER BY last_edited DESC;";
 
         try (
              PreparedStatement preparedStatement = this.cnn.prepareStatement(query);
@@ -1162,6 +1162,35 @@ public DatabaseHelper() throws SQLException {
             return -1; // Return -1 if an error occurs
         }
     }
+    public Fournisseur getFournisseurById(int idFournisseur) {
+        String query = "SELECT id, name, rc, nif, ai, nis, tel, fax, address, email FROM fournisseur WHERE id = ?";
+        Fournisseur fournisseur = null;
+
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
+            preparedStatement.setInt(1, idFournisseur);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    fournisseur = new Fournisseur(
+                            rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getString("rc"),
+                            rs.getString("nif"),
+                            rs.getString("ai"),
+                            rs.getString("nis"),
+                            rs.getString("tel"),
+                            rs.getString("fax"),
+                            rs.getString("address"),
+                            rs.getString("email")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exception
+        }
+        return fournisseur;
+    }
+
     // Method to update an existing fournisseur (supplier) in the database
     public int updateFournisseur(Fournisseur fournisseur) throws SQLException {
         // SQL query to update the fournisseur
@@ -1231,6 +1260,31 @@ public DatabaseHelper() throws SQLException {
         return -1; // Return -1 if failed to create Bon Entree
     }
 
+    public List<BonEntree> getBonEntrees() {
+        List<BonEntree> bonEntrees = new ArrayList<>();
+        String query = "SELECT id, id_fournisseur, date, TVA, document_num FROM bon_entree Order by date desc;";
+
+        try (PreparedStatement stmt = this.cnn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                BonEntree bonEntree = new BonEntree(
+                        rs.getInt("id"),
+                        rs.getInt("id_fournisseur"),
+                        rs.getDate("date"),
+                        rs.getInt("TVA"),
+                        rs.getString("document_num")
+                );
+                bonEntrees.add(bonEntree);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exception
+        }
+        return bonEntrees;
+    }
+
+
     public boolean saveEntree(Entree entree) {
         String query = "INSERT INTO entree (id_article, quantity, unit_price, id_be) VALUES (?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
@@ -1265,6 +1319,51 @@ public DatabaseHelper() throws SQLException {
         return totalQuantities;
     }
 
+    public List<Entree> getEntreesById_BonEntreeId(int bonEntreeId) {
+        List<Entree> entrees = new ArrayList<>();
+        String query = "SELECT * FROM entree WHERE id_be = ?"; // Filtering by the BonEntree ID
 
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
+            preparedStatement.setInt(1, bonEntreeId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int idArticle = resultSet.getInt("id_article");
+                int quantity = resultSet.getInt("quantity");
+                double unitPrice = resultSet.getDouble("unit_price");
+                // Create a new Entree object based on your class structure
+                Entree entree = new Entree(id, idArticle, quantity, unitPrice, bonEntreeId); // Adjust the constructor parameters accordingly
+                entrees.add(entree);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return entrees; // Return the list of Entree objects
+    }
+
+    public BonEntree getBonEntreesById(int idBonEntree) {
+        String query = "SELECT id, id_fournisseur, date, TVA, document_num FROM bon_entree WHERE id = ?";
+        BonEntree bonEntree = null;
+
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
+            preparedStatement.setInt(1, idBonEntree);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    bonEntree = new BonEntree(
+                            rs.getInt("id"),
+                            rs.getInt("id_fournisseur"),
+                            rs.getTimestamp("date"), // Use getTimestamp for datetime
+                            rs.getInt("TVA"),
+                            rs.getString("document_num")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exception
+        }
+        return bonEntree;
+    }
 
 }

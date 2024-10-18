@@ -289,7 +289,7 @@ public class ArticleController implements Initializable {
 
                 for (Article article : articleList) {
                     csvPrinter.printRecord(article.getId(), article.getName(), article.getUnite(), article.getDescription(),
-                            article.getQuantity(), article.getRemarque(), article.getIdCategory());
+                            article.getRemarque(), article.getIdCategory());
                 }
                 csvPrinter.flush();
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم التصدير بنجاح", "تم تصدير العناصر بنجاح.");
@@ -314,7 +314,7 @@ public class ArticleController implements Initializable {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                 // Parse the CSV file and skip the header
                 CSVParser parser = CSVFormat.DEFAULT
-                        .withHeader("id", "name", "unite", "description", "quantity", "remarque", "id_category")
+                        .withHeader("id", "name", "unite", "description",  "remarque", "id_category")
                         .withFirstRecordAsHeader()
                         .parse(reader);
                 List<Article> articlesToAdd = new ArrayList<>();
@@ -323,11 +323,10 @@ public class ArticleController implements Initializable {
                     String name = record.get("name");
                     String unite = record.get("unite");
                     String description = record.get("description");
-                    int quantity = Integer.parseInt(record.get("quantity"));
                     String remarque = record.get("remarque");
                     int id_category = Integer.parseInt(record.get("id_category"));
 
-                    Article article = new Article(name, unite,  quantity,description, remarque, id_category);
+                    Article article = new Article(name, unite,  description, remarque, id_category);
                     articlesToAdd.add(article);
                 }
 
