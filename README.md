@@ -35,7 +35,7 @@ Here are some screenshots of the application in action:
 
 ### 1. **Main Dashboard**
 
-![Main Dashboard](C:\Users\marrok\inventaire_esm\src\main\resources\com\marrok\inventaire_esm\screenshots\dashboard.png)
+![Main Dashboard](src\main\resources\com\marrok\inventaire_esm\screenshots\dashboard.png)
 
 
 
