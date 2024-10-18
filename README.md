@@ -33,14 +33,36 @@
 ## Screenshots
 Here are some screenshots of the application in action:
 
+
 ### 1. **Main Dashboard**
 
 ![Main Dashboard](/src/main/resources/com/marrok/inventaire_esm/screenshots/dashboard.png)
+### 2. **Login**
+![Login](/src/main/resources/com/marrok/inventaire_esm/screenshots/login.png)
 
+### 3. **Add Bon Entree**
 
+![Add Bon Entree](src/main/resources/com/marrok/inventaire_esm/screenshots/add_bon_entree.png)
 
-> **Note**: To capture screenshots, you can use tools like Snipping Tool (Windows), Screenshot (Mac), or take screenshots directly from your IDE during runtime. Save them in the `screenshots` folder of your project and reference them in the `README.md` as shown above.
+### 4. **Add Inventaire**
 
+![Add Inventaire](src/main/resources/com/marrok/inventaire_esm/screenshots/add_inventaire.png)
+
+### 5. **Bon Entree**
+
+![Bon Entree](src/main/resources/com/marrok/inventaire_esm/screenshots/bon_entree.png)
+
+### 6. **Extract Inventaire**
+
+![Extract Inventaire](src/main/resources/com/marrok/inventaire_esm/screenshots/extract_inventaire.png)
+
+### 7. **Inventaire View**
+
+![Inventaire View](src/main/resources/com/marrok/inventaire_esm/screenshots/inventaire_view.png)
+
+### 8. **Settings**
+
+![Settings](src/main/resources/com/marrok/inventaire_esm/screenshots/setting.png)
 ## Installation
 
 ### Prerequisites
