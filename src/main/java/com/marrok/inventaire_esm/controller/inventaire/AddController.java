@@ -121,9 +121,7 @@ public class AddController implements Initializable {
         DatabaseHelper dbHelper = new DatabaseHelper();
         List<Article> articles = dbHelper.getArticles();
         List<Employer> employers = dbHelper.getEmployers();
-        for (Employer employer : employers) {
-            System.out.println("employer: " + employer.getFirstName());
-        }
+
         articlelist =  FXCollections.observableArrayList(articles);
         emploerlist =  FXCollections.observableArrayList(employers);
         filterView.getItems().setAll(articlelist);
@@ -149,7 +147,7 @@ public class AddController implements Initializable {
             String inv_status = status_inventaire.getValue();
             LocalDate selectedDate = calendarPicker1.getValue();
             String inv_date = selectedDate != null ? selectedDate.toString() : "";
-            System.out.println("AddController.handleAdd selected date= "+inv_date);
+
 
             if (employerId != -1 && employerInventaireCode.getText() != null) { // Check if employer was successfully found
                 Inventaire_Item newItem = new Inventaire_Item(0, articleId,

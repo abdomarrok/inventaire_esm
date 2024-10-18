@@ -3,6 +3,7 @@ package com.marrok.inventaire_esm.controller.service;
 import com.marrok.inventaire_esm.model.Service;
 import com.marrok.inventaire_esm.util.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -25,14 +26,15 @@ import java.util.ResourceBundle;
 
 public class ServicesController implements Initializable {
 
+    public TableColumn<Service,String> chef_service_Column;
     @FXML
-    private TableView  servicesTable;
+    private TableView<Service>  servicesTable;
 
     @FXML
-    private TableColumn idColumn;
+    private TableColumn<Service,Integer> idColumn;
 
     @FXML
-    private TableColumn nameColumn;
+    private TableColumn<Service,String> nameColumn;
 
     @FXML
     private TextField searchField;
@@ -75,14 +77,22 @@ public class ServicesController implements Initializable {
     private void initializeColumns() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        chef_service_Column.setCellValueFactory(cellData ->{
+            int empl_id=cellData.getValue().getChef_service_id();
+
+            String employerFullName = dbhelper.getEmployerFullNameById(empl_id);
+            if (employerFullName != null) {
+                return new SimpleStringProperty(employerFullName);
+            } else {
+                return new SimpleStringProperty("Unknown");
+            }
+        } );
     }
 
     @FXML
     private void loadServices() {
         servicesList = FXCollections.observableArrayList(dbhelper.getServices());
-        for (Service service : servicesList) {
-            System.out.println(service.getServiceDetails());
-        }
+
         filteredServicesList = new FilteredList<>(servicesList, p -> true);
         servicesTable.setItems(filteredServicesList);
         servicesTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

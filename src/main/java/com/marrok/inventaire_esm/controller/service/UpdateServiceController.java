@@ -1,24 +1,37 @@
 package com.marrok.inventaire_esm.controller.service;
 
+import com.dlsc.gemsfx.FilterView;
+import com.marrok.inventaire_esm.model.Employer;
 import com.marrok.inventaire_esm.model.Service;
 import com.marrok.inventaire_esm.util.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import fr.brouillard.oss.cssfx.CSSFX;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class UpdateServiceController {
+public class UpdateServiceController implements Initializable {
 
     @FXML
     private TextField nameField;
 
-    @FXML
-    private Button saveButton;
+    public FilterView<Employer> filterView2;
+    public TableView<Employer> tbData2;
+    public TableColumn<Employer, Integer> id_E;
+    public TableColumn<Employer, String> firstname_E;
+    public TableColumn<Employer, String> lastname_E;
+    private ObservableList<Employer> emploerlist;
 
     @FXML
     private Button cancelButton;
@@ -29,16 +42,57 @@ public class UpdateServiceController {
 
     public UpdateServiceController() throws SQLException {
     }
-
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        initTable();
+        loadFilter();
+        loadTableData();
+        CSSFX.start();
+    }
     public void setDashboardController(ServicesController servicesController) {
         this.servicesController = servicesController;
+    }
+    private void initTable() {
+        id_E.setCellValueFactory(new PropertyValueFactory<>("id"));
+        firstname_E.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastname_E.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+    }
+    private void loadTableData() {
+        List<Employer> employers = dbhelper.getEmployers();
+        emploerlist =  FXCollections.observableArrayList(employers);
+        filterView2.getItems().setAll(emploerlist);
+    }
+    private void loadFilter() {
+        filterView2.getFilterGroups().clear();
+
+        filterView2.setTextFilterProvider(text -> employer -> {
+            if(text==null || text.isEmpty()){
+                return true;
+            }
+            String lowerCase = text.toLowerCase();
+            return employer.getFirstName().toLowerCase().contains(lowerCase)||
+                    employer.getLastName().toLowerCase().contains(lowerCase)||
+                    String.valueOf(employer.getId()).toLowerCase().contains(lowerCase);
+        });
+        loadTableData();
+        SortedList<Employer> sortedList2 = new SortedList<>(filterView2.getFilteredItems());
+        tbData2.setItems(sortedList2);
+        sortedList2.comparatorProperty().bind(tbData2.comparatorProperty());
     }
 
     public void setServiceData(int serviceId) {
         this.serviceId = serviceId;
         Service service = dbhelper.getServiceById(serviceId);
+
+
         if (service != null) {
+            Employer employer = dbhelper.getEmployerById(service.getChef_service_id());
+            if(employer!=null){
+                tbData2.getSelectionModel().select(employer);
+            }
             nameField.setText(service.getName());
+
+
         } else {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "لم يتم العثور على المصلحة.");
 
@@ -49,25 +103,33 @@ public class UpdateServiceController {
     @FXML
     private void updateService(ActionEvent event) {
         String name = nameField.getText().trim();
+        int serviceId = this.serviceId;
+        Employer selectedEmployer = tbData2.getSelectionModel().getSelectedItem();
 
         if (name.isEmpty()) {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "مدخل غير صحيح", "اسم المصلحة لا يمكن أن يكون فارغًا.");
 
             return;
         }
-        int serviceId = this.serviceId;
-        Service service = new Service(serviceId,name);
+        if (selectedEmployer != null) {
 
-try{
-            dbhelper.updateService(service);
-            servicesController.refreshTableData();
-    GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم تحديث المصلحة بنجاح.");
+            Service service = new Service(serviceId, name, selectedEmployer.getId());
 
-    closeStage();
-        } catch (Exception e){
-    GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", e.getMessage());
+            boolean success = dbhelper.updateService(service);
+            if (success) {
+                GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تمت إضافة المصلحة بنجاح.");
 
-}
+                servicesController.refreshTableData();
+                closeStage();
+            } else {
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في إضافة المصلحة.");
+
+            }
+
+
+        } else {
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في إضافة المصلحة. حدد موضفا ليكون رئيس المصلحة");
+        }
     }
 
     @FXML
@@ -79,4 +141,6 @@ try{
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
+
+
 }

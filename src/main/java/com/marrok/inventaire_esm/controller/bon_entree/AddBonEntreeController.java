@@ -253,7 +253,6 @@ public class AddBonEntreeController {
         }
 
 
-     Stage stage= (Stage) printButton.getScene().getWindow();
-        stage.close();
+    GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/bon_entree/bon_entree-view.fxml",event,true);
     }
 }

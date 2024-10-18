@@ -388,12 +388,12 @@ public DatabaseHelper() throws SQLException {
 
     public List<Service> getServices() {
         List<Service> services = new ArrayList<>();
-        String query = "SELECT id, name FROM service ORDER BY id DESC;";
+        String query = "SELECT * FROM service ORDER BY id DESC;";
 
         try (PreparedStatement stmt = this.cnn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                Service service = new Service(rs.getInt("id"), rs.getString("name"));
+                Service service = new Service(rs.getInt("id"), rs.getString("name"),rs.getInt("chef_service_id"));
                 services.add(service);
             }
         } catch (SQLException e) {
@@ -404,9 +404,10 @@ public DatabaseHelper() throws SQLException {
     }
 
     public boolean addService(Service service) {
-        String query = "INSERT INTO service (name) VALUES (?)";
+        String query = "INSERT INTO service (name,chef_service_id) VALUES (?,?)";
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setString(1, service.getName());
+            stmt.setInt(2, service.getChef_service_id());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -416,10 +417,11 @@ public DatabaseHelper() throws SQLException {
     }
 
     public boolean updateService(Service service) {
-        String query = "UPDATE service SET name = ? WHERE id = ?";
+        String query = "UPDATE service SET name = ? ,chef_service_id=? WHERE id = ?";
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setString(1, service.getName());
-            stmt.setInt(2, service.getId());
+            stmt.setInt(2, service.getChef_service_id());
+            stmt.setInt(3, service.getId());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -753,6 +755,36 @@ public DatabaseHelper() throws SQLException {
             return false;
         }
     }
+
+    public Employer getEmployerById(int employerId) {
+        Employer employer = null;
+        String query = "SELECT * FROM employeur WHERE id = ?"; // Assuming `id` is the primary key in the `employeur` table.
+
+        try (PreparedStatement pstmt = this.cnn.prepareStatement(query)) {
+
+            pstmt.setInt(1, employerId);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            if (resultSet.next()) {
+                // Create an Employer object and set its fields using the result set
+                employer = new Employer(
+                        resultSet.getInt("id"),
+                        resultSet.getString("firstname"),
+                        resultSet.getString("lastname"),
+                       resultSet.getString("title")
+                );
+
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions such as connection issues or SQL errors
+        }
+
+        return employer;
+    }
+
     public ObservableList<Employer> getEmployers() {
         ObservableList<Employer> employerList = FXCollections.observableArrayList();
         String query = "SELECT * FROM employeur";
@@ -1262,7 +1294,7 @@ public DatabaseHelper() throws SQLException {
 
     public List<BonEntree> getBonEntrees() {
         List<BonEntree> bonEntrees = new ArrayList<>();
-        String query = "SELECT id, id_fournisseur, date, TVA, document_num FROM bon_entree Order by date desc;";
+        String query = "SELECT id, id_fournisseur, date, TVA, document_num FROM bon_entree Order by last_edited desc;";
 
         try (PreparedStatement stmt = this.cnn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
