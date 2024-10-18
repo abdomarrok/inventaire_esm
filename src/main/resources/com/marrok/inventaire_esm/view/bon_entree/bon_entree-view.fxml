@@ -46,6 +46,14 @@
             </HBox>
 
         </top>
+        <right>
+            <VBox fx:id="leftBox" alignment="TOP_RIGHT" spacing="20.0">
+                <padding>
+                    <Insets left="10.0" right="10.0" />
+                </padding>
+                <Button fx:id="BonEntreeBtn" onAction="#goBonEntree" styleClass="btn_bon" text="إضافة " />
+            </VBox>
+        </right>
 
         <center>
             <VBox BorderPane.alignment="CENTER">
