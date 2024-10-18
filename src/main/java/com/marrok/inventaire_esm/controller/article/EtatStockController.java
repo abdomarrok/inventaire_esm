@@ -1,6 +1,6 @@
 package com.marrok.inventaire_esm.controller.article;
 
-import com.marrok.inventaire_esm.controller.bon_entree.BonEntreeController;
+import com.marrok.inventaire_esm.controller.bon_entree.AddBonEntreeController;
 import com.marrok.inventaire_esm.controller.bon_sortie.BonSortieController;
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.util.DatabaseHelper;
@@ -87,7 +87,7 @@ public class EtatStockController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/bon_entree/add_bon_entree-view.fxml"));
             Parent root = loader.load();
-            BonEntreeController controller = loader.getController();//من اجل ارسال متغيرات عبره
+            AddBonEntreeController controller = loader.getController();//من اجل ارسال متغيرات عبره
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);

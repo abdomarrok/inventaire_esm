@@ -37,4 +37,8 @@ public class StockDashboardController implements Initializable {
     public void goBack(ActionEvent event) {
         GeneralUtil.goBackDashboard(event);
     }
+
+    public void go_bon_entrees_list(ActionEvent event) {
+
+    }
 }

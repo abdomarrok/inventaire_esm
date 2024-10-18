@@ -109,9 +109,7 @@ public class AddEntreeController {
         selectedEntree.setUnitPrice(pricePerUnit);
         selectedEntree.setIdBe(0); // Set the Bon Entree ID or leave for later if it's determined elsewhere
 
-        // Close the popup and return the selected data
-        Stage stage = (Stage) articleTable.getScene().getWindow();
-        stage.close();
+       closeDialog(event);
     }
     @FXML
     public void closeDialog(ActionEvent event) {

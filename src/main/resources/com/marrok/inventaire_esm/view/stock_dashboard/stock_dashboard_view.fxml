@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="bodybg" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.stock_dashboard.StockDashboardController">
+<AnchorPane minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="bodybg_stock" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.stock_dashboard.StockDashboardController">
 
     <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <top>
-        <HBox fx:id="topBox" alignment="CENTER">
+<!--        <top>-->
+<!--        <HBox fx:id="topBox" alignment="CENTER">-->
 
-                <Label fx:id="titleLabel" styleClass="titleLabel" text="إدارة المخــزون" HBox.hgrow="SOMETIMES" />
+<!--                <Label fx:id="titleLabel" styleClass="titleLabel" text="إدارة المخــزون" HBox.hgrow="SOMETIMES" />-->
 
-        </HBox>
-        </top>
+<!--        </HBox>-->
+<!--        </top>-->
 
         <center>
         <AnchorPane prefHeight="621.0" prefWidth="1000.0">
@@ -24,6 +25,15 @@
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../../img/order.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
+                <Button fx:id="list_be_button" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#go_bon_entrees_list" prefHeight="58.0" prefWidth="258.0" style="-fx-background-color: #c48264; " styleClass="dashboard_tub" text="وصول الاستلام">
+                    <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../img/doc_list.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -56,9 +66,15 @@
                     </graphic>
                 </Button>
             </VBox>
-            <Button layoutX="872.0" layoutY="532.0" mnemonicParsing="false" onAction="#goBack" styleClass="btn" text="رجوع" />
+
         </AnchorPane>
         </center>
+        <bottom>
+            <Button mnemonicParsing="false" onAction="#goBack" styleClass="btn" text="رجوع" BorderPane.alignment="CENTER_RIGHT">
+            <BorderPane.margin>
+               <Insets bottom="10.0" right="10.0" />
+            </BorderPane.margin></Button>
+        </bottom>
     </BorderPane>
     <stylesheets>
         <!--        <URL value="@../../css/primer-light.css" />-->

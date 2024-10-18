@@ -173,7 +173,7 @@ public DatabaseHelper() throws SQLException {
     // Method to fetch all articles
     public List<Article> getArticles() {
         List<Article> articles = new ArrayList<>();
-        String query = "SELECT id, name, unite, quantity, remarque, description, id_category FROM article ORDER BY id DESC;";
+        String query = "SELECT id, name, unite, quantity, remarque, description, id_category, last_edited FROM article ORDER BY last_edited DESC; ";
 
         try (PreparedStatement stmt = this.cnn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -292,7 +292,7 @@ public DatabaseHelper() throws SQLException {
             return stmt.executeUpdate() > 0;
         } catch (SQLIntegrityConstraintViolationException e) {
 
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "لا تستطيع حذف هذا العنصر لانه مازال مرفقا بجرد");
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "لا تستطيع حذف هذا العنصر لانه مازال مرفقا بجرد او وصل استلام");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -1210,11 +1210,12 @@ public DatabaseHelper() throws SQLException {
         }
     }
     public int createBonEntree(BonEntree bonEntree) {
-        String query = "INSERT INTO bon_entree (id_fournisseur, date, TVA) VALUES (?, ?, ?)";
+        String query = "INSERT INTO bon_entree (id_fournisseur, date, TVA,document_num) VALUES (?, ?, ?,?)";
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, bonEntree.getIdFournisseur());
             preparedStatement.setDate(2, new java.sql.Date(bonEntree.getDate().getTime()));
             preparedStatement.setInt(3, bonEntree.getTva());
+            preparedStatement.setString(4, bonEntree.getDocumentNum());
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {

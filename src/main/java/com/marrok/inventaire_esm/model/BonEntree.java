@@ -7,13 +7,14 @@ public class BonEntree {
     private int idFournisseur; // Foreign key referencing fournisseur
     private Date date; // Use java.util.Date for datetime type
     private int tva; // Tax Value Added
-
+    private String documentNum;
     // Constructor
-    public BonEntree(int id, int idFournisseur, Date date, int tva) {
+    public BonEntree(int id, int idFournisseur, Date date, int tva, String documentNum) {
         this.id = id;
         this.idFournisseur = idFournisseur;
         this.date = date;
         this.tva = tva;
+        this.documentNum = documentNum;
     }
 
     // Default constructor
@@ -53,6 +54,14 @@ public class BonEntree {
         this.tva = tva;
     }
 
+    public String getDocumentNum() {
+        return documentNum;
+    }
+
+    public void setDocumentNum(String documentNum) {
+        this.documentNum = documentNum;
+    }
+
     @Override
     public String toString() {
         return "BonEntree{" +
@@ -60,6 +69,7 @@ public class BonEntree {
                 ", idFournisseur=" + idFournisseur +
                 ", date=" + date +
                 ", tva=" + tva +
+                ", documentNum='" + documentNum + '\'' +
                 '}';
     }
 }
