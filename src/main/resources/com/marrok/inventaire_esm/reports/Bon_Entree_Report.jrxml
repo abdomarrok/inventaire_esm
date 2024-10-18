@@ -1,0 +1,88 @@
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="Bon_Entree_Report" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="94f47edb-7e89-459b-baa4-c7b73a3b40fc">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
+	<parameter name="bon_entree_id" class="java.lang.Integer"/>
+	<query language="SQL"><![CDATA[
+   SELECT
+    be.id AS bon_entree_id,
+    be.date AS bon_entree_date,
+    be.id_fournisseur AS fournisseur_id,
+    f.name AS fournisseur_name,
+    f.RC AS fournisseur_RC,
+    f.NIF AS fournisseur_NIF,
+    f.AI AS fournisseur_AI,
+    f.NIS AS fournisseur_NIS,
+    f.TEL AS fournisseur_TEL,
+    f.FAX AS fournisseur_FAX,
+    f.ADDRESS AS fournisseur_ADDRESS,
+    f.EMAIL AS fournisseur_EMAIL,
+    e.id_article AS article_id,
+    a.name AS article_name,
+    e.unit_price As unit_price,
+    e.quantity  AS quantity
+FROM
+    bon_entree be
+JOIN
+    entree e ON be.id = e.id_be
+JOIN
+    article a ON e.id_article = a.id
+JOIN
+    fournisseur f ON be.id_fournisseur = f.id
+WHERE
+    be.id = $P{bon_entree_id};
+
+
+
+    ]]></query>
+	<field name="bon_entree_id" class="java.lang.Integer"/>
+	<field name="fournisseur_id" class="java.lang.Integer"/>
+	<field name="bon_entree_date" class="java.lang.String"/>
+	<field name="id_article" class="java.lang.Integer"/>
+	<field name="quantity" class="java.lang.Integer"/>
+	<field name="unit_price" class="java.lang.Float"/>
+	<field name="fournisseur_name" class="java.lang.String"/>
+	<field name="fournisseur_TEL" class="java.lang.String"/>
+	<field name="article_name" class="java.lang.String"/>
+	<title height="155">
+		<element kind="staticText" uuid="afc5e77c-017f-4b4b-8452-410f233a8d2d" x="200" y="10" width="200" height="40" fontName="Andalus" fontSize="18.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[تفاصيل الوصل]]></text>
+		</element>
+		<element kind="textField" uuid="db47c51e-1174-4b53-9a21-6761f21c98a2" x="20" y="60" width="120" height="20" hTextAlign="Right">
+			<expression><![CDATA[$F{bon_entree_id}]]></expression>
+		</element>
+		<element kind="staticText" uuid="17d77697-8f53-44bb-8cb7-4c4bde477cc8" x="145" y="60" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[رقم الوصل]]></text>
+		</element>
+		<element kind="textField" uuid="aba34561-033b-4553-989a-33b4b92b3c6a" x="-10" y="90" width="170" height="20" hTextAlign="Right">
+			<expression><![CDATA[$F{fournisseur_name}]]></expression>
+		</element>
+		<element kind="staticText" uuid="cdf1091b-4176-4d15-8990-30456c72c4da" x="160" y="90" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[المورد:]]></text>
+		</element>
+	</title>
+	<columnHeader height="52">
+		<element kind="staticText" uuid="cb5f9d28-16d7-4378-b46d-90b21b15fa16" x="40" y="30" width="80" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[الكمية:]]></text>
+		</element>
+		<element kind="staticText" uuid="cb5f9d28-16d7-4378-b46d-90b21b15fa16" x="120" y="30" width="210" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[اسم العنصر:]]></text>
+		</element>
+		<element kind="staticText" uuid="0e5a1e39-70be-4fe2-8b6d-5ff3d7c8ed82" x="330" y="30" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[P U HT]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="45">
+			<element kind="textField" uuid="ae828c7e-347d-47ff-8577-241918b2307a" x="120" y="0" width="210" height="20" hTextAlign="Center">
+				<expression><![CDATA[$F{article_name}]]></expression>
+			</element>
+			<element kind="textField" uuid="46c30ba2-3b65-45f3-8999-b0f4cdb9d408" x="40" y="0" width="80" height="20" hTextAlign="Center">
+				<expression><![CDATA[$F{quantity}]]></expression>
+			</element>
+			<element kind="textField" uuid="ddef9a22-5d2e-4eec-92b4-4b46a07c3439" x="330" y="0" width="100" height="20" hTextAlign="Center">
+				<expression><![CDATA[$F{unit_price}]]></expression>
+			</element>
+		</band>
+	</detail>
+</jasperReport>

@@ -4,6 +4,7 @@ import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.BonEntree;
 import com.marrok.inventaire_esm.model.Entree;
 import com.marrok.inventaire_esm.model.Fournisseur;
+import com.marrok.inventaire_esm.util.DatabaseConnection;
 import com.marrok.inventaire_esm.util.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,16 +19,26 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BonEntreeController {
 
-    DatabaseHelper dbhelper= new DatabaseHelper();
+    DatabaseHelper dbhelper = new DatabaseHelper();
 
     public ChoiceBox<Fournisseur> fournisseurChoiceBox;
 
@@ -53,6 +64,8 @@ public class BonEntreeController {
     public Button printButton;
 
     private ObservableList<Entree> entreesList = FXCollections.observableArrayList();
+    Map<String, Object> parameters = new HashMap<>();
+    private int current_be_id = -1;
 
     public BonEntreeController() throws SQLException {
 
@@ -94,7 +107,7 @@ public class BonEntreeController {
         // Assuming you have a method to fetch fournisseur data from the database
         List<Fournisseur> fournisseurs = dbhelper.getFournisseurs();
 
-         fournisseurChoiceBox.setItems(FXCollections.observableArrayList(fournisseurs));
+        fournisseurChoiceBox.setItems(FXCollections.observableArrayList(fournisseurs));
     }
 
     // Add a new article (item) to the Bon Entree
@@ -181,6 +194,7 @@ public class BonEntreeController {
         if (bonEntreeId <= 0) {
             return false; // Failed to create Bon Entree
         }
+        current_be_id = bonEntreeId;
 
         // Save each Entree associated with the Bon Entree
         for (Entree entree : entrees) {
@@ -195,8 +209,59 @@ public class BonEntreeController {
     }
 
     public void printBonEntree(ActionEvent event) {
-        GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "to be done");
-        Stage stage = (Stage) printButton.getScene().getWindow();
-       stage.close();
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getInstance().getConnection();
+            InputStream reportStream = getClass().getResourceAsStream("/com/marrok/inventaire_esm/reports/Bon_Entree_Report.jrxml");
+            parameters.put("bon_entree_id", 2);
+            if (reportStream == null) {
+                throw new FileNotFoundException("Report file not found.");
+            }
+            System.out.println("Parameters: " + parameters);
+
+            // Compile the report
+            JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
+//            if (current_be_id != -1) {
+//                parameters.put("bon_entree_id", current_be_id);
+//            } else {
+//                GeneralUtil.showAlert(Alert.AlertType.WARNING, "Error", "Error with current bon entree ID.");
+//                return; // Exit if the ID is invalid
+//            }
+
+            // Fill the report
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+
+            // View the report
+            JasperViewer viewer = new JasperViewer(jasperPrint, false);
+            viewer.setTitle("وصل استلام");
+            viewer.setVisible(true);
+
+        } catch (FileNotFoundException fnf) {
+            System.out.println("Report file not found: " + fnf.getMessage());
+            fnf.printStackTrace();
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Report file not found: " + fnf.getMessage());
+        } catch (SQLException sqlEx) {
+            System.out.println("SQL Error: " + sqlEx.getMessage());
+            sqlEx.printStackTrace();
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "SQL Error", "Error while accessing the database: " + sqlEx.getMessage());
+        } catch (Exception ex) {
+            System.out.println("Error generating report: " + ex.getMessage());
+            ex.printStackTrace();
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Error generating report: " + ex.getMessage());
+        } finally {
+            // Ensure the connection is closed to avoid leaks
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+     Stage stage= (Stage) printButton.getScene().getWindow();
+        stage.close();
     }
 }
