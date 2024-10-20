@@ -39,7 +39,7 @@
         <center>
             <VBox fx:id="centerBox" BorderPane.alignment="CENTER">
                 <children>
-                    <TableView fx:id="tableView" nodeOrientation="RIGHT_TO_LEFT" styleClass="tableview" stylesheets="@../../css/tableview.css">
+                    <TableView fx:id="tableView" nodeOrientation="RIGHT_TO_LEFT" stylesheets="@../../css/tableview.css">
                         <columns>
                             <TableColumn fx:id="idInventaireColumn" text="المعرف" />
                             <TableColumn fx:id="articleIdColumn" text="العنصر" />

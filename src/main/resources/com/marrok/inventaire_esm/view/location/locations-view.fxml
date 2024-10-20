@@ -80,7 +80,7 @@
     <center>
         <VBox prefHeight="362.0" prefWidth="710.0" BorderPane.alignment="CENTER">
             <children>
-                <TableView fx:id="location_tableView" editable="true" nodeOrientation="RIGHT_TO_LEFT" prefHeight="241.0" prefWidth="710.0" styleClass="tableview" stylesheets="@../../css/tableview.css">
+                <TableView fx:id="location_tableView" editable="true" nodeOrientation="RIGHT_TO_LEFT" styleClass="tableview" stylesheets="@../../css/tableview.css">
                     <columns>
                         <TableColumn fx:id="location_id" prefWidth="154.0" text="المعرف" />
                         <TableColumn fx:id="location_name" maxWidth="400.0" minWidth="100.0" prefWidth="270.0" text="اسم المكان" />

@@ -27,10 +27,15 @@
 
 .background {
     -fx-padding: 20;
-    -fx-background-color: #fff1dc;
+    /*-fx-background-color: #fff1dc; */
+    -fx-background-color: #fffbf6;
 }
 .bodybg{
     -fx-background-image: url('../img/inventorybg.jpg');
+    -fx-background-size: 100% 100%;
+}
+.bodybg2{
+    -fx-background-image: url('../img/inventorybgv2.jpg');
     -fx-background-size: 100% 100%;
 }
 .bodybg_fiche_inventire{
@@ -74,7 +79,7 @@
     -fx-min-height: 50px;
     -fx-font-family: 'Andalus';
     -fx-font-size: 25px;
-    -fx-text-fill: white;
+    -fx-text-fill: #fffbf6;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
 }
@@ -92,14 +97,14 @@
 /* Hover effect for btn_fiche_inv */
 .btn_fiche_inv:hover {
     -fx-background-color: #d37b29; /* Darker shade for hover */
-    -fx-text-fill: #ffffff; /* Change text color on hover */
+    -fx-text-fill: #fffbf6; /* Change text color on hover */
 }
 
 .btn_bon {
     -fx-background-color: #343a40;
     -fx-font-family: 'Andalus';
     -fx-font-size: 20px;
-    -fx-text-fill: #ffffff;
+    -fx-text-fill: #fffbf6;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
 }
@@ -129,13 +134,28 @@
     -fx-background-color:  #343a40; /* Amber */
 }
 .lgn_btn {
-    -fx-background-color: #deac80; /* Blueish-gray */
+    /*-fx-background-color: #deac80; */
+    -fx-background-color: #343a40;
     -fx-font-family: "Cairo";
     -fx-font-size: 20px;
     -fx-background-radius: 20px;
-    -fx-text-fill: black;
-
+    -fx-text-fill: #fffbf6;
+    -fx-border-width: 1px;
+    -fx-border-color: #703d25;
+    -fx-border-radius: 20;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 1);
+}
+
+.lgn_btn:hover {
+
+    -fx-background-color: derive(#343a40, 30%);
+    -fx-text-fill:  #fff1dc;
+}
+
+.lgn_btn:pressed {
+    -fx-background-color: #494e52; /* Even darker on press */
+    -fx-border-color: #606060;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 6, 0, 0, 2);
 }
 /* Button Style */
 .export_btn {
@@ -168,7 +188,7 @@
     -fx-preserve-ratio: true;
 }
 .settings_btn{
-    -fx-background-color: #ffffff;
+    -fx-background-color: #fffbf6;
     -fx-border-color: #dee2e6;
     -fx-font-family: 'Andalus';
     -fx-border-width: 1px;
@@ -197,27 +217,15 @@
     -fx-border-width: 2px; /* Border width */
     -fx-border-radius: 5px; /* Slightly rounded corners */
     -fx-padding: 10px; /* Add padding around barcode */
-    -fx-background-color: #ffffff; /* Background color for contrast */
+    -fx-background-color: #fffbf6; /* Background color for contrast */
 }
 
-
-.lgn_btn:hover {
-
-    -fx-background-color: derive(#deac80, 30%);
-    -fx-text-fill:  #fff1dc;
-}
-
-.lgn_btn:pressed {
-    -fx-background-color: #494e52; /* Even darker on press */
-    -fx-border-color: #606060;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 6, 0, 0, 2);
-}
 
 
 
 
 .userId, .password {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #fffbf6;
     -fx-border-color: #ced4da;
     -fx-border-width: 1px;
     -fx-border-radius: 10px;
@@ -296,7 +304,7 @@
 
 /* Search Field Styles */
 .searchField {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #fffbf6;
     -fx-border-color: #ced4da;
     -fx-border-width: 1px;
     -fx-border-radius: 30px;

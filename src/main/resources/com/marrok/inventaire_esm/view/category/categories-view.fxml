@@ -75,7 +75,7 @@
    <center>
       <VBox prefHeight="362.0" prefWidth="710.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="cat_tableView" nodeOrientation="RIGHT_TO_LEFT" prefHeight="241.0" prefWidth="710.0" styleClass="tableview" stylesheets="@../../css/tableview.css">
+            <TableView fx:id="cat_tableView" nodeOrientation="RIGHT_TO_LEFT" styleClass="tableview" stylesheets="@../../css/tableview.css">
               <columns>
                 <TableColumn fx:id="cat_id" prefWidth="155.0" text="المعرف" />
                 <TableColumn fx:id="cat_name" prefWidth="692.0" text="الاسم" />

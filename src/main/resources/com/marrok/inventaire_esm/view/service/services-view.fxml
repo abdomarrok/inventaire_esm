@@ -73,7 +73,7 @@
                 <children>
 
 
-                    <TableView fx:id="servicesTable" editable="true" nodeOrientation="RIGHT_TO_LEFT" prefHeight="281.0" prefWidth="900.0" styleClass="tableview" stylesheets="@../../css/tableview.css">
+                    <TableView fx:id="servicesTable" editable="true" nodeOrientation="RIGHT_TO_LEFT" styleClass="tableview" stylesheets="@../../css/tableview.css">
                         <columns>
                             <TableColumn fx:id="idColumn" prefWidth="140.0" text="المعرف" />
                             <TableColumn fx:id="nameColumn" prefWidth="718.0" text="إسم المصلحة" />
