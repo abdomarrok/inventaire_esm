@@ -100,7 +100,7 @@ public class FournisseurController implements Initializable {
     }
     private void setupTableSelectionListener() {
         bk_Dashboard_from_fournisseur.setOnAction(event -> {
-            GeneralUtil.goBackDashboard(event);
+            GeneralUtil.goBackStockDashboard(event);
         });
         fournisseurTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedFournisseur = newValue);
     }

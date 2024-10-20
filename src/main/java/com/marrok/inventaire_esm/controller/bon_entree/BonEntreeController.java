@@ -134,7 +134,7 @@ public class BonEntreeController implements Initializable {
 
 
     public void goHome(ActionEvent event) {
-        GeneralUtil.goBackDashboard(event);
+        GeneralUtil.goBackStockDashboard(event);
     }
     public void refreshTableData() {
         try {

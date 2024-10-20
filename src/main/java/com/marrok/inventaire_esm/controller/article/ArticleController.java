@@ -169,7 +169,7 @@ public class ArticleController implements Initializable {
 
     private void setupTableSelectionListener() {
         bk_Dashboard_from_products.setOnAction(event -> {
-           GeneralUtil.goBackDashboard(event);
+           GeneralUtil.goBackStockDashboard(event);
         });
         tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedArticle = newValue);
         tableView.setOnMouseClicked((MouseEvent event) -> {

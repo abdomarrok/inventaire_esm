@@ -70,7 +70,7 @@ public class LoginController extends AnchorPane implements Initializable {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل التسجيل", "كلمة السر او اسم المستخدم خاطئ");
         }
     } catch (SQLException e) {
-        e.printStackTrace();
+        Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
         GeneralUtil.showAlert(Alert.AlertType.ERROR,"فشل في الاتصال",e.getMessage());
         // Handle exception, possibly by showing an alert to the user
     }
