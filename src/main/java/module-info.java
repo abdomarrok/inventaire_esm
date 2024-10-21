@@ -16,6 +16,11 @@ module com.marrok.inventaire_esm {
     requires com.google.zxing.javase;
     requires javafx.swing;
     requires jasperreports;
+    requires commons.beanutils;
+    requires commons.collections;
+    requires commons.digester;
+    requires commons.validator;
+    requires commons.math3;
     requires barcode4j;
 
     requires com.fasterxml.jackson.core;

@@ -44,6 +44,15 @@ WHERE
 	<field name="fournisseur_name" class="java.lang.String"/>
 	<field name="fournisseur_TEL" class="java.lang.String"/>
 	<field name="article_name" class="java.lang.String"/>
+	<variable name="montant_ht" class="java.lang.Float">
+		<expression><![CDATA[$F{quantity} != null && $F{unit_price} != null ? $F{quantity} * $F{unit_price} : 0.0f]]></expression>
+	</variable>
+	<variable name="total_montant_ht" calculation="Sum" class="java.lang.Float">
+		<expression><![CDATA[$V{montant_ht}]]></expression>
+	</variable>
+	<variable name="tva_amount" class="java.lang.Float">
+		<expression><![CDATA[$V{total_montant_ht} * 0.19f]]></expression>
+	</variable>
 	<title height="155">
 		<element kind="staticText" uuid="afc5e77c-017f-4b4b-8452-410f233a8d2d" x="200" y="10" width="200" height="40" fontName="Andalus" fontSize="18.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[تفاصيل الوصل]]></text>
@@ -54,35 +63,55 @@ WHERE
 		<element kind="staticText" uuid="17d77697-8f53-44bb-8cb7-4c4bde477cc8" x="145" y="60" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[رقم الوصل]]></text>
 		</element>
-		<element kind="textField" uuid="aba34561-033b-4553-989a-33b4b92b3c6a" x="-10" y="90" width="170" height="20" hTextAlign="Right">
+		<element kind="textField" uuid="aba34561-033b-4553-989a-33b4b92b3c6a" x="0" y="90" width="160" height="20" hTextAlign="Right">
 			<expression><![CDATA[$F{fournisseur_name}]]></expression>
 		</element>
 		<element kind="staticText" uuid="cdf1091b-4176-4d15-8990-30456c72c4da" x="160" y="90" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[المورد:]]></text>
 		</element>
 	</title>
-	<columnHeader height="52">
+	<columnHeader height="55">
 		<element kind="staticText" uuid="cb5f9d28-16d7-4378-b46d-90b21b15fa16" x="40" y="30" width="80" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[الكمية:]]></text>
 		</element>
-		<element kind="staticText" uuid="cb5f9d28-16d7-4378-b46d-90b21b15fa16" x="120" y="30" width="210" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="cb5f9d28-16d7-4378-b46d-90b21b15fa16" x="120" y="30" width="200" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[اسم العنصر:]]></text>
 		</element>
-		<element kind="staticText" uuid="0e5a1e39-70be-4fe2-8b6d-5ff3d7c8ed82" x="330" y="30" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="0e5a1e39-70be-4fe2-8b6d-5ff3d7c8ed82" x="320" y="30" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[P U HT]]></text>
+		</element>
+		<element kind="staticText" uuid="5bde2f97-b153-434e-97e0-8e3000249d22" x="420" y="30" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Montant HT]]></text>
 		</element>
 	</columnHeader>
 	<detail>
-		<band height="45">
-			<element kind="textField" uuid="ae828c7e-347d-47ff-8577-241918b2307a" x="120" y="0" width="210" height="20" hTextAlign="Center">
+		<band height="21">
+			<element kind="textField" uuid="ae828c7e-347d-47ff-8577-241918b2307a" x="120" y="0" width="200" height="20" hTextAlign="Center">
 				<expression><![CDATA[$F{article_name}]]></expression>
 			</element>
 			<element kind="textField" uuid="46c30ba2-3b65-45f3-8999-b0f4cdb9d408" x="40" y="0" width="80" height="20" hTextAlign="Center">
 				<expression><![CDATA[$F{quantity}]]></expression>
 			</element>
-			<element kind="textField" uuid="ddef9a22-5d2e-4eec-92b4-4b46a07c3439" x="330" y="0" width="100" height="20" hTextAlign="Center">
+			<element kind="textField" uuid="ddef9a22-5d2e-4eec-92b4-4b46a07c3439" x="320" y="0" width="100" height="20" hTextAlign="Center">
 				<expression><![CDATA[$F{unit_price}]]></expression>
+			</element>
+			<element kind="textField" uuid="d0a84e8c-69eb-45cf-89c6-338e7018d922" x="420" y="0" width="100" height="20" hTextAlign="Center">
+				<expression><![CDATA[$V{montant_ht}]]></expression>
 			</element>
 		</band>
 	</detail>
+	<summary height="50">
+		<element kind="textField" uuid="b7a5c6e0-d8bf-4ce4-bdd5-ec39417f7c89" x="420" y="4" width="100" height="20" hTextAlign="Center">
+			<expression><![CDATA[$V{total_montant_ht}]]></expression>
+		</element>
+		<element kind="staticText" uuid="988820a0-513e-4ace-bd78-47e85b630325" x="360" y="4" width="60" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Left">
+			<text><![CDATA[Total HT]]></text>
+		</element>
+		<element kind="staticText" uuid="2ba0c9de-3b8a-4552-8d7e-85c43716a74a" x="360" y="24" width="60" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Left">
+			<text><![CDATA[TVA 19%]]></text>
+		</element>
+		<element kind="textField" uuid="2b0590e7-9176-4fd2-ba80-cc854cf5defe" x="420" y="24" width="100" height="20" hTextAlign="Center">
+			<expression><![CDATA[$V{tva_amount}]]></expression>
+		</element>
+	</summary>
 </jasperReport>
