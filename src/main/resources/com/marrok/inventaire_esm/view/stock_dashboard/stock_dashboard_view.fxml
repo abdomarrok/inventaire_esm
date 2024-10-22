@@ -46,6 +46,15 @@
                         </ImageView>
                     </graphic>
                 </Button>
+                <Button fx:id="list_bs_button" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#go_bon_sorties_list" prefHeight="58.0" prefWidth="258.0" style="-fx-background-color: #c48264; " styleClass="dashboard_tub" text="وصول الإخراج">
+                    <graphic>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../img/doc_list.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                </Button>
                 <Button fx:id="product_button" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#go_Products" prefHeight="58.0" prefWidth="265.0" style="-fx-background-color: #e6b955;" styleClass="dashboard_tub" text="المواد" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
                     <graphic>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">

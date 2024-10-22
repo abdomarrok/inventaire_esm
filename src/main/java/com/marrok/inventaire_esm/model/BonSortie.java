@@ -7,15 +7,14 @@ public class BonSortie {
     private int idEmployeur;
     private int idService;
     private Date date; //
-    private int idSortie;
+
 
     // Constructor
-    public BonSortie(int id, int idEmployeur, int idService, Date date, int idSortie) {
+    public BonSortie(int id, int idEmployeur, int idService, Date date) {
         this.id = id;
         this.idEmployeur = idEmployeur;
         this.idService = idService;
         this.date = date;
-        this.idSortie = idSortie;
     }
 
     // Default constructor
@@ -55,13 +54,7 @@ public class BonSortie {
         this.date = date;
     }
 
-    public int getIdSortie() {
-        return idSortie;
-    }
 
-    public void setIdSortie(int idSortie) {
-        this.idSortie = idSortie;
-    }
 
     @Override
     public String toString() {
@@ -70,7 +63,6 @@ public class BonSortie {
                 ", idEmployeur=" + idEmployeur +
                 ", idService=" + idService +
                 ", date=" + date +
-                ", idSortie=" + idSortie +
                 '}';
     }
 }

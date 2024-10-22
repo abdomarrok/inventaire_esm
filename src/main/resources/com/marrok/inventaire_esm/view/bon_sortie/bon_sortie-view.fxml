@@ -1,21 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<?import java.net.URL?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<VBox alignment="CENTER" minWidth="0.0" prefHeight="600.0" prefWidth="900.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.marrok.inventaire_esm.controller.bon_sortie.BonSortieController">
+<AnchorPane id="dashboard_id" fx:id="fx_dashboard_id" minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../css/all.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.bon_sortie.BonSortieController">
+    <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <top>
+            <HBox fx:id="topBox" alignment="CENTER">
+                <children>
+                    <HBox alignment="CENTER" prefHeight="96.0" prefWidth="70.0">
+                        <Button contentDisplay="GRAPHIC_ONLY" onAction="#goHome" styleClass="smallDashboard_btn" text="الرئيسية">
+                            <graphic>
+                                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../img/home.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <BorderPane.margin>
+                                <Insets bottom="10.0" />
+                            </BorderPane.margin>
+                        </Button>
+                    </HBox>
+
+                    <HBox alignment="CENTER" prefHeight="96.0" prefWidth="887.0" spacing="50.0">
+                        <TextField fx:id="searchField" alignment="CENTER_RIGHT" minWidth="200" promptText="بحث..." styleClass="searchField" />
+                        <Label fx:id="titleLabel" prefHeight="96.0" prefWidth="260.0" styleClass="titleLabel" text="وصول الاإخراج" HBox.hgrow="SOMETIMES" />
+                    </HBox>
 
 
-    <stylesheets>
-        <!--        <URL value="@../../css/nord-light.css" />-->
-        <URL value="@../../css/all.css" />
-    </stylesheets>
-</VBox>
+                </children>
+                <BorderPane.margin>
+                    <Insets />
+                </BorderPane.margin>
+            </HBox>
+
+        </top>
+        <right>
+            <VBox fx:id="leftBox" alignment="TOP_RIGHT" spacing="20.0">
+                <padding>
+                    <Insets left="10.0" right="10.0" />
+                </padding>
+                <Button fx:id="BonEntreeBtn" onAction="#goBonSortie" styleClass="btn_bon" text="إضافة " />
+            </VBox>
+        </right>
+
+        <center>
+            <VBox BorderPane.alignment="CENTER">
+                <children>
+                    <TableView fx:id="tableView" nodeOrientation="RIGHT_TO_LEFT" styleClass="tableview" stylesheets="@../../css/tableview.css">
+                        <columns>
+                            <TableColumn fx:id="id_bon_sortie" text="المعرف" />
+                            <TableColumn fx:id="employeur" text="الموظف" />
+                            <TableColumn fx:id="date" text="التاريخ" />
+                        </columns>
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+                    </TableView>
+                </children>
+            </VBox>
+        </center>
+    </BorderPane>
+
+</AnchorPane>

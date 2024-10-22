@@ -1398,4 +1398,27 @@ public DatabaseHelper() throws SQLException {
         return bonEntree;
     }
 
+    public List<BonSortie> getBonSorties() {
+        List<BonSortie> bonSorties = new ArrayList<>();
+        String query = "SELECT id, id_employeur, id_service, date, last_edited FROM bon_sortie ORDER BY last_edited DESC";
+
+        try (PreparedStatement stmt = this.cnn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                BonSortie bonSortie = new BonSortie(
+                        rs.getInt("id"),  // id of the bon_sortie
+                        rs.getInt("id_employeur"),  // id of the employeur
+                        rs.getInt("id_service"),  // id of the service
+                        rs.getDate("date")  // Converting SQL timestamp to LocalDateTime
+
+                );
+                bonSorties.add(bonSortie);
+            }
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+
+        return bonSorties;
+    }
 }
