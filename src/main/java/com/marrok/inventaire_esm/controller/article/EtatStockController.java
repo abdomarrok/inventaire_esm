@@ -226,7 +226,7 @@ public class EtatStockController implements Initializable {
             tableView.refresh();
         } catch (SQLException e) {
             e.printStackTrace();
-            // Handle exception, possibly by showing an alert to the user
+
         }
     }
 
