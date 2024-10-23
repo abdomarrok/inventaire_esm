@@ -1291,7 +1291,39 @@ public DatabaseHelper() throws SQLException {
         }
         return -1; // Return -1 if failed to create Bon Entree
     }
+    public int createBonSortie(BonSortie bonSortie) {
+        String query = "INSERT INTO bon_sortie (id_employeur, id_service, date) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setInt(1, bonSortie.getIdEmployeur());
+            preparedStatement.setInt(2, bonSortie.getIdService());
+            preparedStatement.setDate(3, new java.sql.Date(bonSortie.getDate().getTime()));  // Use the java.sql.Date for LocalDate
 
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return generatedKeys.getInt(1); // Return the generated BonSortie ID
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; // Return -1 if failed to create Bon Sortie
+    }
+    public boolean saveSortie(Sortie sortie) {
+        String query = "INSERT INTO sortie (id_article, quantity, id_bs) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
+            preparedStatement.setInt(1, sortie.getIdArticle());
+            preparedStatement.setInt(2, sortie.getQuantity());
+            preparedStatement.setInt(3, sortie.getIdBs());  // Set Bon Sortie ID
+
+            return preparedStatement.executeUpdate() > 0;  // Return true if insertion succeeds
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false; // Return false if an error occurs
+        }
+    }
     public List<BonEntree> getBonEntrees() {
         List<BonEntree> bonEntrees = new ArrayList<>();
         String query = "SELECT id, id_fournisseur, date, TVA, document_num FROM bon_entree Order by last_edited desc;";
@@ -1331,16 +1363,43 @@ public DatabaseHelper() throws SQLException {
             return false; // Return false if an error occurs
         }
     }
+    public int getTotalQuantityByArticleId(int articleId) {
+        String query = "SELECT (COALESCE(SUM(entree.quantity), 0) - COALESCE(SUM(sortie.quantity), 0)) AS total_quantity " +
+                "FROM article " +
+                "LEFT JOIN entree ON article.id = entree.id_article " +
+                "LEFT JOIN sortie ON article.id = sortie.id_article " +
+                "WHERE article.id = ? " +
+                "GROUP BY article.id";
 
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
+            preparedStatement.setInt(1, articleId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("total_quantity");  // Return the total stock for the article
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return -1;  // Return -1 if an error occurs
+    }
     public Map<Integer, Integer> getTotalQuantitiesByArticle() {
         Map<Integer, Integer> totalQuantities = new HashMap<>();
-        String query = "SELECT id_article, SUM(quantity) AS total_quantity FROM entree GROUP BY id_article ORDER BY total_quantity DESC";
+        String query = "SELECT article.id AS article_id, " +
+                "(COALESCE(SUM(entree.quantity), 0) - COALESCE(SUM(sortie.quantity), 0)) AS total_quantity " +
+                "FROM article " +
+                "LEFT JOIN entree ON article.id = entree.id_article " +
+                "LEFT JOIN sortie ON article.id = sortie.id_article " +
+                "GROUP BY article.id " +
+                "ORDER BY total_quantity DESC";
 
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                int articleId = resultSet.getInt("id_article");
+                int articleId = resultSet.getInt("article_id");  // Use the alias 'article_id' to avoid ambiguity
                 int totalQuantity = resultSet.getInt("total_quantity");
                 totalQuantities.put(articleId, totalQuantity);
             }
@@ -1350,6 +1409,7 @@ public DatabaseHelper() throws SQLException {
 
         return totalQuantities;
     }
+
 
     public List<Entree> getEntreesById_BonEntreeId(int bonEntreeId) {
         List<Entree> entrees = new ArrayList<>();

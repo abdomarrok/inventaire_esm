@@ -118,9 +118,8 @@ public class AddController implements Initializable {
     }
 
     private void loadTableData() throws SQLException {
-        DatabaseHelper dbHelper = new DatabaseHelper();
-        List<Article> articles = dbHelper.getArticles();
-        List<Employer> employers = dbHelper.getEmployers();
+        List<Article> articles = dbhelper.getArticles();
+        List<Employer> employers = dbhelper.getEmployers();
 
         articlelist =  FXCollections.observableArrayList(articles);
         emploerlist =  FXCollections.observableArrayList(employers);
