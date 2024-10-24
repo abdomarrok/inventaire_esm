@@ -8,7 +8,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -1412,7 +1411,27 @@ public DatabaseHelper() throws SQLException {
 
         return totalQuantities;
     }
+    public List<Sortie> getSortiesByIdBonSortieId(int idBonSortie) {
+        List<Sortie> sorties = new ArrayList<>();
+        String query = "SELECT * FROM sortie WHERE id_bs = ?"; // Filtering by the BonSortie ID
 
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
+            preparedStatement.setInt(1, idBonSortie); // Bind the BonSortie ID to the query
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                int idArticle = resultSet.getInt("id_article");
+                int quantity = resultSet.getInt("quantity");
+
+                Sortie sortie = new Sortie(id, idArticle, quantity,  idBonSortie); // Adjust constructor if needed
+                sorties.add(sortie);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return sorties; // Return the list of Sortie objects
+    }
 
     public List<Entree> getEntreesById_BonEntreeId(int bonEntreeId) {
         List<Entree> entrees = new ArrayList<>();
@@ -1435,6 +1454,28 @@ public DatabaseHelper() throws SQLException {
             e.printStackTrace();
         }
         return entrees; // Return the list of Entree objects
+    }
+    public BonSortie getBonSortiesById(int id) {
+        String query = "SELECT id, id_employeur, id_service, date, last_edited FROM bon_sortie WHERE id = ?";
+        BonSortie bonSortie = null;
+
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                if (rs.next()) {
+                    bonSortie = new BonSortie(
+                            rs.getInt("id"),
+                            rs.getInt("id_employeur"),
+                            rs.getInt("id_service"),
+                            rs.getTimestamp("date")
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exception, e.g., logging
+        }
+        return bonSortie;
     }
 
     public BonEntree getBonEntreesById(int idBonEntree) {
@@ -1484,4 +1525,7 @@ public DatabaseHelper() throws SQLException {
 
         return bonSorties;
     }
+
+
+
 }

@@ -70,7 +70,7 @@
 
     <!-- Save and Cancel Buttons -->
     <HBox alignment="CENTER_RIGHT" spacing="10" style="-fx-padding: 10;">
-        <Button fx:id="cancelButton" onAction="#cancelBonEntree" styleClass="btn_bon" text="الغاء الوصل" />
+        <Button fx:id="clearButton" onAction="#clearBonEntree" styleClass="btn_bon" text="تهيئة" />
         <Button fx:id="printButton" onAction="#printBonEntree" style=" -fx-background-color: #0aa457;" styleClass="btn_bon" text="طباعة الوصل" />
       <Button fx:id="saveButton" layoutX="756.0" layoutY="20.0" onAction="#saveBonEntree" style=" -fx-background-color: #0aa457;" styleClass="btn_bon" text="تاكيد الوصل" />
     </HBox>

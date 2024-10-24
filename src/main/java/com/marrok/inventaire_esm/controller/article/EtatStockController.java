@@ -19,7 +19,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -116,31 +115,7 @@ public class EtatStockController implements Initializable {
             throw new RuntimeException(e);
         }
     }
-    private void showArticleDetails(long selectedArticle_id) {
-        try {
-            DatabaseHelper dbHelper = new DatabaseHelper();
-            Article selectedArticle = dbHelper.getArticleById(selectedArticle_id);
-            if (selectedArticle != null) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/article/detail-view.fxml"));
-                Parent root = loader.load();
-                DetailController controller = loader.getController();
-                controller.setArticleDetails(selectedArticle);
-                Stage stage = new Stage();
-                stage.setScene(new Scene(root));
-                stage.initModality(Modality.APPLICATION_MODAL);
-                stage.setTitle("تفاصيل العنصر");
-                stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
-                stage.show();
-            } else {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في استرجاع تفاصيل العنصر.");
 
-            }
-        } catch (SQLException | IOException e) {
-            e.printStackTrace();
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في تحميل عرض تفاصيل العنصر.");
-
-        }
-    }
 
 
 
@@ -200,16 +175,8 @@ public class EtatStockController implements Initializable {
             GeneralUtil.goBackStockDashboard(event);
         });
         tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedArticle = newValue);
-        tableView.setOnMouseClicked((MouseEvent event) -> {
-            if (event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
-                Article selectedArticle = tableView.getSelectionModel().getSelectedItem();
-                showArticleDetails(selectedArticle.getId());
-            }
-        });
+
     }
-
-
-
 
 
 

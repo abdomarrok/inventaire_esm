@@ -36,6 +36,7 @@ import java.util.Map;
 public class AddBonEntreeController {
 
     public TextField document_num;
+    public Button clearButton;
     DatabaseHelper dbhelper = new DatabaseHelper();
 
     public ChoiceBox<Fournisseur> fournisseurChoiceBox;
@@ -175,13 +176,16 @@ public class AddBonEntreeController {
         }
     }
 
-    // Cancel the Bon Entree process
-    @FXML
-    public void cancelBonEntree(ActionEvent event) {
-        // Clear fields and reset the form
+
+    public void clearBonEntree(ActionEvent event) {
         fournisseurChoiceBox.getSelectionModel().clearSelection();
         datePicker.setValue(null);
         entreesList.clear();
+        addItemButton.setDisable(false);
+        removeItemButton.setDisable(false);
+        saveButton.setDisable(false);
+        printButton.setDisable(true);
+
     }
 
 
@@ -218,11 +222,12 @@ public class AddBonEntreeController {
             if (reportStream == null) {
                 throw new FileNotFoundException("Report file not found.");
             }
-            System.out.println("Parameters: " + parameters);
+
 
 
             if (current_be_id != -1) {
                 parameters.put("bon_entree_id", current_be_id);
+                System.out.println("Parameters: be= " + parameters);
             } else {
                 GeneralUtil.showAlert(Alert.AlertType.WARNING, "Error", "Error with current bon entree ID.");
                 return; // Exit if the ID is invalid
@@ -258,4 +263,6 @@ public class AddBonEntreeController {
 
     GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/bon_entree/bon_entree-view.fxml",event,true);
     }
+
+
 }

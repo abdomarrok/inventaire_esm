@@ -1,0 +1,68 @@
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="Bon_Entree_Report" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="94f47edb-7e89-459b-baa4-c7b73a3b40fc">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
+	<parameter name="bon_sortie_id" class="java.lang.Integer"/>
+	<query language="SQL"><![CDATA[
+
+SELECT bs.id AS bon_sortie_id, 
+       bs.date AS bon_sortie_date, 
+       bs.id_employeur AS employeur_id,
+       emp.firstname AS employeur_fname, 
+       emp.lastname AS employeur_lname, 
+       s.id_article AS article_id,
+       a.name AS article_name, 
+       s.quantity AS quantity 
+FROM bon_sortie bs 
+JOIN sortie s ON bs.id = s.id_bs 
+JOIN article a ON s.id_article = a.id 
+JOIN employeur emp ON bs.id_employeur = emp.id 
+WHERE bs.id = $P{bon_sortie_id};
+ ]]></query>
+	<field name="bon_sortie_id" class="java.lang.Integer"/>
+	<field name="employeur_id" class="java.lang.Integer"/>
+	<field name="bon_sortie_date" class="java.lang.String"/>
+	<field name="article_name" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.Integer"/>
+	<field name="employeur_fname" class="java.lang.String"/>
+	<field name="employeur_lname" class="java.lang.String"/>
+
+	<title height="155">
+		<element kind="staticText" uuid="afc5e77c-017f-4b4b-8452-410f233a8d2d" x="200" y="10" width="200" height="40" fontName="Andalus" fontSize="18.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[Bon Sortie]]></text>
+		</element>
+		<element kind="textField" uuid="db47c51e-1174-4b53-9a21-6761f21c98a2" x="110" y="60" width="100" height="20" hTextAlign="Center">
+			<expression><![CDATA[$F{bon_sortie_id}]]></expression>
+		</element>
+		<element kind="staticText" uuid="17d77697-8f53-44bb-8cb7-4c4bde477cc8" x="0" y="60" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[N° de Bon]]></text>
+		</element>
+		<!-- Concatenated employeur name -->
+		<element kind="textField" uuid="aba34561-033b-4553-989a-33b4b92b3c6a" x="110" y="90" width="170" height="20" hTextAlign="Center">
+			<expression><![CDATA[$F{employeur_fname} + " " + $F{employeur_lname}]]></expression>
+		</element>
+		<element kind="staticText" uuid="cdf1091b-4176-4d15-8990-30456c72c4da" x="0" y="90" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Employeur]]></text>
+		</element>
+	</title>
+
+	<columnHeader height="55">
+		<element kind="staticText" uuid="cb5f9d28-16d7-4378-b46d-90b21b15fa16" x="40" y="30" width="80" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Qte]]></text>
+		</element>
+		<element kind="staticText" uuid="cb5f9d28-16d7-4378-b46d-90b21b15fa16" x="120" y="30" width="200" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[DESCRIPTION]]></text>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="21">
+			<element kind="textField" uuid="ae828c7e-347d-47ff-8577-241918b2307a" x="120" y="0" width="200" height="20" hTextAlign="Center">
+				<expression><![CDATA[$F{article_name}]]></expression>
+			</element>
+			<element kind="textField" uuid="46c30ba2-3b65-45f3-8999-b0f4cdb9d408" x="40" y="0" width="80" height="20" hTextAlign="Center">
+				<expression><![CDATA[$F{quantity}]]></expression>
+			</element>
+		</band>
+	</detail>
+	<summary height="82"/>
+</jasperReport>

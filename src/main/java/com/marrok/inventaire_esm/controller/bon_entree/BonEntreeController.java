@@ -1,6 +1,8 @@
 package com.marrok.inventaire_esm.controller.bon_entree;
 
+import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.BonEntree;
+import com.marrok.inventaire_esm.model.Entree;
 import com.marrok.inventaire_esm.model.Fournisseur;
 import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
@@ -25,6 +27,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -77,18 +80,37 @@ public class BonEntreeController implements Initializable {
 
     private void setupSearchFilter() {
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            List<String> articleNameList = new ArrayList<>();
+
             filtredbonEntreesList.setPredicate(bonEntree -> {
+                // If the search field is empty, return all entries.
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
+
+                int bonEntreeId = bonEntree.getId();
+                List<Entree> entrees = dbhelper.getEntreesById_BonEntreeId(bonEntreeId);
+                if (entrees != null) {
+                    for (Entree entree : entrees) {
+                        // Added missing closing parenthesis.
+                        Article article = dbhelper.getArticleById(entree.getIdArticle());
+                        if (article != null) {
+                            articleNameList.add(article.getName());
+                        }
+                    }
+                }
+
+                // Convert the search query to lowercase for case-insensitive matching.
                 String lowerCaseFilter = newValue.toLowerCase();
-                return bonEntree.getDocumentNum().toLowerCase().contains(lowerCaseFilter)
-                        || bonEntree.getDate().toString().toLowerCase().contains(lowerCaseFilter)
+                return bonEntree.getDocumentNum().contains(lowerCaseFilter)
+                        || bonEntree.getDate().toString().contains(lowerCaseFilter)
                         || String.valueOf(bonEntree.getId()).contains(lowerCaseFilter)
-                        || String.valueOf(bonEntree.getIdFournisseur()).toLowerCase().contains(lowerCaseFilter);
+                        || String.valueOf(bonEntree.getIdFournisseur()).contains(lowerCaseFilter);
+
             });
         });
     }
+
     private void setupTableSelectionListener() {
 
         tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedBonEntree = newValue);

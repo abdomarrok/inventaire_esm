@@ -85,7 +85,27 @@ public class BonSortieController implements Initializable {
     }
 
     private void showBonSortieDetails(int id) {
-        System.out.println("test");
+        BonSortie selectedBonSortie =dbhelper.getBonSortiesById(id);
+        if (selectedBonSortie != null) {
+            try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/bon_sortie/detail-view.fxml"));
+            Parent root = loader.load();
+            DetailViewController controller = loader.getController();
+            controller.setBonSortie(selectedBonSortie);
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Bon Sortie Details");
+            stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Handle the exception (e.g., show an error message)
+            }
+        }else {
+
+            System.out.println("BonSortie not found.");
+        }
+
     }
 
     private void setupSearchFilter() {

@@ -3,6 +3,7 @@ package com.marrok.inventaire_esm.controller.bon_sortie;
 import com.dlsc.gemsfx.FilterView;
 import com.marrok.inventaire_esm.controller.article.EtatStockController;
 import com.marrok.inventaire_esm.model.*;
+import com.marrok.inventaire_esm.util.database.DatabaseConnection;
 import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,9 +19,17 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
@@ -152,7 +161,7 @@ public class AddBonSortieController implements  Initializable {
         if (bonSortieId <= 0) {
             return false; // Failed to create Bon Sortie
         }
-
+        current_bs_id=bonSortieId;
         // Save each Sortie associated with the Bon Sortie
         for (Sortie sortie : sorties) {
             sortie.setIdBs(bonSortieId);  // Associate the Sortie with the newly created Bon Sortie
@@ -166,7 +175,58 @@ public class AddBonSortieController implements  Initializable {
     }
 
     public void printBonSortie(ActionEvent event) {
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getInstance().getConnection();
+            InputStream reportStream = getClass().getResourceAsStream("/com/marrok/inventaire_esm/reports/Bon_Sortie_Report.jrxml");
+            if (reportStream == null) {
+                throw new FileNotFoundException("Report file not found.");
+            }
+
+
+
+            if (current_bs_id != -1) {
+                parameters.put("bon_sortie_id", current_bs_id);
+                System.out.println("Parameters: bs= " + parameters);
+            } else {
+                GeneralUtil.showAlert(Alert.AlertType.WARNING, "Error", "Error with current bon entree ID.");
+                return; // Exit if the ID is invalid
+            }
+
+
+            // Compile the report
+            JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
+            // Fill the report
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+
+            // View the report
+            JasperViewer viewer = new JasperViewer(jasperPrint, false);
+            viewer.setTitle("وصل إخراج");
+            viewer.setVisible(true);
+
+        } catch (FileNotFoundException fnf) {
+            System.out.println("Report file not found: " + fnf.getMessage());
+            fnf.printStackTrace();
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Report file not found: " + fnf.getMessage());
+        } catch (SQLException sqlEx) {
+            System.out.println("SQL Error: " + sqlEx.getMessage());
+            sqlEx.printStackTrace();
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "SQL Error", "Error while accessing the database: " + sqlEx.getMessage());
+        } catch (Exception ex) {
+            System.out.println("Error generating report: " + ex.getMessage());
+            ex.printStackTrace();
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Error generating report: " + ex.getMessage());
+        }
+
+
+        GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/bon_entree/bon_entree-view.fxml",event,true);
     }
+
+
+
+
     public void saveBonSortie(ActionEvent event) {
         // Get selected Employer, Service, and Date
         Employer selectedEmployer = tbData2.getSelectionModel().getSelectedItem();
