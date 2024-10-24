@@ -85,13 +85,16 @@ public class DatabaseConnection {
                 StringBuilder insertSQL = new StringBuilder("INSERT INTO `" + tableName + "` VALUES(");
                 for (int i = 1; i <= columnCount; i++) {
                     String value = resultSet.getString(i);
-                    if (resultSet.getMetaData().getColumnType(i) == Types.VARCHAR ||
-                            resultSet.getMetaData().getColumnType(i) == Types.VARCHAR ||
-                            resultSet.getMetaData().getColumnType(i) == Types.CHAR) {
-                        value = value.replace("'", "''"); // Escape single quotes
-                        insertSQL.append("'").append(value).append("'");
+                    if (resultSet.wasNull()) {
+                        insertSQL.append("NULL");
                     } else {
-                        insertSQL.append(value);
+                        if (resultSet.getMetaData().getColumnType(i) == Types.VARCHAR ||
+                                resultSet.getMetaData().getColumnType(i) == Types.CHAR) {
+                            value = value.replace("'", "''"); // Escape single quotes
+                            insertSQL.append("'").append(value).append("'");
+                        } else {
+                            insertSQL.append(value);
+                        }
                     }
                     if (i < columnCount) insertSQL.append(", ");
                 }
