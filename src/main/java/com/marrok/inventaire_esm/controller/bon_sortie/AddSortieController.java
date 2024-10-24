@@ -96,7 +96,7 @@ public class AddSortieController implements Initializable {
 
         // Check available stock for the selected article
         int availableStock = dbhelper.getTotalQuantityByArticleId(selectedArticle.getId());
-        if (availableStock < quantity) {
+        if (availableStock < quantity || quantity <= 0) {
             showAlert(Alert.AlertType.ERROR, "Insufficient Stock",
                     "Requested quantity exceeds available stock. Available: " + availableStock);
             return;  // Do not proceed if stock is insufficient

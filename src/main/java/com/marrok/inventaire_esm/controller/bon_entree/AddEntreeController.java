@@ -95,6 +95,9 @@ public class AddEntreeController {
 
         try {
             quantity = Integer.parseInt(quantityField.getText());
+            if( quantity <= 0){
+                showAlert(Alert.AlertType.ERROR, "Error", "الكمية لا يجدر ان تكون صفرا او اقل من 0");
+            }
             pricePerUnit = Double.parseDouble(priceField.getText());
         } catch (NumberFormatException e) {
             showAlert(Alert.AlertType.ERROR, "Error", "Please enter valid numbers for quantity and price.");
