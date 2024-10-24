@@ -1,20 +1,20 @@
-package com.marrok.inventaire_esm.util;
+package com.marrok.inventaire_esm.util.database;
 
 import com.marrok.inventaire_esm.model.*;
+import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.SessionManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DatabaseHelper {
 
@@ -173,7 +173,7 @@ public DatabaseHelper() throws SQLException {
     // Method to fetch all articles
     public List<Article> getArticles() {
         List<Article> articles = new ArrayList<>();
-        String query = "SELECT id, name, unite, remarque, description, id_category, last_edited FROM article ORDER BY last_edited DESC; ";
+        String query = "SELECT id, name, unite, remarque, description, id_category, last_edited FROM article ORDER BY last_edited DESC;";
 
         try (PreparedStatement stmt = this.cnn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -1364,19 +1364,19 @@ public DatabaseHelper() throws SQLException {
         }
     }
     public int getTotalQuantityByArticleId(int articleId) {
-        String query = "SELECT (COALESCE(SUM(entree.quantity), 0) - COALESCE(SUM(sortie.quantity), 0)) AS total_quantity " +
-                "FROM article " +
-                "LEFT JOIN entree ON article.id = entree.id_article " +
-                "LEFT JOIN sortie ON article.id = sortie.id_article " +
-                "WHERE article.id = ? " +
-                "GROUP BY article.id";
+        String query = "SELECT " +
+                "(SELECT COALESCE(SUM(entree.quantity), 0) FROM entree WHERE entree.id_article = ?) AS total_entree, " +
+                "(SELECT COALESCE(SUM(sortie.quantity), 0) FROM sortie WHERE sortie.id_article = ?) AS total_sortie";
 
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
             preparedStatement.setInt(1, articleId);
+            preparedStatement.setInt(2, articleId);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    return resultSet.getInt("total_quantity");  // Return the total stock for the article
+                    int totalEntree = resultSet.getInt("total_entree");
+                    int totalSortie = resultSet.getInt("total_sortie");
+                    return totalEntree - totalSortie;  // Return the net stock for the article
                 }
             }
         } catch (SQLException e) {
@@ -1385,25 +1385,28 @@ public DatabaseHelper() throws SQLException {
 
         return -1;  // Return -1 if an error occurs
     }
+
+
     public Map<Integer, Integer> getTotalQuantitiesByArticle() {
         Map<Integer, Integer> totalQuantities = new HashMap<>();
+
+        // Updated SQL query using subqueries to avoid duplication
         String query = "SELECT article.id AS article_id, " +
-                "(COALESCE(SUM(entree.quantity), 0) - COALESCE(SUM(sortie.quantity), 0)) AS total_quantity " +
+                "(SELECT COALESCE(SUM(entree.quantity), 0) FROM entree WHERE entree.id_article = article.id) AS total_entree, " +
+                "(SELECT COALESCE(SUM(sortie.quantity), 0) FROM sortie WHERE sortie.id_article = article.id) AS total_sortie " +
                 "FROM article " +
-                "LEFT JOIN entree ON article.id = entree.id_article " +
-                "LEFT JOIN sortie ON article.id = sortie.id_article " +
-                "GROUP BY article.id " +
-                "ORDER BY total_quantity DESC";
+                "ORDER BY total_entree - total_sortie DESC, article.id ASC"; // Sort by total quantity, then article id
 
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                int articleId = resultSet.getInt("article_id");  // Use the alias 'article_id' to avoid ambiguity
-                int totalQuantity = resultSet.getInt("total_quantity");
+                int articleId = resultSet.getInt("article_id");  // Use alias 'article_id'
+                int totalQuantity = resultSet.getInt("total_entree") - resultSet.getInt("total_sortie");
                 totalQuantities.put(articleId, totalQuantity);
             }
         } catch (SQLException e) {
+            // Use a logger instead of printStackTrace in production
             e.printStackTrace();
         }
 

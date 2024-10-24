@@ -1,8 +1,9 @@
 package com.marrok.inventaire_esm.controller.bon_sortie;
 
 import com.dlsc.gemsfx.FilterView;
+import com.marrok.inventaire_esm.controller.article.EtatStockController;
 import com.marrok.inventaire_esm.model.*;
-import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -26,6 +27,7 @@ import java.util.*;
 
 public class AddBonSortieController implements  Initializable {
     public DatePicker datePicker;
+    public Button clearButton;
 
     private DatabaseHelper dbhlper=new DatabaseHelper();
     @FXML
@@ -41,7 +43,6 @@ public class AddBonSortieController implements  Initializable {
     public TableColumn<Sortie, Integer> quantityColumn;
     public Button addItemButton;
     public Button removeItemButton;
-    public Button cancelButton;
     public Button saveButton;
     public Button printButton;
 
@@ -131,10 +132,15 @@ public class AddBonSortieController implements  Initializable {
     public AddBonSortieController() throws SQLException {
     }
 
-    public void cancelBonSortie(ActionEvent event) {
+
+    public void clearBonSortie(ActionEvent event) {
         serviceField.getSelectionModel().clearSelection();
         datePicker.setValue(null);
         sortiesList.clear();
+        addItemButton.setDisable(false);
+        removeItemButton.setDisable(false);
+        saveButton.setDisable(false);
+        printButton.setDisable(true);
     }
 
     private boolean saveBonSortieToDatabase(Employer employer,Service service, LocalDate date, ObservableList<Sortie> sorties) {
@@ -179,7 +185,10 @@ public class AddBonSortieController implements  Initializable {
 
         // Check the result of saving operation and update the UI accordingly
         if (success) {
+
             GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "Bon Sortie saved successfully.");
+            addItemButton.setDisable(true);
+            removeItemButton.setDisable(true);
             saveButton.setDisable(true);  // Disable save button after successful save
             printButton.setDisable(false);  // Enable print button after save
         } else {
@@ -214,6 +223,7 @@ public class AddBonSortieController implements  Initializable {
             e.printStackTrace();
         }
     }
+
 
 
 }

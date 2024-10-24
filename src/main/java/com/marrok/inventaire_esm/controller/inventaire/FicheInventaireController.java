@@ -2,8 +2,8 @@ package com.marrok.inventaire_esm.controller.inventaire;
 import com.marrok.inventaire_esm.model.Inventaire_Item;
 import com.marrok.inventaire_esm.model.Service;
 import com.marrok.inventaire_esm.model.Localisation;  // Add Localisation model
-import com.marrok.inventaire_esm.util.DatabaseConnection;
-import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.DatabaseConnection;
+import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -1,9 +1,8 @@
 package com.marrok.inventaire_esm.controller.bon_sortie;
 
-import com.marrok.inventaire_esm.model.BonEntree;
 import com.marrok.inventaire_esm.model.BonSortie;
 import com.marrok.inventaire_esm.model.Employer;
-import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;

@@ -3,8 +3,8 @@ package com.marrok.inventaire_esm.controller.bon_entree;
 import com.marrok.inventaire_esm.model.BonEntree;
 import com.marrok.inventaire_esm.model.Entree;
 import com.marrok.inventaire_esm.model.Fournisseur;
-import com.marrok.inventaire_esm.util.DatabaseConnection;
-import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.DatabaseConnection;
+import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -164,8 +164,11 @@ public class AddBonEntreeController {
 
         if (success) {
             GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "Bon Entree saved successfully.");
+            addItemButton.setDisable(true);
+            removeItemButton.setDisable(true);
             saveButton.setDisable(true);
             printButton.setDisable(false);
+
 
         } else {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "Failure", "Failed to save Bon Entree.");

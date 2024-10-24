@@ -1,13 +1,11 @@
 package com.marrok.inventaire_esm.controller.article;
 
 import com.marrok.inventaire_esm.model.Article;
-import com.marrok.inventaire_esm.util.DatabaseConnection;
-import com.marrok.inventaire_esm.util.DatabaseHelper;
-import javafx.beans.property.SimpleIntegerProperty;
+import com.marrok.inventaire_esm.util.database.DatabaseConnection;
+import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;

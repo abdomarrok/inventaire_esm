@@ -2,9 +2,8 @@ package com.marrok.inventaire_esm.controller.article;
 
 import com.marrok.inventaire_esm.controller.bon_entree.AddBonEntreeController;
 import com.marrok.inventaire_esm.controller.bon_sortie.AddBonSortieController;
-import com.marrok.inventaire_esm.controller.bon_sortie.BonSortieController;
 import com.marrok.inventaire_esm.model.Article;
-import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -33,8 +32,8 @@ import java.util.ResourceBundle;
 
 public class EtatStockController implements Initializable {
 
-    @FXML
-    public TableView<Article> tableView;
+
+    public  TableView<Article> tableView;
 
     @FXML
     public TableColumn<Article, Integer> id_article_v;
@@ -61,8 +60,8 @@ public class EtatStockController implements Initializable {
     public Button deleteButton;
     public Button bk_Dashboard_from_etat_stock;
 
-    private ObservableList<Article> articleList;
-    private FilteredList<Article> filteredArticleList;
+    private static ObservableList<Article> articleList;
+    private static  FilteredList<Article> filteredArticleList;
 
     private Article selectedArticle;
     @FXML
@@ -218,7 +217,7 @@ public class EtatStockController implements Initializable {
         return articleList;
     }
 
-    public void refreshTableData() {
+    public  void refreshTableData() {
         try {
             DatabaseHelper dbHelper = new DatabaseHelper();
             List<Article> articles = dbHelper.getArticles();

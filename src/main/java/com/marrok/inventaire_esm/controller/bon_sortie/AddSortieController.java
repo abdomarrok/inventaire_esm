@@ -2,7 +2,7 @@ package com.marrok.inventaire_esm.controller.bon_sortie;
 
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.Sortie;
-import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;

@@ -1,6 +1,5 @@
 package com.marrok.inventaire_esm.controller.inventaire;
 
-import com.dlsc.gemsfx.CalendarPicker;
 import com.dlsc.gemsfx.FilterView;
 import com.marrok.inventaire_esm.model.Employer;
 import com.marrok.inventaire_esm.model.Inventaire_Item;
@@ -9,12 +8,11 @@ import com.marrok.inventaire_esm.util.SessionManager;
 import fr.brouillard.oss.cssfx.CSSFX;
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.Localisation;
-import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;

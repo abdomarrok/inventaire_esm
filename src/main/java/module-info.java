@@ -65,7 +65,7 @@ module com.marrok.inventaire_esm {
     opens com.marrok.inventaire_esm.controller.bon_entree to javafx.fxml;
     exports com.marrok.inventaire_esm.controller.bon_sortie;
     opens com.marrok.inventaire_esm.controller.bon_sortie to javafx.fxml;
-
+    exports com.marrok.inventaire_esm.util.database;
 
 
 }

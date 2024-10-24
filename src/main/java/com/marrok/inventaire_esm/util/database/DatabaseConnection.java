@@ -1,6 +1,5 @@
-package com.marrok.inventaire_esm.util;
+package com.marrok.inventaire_esm.util.database;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;

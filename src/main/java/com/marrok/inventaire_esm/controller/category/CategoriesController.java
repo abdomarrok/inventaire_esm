@@ -1,7 +1,7 @@
 package com.marrok.inventaire_esm.controller.category;
 
 import com.marrok.inventaire_esm.model.Category;
-import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -3,7 +3,7 @@ package com.marrok.inventaire_esm.controller.inventaire;
 import com.dlsc.gemsfx.FilterView;
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.Inventaire_Item;
-import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.SessionManager;
 import fr.brouillard.oss.cssfx.CSSFX;
 import javafx.collections.FXCollections;

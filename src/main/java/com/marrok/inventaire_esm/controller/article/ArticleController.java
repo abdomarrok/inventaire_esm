@@ -2,7 +2,7 @@ package com.marrok.inventaire_esm.controller.article;
 
 
 import com.marrok.inventaire_esm.model.Article;
-import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -90,7 +90,22 @@ public class ArticleController implements Initializable {
         setupTableSelectionListener();
 
     }
+    private void initializeColumns() {
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
+        // Set cell value factories
+        id_article_v.setCellValueFactory(new PropertyValueFactory<>("id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        unitColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
+        remarkColumn.setCellValueFactory(new PropertyValueFactory<>("remarque"));
+        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
+        // Custom cell value factory for categoryColmun to fetch category name by id_category
+        categoryColmun.setCellValueFactory(cellData -> {
+            int categoryId = cellData.getValue().getIdCategory();
+            String categoryName = dbhelper.getCategoryById(categoryId);
+            return new SimpleStringProperty(categoryName != null && !categoryName.isEmpty() ? categoryName : "Unknown Category");
+        });
+    }
     private void showArticleDetails(long selectedArticle_id) {
         try {
             DatabaseHelper dbHelper = new DatabaseHelper();
@@ -120,23 +135,7 @@ public class ArticleController implements Initializable {
 
 
 
-    private void initializeColumns() {
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
 
-        // Set cell value factories
-        id_article_v.setCellValueFactory(new PropertyValueFactory<>("id"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        unitColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
-        remarkColumn.setCellValueFactory(new PropertyValueFactory<>("remarque"));
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-
-        // Custom cell value factory for categoryColmun to fetch category name by id_category
-        categoryColmun.setCellValueFactory(cellData -> {
-            int categoryId = cellData.getValue().getIdCategory();
-            String categoryName = dbhelper.getCategoryById(categoryId);
-            return new SimpleStringProperty(categoryName != null && !categoryName.isEmpty() ? categoryName : "Unknown Category");
-        });
-    }
 
     public void loadData() {
         try {

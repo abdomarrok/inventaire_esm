@@ -1,7 +1,7 @@
 package com.marrok.inventaire_esm.controller.users;
 
 import com.marrok.inventaire_esm.model.User;
-import com.marrok.inventaire_esm.util.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
