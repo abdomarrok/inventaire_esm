@@ -3,7 +3,8 @@ package com.marrok.inventaire_esm.controller.article;
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.Category;
 import com.marrok.inventaire_esm.model.Service;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
+import com.marrok.inventaire_esm.util.database.CategoryDbHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -40,7 +41,8 @@ public class UpdateController {
 
     @FXML
     public ChoiceBox<Category> categoryChoiceBox;
-    DatabaseHelper dbhelper=new DatabaseHelper();
+    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    private CategoryDbHelper categoryDbhelper = new CategoryDbHelper();
 
     public UpdateController() throws SQLException {
     }
@@ -52,9 +54,7 @@ public class UpdateController {
 
     }
     public void setArticleData(long article_id) {
-        try {
-            DatabaseHelper dbHelper = new DatabaseHelper();
-            Article article = dbHelper.getArticleById(article_id);
+            Article article = articleDbhelper.getArticleById(article_id);
             if (article != null) {
                 selectedArticle = article;
                 nameField.setText(article.getName());
@@ -63,7 +63,7 @@ public class UpdateController {
                 remarqueField.setText(article.getRemarque());
                 descriptionField.setText(article.getDescription());
 
-                String chosen_Category = dbhelper.getCategoryById(article.getIdCategory());
+                String chosen_Category = categoryDbhelper.getCategoryById(article.getIdCategory());
                 if (chosen_Category != null) {
                     categoryChoiceBox.setValue(new Category(chosen_Category));
                 }
@@ -72,12 +72,7 @@ public class UpdateController {
                 GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في استرجاع تفاصيل العنصر.");
 
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle SQL exception
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في استرجاع تفاصيل العنصر.");
 
-        }
     }
 
 
@@ -88,12 +83,12 @@ public class UpdateController {
         selectedArticle.setUnite(uniteField.getText());
 //        selectedArticle.setQuantity(Integer.parseInt(quantityField.getText()));
         selectedArticle.setRemarque(remarqueField.getText());
-        int id_cat = dbhelper.getCategoryByName(categoryChoiceBox.getSelectionModel().getSelectedItem().getName());
+        int id_cat = categoryDbhelper.getCategoryByName(categoryChoiceBox.getSelectionModel().getSelectedItem().getName());
         selectedArticle.setIdCategory(id_cat);
 
         selectedArticle.setDescription(descriptionField.getText());
 
-        if (dbhelper.updateArticle(selectedArticle)) {
+        if (articleDbhelper.updateArticle(selectedArticle)) {
             // Close the form
             articleController.loadData();
             Alert alertsecsuss = new Alert(Alert.AlertType.INFORMATION);
@@ -110,7 +105,7 @@ public class UpdateController {
 
     private void loadCategories() {
         // Fetch categories from the database
-        List<Category> categories = dbhelper.getCategories();
+        List<Category> categories = categoryDbhelper.getCategories();
         // Populate the choice box with category names
         ObservableList<Category> categoriesObservableList = FXCollections.observableList(categories);
         categoryChoiceBox.setItems(categoriesObservableList);

@@ -3,8 +3,7 @@ package com.marrok.inventaire_esm.controller.bon_entree;
 import com.marrok.inventaire_esm.model.BonEntree;
 import com.marrok.inventaire_esm.model.Entree;
 import com.marrok.inventaire_esm.model.Fournisseur;
-import com.marrok.inventaire_esm.util.database.DatabaseConnection;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.*;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -37,7 +36,6 @@ public class AddBonEntreeController {
 
     public TextField document_num;
     public Button clearButton;
-    DatabaseHelper dbhelper = new DatabaseHelper();
 
     public ChoiceBox<Fournisseur> fournisseurChoiceBox;
 
@@ -63,6 +61,9 @@ public class AddBonEntreeController {
     public Button printButton;
 
     private ObservableList<Entree> entreesList = FXCollections.observableArrayList();
+    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    private FournisseurDbHelper fournisseurDbHelper = new FournisseurDbHelper();
+    private BonEntreeDbHelper bonEntreeDbHelper = new BonEntreeDbHelper();
     Map<String, Object> parameters = new HashMap<>();
     private int current_be_id = -1;
 
@@ -83,18 +84,11 @@ public class AddBonEntreeController {
     private void setupTableColumns() {
         articleColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getIdArticle();
-            try {
-                DatabaseHelper dbHelper = new DatabaseHelper();
-                String articleName = dbHelper.getArticleById(articleId).getName();
-
+                String articleName = articleDbhelper.getArticleById(articleId).getName();
                 if (articleName != null && !articleName.isEmpty()) {
                     return new SimpleStringProperty(articleName);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
                 return new SimpleStringProperty("Unknown Article");
-            }
-            return null;
         });
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("unitPrice")); //to get this from the user when add new entree
@@ -104,7 +98,7 @@ public class AddBonEntreeController {
     // Populate the ChoiceBox with fournisseur data from the database
     private void populateFournisseurChoiceBox() {
         // Assuming you have a method to fetch fournisseur data from the database
-        List<Fournisseur> fournisseurs = dbhelper.getFournisseurs();
+        List<Fournisseur> fournisseurs = fournisseurDbHelper.getFournisseurs();
 
         fournisseurChoiceBox.setItems(FXCollections.observableArrayList(fournisseurs));
     }
@@ -195,7 +189,7 @@ public class AddBonEntreeController {
         BonEntree bonEntree = new BonEntree(0, fournisseur.getId(), java.sql.Date.valueOf(date), tva,documentNum);
 
         // Save BonEntree to the database
-        int bonEntreeId = dbhelper.createBonEntree(bonEntree); // Adjust your DatabaseHelper method accordingly
+        int bonEntreeId = bonEntreeDbHelper.createBonEntree(bonEntree); // Adjust your DatabaseHelper method accordingly
 
         if (bonEntreeId <= 0) {
             return false; // Failed to create Bon Entree
@@ -205,7 +199,7 @@ public class AddBonEntreeController {
         // Save each Entree associated with the Bon Entree
         for (Entree entree : entrees) {
             entree.setIdBe(bonEntreeId); // Associate the Entree with the newly created Bon Entree
-            boolean success = dbhelper.saveEntree(entree); // Assuming you have a saveEntree method in DatabaseHelper
+            boolean success = bonEntreeDbHelper.saveEntree(entree); // Assuming you have a saveEntree method in DatabaseHelper
             if (!success) {
                 return false; // Failed to save at least one Entree
             }

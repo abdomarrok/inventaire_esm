@@ -1,8 +1,8 @@
 package com.marrok.inventaire_esm.controller.fournisseur;
 
 import com.marrok.inventaire_esm.model.Fournisseur;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.FournisseurDbHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -32,7 +32,7 @@ public class AddController {
     private TextField emailField;
     private FournisseurController fournisseurController;
 
-    private DatabaseHelper dbhelper=new DatabaseHelper();
+    private FournisseurDbHelper fournisseurDbHelper = new FournisseurDbHelper();
     public AddController() throws SQLException {
     }
     public void setFournisseurController(FournisseurController fournisseurController) {
@@ -56,7 +56,7 @@ public class AddController {
         // Create the Fournisseur object
         Fournisseur fournisseur = new Fournisseur(name, rc, nif, ai, nis, tel, fax, address, email);
 
-        int success = dbhelper.addFournisseur(fournisseur);
+        int success = fournisseurDbHelper.addFournisseur(fournisseur);
 
         if (success != -1) {
             GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تمت إضافة المورد بنجاح.");

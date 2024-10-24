@@ -1,8 +1,8 @@
 package com.marrok.inventaire_esm.controller.fournisseur;
 
 import com.marrok.inventaire_esm.model.Fournisseur;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.FournisseurDbHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -39,7 +39,7 @@ public class FournisseurController implements Initializable {
     public Button bk_Dashboard_from_fournisseur;
 
     ObservableList<Fournisseur> fournisseurObservableList;
-    private DatabaseHelper dbhelper=new DatabaseHelper();
+    private FournisseurDbHelper fournisseurDbHelper = new FournisseurDbHelper();
     private FilteredList<Fournisseur> filteredFournisseurList;
     private Fournisseur selectedFournisseur;
 
@@ -75,7 +75,7 @@ public class FournisseurController implements Initializable {
 
 
     private void loadData() {
-        fournisseurObservableList=FXCollections.observableArrayList(dbhelper.getFournisseurs());
+        fournisseurObservableList=FXCollections.observableArrayList(fournisseurDbHelper.getFournisseurs());
         filteredFournisseurList = new FilteredList<>(fournisseurObservableList, p -> true);
         fournisseurTableView.setItems(filteredFournisseurList);
     }
@@ -161,7 +161,7 @@ public class FournisseurController implements Initializable {
         Fournisseur selectedFournisseur = fournisseurTableView.getSelectionModel().getSelectedItem(); // Assuming you have a TableView for fournisseurs
 
         if (selectedFournisseur != null) {
-            boolean success = dbhelper.deleteFournisseur(selectedFournisseur.getId()); // Call your database helper to delete the fournisseur
+            boolean success = fournisseurDbHelper.deleteFournisseur(selectedFournisseur.getId()); // Call your database helper to delete the fournisseur
 
             if (success) {
                 fournisseurObservableList.remove(selectedFournisseur); // Assuming you have an ObservableList for fournisseurs
@@ -177,7 +177,7 @@ public class FournisseurController implements Initializable {
 
 
     public void refreshTableData() {
-        fournisseurObservableList.setAll(dbhelper.getFournisseurs());
+        fournisseurObservableList.setAll(fournisseurDbHelper.getFournisseurs());
         fournisseurTableView.refresh();
     }
 }

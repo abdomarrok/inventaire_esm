@@ -1,8 +1,8 @@
 package com.marrok.inventaire_esm.controller.fournisseur;
 
 import com.marrok.inventaire_esm.model.Fournisseur;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.FournisseurDbHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -34,7 +34,7 @@ public class UpdateController {
 
     private FournisseurController fournisseurController;
     private Fournisseur selectedFournisseur;
-    private DatabaseHelper dbhelper = new DatabaseHelper();
+    private FournisseurDbHelper fournisseurDbHelper = new FournisseurDbHelper();
 
     public UpdateController() throws SQLException {
     }
@@ -84,7 +84,7 @@ public class UpdateController {
 
         try {
             // Update in database
-            int result = dbhelper.updateFournisseur(selectedFournisseur);
+            int result = fournisseurDbHelper.updateFournisseur(selectedFournisseur);
             if (result != -1) {
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم تحديث المورد بنجاح.");
                 fournisseurController.refreshTableData();

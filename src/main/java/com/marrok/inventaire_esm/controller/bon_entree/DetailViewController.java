@@ -3,8 +3,7 @@ package com.marrok.inventaire_esm.controller.bon_entree;
 import com.marrok.inventaire_esm.model.BonEntree;
 import com.marrok.inventaire_esm.model.Entree;
 import com.marrok.inventaire_esm.model.Fournisseur;
-import com.marrok.inventaire_esm.util.database.DatabaseConnection;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.*;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -46,7 +45,9 @@ public class DetailViewController {
     public TableColumn<Entree, Double> totalColumn;
 
     private BonEntree bonEntree;
-    private DatabaseHelper dbhelper = new DatabaseHelper();
+    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    private FournisseurDbHelper fournisseurDbHelper = new FournisseurDbHelper();
+    private BonEntreeDbHelper bonEntreeDbHelper = new BonEntreeDbHelper();
     private Fournisseur currentFournisseur;
     private List<Entree> entreeList;
     Map<String, Object> parameters = new HashMap<>();
@@ -55,7 +56,7 @@ public class DetailViewController {
 
     public void setBonEntree(BonEntree bonEntree) {
         this.bonEntree = bonEntree;
-        currentFournisseur = dbhelper.getFournisseurById(bonEntree.getIdFournisseur());
+        currentFournisseur = fournisseurDbHelper.getFournisseurById(bonEntree.getIdFournisseur());
         populateDetails();
     }
 
@@ -65,7 +66,7 @@ public class DetailViewController {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             dateLabel.setText(dateFormat.format(bonEntree.getDate())); // Adjust format as needed
             documentNumLabel.setText(bonEntree.getDocumentNum());
-            entreeList = dbhelper.getEntreesById_BonEntreeId(bonEntree.getId());
+            entreeList = bonEntreeDbHelper.getEntreesById_BonEntreeId(bonEntree.getId());
 
             // Populate the TableView
             entreeTableView.getItems().clear(); // Clear existing items
@@ -84,8 +85,7 @@ public class DetailViewController {
         articleColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getIdArticle();
             try {
-                DatabaseHelper dbHelper = new DatabaseHelper();
-                String articleName = dbHelper.getArticleById(articleId).getName();
+                String articleName = articleDbhelper.getArticleById(articleId).getName();
 
                 if (articleName != null && !articleName.isEmpty()) {
                     return new SimpleStringProperty(articleName);

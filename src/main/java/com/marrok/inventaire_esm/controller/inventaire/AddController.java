@@ -5,10 +5,10 @@ import com.marrok.inventaire_esm.model.Employer;
 import com.marrok.inventaire_esm.model.Inventaire_Item;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import com.marrok.inventaire_esm.util.SessionManager;
+import com.marrok.inventaire_esm.util.database.*;
 import fr.brouillard.oss.cssfx.CSSFX;
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.Localisation;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -50,7 +50,10 @@ public class AddController implements Initializable {
     public TextField employerInventaireCode;
 
     String[] inv_status = {"BON ETAT","MOYEN","MAUVAIS","VER ANNEXE-HARRACHE","EN PANNE"};
-    DatabaseHelper dbhelper = new DatabaseHelper();
+    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    LocDbhelper locDbhelper = new LocDbhelper();
+    InventaireItemDbHelper inventaireItemDbHelper = new InventaireItemDbHelper();
+    private EmployerDbHelper employerDbHelper=new EmployerDbHelper();
 
     public AddController() throws SQLException {
     }
@@ -116,8 +119,8 @@ public class AddController implements Initializable {
     }
 
     private void loadTableData() throws SQLException {
-        List<Article> articles = dbhelper.getArticles();
-        List<Employer> employers = dbhelper.getEmployers();
+        List<Article> articles = articleDbhelper.getArticles();
+        List<Employer> employers = employerDbHelper.getEmployers();
 
         articlelist =  FXCollections.observableArrayList(articles);
         emploerlist =  FXCollections.observableArrayList(employers);
@@ -138,7 +141,7 @@ public class AddController implements Initializable {
             String[] parts = selectedLocation.split(" {3,}");
             String locationName = parts[1]; // This gets the location name after the floor number
 
-            int localisationId = dbhelper.getLocationIdByName(locationName);
+            int localisationId = locDbhelper.getLocationIdByName(locationName);
             int userId = SessionManager.getActiveUserId(); // Fetch the logged-in user from SessionManager
 
             String inv_status = status_inventaire.getValue();
@@ -150,7 +153,7 @@ public class AddController implements Initializable {
                 Inventaire_Item newItem = new Inventaire_Item(0, articleId,
                         localisationId, userId, employerId, employerInventaireCode.getText(),inv_date,inv_status);
 
-                if (dbhelper.addInventaireItem(newItem)) {
+                if (inventaireItemDbHelper.addInventaireItem(newItem)) {
                     parentController.refreshTableData();
                     closeWindow();
                 } else {
@@ -174,7 +177,7 @@ public class AddController implements Initializable {
 
       //  employerChoiceBox.getItems().addAll(employers);
 
-        List<Localisation> Locations = dbhelper.getLocalisations();
+        List<Localisation> Locations = locDbhelper.getLocalisations();
         List<String> locations_and_floor = new ArrayList<>();
         for (Localisation l : Locations) {
             locations_and_floor.add("الطابق: " + l.getFloor() + "   " + l.getLocName());

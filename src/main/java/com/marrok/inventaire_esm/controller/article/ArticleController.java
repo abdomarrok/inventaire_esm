@@ -2,7 +2,8 @@ package com.marrok.inventaire_esm.controller.article;
 
 
 import com.marrok.inventaire_esm.model.Article;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
+import com.marrok.inventaire_esm.util.database.CategoryDbHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -13,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,7 +32,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 
@@ -73,10 +72,10 @@ public class ArticleController implements Initializable {
 
     @FXML
     public Button bk_Dashboard_from_products;
-    @FXML
-    public ToggleButton switchThemeBtn_product;
-    DatabaseHelper dbhelper= new DatabaseHelper();
-    private final Properties themeProperties = new Properties();
+
+    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    private CategoryDbHelper categoryDbhelper = new CategoryDbHelper();
+
 
     public ArticleController() throws SQLException {
     }
@@ -102,7 +101,7 @@ public class ArticleController implements Initializable {
         // Custom cell value factory for categoryColmun to fetch category name by id_category
         categoryColmun.setCellValueFactory(cellData -> {
             int categoryId = cellData.getValue().getIdCategory();
-            String categoryName = dbhelper.getCategoryById(categoryId);
+            String categoryName = categoryDbhelper.getCategoryById(categoryId);
             return new SimpleStringProperty(categoryName != null && !categoryName.isEmpty() ? categoryName : "Unknown Category");
         });
     }
@@ -113,16 +112,12 @@ public class ArticleController implements Initializable {
 
 
     public void loadData() {
-        try {
-            DatabaseHelper dbHelper = new DatabaseHelper();
-            List<Article> articles = dbHelper.getArticles();
+
+            List<Article> articles = articleDbhelper.getArticles();
             articleList = FXCollections.observableArrayList(articles);
             filteredArticleList = new FilteredList<>(articleList, p -> true);
             tableView.setItems(filteredArticleList);
-        } catch (SQLException e) {
-            e.printStackTrace();
 
-        }
     }
 
 
@@ -214,7 +209,7 @@ public class ArticleController implements Initializable {
             boolean test = GeneralUtil.showConfirmationDialog("تاكيد", "هل متاكد انك تريد حذف" + selectedArticle.getName());
             if (test) {
                 try {
-                    if (dbhelper.deleteArticle(selectedArticle.getId())) {
+                    if (articleDbhelper.deleteArticle(selectedArticle.getId())) {
                         articleList.remove(selectedArticle);
                         GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف العنصر", "تم حذف العنصر بنجاح.");
 
@@ -236,15 +231,9 @@ public class ArticleController implements Initializable {
     }
 
     public void refreshTableData() {
-        try {
-            DatabaseHelper dbHelper = new DatabaseHelper();
-            List<Article> articles = dbHelper.getArticles();
+            List<Article> articles = articleDbhelper.getArticles();
             articleList.setAll(articles);
             tableView.refresh();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle exception, possibly by showing an alert to the user
-        }
     }
 
 
@@ -304,9 +293,7 @@ public class ArticleController implements Initializable {
                     articlesToAdd.add(article);
                 }
 
-                // Insert articles into the database
-                DatabaseHelper dbHelper = new DatabaseHelper();
-                dbHelper.addArticles(articlesToAdd);
+                articleDbhelper.addArticles(articlesToAdd);
 
                 // Refresh table view
                 articleList.addAll(articlesToAdd);

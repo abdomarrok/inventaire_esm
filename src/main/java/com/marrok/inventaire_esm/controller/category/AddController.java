@@ -1,7 +1,7 @@
 package com.marrok.inventaire_esm.controller.category;
 
 import com.marrok.inventaire_esm.model.Category;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.CategoryDbHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
@@ -17,7 +17,7 @@ public class AddController {
     public Label titleLabel_cat_add;
 
     private CategoriesController categoriesController;
-    DatabaseHelper dbhelper=new DatabaseHelper();
+    private CategoryDbHelper categoryDbhelper = new CategoryDbHelper();
 
     public AddController() throws SQLException {
     }
@@ -39,7 +39,7 @@ public class AddController {
             return;
         }
         Category category = new Category(name_cat);
-        if (dbhelper.addCategory(category)) {
+        if (categoryDbhelper.addCategory(category)) {
             categoriesController.getCategoryList().add(category);
             categoriesController.loadData();
             Alert alertsecsuss = new Alert(Alert.AlertType.INFORMATION);

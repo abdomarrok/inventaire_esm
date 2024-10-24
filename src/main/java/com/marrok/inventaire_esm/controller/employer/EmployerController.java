@@ -2,8 +2,8 @@ package com.marrok.inventaire_esm.controller.employer;
 
 
 import com.marrok.inventaire_esm.model.Employer;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.EmployerDbHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -52,11 +52,10 @@ public class EmployerController implements Initializable {
     private FilteredList<Employer> filteredEmployerList;
     @FXML
     public Button bk_Dashboard_from_employers;
-    @FXML
-    public ToggleButton switchThemeBtn_employer;
-    private final Properties themeProperties = new Properties();
+
     private Employer selectedEmployer;
-    private DatabaseHelper dbhelper=new DatabaseHelper();
+
+    private EmployerDbHelper employerDbHelper=new EmployerDbHelper();
 
     public EmployerController() throws SQLException {
     }
@@ -80,7 +79,7 @@ public class EmployerController implements Initializable {
     }
 
     public void loadData() {
-        employerList = FXCollections.observableArrayList(dbhelper.getAllEmployers());
+        employerList = FXCollections.observableArrayList(employerDbHelper.getAllEmployers());
         filteredEmployerList = new FilteredList<>(employerList, p -> true);
         tableView.setItems(filteredEmployerList);
     }
@@ -159,7 +158,7 @@ public class EmployerController implements Initializable {
         Employer selectedEmployer = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedEmployer != null) {
-            boolean success = dbhelper.deleteEmployer(selectedEmployer.getId());
+            boolean success = employerDbHelper.deleteEmployer(selectedEmployer.getId());
 
             if (success) {
                 employerList.remove(selectedEmployer);
@@ -178,7 +177,7 @@ public class EmployerController implements Initializable {
     }
 
     public void refreshTableData() {
-        employerList.setAll(dbhelper.getEmployers());
+        employerList.setAll(employerDbHelper.getEmployers());
         tableView.refresh();
     }
 

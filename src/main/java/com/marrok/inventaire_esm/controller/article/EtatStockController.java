@@ -3,7 +3,8 @@ package com.marrok.inventaire_esm.controller.article;
 import com.marrok.inventaire_esm.controller.bon_entree.AddBonEntreeController;
 import com.marrok.inventaire_esm.controller.bon_sortie.AddBonSortieController;
 import com.marrok.inventaire_esm.model.Article;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
+import com.marrok.inventaire_esm.util.database.CategoryDbHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -61,6 +62,8 @@ public class EtatStockController implements Initializable {
 
     private static ObservableList<Article> articleList;
     private static  FilteredList<Article> filteredArticleList;
+    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    private CategoryDbHelper categoryDbhelper = new CategoryDbHelper();
 
     private Article selectedArticle;
     @FXML
@@ -68,7 +71,6 @@ public class EtatStockController implements Initializable {
 
 
 
-    DatabaseHelper dbhelper= new DatabaseHelper();
 
     public EtatStockController() throws SQLException {
     }
@@ -127,7 +129,7 @@ public class EtatStockController implements Initializable {
         id_article_v.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
-        Map<Integer, Integer> totalQuantities = dbhelper.getTotalQuantitiesByArticle();
+        Map<Integer, Integer> totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
 
         quantityColumn.setCellValueFactory(cellData -> {
             Article article = cellData.getValue(); // Get the current Article object
@@ -141,17 +143,16 @@ public class EtatStockController implements Initializable {
         // Custom cell value factory for categoryColmun to fetch category name by id_category
         categoryColmun.setCellValueFactory(cellData -> {
             int categoryId = cellData.getValue().getIdCategory();
-            String categoryName = dbhelper.getCategoryById(categoryId);
+            String categoryName = categoryDbhelper.getCategoryById(categoryId);
             return new SimpleStringProperty(categoryName != null && !categoryName.isEmpty() ? categoryName : "Unknown Category");
         });
     }
 
     public void  loadData() {
-            List<Article> articles = dbhelper.getArticles();
+            List<Article> articles = articleDbhelper.getArticles();
             articleList = FXCollections.observableArrayList(articles);
             filteredArticleList = new FilteredList<>(articleList, p -> true);
             tableView.setItems(filteredArticleList);
-
     }
 
 
@@ -185,15 +186,9 @@ public class EtatStockController implements Initializable {
     }
 
     public  void refreshTableData() {
-        try {
-            DatabaseHelper dbHelper = new DatabaseHelper();
-            List<Article> articles = dbHelper.getArticles();
+            List<Article> articles = articleDbhelper.getArticles();
             articleList.setAll(articles);
             tableView.refresh();
-        } catch (SQLException e) {
-            e.printStackTrace();
-
-        }
     }
 
 

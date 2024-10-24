@@ -4,8 +4,10 @@ import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.BonEntree;
 import com.marrok.inventaire_esm.model.Entree;
 import com.marrok.inventaire_esm.model.Fournisseur;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
+import com.marrok.inventaire_esm.util.database.BonEntreeDbHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.FournisseurDbHelper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,7 +44,9 @@ public class BonEntreeController implements Initializable {
     private FilteredList<BonEntree> filtredbonEntreesList;
     private BonEntree selectedBonEntree;
 
-    DatabaseHelper dbhelper= new DatabaseHelper();
+    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    private FournisseurDbHelper fournisseurDbHelper = new FournisseurDbHelper();
+    private BonEntreeDbHelper bonEntreeDbHelper =  new BonEntreeDbHelper();
 
     public BonEntreeController() throws SQLException {
     }
@@ -62,7 +66,7 @@ public class BonEntreeController implements Initializable {
       //  fournisseur.setCellValueFactory(new PropertyValueFactory<>("idFournisseur"));
         fournisseur.setCellValueFactory(celldata->{
             int idfournisseur= celldata.getValue().getIdFournisseur();
-            Fournisseur fournisseur1 = dbhelper.getFournisseurById(idfournisseur);
+            Fournisseur fournisseur1 = fournisseurDbHelper.getFournisseurById(idfournisseur);
             if(fournisseur1!=null){
                 return new SimpleStringProperty(fournisseur1.getName());
             }else {
@@ -72,7 +76,7 @@ public class BonEntreeController implements Initializable {
     }
 
     private void loadData() {
-        List<BonEntree> bonEntrees=dbhelper.getBonEntrees();
+        List<BonEntree> bonEntrees=bonEntreeDbHelper.getBonEntrees();
         bonEntreesList = FXCollections.observableArrayList(bonEntrees);
         filtredbonEntreesList = new FilteredList<>(bonEntreesList, p -> true);
         tableView.setItems(filtredbonEntreesList);
@@ -89,11 +93,11 @@ public class BonEntreeController implements Initializable {
                 }
 
                 int bonEntreeId = bonEntree.getId();
-                List<Entree> entrees = dbhelper.getEntreesById_BonEntreeId(bonEntreeId);
+                List<Entree> entrees = bonEntreeDbHelper.getEntreesById_BonEntreeId(bonEntreeId);
                 if (entrees != null) {
                     for (Entree entree : entrees) {
                         // Added missing closing parenthesis.
-                        Article article = dbhelper.getArticleById(entree.getIdArticle());
+                        Article article = articleDbhelper.getArticleById(entree.getIdArticle());
                         if (article != null) {
                             articleNameList.add(article.getName());
                         }
@@ -124,7 +128,7 @@ public class BonEntreeController implements Initializable {
     }
 
     private void showBonEntreeDetails(int selected_be_id) {
-        BonEntree selectedBonEntree = dbhelper.getBonEntreesById(selected_be_id);
+        BonEntree selectedBonEntree = bonEntreeDbHelper.getBonEntreesById(selected_be_id);
         if (selectedBonEntree != null) {
             try {
                 // Load the FXML file
@@ -158,15 +162,10 @@ public class BonEntreeController implements Initializable {
         GeneralUtil.goBackStockDashboard(event);
     }
     public void refreshTableData() {
-        try {
-            DatabaseHelper dbHelper = new DatabaseHelper();
-            List<BonEntree> bonEntrees = dbHelper.getBonEntrees();
+            List<BonEntree> bonEntrees = bonEntreeDbHelper.getBonEntrees();
             bonEntreesList.setAll(bonEntrees);
             tableView.refresh();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle exception, possibly by showing an alert to the user
-        }
+
     }
 
 

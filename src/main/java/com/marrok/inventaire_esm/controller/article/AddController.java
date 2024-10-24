@@ -4,7 +4,8 @@ import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.Category;
 import com.marrok.inventaire_esm.model.Localisation;
 import com.marrok.inventaire_esm.model.Service;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
+import com.marrok.inventaire_esm.util.database.CategoryDbHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,7 +43,9 @@ public class AddController implements Initializable {
         this.articleController = articleController;
         loadCategories();
     }
-    private DatabaseHelper dbhelper=new DatabaseHelper();
+    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    private CategoryDbHelper categoryDbhelper = new CategoryDbHelper();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Any required initialization can be done here
@@ -55,7 +58,7 @@ public class AddController implements Initializable {
 
 
     private void loadCategories() {
-        List<Category> categories = dbhelper.getCategories();
+        List<Category> categories = categoryDbhelper.getCategories();
         System.out.println("categories size"+categories.size());
         ObservableList<Category> categoriesObservableList = FXCollections.observableList(categories);
         categoryChoiceBox.setItems(categoriesObservableList);
@@ -102,13 +105,13 @@ public class AddController implements Initializable {
         }
 
 
-        int categoryId = dbhelper.getCategoryByName(chosenCategory);
+        int categoryId = categoryDbhelper.getCategoryByName(chosenCategory);
         if (categoryId == -1) {
 
         }
 
         Article newArticle = new Article(0, name, unit, remark, descriptionText, categoryId);
-        if (dbhelper.addArticle(newArticle)) {
+        if (articleDbhelper.addArticle(newArticle)) {
             articleController.getArticleList().add(newArticle);
             articleController.loadData();
             GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تمت إضافة العنصر", "تمت إضافة العنصر بنجاح.");

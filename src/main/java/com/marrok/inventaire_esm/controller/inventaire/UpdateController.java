@@ -3,7 +3,7 @@ package com.marrok.inventaire_esm.controller.inventaire;
 import com.dlsc.gemsfx.FilterView;
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.Inventaire_Item;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.*;
 import com.marrok.inventaire_esm.util.SessionManager;
 import fr.brouillard.oss.cssfx.CSSFX;
 import javafx.collections.FXCollections;
@@ -53,7 +53,10 @@ public class UpdateController implements Initializable {
     private TextField employerInventaireCode;
     String[] inv_status = {"BON ETAT","MOYEN","MAUVAIS","VER ANNEXE-HARRACHE","EN PANNE"};
 
-    DatabaseHelper dbhelper = new DatabaseHelper();
+    ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    LocDbhelper locDbhelper = new LocDbhelper();
+    InventaireItemDbHelper inventaireItemDbHelper= new InventaireItemDbHelper();
+    private EmployerDbHelper employerDbHelper=new EmployerDbHelper();
 
     public UpdateController() throws SQLException {
     }
@@ -100,8 +103,7 @@ public class UpdateController implements Initializable {
     }
 
     private void loadTableData() throws SQLException {
-        DatabaseHelper dbHelper = new DatabaseHelper();
-        List<Article> articles = dbHelper.getArticles();
+        List<Article> articles = articleDbhelper.getArticles();
         articleList = FXCollections.observableArrayList(articles);
         filterView.getItems().setAll(articleList); // Set the articles into the table
 
@@ -112,10 +114,10 @@ public class UpdateController implements Initializable {
     public void setInventaireItem(Inventaire_Item inventaireItem) {
         this.inventaireItem = inventaireItem;
         try {
-            String selectedLoc = dbhelper.getLocalisationById(inventaireItem.getLocalisation_id()).getLocName();
-            String selectedEmployer = dbhelper.getEmployerFullNameById(inventaireItem.getEmployer_id());
+            String selectedLoc = locDbhelper.getLocalisationById(inventaireItem.getLocalisation_id()).getLocName();
+            String selectedEmployer = employerDbHelper.getEmployerFullNameById(inventaireItem.getEmployer_id());
           String selectedstatus=inventaireItem.getStatus();
-            selectedArticle = dbhelper.getArticleById(inventaireItem.getArticle_id());
+            selectedArticle = articleDbhelper.getArticleById(inventaireItem.getArticle_id());
 
 
             if (selectedArticle == null) {
@@ -146,9 +148,9 @@ public class UpdateController implements Initializable {
     @FXML
     private void handleUpdate() {
         try {
-            int loc_id = dbhelper.getLocationIdByName(locationChoiceBox.getSelectionModel().getSelectedItem());
+            int loc_id = locDbhelper.getLocationIdByName(locationChoiceBox.getSelectionModel().getSelectedItem());
             int article_id = selectedArticle.getId(); // Use selectedArticle directly
-            int employer_id = dbhelper.getEmployerIdByName(employerChoiceBox.getSelectionModel().getSelectedItem());
+            int employer_id = employerDbHelper.getEmployerIdByName(employerChoiceBox.getSelectionModel().getSelectedItem());
             int inv_id = inventaireItem.getId();
             int user_id = SessionManager.getActiveUserId();
             String status = status_inventaire.getValue();
@@ -160,7 +162,7 @@ public class UpdateController implements Initializable {
             Inventaire_Item updated_item = new Inventaire_Item(inv_id, article_id,
                     loc_id, user_id, employer_id, employerInventaireCode.getText(),inv_date ,status);
 
-            dbhelper.updateInventaireItem(updated_item);
+            inventaireItemDbHelper.updateInventaireItem(updated_item);
             parentController.refreshTableData(); // Refresh the table data in the parent controller
             closeWindow();
         } catch (Exception e) {
@@ -170,8 +172,8 @@ public class UpdateController implements Initializable {
     }
 
     private void loadChoiceBoxData() {
-        List<String> employers = dbhelper.getAllEmployersNames();
-        List<String> locations = dbhelper.getAllLocations();
+        List<String> employers = employerDbHelper.getAllEmployersNames();
+        List<String> locations = locDbhelper.getAllLocations();
         employerChoiceBox.getItems().addAll(employers);
         locationChoiceBox.getItems().addAll(locations);
         status_inventaire.getItems().addAll(FXCollections.observableArrayList(inv_status));

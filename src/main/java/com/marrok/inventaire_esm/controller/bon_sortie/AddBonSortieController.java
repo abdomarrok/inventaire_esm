@@ -3,8 +3,7 @@ package com.marrok.inventaire_esm.controller.bon_sortie;
 import com.dlsc.gemsfx.FilterView;
 import com.marrok.inventaire_esm.controller.article.EtatStockController;
 import com.marrok.inventaire_esm.model.*;
-import com.marrok.inventaire_esm.util.database.DatabaseConnection;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.*;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -38,7 +37,10 @@ public class AddBonSortieController implements  Initializable {
     public DatePicker datePicker;
     public Button clearButton;
 
-    private DatabaseHelper dbhlper=new DatabaseHelper();
+    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    private ServiceDbHelper serviceDbHelper = new ServiceDbHelper();
+    private EmployerDbHelper employerDbHelper=new EmployerDbHelper();
+    private BonSortieDbHelper bonSortieDbHelper=new BonSortieDbHelper();
     @FXML
     private ChoiceBox<String> serviceField;
     public FilterView<Employer> filterView2;
@@ -78,8 +80,7 @@ public class AddBonSortieController implements  Initializable {
         articleColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getIdArticle();
             try {
-                DatabaseHelper dbHelper = new DatabaseHelper();
-                String articleName = dbHelper.getArticleById(articleId).getName();
+                String articleName = articleDbhelper.getArticleById(articleId).getName();
 
                 if (articleName != null && !articleName.isEmpty()) {
                     return new SimpleStringProperty(articleName);
@@ -112,7 +113,7 @@ public class AddBonSortieController implements  Initializable {
     }
 
     private void loadTableData() {
-        List<Employer> employers = dbhlper.getEmployers();
+        List<Employer> employers = employerDbHelper.getEmployers();
         emploerlist =  FXCollections.observableArrayList(employers);
         filterView2.getItems().setAll(emploerlist);
     }
@@ -130,7 +131,7 @@ public class AddBonSortieController implements  Initializable {
 
 
     private void load_srv_ch_bx_data() {
-        List<Service> services = dbhlper.getServices();
+        List<Service> services = serviceDbHelper.getServices();
         List<String> service_names = new ArrayList<>();
         for (Service service : services) {
             service_names.add(service.getName());
@@ -156,7 +157,7 @@ public class AddBonSortieController implements  Initializable {
         // Create a BonSortie object
         BonSortie bonSortie = new BonSortie(0, employer.getId(),service.getId(), java.sql.Date.valueOf(date));
         // Save BonSortie to the database
-        int bonSortieId = dbhlper.createBonSortie(bonSortie);  // Adjust your DatabaseHelper method accordingly
+        int bonSortieId = bonSortieDbHelper.createBonSortie(bonSortie);  // Adjust your DatabaseHelper method accordingly
 
         if (bonSortieId <= 0) {
             return false; // Failed to create Bon Sortie
@@ -165,7 +166,7 @@ public class AddBonSortieController implements  Initializable {
         // Save each Sortie associated with the Bon Sortie
         for (Sortie sortie : sorties) {
             sortie.setIdBs(bonSortieId);  // Associate the Sortie with the newly created Bon Sortie
-            boolean success = dbhlper.saveSortie(sortie);  // Assuming you have a saveSortie method in DatabaseHelper
+            boolean success = bonSortieDbHelper.saveSortie(sortie);  // Assuming you have a saveSortie method in DatabaseHelper
             if (!success) {
                 return false;  // Failed to save at least one Sortie
             }
@@ -231,7 +232,7 @@ public class AddBonSortieController implements  Initializable {
         // Get selected Employer, Service, and Date
         Employer selectedEmployer = tbData2.getSelectionModel().getSelectedItem();
         String selectedServiceName = serviceField.getSelectionModel().getSelectedItem();
-        Service selectedService = dbhlper.getServiceByName(selectedServiceName);  // Assuming you have a method in DatabaseHelper to get Service by name
+        Service selectedService = serviceDbHelper.getServiceByName(selectedServiceName);  // Assuming you have a method in DatabaseHelper to get Service by name
         LocalDate selectedDate = datePicker.getValue();
 
         // Validate inputs

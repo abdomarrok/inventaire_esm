@@ -2,8 +2,9 @@ package com.marrok.inventaire_esm.controller.location;
 
 import com.marrok.inventaire_esm.model.Localisation;
 import com.marrok.inventaire_esm.model.Service;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.LocDbhelper;
+import com.marrok.inventaire_esm.util.database.ServiceDbHelper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -39,9 +40,9 @@ public class LocationController implements Initializable {
     private ObservableList<Localisation> locationsList;
     private FilteredList<Localisation> filteredLocationsList;
     private Localisation selectedLocalisation;
-    public ToggleButton switchThemeBtn_product;
-    private final Properties themeProperties = new Properties();
-    DatabaseHelper dbhlper =new DatabaseHelper();
+
+    private ServiceDbHelper serviceDbHelper= new ServiceDbHelper();
+    LocDbhelper locDbhelper = new LocDbhelper();
 
     public LocationController() throws SQLException {
     }
@@ -73,7 +74,7 @@ public class LocationController implements Initializable {
         service_name.setCellValueFactory(cellData->{
             int service_id =cellData.getValue().getIdService();
             try{
-                Service currentservice=dbhlper.getServiceById(service_id);
+                Service currentservice=serviceDbHelper.getServiceById(service_id);
                 String service_name= currentservice.getName();
                 return new SimpleStringProperty(service_name);
             }catch (Exception e){
@@ -88,7 +89,7 @@ public class LocationController implements Initializable {
     }
 
     public void loadData() {
-        locationsList = FXCollections.observableArrayList(dbhlper.getLocalisations());
+        locationsList = FXCollections.observableArrayList(locDbhelper.getLocalisations());
         filteredLocationsList = new FilteredList<>(locationsList, p -> true);
         location_tableView.setItems(filteredLocationsList);
     }
@@ -101,7 +102,7 @@ public class LocationController implements Initializable {
             return;
         }
 
-        boolean success = dbhlper.deleteLocalisation(selectedLocalisation.getId());
+        boolean success = locDbhelper.deleteLocalisation(selectedLocalisation.getId());
 
         if (success) {
             loadData();

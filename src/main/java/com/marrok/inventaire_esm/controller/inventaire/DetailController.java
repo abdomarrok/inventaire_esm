@@ -7,8 +7,7 @@ import com.google.zxing.common.BitMatrix;
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.Inventaire_Item;
 import com.marrok.inventaire_esm.model.Localisation;
-import com.marrok.inventaire_esm.util.database.DatabaseConnection;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.*;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -52,7 +51,11 @@ public class DetailController {
 
     private Inventaire_Item inventaireItem;
     private Stage stage;
-    private DatabaseHelper dbhelper;
+    private UserDbHelper udbhelper;
+    private ArticleDbHelper articleDbhelper;
+    private InventaireItemDbHelper inventaireItemDbhelper;
+    private EmployerDbHelper employerDbHelper;
+    LocDbhelper locDbhelper ;
     String userName = "", employerName = "", locationName = "", articleName="";
 
     public void setStage(Stage stage) {
@@ -61,25 +64,29 @@ public class DetailController {
 
     public void setInventaireDetails(Inventaire_Item selectedInventaire) throws SQLException {
         this.inventaireItem = selectedInventaire;
-        dbhelper = new DatabaseHelper();
+        udbhelper = new UserDbHelper();
+        articleDbhelper=new ArticleDbHelper();
+        locDbhelper = new LocDbhelper();
+        inventaireItemDbhelper = new InventaireItemDbHelper();
+        employerDbHelper = new EmployerDbHelper();
 
         if (inventaireItem != null) {
 
-            Article currentarticle = dbhelper.getArticleById(inventaireItem.getArticle_id());
-            Inventaire_Item currentInventaireItem = dbhelper.getInevntaireItemById(inventaireItem.getId());
+            Article currentarticle = articleDbhelper.getArticleById(inventaireItem.getArticle_id());
+            Inventaire_Item currentInventaireItem = inventaireItemDbhelper.getInevntaireItemById(inventaireItem.getId());
             System.out.println(currentarticle + " " + currentInventaireItem);
             if (currentarticle != null && currentInventaireItem != null) {
                 numInventaireLabel.setText(selectedInventaire.getNum_inventaire());
                 idLabel.setText(String.valueOf(currentInventaireItem.getId()));
                 articleName = currentarticle.getName();
                 idArticleLabel.setText(articleName);
-                employerName = dbhelper.getEmployerFullNameById(currentInventaireItem.getEmployer_id());
+                employerName = employerDbHelper.getEmployerFullNameById(currentInventaireItem.getEmployer_id());
                 idEmployerLabel.setText(employerName);
-                Localisation l= dbhelper.getLocalisationById(currentInventaireItem.getLocalisation_id());
+                Localisation l= locDbhelper.getLocalisationById(currentInventaireItem.getLocalisation_id());
                 locationName = "الطابق: " + l.getFloor() + "   " + l.getLocName();//dont change space until
                 idLocalisationLabel.setText(locationName);
                 timeLabel.setText(selectedInventaire.getFormattedDateTime());
-                userName = dbhelper.getUserNameById(currentInventaireItem.getUser_id());
+                userName = udbhelper.getUserNameById(currentInventaireItem.getUser_id());
                 inventaire_status.setText(currentInventaireItem.getStatus());
                 userIdLabel.setText(userName);
             } else {

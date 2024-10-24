@@ -2,8 +2,7 @@ package com.marrok.inventaire_esm.controller.bon_sortie;
 
 import com.marrok.inventaire_esm.model.*;
 import com.marrok.inventaire_esm.util.GeneralUtil;
-import com.marrok.inventaire_esm.util.database.DatabaseConnection;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,7 +27,10 @@ import java.util.List;
 import java.util.Map;
 
 public class DetailViewController {
-    private DatabaseHelper dbhelper = new DatabaseHelper();
+    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    private ServiceDbHelper serviceDbHelper= new ServiceDbHelper();
+    private EmployerDbHelper employerDbHelper=new EmployerDbHelper();
+   private BonSortieDbHelper bonSortieDbHelper = new BonSortieDbHelper();
     private BonSortie bonSortie;
     private Employer currentEmployer;
     private Service currentService;
@@ -49,8 +51,8 @@ public class DetailViewController {
 
     public void setBonSortie(BonSortie selectedBonSortie) {
         this.bonSortie = selectedBonSortie;
-        currentEmployer = dbhelper.getEmployerById(bonSortie.getIdEmployeur());
-        currentService = dbhelper.getServiceById(bonSortie.getIdService());
+        currentEmployer = employerDbHelper.getEmployerById(bonSortie.getIdEmployeur());
+        currentService = serviceDbHelper.getServiceById(bonSortie.getIdService());
         populateDetails();
     }
 
@@ -61,7 +63,7 @@ public class DetailViewController {
         serviceLabel.setText(currentService != null ? currentService.getName() : "N/A");
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         dateLabel.setText(dateFormat.format(bonSortie.getDate()));
-        sortieList =dbhelper.getSortiesByIdBonSortieId(bonSortie.getId());
+        sortieList =bonSortieDbHelper.getSortiesByIdBonSortieId(bonSortie.getId());
         sortieTableView.getItems().clear();
         sortieTableView.getItems().addAll(sortieList);
         setupTableColumns();
@@ -73,8 +75,7 @@ public class DetailViewController {
         articleColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getIdArticle();
             try {
-                DatabaseHelper dbHelper = new DatabaseHelper();
-                String articleName = dbHelper.getArticleById(articleId).getName();
+                String articleName = articleDbhelper.getArticleById(articleId).getName();
 
                 if (articleName != null && !articleName.isEmpty()) {
                     return new SimpleStringProperty(articleName);

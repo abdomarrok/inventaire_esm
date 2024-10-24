@@ -1,8 +1,8 @@
 package com.marrok.inventaire_esm.controller.users;
 
 import com.marrok.inventaire_esm.model.User;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.UserDbHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -45,11 +45,11 @@ public class UsersController implements Initializable {
     private ObservableList<User> userList;
     private FilteredList<User> filteredUserList;
     private User selectedUser;
-    private DatabaseHelper dbHelper;
+    private UserDbHelper dbHelper;
 
     {
         try {
-            dbHelper = new DatabaseHelper();
+            dbHelper = new UserDbHelper();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

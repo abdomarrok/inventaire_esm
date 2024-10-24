@@ -1,8 +1,8 @@
 package com.marrok.inventaire_esm.controller.users;
 
 import com.marrok.inventaire_esm.model.User;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.UserDbHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,11 +31,11 @@ public class AddUserController implements Initializable {
     @FXML private TextField passwordField;
     @FXML private ChoiceBox<String> roleChoiceBox;
 
-    private DatabaseHelper dbHelper;
+    private UserDbHelper dbHelper;
 
     {
         try {
-            dbHelper = new DatabaseHelper();
+            dbHelper = new UserDbHelper();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

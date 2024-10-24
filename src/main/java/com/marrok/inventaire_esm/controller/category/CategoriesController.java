@@ -1,7 +1,7 @@
 package com.marrok.inventaire_esm.controller.category;
 
 import com.marrok.inventaire_esm.model.Category;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.CategoryDbHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,7 +20,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class CategoriesController implements Initializable {
@@ -35,10 +34,8 @@ public class CategoriesController implements Initializable {
     private FilteredList<Category> filteredCategoryList;
 
     private Category selectedCategory;
-    @FXML
-    public ToggleButton switchThemeBtn_category;
-    DatabaseHelper dbhelper= new DatabaseHelper();
-    private final Properties themeProperties = new Properties();
+    private CategoryDbHelper categoryDbhelper = new CategoryDbHelper();
+
 
     public CategoriesController() throws SQLException {
     }
@@ -65,7 +62,7 @@ public class CategoriesController implements Initializable {
     }
 
     public void loadData() {
-        categoryList = FXCollections.observableArrayList(dbhelper.getCategories());
+        categoryList = FXCollections.observableArrayList(categoryDbhelper.getCategories());
         for (Category category : categoryList) {
             System.out.println(category.getId());
         }
@@ -133,7 +130,7 @@ public class CategoriesController implements Initializable {
             if (test) {
                 try{
 
-                    boolean success = dbhelper.deleteCategory(selectedCategory.getId());
+                    boolean success = categoryDbhelper.deleteCategory(selectedCategory.getId());
                     if (success) {
                         categoryList.remove(selectedCategory);
                         GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف الفئة", "تم حذف الفئة بنجاح.");

@@ -1,8 +1,8 @@
 package com.marrok.inventaire_esm.controller.dashboard;
 
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import com.marrok.inventaire_esm.util.SessionManager;
+import com.marrok.inventaire_esm.util.database.UserDbHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,11 +30,11 @@ public class DashboardController extends AnchorPane implements Initializable {
     private Button settings_button;
     private int user_id = -1;
     private String user_role = null;
-    private DatabaseHelper dbhelper;
+    private UserDbHelper dbhelper;
 
     {
         try {
-            dbhelper = new DatabaseHelper();
+            dbhelper = new UserDbHelper();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

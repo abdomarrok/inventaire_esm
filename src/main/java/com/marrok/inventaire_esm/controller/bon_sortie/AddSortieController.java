@@ -2,7 +2,7 @@ package com.marrok.inventaire_esm.controller.bon_sortie;
 
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.Sortie;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -39,7 +39,7 @@ public class AddSortieController implements Initializable {
     private FilteredList<Article> filteredArticleList;
     private Sortie selectedSortie;
     private Article selectedArticle;
-    private DatabaseHelper dbhelper = new DatabaseHelper();
+    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -71,7 +71,7 @@ public class AddSortieController implements Initializable {
     // Fetch available articles from the database
     private ObservableList<Article> fetchArticlesFromDatabase() {
         return FXCollections.observableArrayList(
-                dbhelper.getArticles()
+                articleDbhelper.getArticles()
         );
     }
 
@@ -95,7 +95,7 @@ public class AddSortieController implements Initializable {
         }
 
         // Check available stock for the selected article
-        int availableStock = dbhelper.getTotalQuantityByArticleId(selectedArticle.getId());
+        int availableStock = articleDbhelper.getTotalQuantityByArticleId(selectedArticle.getId());
         if (availableStock < quantity ) {
             showAlert(Alert.AlertType.ERROR, "Insufficient Stock",
                     "Requested quantity exceeds available stock. Available: " + availableStock);

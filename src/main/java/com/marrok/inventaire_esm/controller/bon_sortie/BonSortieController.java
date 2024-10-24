@@ -2,8 +2,9 @@ package com.marrok.inventaire_esm.controller.bon_sortie;
 
 import com.marrok.inventaire_esm.model.BonSortie;
 import com.marrok.inventaire_esm.model.Employer;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.BonSortieDbHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.EmployerDbHelper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,7 +39,8 @@ public class BonSortieController implements Initializable {
     private FilteredList<BonSortie> filtredbonSortiesList;
     private BonSortie selectedbonSortie;
 
-    DatabaseHelper dbhelper= new DatabaseHelper();
+    private EmployerDbHelper employerDbHelper=new EmployerDbHelper();
+    private BonSortieDbHelper bonSortieDbHelper=new BonSortieDbHelper();
 
     public BonSortieController() throws SQLException {
     }
@@ -85,7 +87,7 @@ public class BonSortieController implements Initializable {
     }
 
     private void showBonSortieDetails(int id) {
-        BonSortie selectedBonSortie =dbhelper.getBonSortiesById(id);
+        BonSortie selectedBonSortie =bonSortieDbHelper.getBonSortiesById(id);
         if (selectedBonSortie != null) {
             try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/bon_sortie/detail-view.fxml"));
@@ -123,7 +125,7 @@ public class BonSortieController implements Initializable {
     }
 
     private void loadData() {
-        List<BonSortie> bonSorties=dbhelper.getBonSorties();
+        List<BonSortie> bonSorties=bonSortieDbHelper.getBonSorties();
         bonSortiesList = FXCollections.observableArrayList(bonSorties);
         filtredbonSortiesList = new FilteredList<>(bonSortiesList, p -> true);
         tableView.setItems(filtredbonSortiesList);
@@ -133,7 +135,7 @@ public class BonSortieController implements Initializable {
         employeur.setCellValueFactory(new PropertyValueFactory<>("idEmployeur"));
         employeur.setCellValueFactory(cellData->{
             int idemployer= cellData.getValue().getIdEmployeur();
-            Employer employer =dbhelper.getEmployerById(idemployer);
+            Employer employer =employerDbHelper.getEmployerById(idemployer);
             if(employer!=null){
                 return new SimpleStringProperty(employer.getFirstName() + " " + employer.getLastName());
             }else{

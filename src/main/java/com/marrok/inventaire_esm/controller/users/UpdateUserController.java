@@ -1,8 +1,8 @@
 package com.marrok.inventaire_esm.controller.users;
 
 import com.marrok.inventaire_esm.model.User;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.UserDbHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,12 +21,13 @@ public class UpdateUserController implements Initializable {
     @FXML private ChoiceBox<String> roleChoiceBox;
     private UsersController usersController;
 
-    private DatabaseHelper dbHelper;
+
+    private UserDbHelper udbhlper;
     private User user;  // The user being edited
 
     public UpdateUserController() {
         try {
-            dbHelper = new DatabaseHelper();
+            udbhlper = new UserDbHelper();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -76,7 +77,7 @@ public class UpdateUserController implements Initializable {
         user.setRole(role);
 
         try {
-            dbHelper.updateUser(user); // Assume updateUser method exists in DatabaseHelper
+            udbhlper.updateUser(user); // Assume updateUser method exists in DatabaseHelper
             GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم تحديث المستخدم بنجاح.");
 
             usersController.loadData();

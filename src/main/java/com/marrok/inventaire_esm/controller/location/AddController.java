@@ -2,8 +2,9 @@ package com.marrok.inventaire_esm.controller.location;
 
 import com.marrok.inventaire_esm.model.Localisation;
 import com.marrok.inventaire_esm.model.Service;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.LocDbhelper;
+import com.marrok.inventaire_esm.util.database.ServiceDbHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,14 +36,15 @@ public class AddController implements Initializable {
     private ChoiceBox<String> serviceField;
 
     private LocationController locationController;
-    private DatabaseHelper dbhlper=new DatabaseHelper();
+    private ServiceDbHelper serviceDbHelper=new ServiceDbHelper();
+    LocDbhelper locDbhelper = new LocDbhelper();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         load_srv_ch_bx_data();
     }
 
     private void load_srv_ch_bx_data() {
-        List<Service> services = dbhlper.getServices();
+        List<Service> services = serviceDbHelper.getServices();
         List<String> service_names = new ArrayList<>();
         for (Service service : services) {
             service_names.add(service.getName());
@@ -74,13 +76,13 @@ public class AddController implements Initializable {
 
             return;
         }
-        Service selected_service = dbhlper.getServiceByName(service);
+        Service selected_service = serviceDbHelper.getServiceByName(service);
         if (selected_service == null) {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "المصلحة غير موجودة.");
 
         }else{
             Localisation newLocation = new Localisation(locName,floor,  selected_service.getId() );
-            boolean success = dbhlper.addLocalisation(newLocation);
+            boolean success = locDbhelper.addLocalisation(newLocation);
 
             if (success) {
                 // Reload data in the LocationController

@@ -1,7 +1,7 @@
 package com.marrok.inventaire_esm.controller.login;
 
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.UserDbHelper;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -59,7 +59,7 @@ public class LoginController extends AnchorPane implements Initializable {
     String pass = password.getText();
 
     try {
-        DatabaseHelper dbHelper = new DatabaseHelper();
+        UserDbHelper dbHelper = new UserDbHelper();
         boolean loginTest = dbHelper.validateLogin(user, pass);
 
         if (loginTest) {

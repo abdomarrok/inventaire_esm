@@ -1,8 +1,8 @@
 package com.marrok.inventaire_esm.controller.employer;
 
 import com.marrok.inventaire_esm.model.Employer;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.EmployerDbHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -20,7 +20,8 @@ public class AddController {
     private TextField titleField;
 
     private EmployerController employerController;
-    private DatabaseHelper dbhelper=new DatabaseHelper();
+
+    private EmployerDbHelper employerDbHelper=new EmployerDbHelper();
 
     public AddController() throws SQLException {
     }
@@ -41,7 +42,7 @@ public class AddController {
         }
 
         Employer newEmployer = new Employer(0, firstName, lastName, title);
-        int success = dbhelper.addEmployer(newEmployer.getFirstName(), newEmployer.getLastName(), newEmployer.getTitle());
+        int success = employerDbHelper.addEmployer(newEmployer.getFirstName(), newEmployer.getLastName(), newEmployer.getTitle());
 
         if (success != -1) {
             GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تمت إضافة الموظف بنجاح.");

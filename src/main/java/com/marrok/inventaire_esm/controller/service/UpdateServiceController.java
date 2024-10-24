@@ -3,8 +3,9 @@ package com.marrok.inventaire_esm.controller.service;
 import com.dlsc.gemsfx.FilterView;
 import com.marrok.inventaire_esm.model.Employer;
 import com.marrok.inventaire_esm.model.Service;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.EmployerDbHelper;
+import com.marrok.inventaire_esm.util.database.ServiceDbHelper;
 import fr.brouillard.oss.cssfx.CSSFX;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,7 +39,8 @@ public class UpdateServiceController implements Initializable {
 
     private ServicesController servicesController;
     private int serviceId;
-    private DatabaseHelper dbhelper=new DatabaseHelper();
+    private ServiceDbHelper serviceDbHelper= new ServiceDbHelper();
+    private EmployerDbHelper employerDbHelper=new EmployerDbHelper();
 
     public UpdateServiceController() throws SQLException {
     }
@@ -58,7 +60,7 @@ public class UpdateServiceController implements Initializable {
         lastname_E.setCellValueFactory(new PropertyValueFactory<>("lastName"));
     }
     private void loadTableData() {
-        List<Employer> employers = dbhelper.getEmployers();
+        List<Employer> employers = employerDbHelper.getEmployers();
         emploerlist =  FXCollections.observableArrayList(employers);
         filterView2.getItems().setAll(emploerlist);
     }
@@ -82,11 +84,11 @@ public class UpdateServiceController implements Initializable {
 
     public void setServiceData(int serviceId) {
         this.serviceId = serviceId;
-        Service service = dbhelper.getServiceById(serviceId);
+        Service service = serviceDbHelper.getServiceById(serviceId);
 
 
         if (service != null) {
-            Employer employer = dbhelper.getEmployerById(service.getChef_service_id());
+            Employer employer = employerDbHelper.getEmployerById(service.getChef_service_id());
             if(employer!=null){
                 tbData2.getSelectionModel().select(employer);
             }
@@ -115,7 +117,7 @@ public class UpdateServiceController implements Initializable {
 
             Service service = new Service(serviceId, name, selectedEmployer.getId());
 
-            boolean success = dbhelper.updateService(service);
+            boolean success = serviceDbHelper.updateService(service);
             if (success) {
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تمت إضافة المصلحة بنجاح.");
 

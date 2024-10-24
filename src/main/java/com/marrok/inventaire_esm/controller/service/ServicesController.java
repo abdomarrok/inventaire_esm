@@ -1,8 +1,9 @@
 package com.marrok.inventaire_esm.controller.service;
 
 import com.marrok.inventaire_esm.model.Service;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.EmployerDbHelper;
+import com.marrok.inventaire_esm.util.database.ServiceDbHelper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,8 +50,8 @@ public class ServicesController implements Initializable {
     private FilteredList<Service> filteredServicesList;
     private Service selectedService;
 
-    private final Properties themeProperties = new Properties();
-    private DatabaseHelper dbhelper=new DatabaseHelper();
+    private ServiceDbHelper serviceDbHelper= new ServiceDbHelper();
+    private EmployerDbHelper employerDbHelper=new EmployerDbHelper();
 
     public ServicesController() throws SQLException {
     }
@@ -80,7 +81,7 @@ public class ServicesController implements Initializable {
         chef_service_Column.setCellValueFactory(cellData ->{
             int empl_id=cellData.getValue().getChef_service_id();
 
-            String employerFullName = dbhelper.getEmployerFullNameById(empl_id);
+            String employerFullName = employerDbHelper.getEmployerFullNameById(empl_id);
             if (employerFullName != null) {
                 return new SimpleStringProperty(employerFullName);
             } else {
@@ -91,7 +92,7 @@ public class ServicesController implements Initializable {
 
     @FXML
     private void loadServices() {
-        servicesList = FXCollections.observableArrayList(dbhelper.getServices());
+        servicesList = FXCollections.observableArrayList(serviceDbHelper.getServices());
 
         filteredServicesList = new FilteredList<>(servicesList, p -> true);
         servicesTable.setItems(filteredServicesList);
@@ -157,7 +158,7 @@ public class ServicesController implements Initializable {
         Service selectedService = (Service) servicesTable.getSelectionModel().getSelectedItem();
 
         if (selectedService != null) {
-            boolean success = dbhelper.deleteService(selectedService.getId());
+            boolean success = serviceDbHelper.deleteService(selectedService.getId());
 
             if (success) {
                 servicesList.remove(selectedService);
@@ -177,7 +178,7 @@ public class ServicesController implements Initializable {
     }
 
     public void refreshTableData() {
-        servicesList.setAll(dbhelper.getServices());
+        servicesList.setAll(serviceDbHelper.getServices());
         servicesTable.refresh();
     }
 }

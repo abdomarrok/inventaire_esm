@@ -3,7 +3,7 @@ package com.marrok.inventaire_esm.controller.bon_entree;
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.Entree;
 import com.marrok.inventaire_esm.model.Fournisseur;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -38,10 +38,9 @@ public class AddEntreeController {
 
     private ObservableList<Article> articleList = FXCollections.observableArrayList();
     private FilteredList<Article> filteredArticleList; // Use FilteredList to keep track of filtering
-
+    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
     private Entree selectedEntree;
     private Article selectedArticle;
-    private DatabaseHelper dbhelper=new DatabaseHelper();
 
     public AddEntreeController() throws SQLException {
         // Ensure your DatabaseHelper initializes properly
@@ -77,7 +76,7 @@ public class AddEntreeController {
     // Fetch available articles from the database
     private ObservableList<Article> fetchArticlesFromDatabase() {
         return FXCollections.observableArrayList(
-                dbhelper.getArticles()
+                articleDbhelper.getArticles()
         );
     }
 

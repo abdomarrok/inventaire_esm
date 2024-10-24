@@ -1,8 +1,8 @@
 package com.marrok.inventaire_esm.controller.employer;
 
 import com.marrok.inventaire_esm.model.Employer;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.EmployerDbHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -21,7 +21,7 @@ public class UpdateController {
 
     private EmployerController employerController;
     private Employer currentEmployer;
-    DatabaseHelper dbhelper=new DatabaseHelper();
+    private EmployerDbHelper employerDbHelper=new EmployerDbHelper();
 
     public UpdateController() throws SQLException {
     }
@@ -53,7 +53,7 @@ public class UpdateController {
         currentEmployer.setLastName(lastName);
         currentEmployer.setTitle(title);
 
-        boolean success = dbhelper.updateEmployer(currentEmployer);
+        boolean success = employerDbHelper.updateEmployer(currentEmployer);
 
         if (success) {
             GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم تحديث الموظف بنجاح.");

@@ -2,8 +2,9 @@ package com.marrok.inventaire_esm.controller.location;
 
 import com.marrok.inventaire_esm.model.Localisation;
 import com.marrok.inventaire_esm.model.Service;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.LocDbhelper;
+import com.marrok.inventaire_esm.util.database.ServiceDbHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,7 +23,7 @@ public class UpdateController implements Initializable {
 
     @FXML
     private TextField locationNameField;
-
+    private ServiceDbHelper serviceDbHelper= new ServiceDbHelper();
 
     @FXML
     private TextField floorField;
@@ -34,14 +35,14 @@ public class UpdateController implements Initializable {
 
     private Localisation localisation;
     private LocationController locationController;
-    private  DatabaseHelper dbhlper=new DatabaseHelper();
+    LocDbhelper locDbhelper = new LocDbhelper();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         load_srv_ch_bx_data();
     }
     private void load_srv_ch_bx_data() {
-        List<Service> services = dbhlper.getServices();
+        List<Service> services = serviceDbHelper.getServices();
         List<String> service_names = new ArrayList<>();
         for (Service service : services) {
             service_names.add(service.getName());
@@ -62,7 +63,7 @@ public class UpdateController implements Initializable {
         floorField.setText(String.valueOf(localisation.getFloor()));
 
        // serviceField.setText(String.valueOf(localisation.getIdService()));
-        String service_name = dbhlper.getServiceById(localisation.getIdService()).getName();
+        String service_name = serviceDbHelper.getServiceById(localisation.getIdService()).getName();
         serviceField.setValue(service_name);
     }
 
@@ -82,14 +83,14 @@ public class UpdateController implements Initializable {
 
         localisation.setLocName(locName);
         localisation.setFloor(floor);
-        Service selected_service = dbhlper.getServiceByName(serviceField.getValue());
+        Service selected_service = serviceDbHelper.getServiceByName(serviceField.getValue());
         if (selected_service == null) {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "لم يتم اختيار خدمة.");
 
         }else{
             localisation.setIdService(selected_service.getId());
 
-            boolean success = dbhlper.updateLocalisation(localisation);
+            boolean success = locDbhelper.updateLocalisation(localisation);
 
             if (success) {
                 locationController.loadData();

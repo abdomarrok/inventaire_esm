@@ -3,8 +3,9 @@ package com.marrok.inventaire_esm.controller.service;
 import com.dlsc.gemsfx.FilterView;
 import com.marrok.inventaire_esm.model.Employer;
 import com.marrok.inventaire_esm.model.Service;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.database.EmployerDbHelper;
+import com.marrok.inventaire_esm.util.database.ServiceDbHelper;
 import fr.brouillard.oss.cssfx.CSSFX;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -38,7 +39,8 @@ public class AddServiceController implements Initializable {
     private Button cancelButton;
 
     private ServicesController servicesController;
-    private DatabaseHelper dbhelper=new DatabaseHelper();
+    private ServiceDbHelper serviceDbHelper= new ServiceDbHelper();
+    private EmployerDbHelper employerDbHelper=new EmployerDbHelper();
 
     public AddServiceController() throws SQLException {
 
@@ -73,7 +75,7 @@ public class AddServiceController implements Initializable {
     }
 
     private void loadTableData() {
-        List<Employer> employers = dbhelper.getEmployers();
+        List<Employer> employers = employerDbHelper.getEmployers();
         emploerlist =  FXCollections.observableArrayList(employers);
         filterView2.getItems().setAll(emploerlist);
     }
@@ -100,7 +102,7 @@ public class AddServiceController implements Initializable {
         }
         if (selectedEmployer != null) {
             Service service = new Service(name, selectedEmployer.getId());
-            boolean success = dbhelper.addService(service);
+            boolean success = serviceDbHelper.addService(service);
 
             if (success) {
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تمت إضافة المصلحة بنجاح.");

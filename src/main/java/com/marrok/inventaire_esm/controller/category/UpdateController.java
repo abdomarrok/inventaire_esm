@@ -1,7 +1,7 @@
 package com.marrok.inventaire_esm.controller.category;
 
 import com.marrok.inventaire_esm.model.Category;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.CategoryDbHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +18,7 @@ public class UpdateController {
 
     private Category selectedCategory;
     private CategoriesController categoriesController;
-    private DatabaseHelper dbhelper=new DatabaseHelper();
+    private CategoryDbHelper categoryDbhelper = new CategoryDbHelper();
 
     public UpdateController() throws SQLException {
     }
@@ -43,7 +43,7 @@ public class UpdateController {
 
         // Update the category in the database
       try{
-            dbhelper.updateCategory(selectedCategory);
+          categoryDbhelper.updateCategory(selectedCategory);
           GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم تحديث الفئة", "تم تحديث الفئة بنجاح.");
 
           categoriesController.loadData(); // Refresh the categories list

@@ -2,8 +2,7 @@ package com.marrok.inventaire_esm.controller.inventaire;
 import com.marrok.inventaire_esm.model.Inventaire_Item;
 import com.marrok.inventaire_esm.model.Service;
 import com.marrok.inventaire_esm.model.Localisation;  // Add Localisation model
-import com.marrok.inventaire_esm.util.database.DatabaseConnection;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.*;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,7 +46,10 @@ public class FicheInventaireController implements Initializable {
     Map<String, Object> parameters = new HashMap<>();
     private ObservableList<Service> servicesList;
     private ObservableList<Localisation> localisationsList;
-    private DatabaseHelper dbhelper = new DatabaseHelper();
+    private ServiceDbHelper serviceDbHelper= new ServiceDbHelper();
+    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    private LocDbhelper locDbhelper = new LocDbhelper();
+    private InventaireItemDbHelper inventaireItemDbhelper = new InventaireItemDbHelper();
 
     // Define available years for the ChoiceBox
     Integer[] availableYears = {2013,2014,2015,2016,2017
@@ -68,7 +70,7 @@ public class FicheInventaireController implements Initializable {
     // Load services into the service ChoiceBox
     @FXML
     private void loadServices() {
-        servicesList = FXCollections.observableArrayList(dbhelper.getServices());
+        servicesList = FXCollections.observableArrayList(serviceDbHelper.getServices());
         ObservableList<String> serviceNames = FXCollections.observableArrayList();
 
         serviceNames.add("All Services"); // Add "All" option for optional selection
@@ -81,7 +83,7 @@ public class FicheInventaireController implements Initializable {
     // Load localisations into the localisation ChoiceBox
     @FXML
     private void loadLocalisations() {
-        localisationsList = FXCollections.observableArrayList(dbhelper.getLocalisations());
+        localisationsList = FXCollections.observableArrayList(locDbhelper.getLocalisations());
         ObservableList<String> localisationNames = FXCollections.observableArrayList();
         localisationNames.add("All Localisations"); // Add "All" option for optional selection
         for (Localisation localisation : localisationsList) {
@@ -135,7 +137,7 @@ public class FicheInventaireController implements Initializable {
         }
         // Logic to extract the inventory report based on selected service, localisation, and year
         try {
-            List<Inventaire_Item> inventoryItems = dbhelper.getInventoryItemsByFilters(serviceId, localisationId, selectedYear);
+            List<Inventaire_Item> inventoryItems = inventaireItemDbhelper.getInventoryItemsByFilters(serviceId, localisationId, selectedYear);
 
             if (inventoryItems.isEmpty()) {
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "No Data", "No inventory items found for the selected filters.");
@@ -371,7 +373,7 @@ public class FicheInventaireController implements Initializable {
         for (Inventaire_Item item : items) {
             Row row = sheet.createRow(rowIndex++);
             row.createCell(0).setCellValue(item.getArticle_id());
-            String articlename = dbhelper.getArticleById(item.getArticle_id()).getName();
+            String articlename = articleDbhelper.getArticleById(item.getArticle_id()).getName();
             row.createCell(1).setCellValue(articlename != null ? articlename : "not known article");
             row.createCell(2).setCellValue(item.getNum_inventaire());
 

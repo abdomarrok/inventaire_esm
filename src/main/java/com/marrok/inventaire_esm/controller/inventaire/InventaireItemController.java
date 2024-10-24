@@ -3,7 +3,7 @@ package com.marrok.inventaire_esm.controller.inventaire;
 
 import com.marrok.inventaire_esm.model.Inventaire_Item;
 import com.marrok.inventaire_esm.model.Localisation;
-import com.marrok.inventaire_esm.util.database.DatabaseHelper;
+import com.marrok.inventaire_esm.util.database.*;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -66,8 +66,10 @@ public class InventaireItemController implements Initializable {
     private FilteredList<Inventaire_Item> filteredInventaireItemList;
     private Inventaire_Item selectedInventaireItem;
 
-    DatabaseHelper dbhelper = new DatabaseHelper();
-
+    ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    LocDbhelper locDbhelper = new LocDbhelper();
+    InventaireItemDbHelper inventaireItemDbHelper = new InventaireItemDbHelper();
+    private EmployerDbHelper employerDbHelper=new EmployerDbHelper();
     public InventaireItemController() throws SQLException {
     }
 
@@ -87,7 +89,7 @@ public class InventaireItemController implements Initializable {
         // Custom cell value factory to get the localisation name by its id
         localisationIdColumn.setCellValueFactory(cellData -> {
             int idLocalisation = cellData.getValue().getLocalisation_id();
-            Localisation localisation = dbhelper.getLocalisationById(idLocalisation);
+            Localisation localisation = locDbhelper.getLocalisationById(idLocalisation);
 
             if (localisation != null) {
                 return new SimpleStringProperty(localisation.getLocName());
@@ -112,8 +114,7 @@ public class InventaireItemController implements Initializable {
         articleIdColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getArticle_id();
             try {
-                DatabaseHelper dbHelper = new DatabaseHelper();
-                String articleName = dbHelper.getArticleById(articleId).getName();
+                String articleName = articleDbhelper.getArticleById(articleId).getName();
 
                 if (articleName != null && !articleName.isEmpty()) {
                     return new SimpleStringProperty(articleName);
@@ -130,7 +131,7 @@ public class InventaireItemController implements Initializable {
 
 
             if (employerId != 0) {
-                String employerName = dbhelper.getEmployerFullNameById(employerId);
+                String employerName = employerDbHelper.getEmployerFullNameById(employerId);
                 if (employerName != null && !employerName.isEmpty()) {
                     return new SimpleStringProperty(employerName);
                 } else {
@@ -149,7 +150,7 @@ public class InventaireItemController implements Initializable {
     }
 
     private void loadData() {
-        inventaireItemList = FXCollections.observableArrayList(dbhelper.getInventaireItems());
+        inventaireItemList = FXCollections.observableArrayList(inventaireItemDbHelper.getInventaireItems());
         filteredInventaireItemList = new FilteredList<>(inventaireItemList, p -> true);
         tableView.setItems(filteredInventaireItemList);
     }
@@ -158,9 +159,9 @@ public class InventaireItemController implements Initializable {
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredInventaireItemList.setPredicate(item -> {
-                String emp_name = dbhelper.getEmployerFullNameById(item.getEmployer_id());
-                String art_name = dbhelper.getArticleById(item.getArticle_id()).getName();
-                String loc_name = dbhelper.getLocalisationById(item.getLocalisation_id()).getLocName();
+                String emp_name = employerDbHelper.getEmployerFullNameById(item.getEmployer_id());
+                String art_name = articleDbhelper.getArticleById(item.getArticle_id()).getName();
+                String loc_name = locDbhelper.getLocalisationById(item.getLocalisation_id()).getLocName();
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
@@ -192,8 +193,7 @@ public class InventaireItemController implements Initializable {
     private void showInventaireDetails(int id) {
 
         try {
-            DatabaseHelper dpHelper = new DatabaseHelper();
-            Inventaire_Item selectedInventaire = dpHelper.getInevntaireItemById(id);
+            Inventaire_Item selectedInventaire = inventaireItemDbHelper.getInevntaireItemById(id);
             if (selectedInventaire != null) {
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/detail-view.fxml"));
@@ -289,7 +289,7 @@ public class InventaireItemController implements Initializable {
             boolean test = GeneralUtil.showConfirmationDialog("تاكيد", "هل متاكد انك تريد حذف هذا الجرد" + selectedItem.getNum_inventaire());
             if(test){
                 try {
-                    boolean isDeleted = dbhelper.deleteInventaireItem(selectedItem.getId());
+                    boolean isDeleted = inventaireItemDbHelper.deleteInventaireItem(selectedItem.getId());
                     if (isDeleted) {
                         refreshTableData();
                         GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم حذف العنصر بنجاح.");
@@ -317,7 +317,7 @@ public class InventaireItemController implements Initializable {
     }
 
     public void refreshTableData() {
-        inventaireItemList.setAll(dbhelper.getInventaireItems());
+        inventaireItemList.setAll(inventaireItemDbHelper.getInventaireItems());
         tableView.refresh();
     }
 }
