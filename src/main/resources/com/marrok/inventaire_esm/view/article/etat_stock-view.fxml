@@ -12,7 +12,7 @@
            <HBox fx:id="topBox" alignment="CENTER">
                <children>
                     <HBox alignment="CENTER" prefHeight="96.0" prefWidth="70.0">
-                        <Button fx:id="bk_Dashboard_from_etat_stock" contentDisplay="GRAPHIC_ONLY" styleClass="smallDashboard_btn" text="الرئيسية">
+                        <Button fx:id="bk_Dashboard_from_etat_stock" contentDisplay="GRAPHIC_ONLY" styleClass="dashboard_tub" text="الرئيسية">
                             <graphic>
                                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

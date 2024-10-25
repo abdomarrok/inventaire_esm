@@ -16,10 +16,7 @@ import java.util.ResourceBundle;
 public class DashboardController extends AnchorPane implements Initializable {
     @FXML
     private Button employers_button;
-    @FXML
-    private Button product_button;
-    @FXML
-    private Button category_button;
+
     @FXML
     private Button services_button;
     @FXML
@@ -76,8 +73,6 @@ public class DashboardController extends AnchorPane implements Initializable {
                 break;
             default:
                 employers_button.setDisable(true);
-                product_button.setDisable(true);
-                category_button.setDisable(true);
                 services_button.setDisable(true);
                 location_button.setDisable(true);
                 inventaire_button.setDisable(true);

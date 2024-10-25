@@ -22,7 +22,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class ServicesController implements Initializable {
@@ -39,9 +38,6 @@ public class ServicesController implements Initializable {
 
     @FXML
     private TextField searchField;
-
-    @FXML
-    private ToggleButton switchThemeBtn_service;
 
     @FXML
     private Button bk_Dashboard_from_services;
@@ -173,9 +169,6 @@ public class ServicesController implements Initializable {
 
 
 
-    public ObservableList<Service> getServicesList() {
-        return servicesList;
-    }
 
     public void refreshTableData() {
         servicesList.setAll(serviceDbHelper.getServices());

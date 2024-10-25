@@ -8,7 +8,7 @@
 <GridPane hgap="10" styleClass="background" vgap="15" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.category.UpdateController">
      <Label alignment="CENTER" contentDisplay="CENTER" styleClass="titleLabel" text="تحديث الفئة" GridPane.columnSpan="2" GridPane.halignment="CENTER" />
       <Label styleClass="lbl" text="الاسم :" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-      <TextField fx:id="categoryNameTextField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+      <TextField fx:id="categoryNameTextField" styleClass="searchField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
 
 
       <Button onAction="#updateCategory" text="تحديث" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">

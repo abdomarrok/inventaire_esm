@@ -11,7 +11,7 @@
             <HBox fx:id="topBox" alignment="CENTER">
                 <children>
                     <HBox alignment="CENTER" prefHeight="96.0" prefWidth="70.0">
-                        <Button contentDisplay="GRAPHIC_ONLY" onAction="#goHome" styleClass="smallDashboard_btn" text="الرئيسية">
+                        <Button contentDisplay="GRAPHIC_ONLY" onAction="#goHome" styleClass="dashboard_tub" text="الرئيسية">
                             <graphic>
                                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

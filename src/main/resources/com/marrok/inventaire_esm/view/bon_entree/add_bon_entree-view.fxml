@@ -5,8 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="900.0" spacing="20.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.marrok.inventaire_esm.controller.bon_entree.AddBonEntreeController">
+<VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="900.0" spacing="20.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.bon_entree.AddBonEntreeController">
 
     <!-- Title -->
     <Label styleClass="titleLabel" text="إضافة وصل استلام" />
@@ -23,7 +22,7 @@
         </VBox>
         <VBox alignment="CENTER">
             <Label styleClass="lbl_fiche_inv" text="التاريخ" />
-            <DatePicker fx:id="datePicker" styleClass="smallDashboard_btn" />
+            <DatePicker fx:id="datePicker" />
         </VBox>
 
     </HBox>
