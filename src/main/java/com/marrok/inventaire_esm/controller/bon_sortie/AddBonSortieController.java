@@ -222,7 +222,7 @@ public class AddBonSortieController implements  Initializable {
         }
 
 
-        GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/bon_entree/bon_entree-view.fxml",event,true);
+        GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/bon_sortie/bon_sortie-view.fxml",event,true);
     }
 
 

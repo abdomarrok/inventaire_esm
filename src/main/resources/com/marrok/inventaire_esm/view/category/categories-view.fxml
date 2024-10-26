@@ -12,9 +12,9 @@
 
         <top>
 
-            <HBox fx:id="topBox" alignment="CENTER">
+            <HBox fx:id="topBox" >
                 <children>
-                    <HBox alignment="CENTER" prefHeight="96.0" prefWidth="70.0">
+
                         <Button contentDisplay="GRAPHIC_ONLY" onAction="#go_Dashboard" styleClass="dashboard_tub" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                             <graphic>
                                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -27,8 +27,7 @@
                                 <Insets bottom="10.0" />
                             </BorderPane.margin>
                         </Button>
-                    </HBox>
-                    <HBox alignment="CENTER" prefHeight="96.0" prefWidth="887.0" spacing="50.0">
+                    <HBox alignment="CENTER" spacing="50.0" HBox.hgrow="ALWAYS">
                         <TextField fx:id="search_cat_txt" alignment="CENTER_RIGHT" minWidth="200" promptText="بحث..." styleClass="searchField" />
                                           <Label styleClass="titleLabel" text="تسيير الفئات" HBox.hgrow="SOMETIMES" />
                     </HBox>

@@ -94,6 +94,7 @@ private void showDashboard(Event event) {
         if (stage != null) {
             stage.setScene(scene);
             stage.setResizable(true);
+            stage.setMaximized(true);
             stage.centerOnScreen();
             stage.show();
         }
