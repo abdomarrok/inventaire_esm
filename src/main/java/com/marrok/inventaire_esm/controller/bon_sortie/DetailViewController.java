@@ -98,8 +98,6 @@ public class DetailViewController {
                 throw new FileNotFoundException("Report file not found.");
             }
 
-
-
             if (bonSortie.getId() != -1) {
                 parameters.put("bon_sortie_id", bonSortie.getId());
                 System.out.println("Parameters: bs= " + parameters);
@@ -135,8 +133,6 @@ public class DetailViewController {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Error generating report: " + ex.getMessage());
         }
 
-
-        GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/bon_entree/bon_entree-view.fxml",event,true);
     }
 
 }

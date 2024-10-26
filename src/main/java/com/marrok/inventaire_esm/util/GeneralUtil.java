@@ -1,11 +1,6 @@
 package com.marrok.inventaire_esm.util;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
 import com.marrok.inventaire_esm.controller.dashboard.DashboardController;
-import com.marrok.inventaire_esm.controller.login.LoginController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -18,18 +13,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Region;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GeneralUtil {
 
+
+    private static final double MINIMUM_WINDOW_WIDTH = 390.0;
+    private static final double MINIMUM_WINDOW_HEIGHT = 500.0;
 
 
     public static void showAlert(Alert.AlertType alertType, String title, String content) {
@@ -85,6 +84,8 @@ public class GeneralUtil {
 //        return MatrixToImageWriter.toBufferedImage(bitMatrix);
 //    }
 
+
+
     public static void loadScene(String resourcePath, ActionEvent event, boolean isResizable) {
         FXMLLoader loader = new FXMLLoader(GeneralUtil.class.getResource(resourcePath));
         try {
@@ -94,22 +95,30 @@ public class GeneralUtil {
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.getIcons().add(new Image(GeneralUtil.class.getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
-            /****/
-            Screen screen = Screen.getPrimary();
-            Rectangle2D bounds = screen.getVisualBounds();
-            stage.setX(bounds.getMinX());
-            stage.setY(bounds.getMinY());
-            stage.setWidth(bounds.getWidth());
-            stage.setHeight(bounds.getHeight());
-            /****/
+
+            // Check if the resource path is the login view; if so, don't set dimensions to maximize
+            if (resourcePath.contains("login-view")) {
+                // Let the stage size itself based on the scene’s preferred size
+                stage.sizeToScene();
+            } else {
+                // For other views, maximize the stage
+                Screen screen = Screen.getPrimary();
+                Rectangle2D bounds = screen.getVisualBounds();
+                stage.setX(bounds.getMinX());
+                stage.setY(bounds.getMinY());
+                stage.setWidth(bounds.getWidth());
+                stage.setHeight(bounds.getHeight());
+            }
+
             stage.setScene(scene);
-           // stage.setResizable(isResizable);
-          //  stage.setFullScreen(true);
-           // stage.centerOnScreen();
+            stage.setResizable(isResizable);
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, "Error loading scene: " + resourcePath, ex);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر تحميل المشهد المطلوب. يرجى المحاولة مرة أخرى لاحقًا.");
         }
     }
+
+
 }

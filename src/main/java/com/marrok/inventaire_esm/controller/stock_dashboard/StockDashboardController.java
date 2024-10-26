@@ -1,20 +1,78 @@
 package com.marrok.inventaire_esm.controller.stock_dashboard;
 
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.SessionManager;
+import com.marrok.inventaire_esm.util.database.UserDbHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class StockDashboardController implements Initializable {
+    public Button etat_stock_button;
+    public Button list_be_button;
+    public Button list_bs_button;
+    public Button product_button;
+    public Button category_button;
+    public Button fornisseurs_button;
+    private int user_id = -1;
+    private String user_role = null;
+    private UserDbHelper dbhelper;
+
+    {
+        try {
+            dbhelper = new UserDbHelper();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Initialize theme properties
+        user_id = SessionManager.getActiveUserId();
+        if (user_id != -1) {
+            user_role = dbhelper.getUserRoleById(user_id);
+
+            if (user_role != null) {
+                customizeDashboardForRole(user_role);
+            }else {
+                System.out.println("user_role is null");
+
+            }
+        }
 
     }
 
+    private void customizeDashboardForRole(String role) {
+        switch (role) {
+            case "Admin":
+                // Admin sees everything
+                break;
+            case "Editor":
+                product_button.setDisable(true);
+                fornisseurs_button.setDisable(true);
+                break;
+            case "User":
+                // User sees limited options
+                category_button.setDisable(true);
+                product_button.setDisable(true);
+                fornisseurs_button.setDisable(true);
+                break;
+            default:
+                etat_stock_button.setDisable(true);
+                        list_be_button.setDisable(true);
+                list_bs_button.setDisable(true);
+                category_button.setDisable(true);
+                product_button.setDisable(true);
+                fornisseurs_button.setDisable(true);
+                break;
+        }
+    }
 
     @FXML
     public void go_Products(ActionEvent event) {
