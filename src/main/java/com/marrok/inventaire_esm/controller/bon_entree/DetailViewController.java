@@ -134,6 +134,8 @@ public class DetailViewController {
 
                 if (bonEntree.getId() != -1) {
                     parameters.put("bon_entree_id", bonEntree.getId());
+                    parameters.put("logo", getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"));
+
                 } else {
                     GeneralUtil.showAlert(Alert.AlertType.WARNING, "Error", "Error with current bon entree ID.");
                     return; // Exit if the ID is invalid

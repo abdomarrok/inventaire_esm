@@ -2,7 +2,9 @@ package com.marrok.inventaire_esm.controller.fournisseur;
 
 import com.marrok.inventaire_esm.model.Fournisseur;
 import com.marrok.inventaire_esm.util.GeneralUtil;
+import com.marrok.inventaire_esm.util.SessionManager;
 import com.marrok.inventaire_esm.util.database.FournisseurDbHelper;
+import com.marrok.inventaire_esm.util.database.UserDbHelper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -37,22 +39,67 @@ public class FournisseurController implements Initializable {
     public TableColumn rc_column;
     public TextField searchField;
     public Button bk_Dashboard_from_fournisseur;
+    public Button updateButton;
+    public Button addButton;
+    public Button deleteButton;
+    private int user_id = -1;
+    private String user_role = null;
 
     ObservableList<Fournisseur> fournisseurObservableList;
     private FournisseurDbHelper fournisseurDbHelper = new FournisseurDbHelper();
+    private UserDbHelper userDbhelper= new UserDbHelper();
     private FilteredList<Fournisseur> filteredFournisseurList;
     private Fournisseur selectedFournisseur;
 
     public FournisseurController() throws SQLException {
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        setUser();
         loadData();
         initializeColumns();
         setupSearchFilter();
         setupTableSelectionListener();
 
+    }
+
+    private void setUser() {
+        System.out.println("FournisseurController.setUser");
+        user_id = SessionManager.getActiveUserId();
+        if (user_id != -1) {
+            user_role = userDbhelper.getUserRoleById(user_id);
+
+            if (user_role != null) {
+                customizeFournisseurForRole(user_role);
+            }else {
+                System.out.println("user_role is null");
+
+            }
+        }
+    }
+
+    private void customizeFournisseurForRole(String userRole) {
+        System.out.println("FournisseurController.customizeFournisseurForRole"+userRole);
+        switch (userRole) {
+            case "Admin":
+                // Admin sees everything
+                break;
+            case "Editor":
+              updateButton.setDisable(true);
+              deleteButton.setDisable(true);
+                break;
+            case "User":
+                // User sees limited options
+                updateButton.setDisable(true);
+                deleteButton.setDisable(true);
+                addButton.setDisable(true);
+                break;
+            default:
+
+                break;
+        }
     }
 
     private void initializeColumns() {

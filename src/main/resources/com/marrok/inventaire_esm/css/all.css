@@ -30,9 +30,13 @@
     /*-fx-background-color: #fff1dc; */
     -fx-background-color: #fffbf6;
 }
+
+
 .bodybg{
-    -fx-background-image: url('../img/stockdadhboard.png');
-    -fx-background-size: 100% 100%;
+    -fx-background-image: url('../img/boxshape.png');
+    -fx-background-size: contain; /* Adjust to fit the component */
+    -fx-background-position: center; /* Center the image */
+    -fx-background-repeat: no-repeat; /* Do not repeat the image */
 }
 .bodybg2{
     -fx-background-image: url('../img/inventorybgv2.jpg');

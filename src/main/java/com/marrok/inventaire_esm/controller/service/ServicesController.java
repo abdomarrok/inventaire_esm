@@ -100,7 +100,7 @@ public class ServicesController implements Initializable {
     private void setupTableSelectionListener() {
         servicesTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedService = (Service) newValue);
 
-        bk_Dashboard_from_services.setOnAction(GeneralUtil::goBackDashboard);
+        bk_Dashboard_from_services.setOnAction(GeneralUtil::goBackStockDashboard);
     }
 
     @FXML

@@ -178,7 +178,7 @@ public class InventaireItemController implements Initializable {
     }
 
     private void setupTableSelectionListener() {
-        bk_Dashboard_from_inventaireitem.setOnAction(GeneralUtil::goBackDashboard);
+        bk_Dashboard_from_inventaireitem.setOnAction(GeneralUtil::goBackStockDashboard);
 
         tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedInventaireItem = newValue);
         tableView.setOnMouseClicked((MouseEvent event) -> {

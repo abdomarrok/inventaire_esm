@@ -1,5 +1,6 @@
 package com.marrok.inventaire_esm.util.database;
 
+import com.marrok.inventaire_esm.controller.dashboard.DashboardController;
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.scene.control.Alert;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ArticleDbHelper {
      public   ArticleDbHelper()  throws SQLException {
@@ -113,15 +116,14 @@ public class ArticleDbHelper {
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setString(1, article.getName());
             stmt.setString(2, article.getUnite());
-//            stmt.setInt(3, article.getQuantity());
             stmt.setString(3, article.getRemarque());
             stmt.setString(4, article.getDescription());
             stmt.setInt(5, article.getIdCategory());
             stmt.setLong(6, article.getId());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle exception
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, "Error Adding article "+article.getName(), e);
+
         }
         return false;
     }

@@ -100,6 +100,7 @@ public class DetailViewController {
 
             if (bonSortie.getId() != -1) {
                 parameters.put("bon_sortie_id", bonSortie.getId());
+                parameters.put("logo", getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"));
                 System.out.println("Parameters: bs= " + parameters);
             } else {
                 GeneralUtil.showAlert(Alert.AlertType.WARNING, "Error", "Error with current bon entree ID.");

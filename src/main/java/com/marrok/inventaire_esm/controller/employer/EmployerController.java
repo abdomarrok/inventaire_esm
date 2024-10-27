@@ -101,7 +101,7 @@ public class EmployerController implements Initializable {
 
     private void setupTableSelectionListener() {
         bk_Dashboard_from_employers.setOnAction(event -> {
-          GeneralUtil.goBackDashboard(event);
+          GeneralUtil.goBackStockDashboard(event);
         });
         tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedEmployer = newValue);
     }

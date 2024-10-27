@@ -3,6 +3,7 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
 	<parameter name="bon_entree_id" class="java.lang.Integer"/>
+	<parameter name="logo" class="java.lang.Object"/>
 	<query language="SQL"><![CDATA[
    SELECT
     be.id AS bon_entree_id,
@@ -58,28 +59,46 @@ WHERE
 	<variable name="total_ttc" class="java.lang.Float">
 		<expression><![CDATA[$V{total_montant_ht} * 0.19f + $V{montant_ht}]]></expression>
 	</variable>
-	<title height="155">
-		<element kind="staticText" uuid="afc5e77c-017f-4b4b-8452-410f233a8d2d" x="200" y="10" width="200" height="40" fontName="Andalus" fontSize="18.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+	<title height="271">
+		<element kind="staticText" uuid="afc5e77c-017f-4b4b-8452-410f233a8d2d" x="200" y="160" width="160" height="40" fontName="Andalus" fontSize="18.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[Bon Entree]]></text>
 		</element>
-		<element kind="textField" uuid="db47c51e-1174-4b53-9a21-6761f21c98a2" x="110" y="60" width="100" height="20" hTextAlign="Center">
+		<element kind="textField" uuid="db47c51e-1174-4b53-9a21-6761f21c98a2" x="110" y="210" width="100" height="20" hTextAlign="Center">
 			<expression><![CDATA[$F{bon_entree_id}]]></expression>
 		</element>
-		<element kind="staticText" uuid="17d77697-8f53-44bb-8cb7-4c4bde477cc8" x="0" y="60" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="17d77697-8f53-44bb-8cb7-4c4bde477cc8" x="0" y="210" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[N° de Bon]]></text>
 		</element>
-		<element kind="textField" uuid="aba34561-033b-4553-989a-33b4b92b3c6a" x="110" y="90" width="170" height="20" hTextAlign="Center">
+		<element kind="textField" uuid="aba34561-033b-4553-989a-33b4b92b3c6a" x="110" y="240" width="170" height="20" hTextAlign="Center">
 			<expression><![CDATA[$F{fournisseur_name}]]></expression>
 		</element>
-		<element kind="staticText" uuid="cdf1091b-4176-4d15-8990-30456c72c4da" x="0" y="90" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="cdf1091b-4176-4d15-8990-30456c72c4da" x="0" y="240" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[Fournisseur]]></text>
 		</element>
-		<element kind="staticText" uuid="7e43a134-a9b0-45c3-915d-f9dd085bc5f8" x="350" y="60" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="7e43a134-a9b0-45c3-915d-f9dd085bc5f8" x="350" y="240" width="90" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[N° BL/Facture
 ]]></text>
 		</element>
-		<element kind="textField" uuid="f9364f28-6e62-448e-badd-8a5165145078" x="450" y="60" width="110" height="20" hTextAlign="Center">
+		<element kind="textField" uuid="f9364f28-6e62-448e-badd-8a5165145078" x="440" y="240" width="110" height="20" hTextAlign="Left">
 			<expression><![CDATA[$F{document_num}]]></expression>
+		</element>
+		<element kind="image" uuid="08de2d47-2965-4f1f-8eda-e96424b0125c" x="252" y="90" width="50" height="50">
+			<expression><![CDATA[$P{logo}]]></expression>
+		</element>
+		<element kind="staticText" uuid="00e08575-7ff0-41e4-ae78-a51bb3a57d1a" x="60" y="50" width="440" height="30" fontName="Andalus" fontSize="15.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Ecole Supérieure de la Magistrature]]></text>
+		</element>
+		<element kind="staticText" uuid="962cd548-bf42-431c-8cc2-780b99218515" x="60" y="20" width="440" height="30" fontName="Andalus" fontSize="15.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Ministère de la Justice                                                 ]]></text>
+		</element>
+		<element kind="staticText" uuid="43be51ce-e4d5-42ea-96a0-073803f43502" x="60" y="-10" width="440" height="30" fontName="Andalus" fontSize="15.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[ République Algérienne Démocratique et Populaire]]></text>
+		</element>
+		<element kind="staticText" uuid="4f5603b4-b68e-4efc-ab90-38228d288e29" x="350" y="210" width="70" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Kolea, Le :]]></text>
+		</element>
+		<element kind="textField" uuid="d3895a97-6d78-4d7b-9e56-e001254125e2" x="420" y="210" width="60" height="20" hTextAlign="Left" vTextAlign="Middle">
+			<expression><![CDATA[$F{bon_entree_date}]]></expression>
 		</element>
 	</title>
 	<columnHeader height="55">
@@ -112,6 +131,11 @@ WHERE
 			</element>
 		</band>
 	</detail>
+	<columnFooter height="72">
+		<element kind="staticText" uuid="b8499bf3-5c5a-4344-ab22-feb336e000ac" x="440" y="10" width="80" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[Chef de stock]]></text>
+		</element>
+	</columnFooter>
 	<summary height="82">
 		<element kind="textField" uuid="b7a5c6e0-d8bf-4ce4-bdd5-ec39417f7c89" x="420" y="4" width="100" height="20" hTextAlign="Center">
 			<expression><![CDATA[$V{total_montant_ht}]]></expression>

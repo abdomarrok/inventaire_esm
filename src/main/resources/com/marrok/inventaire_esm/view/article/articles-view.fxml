@@ -89,14 +89,7 @@
     <bottom>
         <ButtonBar buttonMinWidth="40.0">
         <buttons>
-<!--                <Button fx:id="bk_Dashboard_from_products" text="الرئيسية" ButtonBar.buttonData="RIGHT">-->
-<!--            <BorderPane.margin>-->
-<!--               <Insets bottom="50.0" right="50.0" />-->
-<!--            </BorderPane.margin>-->
-<!--            <styleClass>-->
-<!--               <String fx:value="btn" />-->
-<!--            </styleClass>-->
-<!--                </Button>-->
+
 
         <Button fx:id="export_articles_btn" contentDisplay="LEFT" onAction="#exportArticle" styleClass="export_btn" text="تصدير" ButtonBar.buttonData="LEFT">
             <graphic>

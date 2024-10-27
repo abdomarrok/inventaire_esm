@@ -29,6 +29,7 @@ import org.apache.commons.csv.CSVRecord;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -247,8 +248,8 @@ public class ArticleController implements Initializable {
         );
         File file = fileChooser.showSaveDialog(((Node) actionEvent.getSource()).getScene().getWindow());
         if (file != null) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                 CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withHeader("id", "name", "unite", "description", "quantity", "remarque", "id_category"))) {
+            try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
+                 CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT.withHeader("id", "name", "unite", "description", "remarque", "id_category"))) {
 
                 for (Article article : articleList) {
                     csvPrinter.printRecord(article.getId(), article.getName(), article.getUnite(), article.getDescription(),
@@ -259,7 +260,6 @@ public class ArticleController implements Initializable {
 
             } catch (IOException e) {
                 GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل التصدير", "حدث خطأ أثناء تصدير العناصر.");
-
                 e.printStackTrace();
             }
         }
@@ -274,35 +274,38 @@ public class ArticleController implements Initializable {
         );
         File file = fileChooser.showOpenDialog(((Node) actionEvent.getSource()).getScene().getWindow());
         if (file != null) {
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                // Parse the CSV file and skip the header
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
                 CSVParser parser = CSVFormat.DEFAULT
-                        .withHeader("id", "name", "unite", "description",  "remarque", "id_category")
+                        .withHeader("id", "name", "unite", "description", "remarque", "id_category")
                         .withFirstRecordAsHeader()
                         .parse(reader);
+
                 List<Article> articlesToAdd = new ArrayList<>();
 
                 for (CSVRecord record : parser) {
-                    String name = record.get("name");
-                    String unite = record.get("unite");
-                    String description = record.get("description");
-                    String remarque = record.get("remarque");
-                    int id_category = Integer.parseInt(record.get("id_category"));
+                    try {
+                        String name = record.get("name");
+                        String unite = record.get("unite");
+                        String description = record.get("description");
+                        String remarque = record.get("remarque");
+                        Integer idCategory = record.get("id_category") != null ? Integer.parseInt(record.get("id_category")) : null;
 
-                    Article article = new Article(name, unite,  description, remarque, id_category);
-                    articlesToAdd.add(article);
+                        if (name != null && !name.isEmpty()) {
+                            Article article = new Article(name, unite, description, remarque, idCategory);
+                            articlesToAdd.add(article);
+                        }
+                    } catch (NumberFormatException e) {
+                        System.err.println("Invalid id_category value in CSV: " + e.getMessage());
+                    }
                 }
 
                 articleDbhelper.addArticles(articlesToAdd);
-
-                // Refresh table view
                 articleList.addAll(articlesToAdd);
                 loadData();
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم الاستيراد بنجاح", "تم استيراد العناصر بنجاح.");
 
             } catch (IOException | SQLException e) {
                 GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل الاستيراد", "حدث خطأ أثناء استيراد العناصر.");
-
                 e.printStackTrace();
             }
         }

@@ -221,6 +221,8 @@ public class AddBonEntreeController {
 
             if (current_be_id != -1) {
                 parameters.put("bon_entree_id", current_be_id);
+                parameters.put("logo", getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"));
+
                 System.out.println("Parameters: be= " + parameters);
             } else {
                 GeneralUtil.showAlert(Alert.AlertType.WARNING, "Error", "Error with current bon entree ID.");

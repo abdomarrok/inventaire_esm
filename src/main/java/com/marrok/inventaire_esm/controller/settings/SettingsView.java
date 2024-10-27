@@ -65,7 +65,7 @@ public class SettingsView {
 
     @FXML
     public void go_Dashboard(ActionEvent event) {
-        GeneralUtil.goBackDashboard(event);
+        GeneralUtil.goBackStockDashboard(event);
     }
 
 

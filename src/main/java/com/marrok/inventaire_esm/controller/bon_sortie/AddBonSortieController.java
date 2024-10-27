@@ -188,6 +188,7 @@ public class AddBonSortieController implements  Initializable {
 
             if (current_bs_id != -1) {
                 parameters.put("bon_sortie_id", current_bs_id);
+                parameters.put("logo", getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"));
                 System.out.println("Parameters: bs= " + parameters);
             } else {
                 GeneralUtil.showAlert(Alert.AlertType.WARNING, "Error", "Error with current bon entree ID.");

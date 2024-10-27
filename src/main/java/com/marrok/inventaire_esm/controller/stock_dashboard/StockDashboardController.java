@@ -21,15 +21,11 @@ public class StockDashboardController implements Initializable {
     public Button fornisseurs_button;
     private int user_id = -1;
     private String user_role = null;
-    private UserDbHelper dbhelper;
+    private UserDbHelper dbhelper = new UserDbHelper();;
 
-    {
-        try {
-            dbhelper = new UserDbHelper();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public StockDashboardController() throws SQLException {
     }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -55,7 +51,7 @@ public class StockDashboardController implements Initializable {
                 break;
             case "Editor":
                 product_button.setDisable(true);
-                fornisseurs_button.setDisable(true);
+               // fornisseurs_button.setDisable(true);
                 break;
             case "User":
                 // User sees limited options
@@ -65,7 +61,7 @@ public class StockDashboardController implements Initializable {
                 break;
             default:
                 etat_stock_button.setDisable(true);
-                        list_be_button.setDisable(true);
+                list_be_button.setDisable(true);
                 list_bs_button.setDisable(true);
                 category_button.setDisable(true);
                 product_button.setDisable(true);
@@ -91,9 +87,37 @@ public class StockDashboardController implements Initializable {
     public void go_EtatStock(ActionEvent event) {
         GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/article/etat_stock-view.fxml", event,true);
     }
+    @FXML
+    public void go_Services(ActionEvent event) {
+        GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/service/services-view.fxml", event,true);
+    }
+
+    @FXML
+    public void go_Location(ActionEvent event) {
+        GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/location/locations-view.fxml", event,true);
+    }
+
+    @FXML
+    public void go_Inventaire(ActionEvent event) {
+        GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/inventaire/inventaire_item-view.fxml", event,true);
+    }
+
+    @FXML
+    public void go_Employers(ActionEvent event) {
+        GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/employer/employer_view.fxml", event,true);
+    }
 
     public void goBack(ActionEvent event) {
         GeneralUtil.goBackDashboard(event);
+    }
+    @FXML
+    private void go_Setting(ActionEvent event){
+        GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/settings/settings-view.fxml", event,true);
+    }
+    @FXML
+    private void logoutAction(ActionEvent event) {
+
+        GeneralUtil.goBackLogin(event);
     }
 
     public void go_bon_entrees_list(ActionEvent event) {
