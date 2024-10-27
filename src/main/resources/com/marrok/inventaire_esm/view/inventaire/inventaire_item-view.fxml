@@ -75,7 +75,7 @@
             <HBox fx:id="topBox">
                 <children>
 
-                        <Button fx:id="bk_Dashboard_from_inventaireitem" contentDisplay="GRAPHIC_ONLY" styleClass="smallDashboard_btn" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <Button fx:id="bk_Dashboard_from_inventaireitem" contentDisplay="GRAPHIC_ONLY" styleClass="dashboard_tub" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                             <graphic>
                                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

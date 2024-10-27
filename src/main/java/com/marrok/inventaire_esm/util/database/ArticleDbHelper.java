@@ -1,6 +1,5 @@
 package com.marrok.inventaire_esm.util.database;
 
-import com.marrok.inventaire_esm.controller.dashboard.DashboardController;
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.scene.control.Alert;
@@ -30,7 +29,7 @@ public class ArticleDbHelper {
                 articles.add(rs.getString("name"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting  articles ", e);
         }
         return articles;
     }
@@ -56,7 +55,9 @@ public class ArticleDbHelper {
                 articles.add(article);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting  articles ", e);
+
             // Handle exception
         }
         return articles;
@@ -80,7 +81,7 @@ public class ArticleDbHelper {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting  article with id "+id, e);
             // Handle exception
         }
         return null; // Return null if article is not found
@@ -91,7 +92,6 @@ public class ArticleDbHelper {
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setString(1, article.getName());
             stmt.setString(2, article.getUnite());
-//            stmt.setInt(3, article.getQuantity());
             stmt.setString(3, article.getRemarque());
             stmt.setString(4, article.getDescription());
             stmt.setInt(5, article.getIdCategory());
@@ -122,7 +122,7 @@ public class ArticleDbHelper {
             stmt.setLong(6, article.getId());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, "Error Adding article "+article.getName(), e);
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error Adding article "+article.getName(), e);
 
         }
         return false;
@@ -137,7 +137,7 @@ public class ArticleDbHelper {
 
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "لا تستطيع حذف هذا العنصر لانه مازال مرفقا بجرد او وصل استلام");
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error deleting  article with id "+id, e);
         }
         return false;
     }
@@ -153,7 +153,7 @@ public class ArticleDbHelper {
                 return rs.getInt("id");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting article id by its name: "+name, e);
         }
         return -1; // Return -1 if not found
     }
@@ -174,7 +174,7 @@ public class ArticleDbHelper {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting Total Quantity By ArticleId : "+articleId, e);
         }
 
         return -1;  // Return -1 if an error occurs
@@ -201,7 +201,7 @@ public class ArticleDbHelper {
             }
         } catch (SQLException e) {
             // Use a logger instead of printStackTrace in production
-            e.printStackTrace();
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting Total Quantity By Article ", e);
         }
 
         return totalQuantities;

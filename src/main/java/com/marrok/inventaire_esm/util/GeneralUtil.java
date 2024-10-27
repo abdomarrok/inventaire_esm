@@ -1,6 +1,5 @@
 package com.marrok.inventaire_esm.util;
 
-import com.marrok.inventaire_esm.controller.dashboard.DashboardController;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -86,6 +85,7 @@ public class GeneralUtil {
 
     public static void loadScene(String resourcePath, ActionEvent event, boolean isResizable) {
         FXMLLoader loader = new FXMLLoader(GeneralUtil.class.getResource(resourcePath));
+
         try {
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -106,14 +106,17 @@ public class GeneralUtil {
                 stage.setY(bounds.getMinY());
                 stage.setWidth(bounds.getWidth());
                 stage.setHeight(bounds.getHeight());
+
             }
+
+
 
             stage.setScene(scene);
             stage.setResizable(isResizable);
             stage.centerOnScreen();
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, "Error loading scene: " + resourcePath, ex);
+            Logger.getLogger(GeneralUtil.class.getName()).log(Level.SEVERE, "Error loading scene: " + resourcePath, ex);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر تحميل المشهد المطلوب. يرجى المحاولة مرة أخرى لاحقًا.");
         }
     }

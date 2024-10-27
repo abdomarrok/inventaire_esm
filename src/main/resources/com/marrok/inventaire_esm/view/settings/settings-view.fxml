@@ -13,7 +13,7 @@
             <VBox alignment="TOP_CENTER" spacing="10.0">
                 <Label styleClass="titleLabel" text="الإعدادات" />
             </VBox>
-            <Button contentDisplay="GRAPHIC_ONLY" onAction="#go_Dashboard" styleClass="smallDashboard_btn" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <Button contentDisplay="GRAPHIC_ONLY" onAction="#go_Dashboard" styleClass="dashboard_tub" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                 <graphic>
                     <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                         <image>
@@ -33,7 +33,7 @@
 
                 <!-- Backup Data -->
                 <VBox alignment="CENTER_RIGHT" spacing="20.0">
-                    <Button fx:id="backupButton"  alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0"  onAction="#handleBackupData" prefWidth="265.0" style="-fx-background-color: #e3bd98;" styleClass="dashboard_tub" text="نسخ احتياطي" textAlignment="RIGHT">
+                    <Button fx:id="backupButton" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#handleBackupData" prefWidth="265.0" style="-fx-background-color: #e3bd98;" styleClass="dashboard_tub" text="نسخ احتياطي" textAlignment="RIGHT">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
@@ -43,7 +43,7 @@
                         </graphic>
                     </Button>
 
-               <Button fx:id="users_btn"  alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#goUsers" prefWidth="265.0" style="-fx-background-color: #e3bd98;" styleClass="dashboard_tub" text="المستخدمين" textAlignment="RIGHT">
+               <Button fx:id="users_btn" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#goUsers" prefWidth="265.0" style="-fx-background-color: #e3bd98;" styleClass="dashboard_tub" text="المستخدمين" textAlignment="RIGHT">
                    <graphic>
                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>

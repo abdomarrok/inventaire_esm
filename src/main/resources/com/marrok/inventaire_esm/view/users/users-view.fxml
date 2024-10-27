@@ -16,7 +16,7 @@
             <HBox fx:id="topBox">
                 <children>
 
-                        <Button contentDisplay="GRAPHIC_ONLY" onAction="#goBackToDashboard" styleClass="smallDashboard_btn" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <Button contentDisplay="GRAPHIC_ONLY" onAction="#goBackToDashboard" styleClass="dashboard_tub" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                             <graphic>
                                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

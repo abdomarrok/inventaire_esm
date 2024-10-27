@@ -32,11 +32,20 @@
 }
 
 
-.bodybg{
+/* Normal view */
+.bodybg {
     -fx-background-image: url('../img/boxshape.png');
-    -fx-background-size: contain; /* Adjust to fit the component */
-    -fx-background-position: center; /* Center the image */
-    -fx-background-repeat: no-repeat; /* Do not repeat the image */
+    -fx-background-size: 60% 50%; /* Default size */
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+/* Maximized view */
+.bodybg-maximized {
+    -fx-background-image: url('../img/boxshape.png');
+    -fx-background-size: 100% 100%; /* Increased size for maximized view */
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
 }
 .bodybg2{
     -fx-background-image: url('../img/inventorybgv2.jpg');
@@ -257,8 +266,7 @@
     -fx-font-weight: bold;
     -fx-font-family: "Cairo";
     -fx-alignment: TOP_RIGHT;
-    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.2), 6, 0, 0, 2);
-    -fx-background-color: #ffffff; /* Add a default background */
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.2), 6, 0, 0, 2); /* Add a default background */
     -fx-transition: all 0.3s ease; /* Smooth transition for hover/press */
 }
 

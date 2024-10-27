@@ -43,8 +43,6 @@ module com.marrok.inventaire_esm {
     opens com.marrok.inventaire_esm.controller.service to javafx.fxml;
     exports com.marrok.inventaire_esm.controller.category;
     opens com.marrok.inventaire_esm.controller.category to javafx.fxml;
-    exports com.marrok.inventaire_esm.controller.dashboard;
-    opens com.marrok.inventaire_esm.controller.dashboard to javafx.fxml;
     exports com.marrok.inventaire_esm.controller.login;
     opens com.marrok.inventaire_esm.controller.login to javafx.fxml;
     exports com.marrok.inventaire_esm.controller.location;

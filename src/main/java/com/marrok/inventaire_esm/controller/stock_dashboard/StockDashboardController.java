@@ -19,6 +19,12 @@ public class StockDashboardController implements Initializable {
     public Button product_button;
     public Button category_button;
     public Button fornisseurs_button;
+    public Button employers_button;
+
+    public Button services_button;
+    public Button location_button;
+    public Button inventaire_button;
+    public Button settings_button;
     private int user_id = -1;
     private String user_role = null;
     private UserDbHelper dbhelper = new UserDbHelper();;
@@ -51,6 +57,10 @@ public class StockDashboardController implements Initializable {
                 break;
             case "Editor":
                 product_button.setDisable(true);
+                settings_button.setDisable(true);
+                employers_button.setDisable(true);
+                settings_button.setDisable(true);
+                services_button.setDisable(true);
                // fornisseurs_button.setDisable(true);
                 break;
             case "User":
@@ -66,6 +76,11 @@ public class StockDashboardController implements Initializable {
                 category_button.setDisable(true);
                 product_button.setDisable(true);
                 fornisseurs_button.setDisable(true);
+                employers_button.setDisable(true);
+                services_button.setDisable(true);
+                location_button.setDisable(true);
+                inventaire_button.setDisable(true);
+                settings_button.setDisable(true);
                 break;
         }
     }
