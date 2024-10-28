@@ -18,7 +18,7 @@
         </VBox>
         <VBox alignment="CENTER">
             <Label styleClass="lbl_fiche_inv" text="المورد" />
-            <ChoiceBox fx:id="fournisseurChoiceBox" styleClass="smallDashboard_btn" />
+            <ChoiceBox fx:id="fournisseurChoiceBox" />
         </VBox>
         <VBox alignment="CENTER">
             <Label styleClass="lbl_fiche_inv" text="التاريخ" />
@@ -76,6 +76,7 @@
 
     <!-- Stylesheets -->
     <stylesheets>
+<!--        <URL value="@../../css/nord-light.css" />-->
         <URL value="@../../css/all.css" />
         <URL value="@../../css/tableview.css" />
     </stylesheets>

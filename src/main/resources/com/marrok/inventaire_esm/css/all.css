@@ -16,18 +16,8 @@
 }
 
 
-
-
-
-.test{
-    -fx-font-family: "Cairo";
-    -fx-font-size: 30px;
-    -fx-font-weight: bold;
-}
-
 .background {
     -fx-padding: 20;
-    /*-fx-background-color: #fff1dc; */
     -fx-background-color: #fffbf6;
 }
 
@@ -47,10 +37,7 @@
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
 }
-.bodybg2{
-    -fx-background-image: url('../img/inventorybgv2.jpg');
-    -fx-background-size: 100% 100%;
-}
+
 .bodybg_fiche_inventire{
     -fx-background-image: url('../img/inventory_file.jpg');
     -fx-background-size: 100% 100%;
@@ -63,23 +50,11 @@
     -fx-font-family: "Cairo";
     -fx-font-size: 14px;
 }
-.title_dashboard ,.titleLabel {
+.titleLabel {
     -fx-font-family: 'Andalus';
     -fx-font-size: 60px;
     -fx-text-fill: #343a40;
     -fx-font-weight: bold;
-}
-
-.extract_gridpane {
-    -fx-padding: 20;
-    -fx-hgap: 15;
-    -fx-vgap: 15;
-    -fx-alignment: center;
-    -fx-background-color: #343a40;
-    -fx-border-color: #cccccc;
-    -fx-border-width: 2px;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
 }
 
 
@@ -95,6 +70,10 @@
     -fx-text-fill: #fffbf6;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
+}
+.lbl_fiche_inv{
+    -fx-font-family: 'Andalus';
+    -fx-font-size: 20px;
 }
 .btn_fiche_inv {
     -fx-background-color: #e48c31;
@@ -130,10 +109,7 @@
 
 
 
-.lbl_fiche_inv{
-    -fx-font-family: 'Andalus';
-    -fx-font-size: 20px;
-}
+
 
 .add_btn {
     -fx-background-color: #0aa457; /* Green #28a745 */
@@ -195,46 +171,11 @@
 }
 
 /* Image View inside the export button */
-.export_btn .image-view {
+.export_btn{
     -fx-fit-height: 30px; /* Slightly smaller icon */
     -fx-fit-width: 30px;
     -fx-preserve-ratio: true;
 }
-.settings_btn{
-    -fx-background-color: #fffbf6;
-    -fx-border-color: #dee2e6;
-    -fx-font-family: 'Andalus';
-    -fx-border-width: 1px;
-    -fx-border-radius: 10px;
-    -fx-background-radius: 10px;
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #343a40;
-    -fx-alignment: center;
-    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.2), 6, 0, 0, 2);
-}
-
-/* QR Code Style */
-.qr_code {
-    -fx-fit-height: 120px; /* Slightly larger size */
-    -fx-fit-width: 120px;
-    -fx-preserve-ratio: true;
-    -fx-border-color: #2F7D57; /* Border color */
-    -fx-border-width: 2px; /* Border width */
-    -fx-border-radius: 10px; /* Rounded corners for border */
-}
-
-/* Bar Code Style for Code 128 */
-.bar_code {
-    -fx-border-color: #2F7D57; /* Border color */
-    -fx-border-width: 2px; /* Border width */
-    -fx-border-radius: 5px; /* Slightly rounded corners */
-    -fx-padding: 10px; /* Add padding around barcode */
-    -fx-background-color: #fffbf6; /* Background color for contrast */
-}
-
-
-
 
 
 .userId, .password {
@@ -339,31 +280,6 @@
     -fx-border-width: 2px;
 }
 
-/* TextField and ChoiceBox Styles */
-.text-field .choice-box {
-     -fx-font-family: "Cairo";
-    -fx-font-size: 14px;
-    -fx-pref-height: 26px;
-    -fx-background-radius: 5px;
-    -fx-border-radius: 5px;
-    -fx-border-color: #fff1dc;
-    -fx-border-width: 1px;
-    -fx-padding: 5px;
-}
-
-
-
-.choice-box .arrow {
-    -fx-background-color: #0078d7; /* Blue arrow color */
-}
-
-.choice-box .arrow-button {
-    -fx-background-color: transparent;
-}
-
-.choice-box .arrow-button:hover {
-    -fx-background-color: #0056a3; /* Darker blue on hover */
-}
 
 .smallDashboard_btn {
     -fx-background-color: #fff1dc;

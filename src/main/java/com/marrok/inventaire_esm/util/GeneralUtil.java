@@ -108,11 +108,12 @@ public class GeneralUtil {
                 stage.setHeight(bounds.getHeight());
 
             }
-
-
-
             stage.setScene(scene);
             stage.setResizable(isResizable);
+
+
+
+
             stage.centerOnScreen();
             stage.show();
         } catch (IOException ex) {
