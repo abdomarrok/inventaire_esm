@@ -27,7 +27,7 @@ public class StockDashboardController implements Initializable {
     public Button settings_button;
     private int user_id = -1;
     private String user_role = null;
-    private UserDbHelper dbhelper = new UserDbHelper();;
+    private UserDbHelper dbhelper = new UserDbHelper();
 
     public StockDashboardController() throws SQLException {
     }
@@ -35,6 +35,12 @@ public class StockDashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        checkUserRole();
+
+
+    }
+
+    private void checkUserRole() {
         // Initialize theme properties
         user_id = SessionManager.getActiveUserId();
         if (user_id != -1) {
@@ -47,7 +53,6 @@ public class StockDashboardController implements Initializable {
 
             }
         }
-
     }
 
     private void customizeDashboardForRole(String role) {
@@ -61,10 +66,14 @@ public class StockDashboardController implements Initializable {
                 employers_button.setDisable(true);
                 settings_button.setDisable(true);
                 services_button.setDisable(true);
-               // fornisseurs_button.setDisable(true);
                 break;
             case "User":
                 // User sees limited options
+                product_button.setDisable(true);
+                settings_button.setDisable(true);
+                employers_button.setDisable(true);
+                settings_button.setDisable(true);
+                services_button.setDisable(true);
                 category_button.setDisable(true);
                 product_button.setDisable(true);
                 fornisseurs_button.setDisable(true);

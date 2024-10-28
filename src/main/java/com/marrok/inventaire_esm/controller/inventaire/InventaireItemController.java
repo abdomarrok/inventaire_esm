@@ -3,6 +3,7 @@ package com.marrok.inventaire_esm.controller.inventaire;
 
 import com.marrok.inventaire_esm.model.Inventaire_Item;
 import com.marrok.inventaire_esm.model.Localisation;
+import com.marrok.inventaire_esm.util.SessionManager;
 import com.marrok.inventaire_esm.util.database.*;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.beans.property.SimpleStringProperty;
@@ -58,6 +59,9 @@ public class InventaireItemController implements Initializable {
     public Button updateButton;
 
     public Button deleteButton;
+    private int user_id = -1;
+    private String user_role = null;
+    private UserDbHelper dbhelper = new UserDbHelper();;
 
 
     public Label titleLabel;
@@ -75,10 +79,46 @@ public class InventaireItemController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        checkUserRole();
         loadData();
         initializeColumns();
         setupSearchFilter();
         setupTableSelectionListener();
+    }
+
+    private void checkUserRole() {
+        // Initialize theme properties
+        user_id = SessionManager.getActiveUserId();
+        if (user_id != -1) {
+            user_role = dbhelper.getUserRoleById(user_id);
+
+            if (user_role != null) {
+                customizeInventaireViewForRole(user_role);
+            }else {
+                System.out.println("user_role is null");
+
+            }
+        }
+    }
+
+    private void customizeInventaireViewForRole(String role) {
+        switch (role) {
+            case "Admin":
+                // Admin sees everything
+                break;
+            case "Editor":
+                updateButton.setDisable(true);
+                deleteButton.setDisable(true);
+                break;
+            case "User":
+                deleteButton.setDisable(true);
+                updateButton.setDisable(true);
+                addButton.setDisable(true);
+                break;
+            default:
+
+                break;
+        }
     }
 
     private void initializeColumns() {
