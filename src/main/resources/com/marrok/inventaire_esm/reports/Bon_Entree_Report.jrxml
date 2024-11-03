@@ -61,19 +61,19 @@ WHERE
 		<element kind="staticText" uuid="afc5e77c-017f-4b4b-8452-410f233a8d2d" x="200" y="160" width="160" height="40" fontName="Andalus" fontSize="18.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[وصل إدخال]]></text>
 		</element>
-		<element kind="textField" uuid="db47c51e-1174-4b53-9a21-6761f21c98a2" x="370" y="190" width="100" height="20" hTextAlign="Center">
+		<element kind="textField" uuid="db47c51e-1174-4b53-9a21-6761f21c98a2" x="370" y="190" width="100" height="20" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[$F{bon_entree_id}]]></expression>
 		</element>
-		<element kind="textField" uuid="aba34561-033b-4553-989a-33b4b92b3c6a" x="0" y="230" width="170" height="20" hTextAlign="Right">
+		<element kind="textField" uuid="aba34561-033b-4553-989a-33b4b92b3c6a" x="0" y="230" width="170" height="20" hTextAlign="Center">
 			<expression><![CDATA[$F{fournisseur_name}]]></expression>
 		</element>
-		<element kind="staticText" uuid="cdf1091b-4176-4d15-8990-30456c72c4da" x="170" y="230" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="cdf1091b-4176-4d15-8990-30456c72c4da" x="170" y="230" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Left">
 			<text><![CDATA[المورد]]></text>
 		</element>
 		<element kind="staticText" uuid="7e43a134-a9b0-45c3-915d-f9dd085bc5f8" x="461" y="230" width="90" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[رقم (BL/Facture)]]></text>
 		</element>
-		<element kind="textField" uuid="f9364f28-6e62-448e-badd-8a5165145078" x="350" y="230" width="110" height="20" hTextAlign="Left">
+		<element kind="textField" uuid="f9364f28-6e62-448e-badd-8a5165145078" x="350" y="230" width="110" height="20" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[$F{document_num}]]></expression>
 		</element>
 		<element kind="image" uuid="08de2d47-2965-4f1f-8eda-e96424b0125c" x="252" y="90" width="50" height="50">

@@ -160,7 +160,7 @@ public class UsersController implements Initializable {
 
     @FXML
     private void goBackToDashboard(ActionEvent event) {
-        GeneralUtil.goBackDashboard(event);
+        GeneralUtil.goBackStockDashboard(event);
     }
 
 

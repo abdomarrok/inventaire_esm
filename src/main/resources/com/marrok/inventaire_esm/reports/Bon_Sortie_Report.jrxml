@@ -74,7 +74,7 @@ WHERE bs.id = $P{bon_sortie_id};
 		</element>
 	</title>
 	<columnHeader height="50">
-		<element kind="staticText" uuid="cb5f9d28-16d7-4378-b46d-90b21b15fa16" x="180" y="30" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="cb5f9d28-16d7-4378-b46d-90b21b15fa16" x="80" y="30" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[الكمية]]></text>
 			<box padding="0">
 				<pen lineWidth="2.0"/>
@@ -84,7 +84,7 @@ WHERE bs.id = $P{bon_sortie_id};
 				<rightPen lineWidth="2.0" lineStyle="Solid" lineColor="#000000"/>
 			</box>
 		</element>
-		<element kind="staticText" uuid="cb5f9d28-16d7-4378-b46d-90b21b15fa16" x="280" y="30" width="240" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="cb5f9d28-16d7-4378-b46d-90b21b15fa16" x="180" y="30" width="300" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[العنصر]]></text>
 			<box padding="0">
 				<pen lineWidth="2.0"/>
@@ -97,7 +97,7 @@ WHERE bs.id = $P{bon_sortie_id};
 	</columnHeader>
 	<detail>
 		<band height="21">
-			<element kind="textField" uuid="ae828c7e-347d-47ff-8577-241918b2307a" x="280" y="0" width="240" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<element kind="textField" uuid="ae828c7e-347d-47ff-8577-241918b2307a" x="180" y="0" width="300" height="20" hTextAlign="Center" vTextAlign="Middle">
 				<expression><![CDATA[$F{article_name}]]></expression>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -106,7 +106,7 @@ WHERE bs.id = $P{bon_sortie_id};
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 			</element>
-			<element kind="textField" uuid="46c30ba2-3b65-45f3-8999-b0f4cdb9d408" x="180" y="0" width="100" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<element kind="textField" uuid="46c30ba2-3b65-45f3-8999-b0f4cdb9d408" x="80" y="0" width="100" height="20" hTextAlign="Center" vTextAlign="Middle">
 				<expression><![CDATA[$F{quantity}]]></expression>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
