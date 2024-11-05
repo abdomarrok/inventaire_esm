@@ -87,29 +87,28 @@
         </VBox>
     </center>
     <bottom>
-        <ButtonBar buttonMinWidth="40.0">
-        <buttons>
 
-
-        <Button fx:id="export_articles_btn" contentDisplay="LEFT" onAction="#exportArticle" styleClass="export_btn" text="تصدير" ButtonBar.buttonData="LEFT">
-            <graphic>
-                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../img/excel2.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        <Button fx:id="import_article_btn" onAction="#importArticle" styleClass="export_btn" text="توريد" ButtonBar.buttonData="LEFT">
-            <graphic>
-                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../img/excel2.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Button>
-        </buttons></ButtonBar>
+<!--        <ButtonBar buttonMinWidth="40.0">-->
+<!--        <buttons>-->
+<!--        <Button fx:id="export_articles_btn" contentDisplay="LEFT" onAction="#exportArticle" styleClass="export_btn" text="تصدير" ButtonBar.buttonData="LEFT">-->
+<!--            <graphic>-->
+<!--                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                    <image>-->
+<!--                        <Image url="@../../img/excel2.png" />-->
+<!--                    </image>-->
+<!--                </ImageView>-->
+<!--            </graphic>-->
+<!--        </Button>-->
+<!--        <Button fx:id="import_article_btn" onAction="#importArticle" styleClass="export_btn" text="توريد" ButtonBar.buttonData="LEFT">-->
+<!--            <graphic>-->
+<!--                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                    <image>-->
+<!--                        <Image url="@../../img/excel2.png" />-->
+<!--                    </image>-->
+<!--                </ImageView>-->
+<!--            </graphic>-->
+<!--        </Button>-->
+<!--        </buttons></ButtonBar>-->
     </bottom>
 
    </BorderPane>
