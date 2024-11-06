@@ -29,6 +29,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class EtatStockController implements Initializable {
 
@@ -43,6 +44,8 @@ public class EtatStockController implements Initializable {
     public TableColumn<Article, String> unitColumn;
     @FXML
     public TableColumn<Article, Integer> quantityColumn;
+    public TableColumn<Article,Integer> entreeColumn;
+    public TableColumn<Article,Integer> sortieColumn;
     @FXML
     public TableColumn<Article, String> remarkColumn;
     @FXML
@@ -62,6 +65,8 @@ public class EtatStockController implements Initializable {
 
     private static ObservableList<Article> articleList;
     private static  FilteredList<Article> filteredArticleList;
+
+
     private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
     private CategoryDbHelper categoryDbhelper = new CategoryDbHelper();
 
@@ -123,24 +128,43 @@ public class EtatStockController implements Initializable {
 
 
     private void initializeColumns() {
-            tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
 
-        // Set cell value factories
+        // Set cell value factories for basic properties
         id_article_v.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
-        Map<Integer, Integer> totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
-
-        quantityColumn.setCellValueFactory(cellData -> {
-            Article article = cellData.getValue(); // Get the current Article object
-            int articleId = article.getId(); // Get the article ID
-            Integer totalQuantity = totalQuantities.get(articleId); // Get the total quantity for this article
-            return new SimpleIntegerProperty(totalQuantity != null ? totalQuantity : 0).asObject(); // Return the quantity or 0 if none
-        });
         remarkColumn.setCellValueFactory(new PropertyValueFactory<>("remarque"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-        // Custom cell value factory for categoryColmun to fetch category name by id_category
+        // Pre-fetch total quantities for each article and store in a map
+        Map<Integer, Integer> totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
+
+        // Set cell value factory for total quantity
+        quantityColumn.setCellValueFactory(cellData -> {
+            Article article = cellData.getValue();
+            int articleId = article.getId();
+            Integer totalQuantity = totalQuantities.get(articleId); // Fetch pre-calculated quantity
+            return new SimpleIntegerProperty(totalQuantity != null ? totalQuantity : 0).asObject();
+        });
+
+        // Set cell value factory for entree column
+        entreeColumn.setCellValueFactory(cellData -> {
+            Article article = cellData.getValue();
+            int articleId = article.getId();
+            int totalArticleEntree = articleDbhelper.getTotalEntredQuantityByArticleId(articleId);
+            return new SimpleIntegerProperty(totalArticleEntree).asObject();
+        });
+
+        // Set cell value factory for sortie column
+        sortieColumn.setCellValueFactory(cellData -> {
+            Article article = cellData.getValue();
+            int articleId = article.getId();
+            int totalArticleSortie = articleDbhelper.getTotalSortieQuantityByArticleId(articleId);
+            return new SimpleIntegerProperty(totalArticleSortie).asObject();
+        });
+
+        // Custom cell value factory for category column to fetch category name by id_category
         categoryColmun.setCellValueFactory(cellData -> {
             int categoryId = cellData.getValue().getIdCategory();
             String categoryName = categoryDbhelper.getCategoryById(categoryId);

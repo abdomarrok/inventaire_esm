@@ -26,15 +26,16 @@
 
 }
 .table-view .column-header .label{
-
+    /*control the table header columns*/
     -fx-text-fill: #fffbf6;
     -fx-font-weight: bold;
-    -fx-alignment: CENTER_LEFT;
+    -fx-alignment: CENTER;
+    -fx-padding: 10px 20px;
 }
 .table-view .cell{
     -fx-cell-size: 30;
     -fx-text-fill: #000000;
-    -fx-alignment: CENTER_LEFT;
+    -fx-alignment: CENTER;
 }
 
 .table-row-cell:selected {
