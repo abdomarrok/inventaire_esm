@@ -1,4 +1,5 @@
 package com.marrok.inventaire_esm.controller.inventaire;
+import com.marrok.inventaire_esm.controller.stock_dashboard.StockDashboardController;
 import com.marrok.inventaire_esm.model.Inventaire_Item;
 import com.marrok.inventaire_esm.model.Service;
 import com.marrok.inventaire_esm.model.Localisation;  // Add Localisation model
@@ -484,6 +485,7 @@ public class FicheInventaireController implements Initializable {
     // Navigate back to the dashboard
     @FXML
     public void goBackDashboard(ActionEvent event) {
-        bk_Dashboard_from_fiche_inventaire.setOnAction(GeneralUtil::goBackDashboard);
+                GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/inventaire/inventaire_item-view.fxml", event,true);
+
     }
 }

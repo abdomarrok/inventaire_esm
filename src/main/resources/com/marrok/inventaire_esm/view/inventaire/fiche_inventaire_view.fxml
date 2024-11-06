@@ -49,7 +49,7 @@
 
     <Label fx:id="titleLabel" alignment="TOP_CENTER" contentDisplay="CENTER" styleClass="titleLabel" text="استخـــــراج ملف الجرد" textAlignment="CENTER" AnchorPane.leftAnchor="80.0" AnchorPane.rightAnchor="0.0" />
 
-    <Button fx:id="bk_Dashboard_from_fiche_inventaire" contentDisplay="GRAPHIC_ONLY" onAction="#goBackDashboard" styleClass="smallDashboard_btn" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+    <Button fx:id="bk_Dashboard_from_fiche_inventaire" contentDisplay="GRAPHIC_ONLY" onAction="#goBackDashboard" styleClass="home_btn" text="الرئيسية" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
         <graphic>
             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                 <image>
