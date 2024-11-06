@@ -170,6 +170,7 @@ public class UpdateController implements Initializable {
                 if (index >= 0) {
                     // Select the article in the table view
                     tbData.getSelectionModel().select(index);
+                    tbData.scrollTo(index > 2 ? index - 2 : 0);
                 } else {
                     showAlert(Alert.AlertType.ERROR, "Erreur", "Article non trouvé.");
                 }
@@ -197,6 +198,7 @@ public class UpdateController implements Initializable {
                 if (index >= 0) {
                     // Select the employer in the table view
                     tbData2.getSelectionModel().select(index);
+                    tbData2.scrollTo(index > 2 ? index - 2 : 0);
                 } else {
                     showAlert(Alert.AlertType.ERROR, "Erreur", "Employer non trouvé.");
                 }
