@@ -211,6 +211,7 @@
     -fx-transition: all 0.3s ease; /* Smooth transition for hover/press */
 }
 
+
 .dashboard_tub:hover {
     -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.4), 12, 0, 0, 6);
     -fx-background-color: #f8f9fa; /* Subtle background change */
@@ -224,7 +225,30 @@
     -fx-scale-x: 0.98; /* Slight scale-down effect */
     -fx-scale-y: 0.98;
 }
+.home_btn{
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
+    -fx-padding: 10px;
+    -fx-font-size: 21px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Cairo";
+    -fx-alignment: TOP_RIGHT;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.2), 6, 0, 0, 2); /* Add a default background */
+    -fx-transition: all 0.3s ease; /* Smooth transition for hover/press */
+}
+.home_btn:hover {
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.4), 12, 0, 0, 6);
+    -fx-scale-x: 1.02; /* Slight scale-up effect */
+    -fx-scale-y: 1.02;
+}
 
+.home_btn:pressed {
+    -fx-background-color: #e9ecef; /* Darker background for pressed effect */
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.5), 8, 0, 0, 4);
+    -fx-scale-x: 0.98; /* Slight scale-down effect */
+    -fx-scale-y: 0.98;
+}
 
 /* Dashboard Cardbox Styles */
 .dashboard_cardbox {

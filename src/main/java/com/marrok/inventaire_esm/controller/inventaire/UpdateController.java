@@ -2,7 +2,9 @@ package com.marrok.inventaire_esm.controller.inventaire;
 
 import com.dlsc.gemsfx.FilterView;
 import com.marrok.inventaire_esm.model.Article;
+import com.marrok.inventaire_esm.model.Employer;
 import com.marrok.inventaire_esm.model.Inventaire_Item;
+import com.marrok.inventaire_esm.model.Localisation;
 import com.marrok.inventaire_esm.util.database.*;
 import com.marrok.inventaire_esm.util.SessionManager;
 import fr.brouillard.oss.cssfx.CSSFX;
@@ -19,6 +21,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -31,22 +34,25 @@ public class UpdateController implements Initializable {
     @FXML
     private ChoiceBox<String> locationChoiceBox;
 
-    @FXML
-    private ChoiceBox<String> employerChoiceBox;
 
-    @FXML
-    private Button updateButton;
+    public TableView<Employer> tbData2;
+    public TableColumn<Employer, Integer> id_E;
+    public TableColumn<Employer, String> firstname_E;
+    public TableColumn<Employer, String> lastname_E;
+
 
     @FXML
     private Button cancelButton;
 
     public FilterView<Article> filterView;
+    public FilterView<Employer> filterView2;
     public TableView<Article> tbData;
     public TableColumn<Article, Integer> id;
     public TableColumn<Article, String> article_name;
 
     private InventaireItemController parentController;
-    private ObservableList<Article> articleList;
+    private ObservableList<Article> articlelist;
+    private ObservableList<Employer> emploerlist;
     private Article selectedArticle;
     private Inventaire_Item inventaireItem;
     @FXML
@@ -81,33 +87,56 @@ public class UpdateController implements Initializable {
 
     private void loadFilter() throws SQLException {
         filterView.getFilterGroups().clear();
-        filterView.setTextFilterProvider(text -> article -> {
-            if (text == null || text.isEmpty()) {
-                return true; // Show all articles if text is empty
+        filterView2.getFilterGroups().clear();
+        filterView.setTextFilterProvider(text-> article -> {
+            if(text==null||text.isEmpty()){
+                return true;
+            }
+
+            String lowerCase = text.toLowerCase();
+            return article.getName().toLowerCase().contains(lowerCase)||
+                    String.valueOf(article.getId()).toLowerCase().contains(lowerCase);
+
+        });
+
+
+        filterView2.setTextFilterProvider(text -> employer -> {
+            if(text==null || text.isEmpty()){
+                return true;
             }
             String lowerCase = text.toLowerCase();
-            return article.getName().toLowerCase().contains(lowerCase) ||
-                    String.valueOf(article.getId()).toLowerCase().contains(lowerCase);
+            return employer.getFirstName().toLowerCase().contains(lowerCase)||
+                    employer.getLastName().toLowerCase().contains(lowerCase)||
+                    String.valueOf(employer.getId()).toLowerCase().contains(lowerCase);
         });
         loadTableData();
         SortedList<Article> sortedList = new SortedList<>(filterView.getFilteredItems());
+        SortedList<Employer> sortedList2 = new SortedList<>(filterView2.getFilteredItems());
         tbData.setItems(sortedList);
+        tbData2.setItems(sortedList2);
         sortedList.comparatorProperty().bind(tbData.comparatorProperty());
-
-
-
+        sortedList2.comparatorProperty().bind(tbData2.comparatorProperty());
     }
+
     private void initTable() {
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         article_name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        /**    EMPLOYER   */
+        id_E.setCellValueFactory(new PropertyValueFactory<>("id"));
+        firstname_E.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastname_E.setCellValueFactory(new PropertyValueFactory<>("lastName"));
     }
 
     private void loadTableData() throws SQLException {
         List<Article> articles = articleDbhelper.getArticles();
-        articleList = FXCollections.observableArrayList(articles);
-        filterView.getItems().setAll(articleList); // Set the articles into the table
+        List<Employer> employers = employerDbHelper.getEmployers();
 
+        articlelist =  FXCollections.observableArrayList(articles);
+        emploerlist =  FXCollections.observableArrayList(employers);
+        filterView.getItems().setAll(articlelist);
+        filterView2.getItems().setAll(emploerlist);
     }
+
 
 
 
@@ -115,7 +144,7 @@ public class UpdateController implements Initializable {
         this.inventaireItem = inventaireItem;
         try {
             String selectedLoc = locDbhelper.getLocalisationById(inventaireItem.getLocalisation_id()).getLocName();
-            String selectedEmployer = employerDbHelper.getEmployerFullNameById(inventaireItem.getEmployer_id());
+           Employer selectedEmployer = employerDbHelper.getEmployerById(inventaireItem.getEmployer_id());
           String selectedstatus=inventaireItem.getStatus();
             selectedArticle = articleDbhelper.getArticleById(inventaireItem.getArticle_id());
 
@@ -129,7 +158,6 @@ public class UpdateController implements Initializable {
             System.out.println("UpdateController_test.setInventaireItem selectedArticle = " + selectedArticle);
 
             locationChoiceBox.setValue(selectedLoc);
-            employerChoiceBox.setValue(selectedEmployer);
             status_inventaire.setValue(selectedstatus);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
             LocalDate selectedDate = LocalDate.parse(inventaireItem.getFormattedDateTime(), formatter);
@@ -150,7 +178,7 @@ public class UpdateController implements Initializable {
         try {
             int loc_id = locDbhelper.getLocationIdByName(locationChoiceBox.getSelectionModel().getSelectedItem());
             int article_id = selectedArticle.getId(); // Use selectedArticle directly
-            int employer_id = employerDbHelper.getEmployerIdByName(employerChoiceBox.getSelectionModel().getSelectedItem());
+            int employer_id = tbData2.getSelectionModel().getSelectedItem().getId();
             int inv_id = inventaireItem.getId();
             int user_id = SessionManager.getActiveUserId();
             String status = status_inventaire.getValue();
@@ -172,10 +200,13 @@ public class UpdateController implements Initializable {
     }
 
     private void loadChoiceBoxData() {
-        List<String> employers = employerDbHelper.getAllEmployersNames();
-        List<String> locations = locDbhelper.getAllLocations();
-        employerChoiceBox.getItems().addAll(employers);
-        locationChoiceBox.getItems().addAll(locations);
+        List<Localisation> Locations = locDbhelper.getLocalisations();
+        List<String> locations_and_floor = new ArrayList<>();
+        for (Localisation l : Locations) {
+            locations_and_floor.add("الطابق: " + l.getFloor() + "   " + l.getLocName());
+        }
+
+        locationChoiceBox.getItems().addAll(locations_and_floor);
         status_inventaire.getItems().addAll(FXCollections.observableArrayList(inv_status));
     }
 
@@ -185,7 +216,7 @@ public class UpdateController implements Initializable {
     }
 
     private void closeWindow() {
-        Stage stage = (Stage) updateButton.getScene().getWindow();
+        Stage stage = (Stage) locationChoiceBox.getScene().getWindow();
         stage.close();
     }
 }

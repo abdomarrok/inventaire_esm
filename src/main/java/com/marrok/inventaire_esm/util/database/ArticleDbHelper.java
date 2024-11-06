@@ -158,28 +158,48 @@ public class ArticleDbHelper {
         return -1; // Return -1 if not found
     }
     public int getTotalQuantityByArticleId(int articleId) {
-        String query = "SELECT " +
-                "(SELECT COALESCE(SUM(entree.quantity), 0) FROM entree WHERE entree.id_article = ?) AS total_entree, " +
-                "(SELECT COALESCE(SUM(sortie.quantity), 0) FROM sortie WHERE sortie.id_article = ?) AS total_sortie";
+
+        int totalEntree = getTotalEntredQuantityByArticleId(articleId);
+        int totalSortie = getTotalSortieQuantityByArticleId(articleId);
+
+        return totalEntree - totalSortie;  // Net quantity for the article
+    }
+    public int getTotalEntredQuantityByArticleId(int articleId) {
+        String query = "SELECT COALESCE(SUM(quantity), 0) AS total_entree FROM entree WHERE id_article = ?";
 
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
             preparedStatement.setInt(1, articleId);
-            preparedStatement.setInt(2, articleId);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    int totalEntree = resultSet.getInt("total_entree");
-                    int totalSortie = resultSet.getInt("total_sortie");
-                    return totalEntree - totalSortie;  // Return the net stock for the article
+                    return resultSet.getInt("total_entree");
                 }
             }
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting Total Quantity By ArticleId : "+articleId, e);
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE,
+                    "Error getting Total Entrée Quantity By ArticleId: " + articleId, e);
         }
 
-        return -1;  // Return -1 if an error occurs
+        return 0;  // Return 0 if an error occurs or no entries are found
     }
+    public int getTotalSortieQuantityByArticleId(int articleId) {
+        String query = "SELECT COALESCE(SUM(quantity), 0) AS total_sortie FROM sortie WHERE id_article = ?";
 
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
+            preparedStatement.setInt(1, articleId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("total_sortie");
+                }
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE,
+                    "Error getting Total Sortie Quantity By ArticleId: " + articleId, e);
+        }
+
+        return 0;  // Return 0 if an error occurs or no records are found
+    }
 
     public Map<Integer, Integer> getTotalQuantitiesByArticle() {
         Map<Integer, Integer> totalQuantities = new HashMap<>();

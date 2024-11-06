@@ -8,10 +8,10 @@
 <AnchorPane id="dashboard_id" fx:id="fx_dashboard_id" minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../css/all.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.bon_sortie.BonSortieController">
     <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <top>
-            <HBox fx:id="topBox" >
+            <HBox fx:id="topBox">
                 <children>
 
-                        <Button contentDisplay="GRAPHIC_ONLY" onAction="#goHome" styleClass="dashboard_tub" text="الرئيسية">
+                        <Button contentDisplay="GRAPHIC_ONLY" onAction="#goHome" styleClass="home_btn" text="الرئيسية">
                             <graphic>
                                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

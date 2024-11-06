@@ -10,10 +10,10 @@
    <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
        <top>
-           <HBox fx:id="topBox" >
+           <HBox fx:id="topBox">
                <children>
 
-                        <Button fx:id="bk_Dashboard_from_products" contentDisplay="GRAPHIC_ONLY" styleClass="dashboard_tub" text="الرئيسية">
+                        <Button fx:id="bk_Dashboard_from_products" contentDisplay="GRAPHIC_ONLY" styleClass="home_btn" text="الرئيسية">
                             <graphic>
                                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
