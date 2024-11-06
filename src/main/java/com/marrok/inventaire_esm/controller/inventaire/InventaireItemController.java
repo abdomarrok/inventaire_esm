@@ -26,6 +26,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class InventaireItemController implements Initializable {
@@ -129,13 +131,30 @@ public class InventaireItemController implements Initializable {
         // Custom cell value factory to get the localisation name by its id
         localisationIdColumn.setCellValueFactory(cellData -> {
             int idLocalisation = cellData.getValue().getLocalisation_id();
+
+            // Fetch all locations
+            List<Localisation> Locations = locDbhelper.getLocalisations();
+            List<String> locations_and_floor = new ArrayList<>();
+
+            // Create a list of location descriptions (floor and name)
+            for (Localisation l : Locations) {
+                locations_and_floor.add("الطابق: " + l.getFloor() + "   " + l.getLocName());
+            }
+
+            // Get the localisation by ID
             Localisation localisation = locDbhelper.getLocalisationById(idLocalisation);
 
             if (localisation != null) {
-                return new SimpleStringProperty(localisation.getLocName());
-            } else {
-                return new SimpleStringProperty("Unknown Location");
+                // Find the location in the list and return the corresponding name
+                for (String location : locations_and_floor) {
+                    if (location.contains(localisation.getLocName())) {
+                        return new SimpleStringProperty(location); // Return the full location description
+                    }
+                }
             }
+
+            // Fallback if the location is not found
+            return new SimpleStringProperty("Unknown Location");
         });
 
 //        userIdColumn.setCellValueFactory(cellData -> {

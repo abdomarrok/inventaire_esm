@@ -144,19 +144,63 @@ public class UpdateController implements Initializable {
         this.inventaireItem = inventaireItem;
         try {
             String selectedLoc = locDbhelper.getLocalisationById(inventaireItem.getLocalisation_id()).getLocName();
-           Employer selectedEmployer = employerDbHelper.getEmployerById(inventaireItem.getEmployer_id());
-          String selectedstatus=inventaireItem.getStatus();
+            Employer selectedEmployer = employerDbHelper.getEmployerById(inventaireItem.getEmployer_id());
+            String selectedstatus=inventaireItem.getStatus();
             selectedArticle = articleDbhelper.getArticleById(inventaireItem.getArticle_id());
-
 
             if (selectedArticle == null) {
                 showAlert(Alert.AlertType.ERROR, "Erreur", "Aucun article sélectionné.");
                 return;
-            }else {
-                tbData.getSelectionModel().select(selectedArticle);
-            }
-            System.out.println("UpdateController_test.setInventaireItem selectedArticle = " + selectedArticle);
+            } else {
+                // Ensure tbData.getItems() is not empty or null
+                if (tbData.getItems() == null || tbData.getItems().isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Erreur", "La liste des articles est vide.");
+                    return;
+                }
 
+                // Find the index of the selectedArticle in the table
+                int index = -1;
+                for (int i = 0; i < tbData.getItems().size(); i++) {
+                    if (tbData.getItems().get(i).getId() == selectedArticle.getId()) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                if (index >= 0) {
+                    // Select the article in the table view
+                    tbData.getSelectionModel().select(index);
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Erreur", "Article non trouvé.");
+                }
+            }
+
+            if (selectedEmployer == null) {
+                showAlert(Alert.AlertType.ERROR, "Erreur", "Aucun Employer sélectionné.");
+                return;
+            } else {
+                // Ensure tbData2.getItems() is not empty or null
+                if (tbData2.getItems() == null || tbData2.getItems().isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Erreur", "La liste des employeurs est vide.");
+                    return;
+                }
+
+                // Find the index of the selectedEmployer in the table
+                int index = -1;
+                for (int i = 0; i < tbData2.getItems().size(); i++) {
+                    if (tbData2.getItems().get(i).getId() == selectedEmployer.getId()) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                if (index >= 0) {
+                    // Select the employer in the table view
+                    tbData2.getSelectionModel().select(index);
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Erreur", "Employer non trouvé.");
+                }
+            }
             locationChoiceBox.setValue(selectedLoc);
             status_inventaire.setValue(selectedstatus);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -176,8 +220,15 @@ public class UpdateController implements Initializable {
     @FXML
     private void handleUpdate() {
         try {
-            int loc_id = locDbhelper.getLocationIdByName(locationChoiceBox.getSelectionModel().getSelectedItem());
-            int article_id = selectedArticle.getId(); // Use selectedArticle directly
+            // Get the selected location name from the ChoiceBox
+            String selectedLocation = locationChoiceBox.getSelectionModel().getSelectedItem();
+
+            // Extract the location name from the formatted string
+            String locName = selectedLocation != null ? selectedLocation.split("   ")[1] : null;
+
+            // Retrieve the location ID by its name
+            int loc_id = locDbhelper.getLocationIdByName(locName);
+            int article_id = tbData.getSelectionModel().getSelectedItem().getId(); // Use selectedArticle directly
             int employer_id = tbData2.getSelectionModel().getSelectedItem().getId();
             int inv_id = inventaireItem.getId();
             int user_id = SessionManager.getActiveUserId();
@@ -185,7 +236,6 @@ public class UpdateController implements Initializable {
             String inv_status = status_inventaire.getValue();
             LocalDate selectedDate = calendarPicker1.getValue();
             String inv_date = selectedDate != null ? selectedDate.toString() : "";
-            System.out.println("AddController.handleAdd selected date= "+inv_date);
 
             Inventaire_Item updated_item = new Inventaire_Item(inv_id, article_id,
                     loc_id, user_id, employer_id, employerInventaireCode.getText(),inv_date ,status);
