@@ -256,8 +256,6 @@ public class AddBonEntreeController {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Error generating report: " + ex.getMessage());
         }
 
-
-    GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/bon_entree/bon_entree-view.fxml",event,true);
     }
 
 
