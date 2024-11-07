@@ -86,6 +86,7 @@
 
                             <!-- Column for NIS -->
                             <TableColumn fx:id="nis_column" text="رقم التعريف الإحصائي" />
+                            <TableColumn fx:id="rib_column" text="rib" />
 
                             <!-- Column for Telephone -->
                             <TableColumn fx:id="tel_column" text="الهاتف" />

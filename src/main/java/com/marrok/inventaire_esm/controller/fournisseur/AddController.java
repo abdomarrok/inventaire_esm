@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 
 public class AddController {
+    public TextField ribField;
     @FXML
     private TextField nameField;
     @FXML

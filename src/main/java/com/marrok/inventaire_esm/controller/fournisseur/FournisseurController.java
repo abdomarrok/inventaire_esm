@@ -34,6 +34,7 @@ public class FournisseurController implements Initializable {
     public TableColumn<Fournisseur,String> nis_column;
     public TableColumn<Fournisseur,String> tel_column;
     public TableColumn<Fournisseur,String> fax_column;
+    public TableColumn<Fournisseur,String> rib_column;
     public TableColumn<Fournisseur,String> address_column;
     public TableColumn<Fournisseur,String> email_column;
     public TableColumn rc_column;
@@ -118,6 +119,7 @@ public class FournisseurController implements Initializable {
         fax_column.setCellValueFactory(new PropertyValueFactory<>("fax"));
         address_column.setCellValueFactory(new PropertyValueFactory<>("address"));
         email_column.setCellValueFactory(new PropertyValueFactory<>("email"));
+        rib_column.setCellValueFactory(new PropertyValueFactory<>("rib"));
     }
 
 

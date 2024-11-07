@@ -37,9 +37,10 @@ public class FournisseurDbHelper {
                 String tel = resultSet.getString("TEL");
                 String fax = resultSet.getString("FAX");
                 String address = resultSet.getString("ADDRESS");
-                String email = resultSet.getString("EMAIL");  // Assuming EMAIL is stored as a number
+                String email = resultSet.getString("EMAIL");
+                String rib=resultSet.getString("RIB");
 
-                Fournisseur fournisseur = new Fournisseur(id, name, rc, nif, ai, nis, tel, fax, address, email);
+                Fournisseur fournisseur = new Fournisseur(id, name, rc, nif, ai, nis, tel, fax, address, email,rib);
                 fournisseurs.add(fournisseur);
             }
         } catch (SQLException e) {
@@ -66,7 +67,7 @@ public class FournisseurDbHelper {
     }
 
     public int addFournisseur(Fournisseur fournisseur) {
-        String query = "INSERT INTO fournisseur (name, rc, nif, ai, nis, tel, fax, address, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO fournisseur (name, rc, nif, ai, nis, tel, fax, address, email,rib) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
         try (
                 PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
@@ -80,6 +81,7 @@ public class FournisseurDbHelper {
             preparedStatement.setString(7, fournisseur.getFax());
             preparedStatement.setString(8, fournisseur.getAddress());
             preparedStatement.setString(9, fournisseur.getEmail());
+            preparedStatement.setString(10, fournisseur.getRib());
 
             return preparedStatement.executeUpdate(); // Return 1 if insertion succeeds
 
@@ -89,7 +91,7 @@ public class FournisseurDbHelper {
         }
     }
     public Fournisseur getFournisseurById(int idFournisseur) {
-        String query = "SELECT id, name, rc, nif, ai, nis, tel, fax, address, email FROM fournisseur WHERE id = ?";
+        String query = "SELECT id, name, rc, nif, ai, nis, tel, fax, address, email,rib FROM fournisseur WHERE id = ?";
         Fournisseur fournisseur = null;
 
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
@@ -106,7 +108,8 @@ public class FournisseurDbHelper {
                             rs.getString("tel"),
                             rs.getString("fax"),
                             rs.getString("address"),
-                            rs.getString("email")
+                            rs.getString("email"),
+                            rs.getString("rib")
                     );
                 }
             }
@@ -120,7 +123,7 @@ public class FournisseurDbHelper {
     // Method to update an existing fournisseur (supplier) in the database
     public int updateFournisseur(Fournisseur fournisseur) throws SQLException {
         // SQL query to update the fournisseur
-        String query = "UPDATE fournisseur SET name = ?, rc = ?, nif = ?, ai = ?, nis = ?, tel = ?, fax = ?, address = ?, email = ? WHERE id = ?";
+        String query = "UPDATE fournisseur SET name = ?, rc = ?, nif = ?, ai = ?, nis = ?, tel = ?, fax = ?, address = ?, email = ? ,rib =? WHERE id = ?";
 
         // Try-with-resources to ensure the resources are closed after execution
         try (
@@ -136,7 +139,8 @@ public class FournisseurDbHelper {
             preparedStatement.setString(7, fournisseur.getFax());
             preparedStatement.setString(8, fournisseur.getAddress());
             preparedStatement.setString(9, fournisseur.getEmail());
-            preparedStatement.setInt(10, fournisseur.getId());
+            preparedStatement.setString(10, fournisseur.getRib());
+            preparedStatement.setInt(11, fournisseur.getId());
 
             // Execute the update and return the number of rows affected
             return preparedStatement.executeUpdate();

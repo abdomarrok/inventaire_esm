@@ -35,26 +35,30 @@
         <Label alignment="CENTER" styleClass="lbl" text="رقم التعريف الإحصائي (NIS):" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
         <TextField fx:id="nisField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
 
-        <Label alignment="CENTER" styleClass="lbl" text="الهاتف:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
-        <TextField fx:id="telField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+        <Label alignment="CENTER" styleClass="lbl" text="RIB:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+        <TextField fx:id="ribField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
 
-        <Label alignment="CENTER" styleClass="lbl" text="الفاكس:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
-        <TextField fx:id="faxField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
 
-        <Label alignment="CENTER" styleClass="lbl" text="العنوان:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
-        <TextField fx:id="addressField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+        <Label alignment="CENTER" styleClass="lbl" text="الهاتف:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
+        <TextField fx:id="telField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
 
-        <Label alignment="CENTER" styleClass="lbl" text="البريد الإلكتروني:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
-        <TextField fx:id="emailField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
+        <Label alignment="CENTER" styleClass="lbl" text="الفاكس:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
+        <TextField fx:id="faxField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
 
-        <Button onAction="#handleAddFournisseur" prefHeight="26.0" prefWidth="97.0" text="إضافة" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="10">
+        <Label alignment="CENTER" styleClass="lbl" text="العنوان:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+        <TextField fx:id="addressField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
+
+        <Label alignment="CENTER" styleClass="lbl" text="البريد الإلكتروني:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="10" />
+        <TextField fx:id="emailField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="10" />
+
+        <Button onAction="#handleAddFournisseur" prefHeight="26.0" prefWidth="97.0" text="إضافة" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="11">
             <styleClass>
                 <String fx:value="btn" />
                 <String fx:value="add_btn" />
             </styleClass>
         </Button>
 
-        <Button onAction="#handleCancel" prefHeight="26.0" prefWidth="99.0" text="إلغاء" GridPane.halignment="CENTER" GridPane.rowIndex="10">
+        <Button onAction="#handleCancel" prefHeight="26.0" prefWidth="99.0" text="إلغاء" GridPane.halignment="CENTER" GridPane.rowIndex="11">
             <styleClass>
                 <String fx:value="btn" />
                 <String fx:value="cencel_btn" />

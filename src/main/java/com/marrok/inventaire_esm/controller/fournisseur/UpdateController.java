@@ -13,6 +13,7 @@ import java.sql.SQLException;
 
 public class UpdateController {
 
+    public TextField ribField;
     @FXML
     private TextField nameField;
     @FXML
@@ -51,6 +52,7 @@ public class UpdateController {
         faxField.setText(fournisseur.getFax());
         addressField.setText(fournisseur.getAddress());
         emailField.setText(fournisseur.getEmail());
+        ribField.setText(fournisseur.getRib());
     }
 
     // Link to the main controller
@@ -70,6 +72,7 @@ public class UpdateController {
         String fax = faxField.getText();
         String address = addressField.getText();
         String email = emailField.getText();
+        String rib = ribField.getText();
 
         // Update the Fournisseur object
         selectedFournisseur.setName(name);
@@ -81,6 +84,7 @@ public class UpdateController {
         selectedFournisseur.setFax(fax);
         selectedFournisseur.setAddress(address);
         selectedFournisseur.setEmail(email);
+        selectedFournisseur.setRib(rib);
 
         try {
             // Update in database
@@ -124,6 +128,7 @@ public class UpdateController {
             faxField.setText(selectedFournisseur.getFax());
             addressField.setText(selectedFournisseur.getAddress());
             emailField.setText(selectedFournisseur.getEmail());
+            ribField.setText(selectedFournisseur.getRib());
         }
     }
 }

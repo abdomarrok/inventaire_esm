@@ -8,9 +8,11 @@ public class Fournisseur {
     private String ai; // Activité Indépendante
     private String nis; // Numéro d'Identification Sociale
     private String tel; // Telephone
-    private String fax; // Fax
+    private String fax;// Fax
+    private String rib;
     private String address;
-    private String email; // Assuming email is stored as a long (might need to change if it's an actual email string)
+    private String email;
+
 
     // Constructor that matches the database table fields
     public Fournisseur(int id, String name, String rc, String nif, String ai, String nis, String tel, String fax, String address, String email) {
@@ -24,6 +26,20 @@ public class Fournisseur {
         this.fax = fax;
         this.address = address;
         this.email = email;
+    }
+    // Constructor that matches the database table fields
+    public Fournisseur(int id, String name, String rc, String nif, String ai, String nis, String tel, String fax, String address, String email, String rib) {
+        this.id = id;
+        this.name = name;
+        this.rc = rc;
+        this.nif = nif;
+        this.ai = ai;
+        this.nis = nis;
+        this.tel = tel;
+        this.fax = fax;
+        this.address = address;
+        this.email = email;
+        this.rib = rib;
     }
 
     // Default constructor
@@ -121,6 +137,14 @@ public class Fournisseur {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRib() {
+        return rib;
+    }
+
+    public void setRib(String rib) {
+        this.rib = rib;
     }
 
     @Override

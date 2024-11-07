@@ -249,6 +249,27 @@
     -fx-scale-x: 0.98; /* Slight scale-down effect */
     -fx-scale-y: 0.98;
 }
+.smallDashboard_btn {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #d8ba9f;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-transition: all 0.3s ease; /* Smooth transition for hover */
+}
+
+.smallDashboard_btn:hover {
+    -fx-background-color: #f8f9fa;
+    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.15), 4, 0, 0, 2); /* Subtle shadow effect */
+    -fx-scale-x: 1.02; /* Scale-up effect */
+    -fx-scale-y: 1.02;
+}
+
+.smallDashboard_btn:pressed {
+    -fx-background-color: #f8f9fa;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.5), 8, 0, 0, 4);
+    -fx-scale-x: 0.98; /* Slight scale-down on press */
+    -fx-scale-y: 0.98;
+}
 
 /* Dashboard Cardbox Styles */
 .dashboard_cardbox {
@@ -305,25 +326,3 @@
 }
 
 
-.smallDashboard_btn {
-    -fx-background-color: #fff1dc;
-    -fx-border-color: #d8ba9f;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
-    -fx-transition: all 0.3s ease; /* Smooth transition for hover */
-}
-
-.smallDashboard_btn:hover {
-    -fx-background-color: #ffe6c7; /* Slightly darker shade on hover */
-    -fx-border-color: #d1a68c; /* Darken the border on hover */
-    -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.15), 4, 0, 0, 2); /* Subtle shadow effect */
-    -fx-scale-x: 1.02; /* Scale-up effect */
-    -fx-scale-y: 1.02;
-}
-
-.smallDashboard_btn:pressed {
-    -fx-background-color: #ffd9b0; /* Darker background for pressed effect */
-    -fx-border-color: #c99a7e;
-    -fx-scale-x: 0.98; /* Slight scale-down on press */
-    -fx-scale-y: 0.98;
-}
