@@ -12,6 +12,7 @@
     <TextField fx:id="searchField" alignment="CENTER_RIGHT" maxWidth="200.0" promptText="بحث..." styleClass="searchField" />
     <TableView fx:id="articleTable">
         <columns>
+            <TableColumn fx:id="articleUniteColumn" editable="false" minWidth="200.0" prefWidth="-1.0" sortable="false" text="الوحدة" />
             <TableColumn fx:id="articleNameColumn" editable="false" minWidth="200.0" prefWidth="-1.0" sortable="false" text="إسم العنصر" />
         </columns>
       <columnResizePolicy>

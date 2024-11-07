@@ -21,12 +21,13 @@ import java.sql.SQLException;
 import static com.marrok.inventaire_esm.util.GeneralUtil.showAlert;
 
 public class AddEntreeController {
+
     @FXML
     private TextField searchField;
 
     @FXML
     private TableView<Article> articleTable;  // Corrected to use Article instead of Entree
-
+    public TableColumn<Article, String>articleUniteColumn;
     @FXML
     private TableColumn<Article, String> articleNameColumn;
 
@@ -50,6 +51,7 @@ public class AddEntreeController {
     public void initialize() {
         // Setup the article column
         articleNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        articleUniteColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
 
         // Load article data (fetch from your database)
         articleList.setAll(fetchArticlesFromDatabase());

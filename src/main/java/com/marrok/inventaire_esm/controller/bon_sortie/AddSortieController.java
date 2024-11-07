@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 import static com.marrok.inventaire_esm.util.GeneralUtil.showAlert;
 
 public class AddSortieController implements Initializable {
+
     @FXML
     private TextField searchField;
 
@@ -31,6 +32,7 @@ public class AddSortieController implements Initializable {
 
     @FXML
     private TableColumn<Article, String> articleNameColumn;
+    public TableColumn<Article, String>  articleUniteColumn;
 
     @FXML
     private TextField quantityField;
@@ -45,6 +47,7 @@ public class AddSortieController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Setup the article column
         articleNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        articleUniteColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
 
         // Load article data (fetch from your database)
         articleList.setAll(fetchArticlesFromDatabase());
