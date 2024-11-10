@@ -14,6 +14,10 @@
     font-family: "Reem Kufi";
     src: url("../fonts/ReemKufi-Bold.ttf");
 }
+@font-face {
+    font-family: "Andalus";
+    src: url("../fonts/Andalus.ttf");
+}
 
 
 .background {
