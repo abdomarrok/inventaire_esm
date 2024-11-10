@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="bodybg_fiche_inventire" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.inventaire.FicheInventaireController">
+<AnchorPane minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.inventaire.FicheInventaireController">
 
 
     <VBox alignment="CENTER_RIGHT" layoutX="501.0" layoutY="236.0" spacing="40.0" AnchorPane.rightAnchor="50.0">
