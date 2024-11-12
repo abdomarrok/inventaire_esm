@@ -1,6 +1,7 @@
 package com.marrok.inventaire_esm.util.database;
 
 import com.marrok.inventaire_esm.model.Article;
+import com.marrok.inventaire_esm.model.StockAdjustment;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.scene.control.Alert;
 
@@ -251,6 +252,105 @@ public class ArticleDbHelper {
 
         return totalQuantities;
     }
+
+
+
+    // READ: Get a single stock adjustment by ID
+    public StockAdjustment getStockAdjustmentById(int id) {
+        String query = "SELECT * FROM stock_adjustment WHERE id = ?";
+        try (PreparedStatement stmt = cnn.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new StockAdjustment(
+                        rs.getInt("id"),
+                        rs.getInt("article_id"),
+                        rs.getInt("user_id"),
+                        rs.getTimestamp("adjustment_date"),
+                        rs.getInt("quantity"),
+                        rs.getString("adjustment_type"),
+                        rs.getString("remarks")
+                );
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting stock adjustment by ID", e);
+        }
+        return null;
+    }
+
+    // READ: Get all stock adjustments
+    public List<StockAdjustment> getAllStockAdjustments() {
+        List<StockAdjustment> adjustments = new ArrayList<>();
+        String query = "SELECT * FROM stock_adjustment ORDER BY adjustment_date DESC";
+        try (PreparedStatement stmt = cnn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                StockAdjustment adjustment = new StockAdjustment(
+                        rs.getInt("id"),
+                        rs.getInt("article_id"),
+                        rs.getInt("user_id"),
+                        rs.getTimestamp("adjustment_date"),
+                        rs.getInt("quantity"),
+                        rs.getString("adjustment_type"),
+                        rs.getString("remarks")
+                );
+                adjustments.add(adjustment);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting stock adjustments", e);
+        }
+        return adjustments;
+    }
+
+
+    // DELETE: Remove a stock adjustment by ID
+    public boolean deleteStockAdjustment(int id) {
+        String query = "DELETE FROM stock_adjustment WHERE id = ?";
+        try (PreparedStatement stmt = cnn.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error deleting stock adjustment", e);
+            return false;
+        }
+    }
+
+    // CREATE: Add a new stock adjustment
+    public boolean addStockAdjustment(StockAdjustment adjustment) {
+        String query = "INSERT INTO stock_adjustment (article_id, user_id, adjustment_date, quantity, adjustment_type, remarks) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = cnn.prepareStatement(query)) {
+            stmt.setInt(1, adjustment.getArticleId());
+            stmt.setInt(2, adjustment.getUserId());
+            stmt.setDate(3,  new java.sql.Date(adjustment.getAdjustmentDate().getTime()));
+            stmt.setInt(4, adjustment.getQuantity());
+            stmt.setString(5, adjustment.getAdjustmentType());
+            stmt.setString(6, adjustment.getRemarks());
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error adding stock adjustment", e);
+            return false;
+        }
+    }
+
+    // UPDATE: Modify an existing stock adjustment
+    public boolean updateStockAdjustment(StockAdjustment adjustment) {
+        String query = "UPDATE stock_adjustment SET article_id = ?, user_id = ?, adjustment_date = ?, quantity = ?, adjustment_type = ?, remarks = ? WHERE id = ?";
+        try (PreparedStatement stmt = cnn.prepareStatement(query)) {
+            stmt.setInt(1, adjustment.getArticleId());
+            stmt.setInt(2, adjustment.getUserId());
+            stmt.setDate(3, new java.sql.Date(adjustment.getAdjustmentDate().getTime()));
+            stmt.setInt(4, adjustment.getQuantity());
+            stmt.setString(5, adjustment.getAdjustmentType());
+            stmt.setString(6, adjustment.getRemarks());
+            stmt.setInt(7, adjustment.getId());
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error updating stock adjustment", e);
+            return false;
+        }
+    }
+
 
 
 }

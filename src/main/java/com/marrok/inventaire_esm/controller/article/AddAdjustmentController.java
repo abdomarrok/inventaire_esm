@@ -4,6 +4,7 @@ import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.BonEntree;
 import com.marrok.inventaire_esm.model.Entree;
 import com.marrok.inventaire_esm.model.StockAdjustment;
+import com.marrok.inventaire_esm.util.SessionManager;
 import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -14,9 +15,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Map;
 
 import static com.marrok.inventaire_esm.util.GeneralUtil.showAlert;
@@ -148,6 +151,10 @@ public class AddAdjustmentController {
         selectedStockAdjustment.setArticleId(selectedArticle.getId()); // Use the article's ID
         selectedStockAdjustment.setQuantity(quantity);
         selectedStockAdjustment.setAdjustmentType("زيادة".equals(operation_type.getValue()) ? "increase" : "decrease");
+        selectedStockAdjustment.setAdjustmentDate(new Date());
+       int  user_id = SessionManager.getActiveUserId();
+       selectedStockAdjustment.setUserId(user_id);
+        articleDbhelper.addStockAdjustment(selectedStockAdjustment);
 
 
         // Save to database or perform further processing here
@@ -155,7 +162,11 @@ public class AddAdjustmentController {
         closeDialog(event);
     }
 
-
+    @FXML
     public void closeDialog(ActionEvent event) {
+        // Close the dialog without any action
+        Stage stage = (Stage) articleTable.getScene().getWindow();
+        stage.close();
     }
+
 }
