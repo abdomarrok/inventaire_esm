@@ -152,4 +152,8 @@ public class StockDashboardController implements Initializable {
         GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/bon_sortie/bon_sortie-view.fxml",event,true);
 
     }
+
+    public void go_Adjustement(ActionEvent event) {
+        GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/article/stock_adjustment.fxml",event,true);
+    }
 }

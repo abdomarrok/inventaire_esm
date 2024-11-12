@@ -37,8 +37,6 @@
                    <Insets />
                </BorderPane.margin>
            </HBox>
-
-
        </top>
     <right>
         <VBox fx:id="leftBox" alignment="TOP_RIGHT" spacing="20.0">
@@ -59,9 +57,10 @@
                         <TableColumn fx:id="unitColumn" text="الوحدة" />
                         <TableColumn fx:id="entreeColumn" style="-fx-background-color: #4CAF50; -fx-text-fill: #FFFFFF; -fx-alignment: CENTER; -fx-font-weight: bold; -fx-opacity: 0.75;" text="دخول" />
 
-                        <TableColumn fx:id="quantityColumn" text="الكمية" />
-
                         <TableColumn fx:id="sortieColumn" style="-fx-background-color: #FF5722; -fx-text-fill: #FFFFFF; -fx-alignment: CENTER; -fx-font-weight: bold; -fx-padding: 5px; -fx-opacity: 0.75;" text="خروج" />
+                       <TableColumn fx:id="editColumn" prefWidth="99.0" style="-fx-background-color: #0a8da4; -fx-text-fill: #FFFFFF; -fx-alignment: CENTER; -fx-font-weight: bold; -fx-padding: 5px; -fx-opacity: 0.75;" text="تعديلات" />
+
+                        <TableColumn fx:id="quantityColumn" prefWidth="75.0" text="الكمية" />
 
 
 

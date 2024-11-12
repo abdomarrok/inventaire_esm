@@ -22,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.*;
 import java.net.URL;
@@ -46,6 +47,7 @@ public class EtatStockController implements Initializable {
     public TableColumn<Article, Integer> quantityColumn;
     public TableColumn<Article,Integer> entreeColumn;
     public TableColumn<Article,Integer> sortieColumn;
+    public TableColumn<Article,Integer> editColumn;
     @FXML
     public TableColumn<Article, String> remarkColumn;
     @FXML
@@ -65,6 +67,7 @@ public class EtatStockController implements Initializable {
 
     private static ObservableList<Article> articleList;
     private static  FilteredList<Article> filteredArticleList;
+
 
 
     private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
@@ -163,6 +166,12 @@ public class EtatStockController implements Initializable {
             int totalArticleSortie = articleDbhelper.getTotalSortieQuantityByArticleId(articleId);
             return new SimpleIntegerProperty(totalArticleSortie).asObject();
         });
+        editColumn.setCellValueFactory(cellData -> {
+            Article article = cellData.getValue();
+            int articleId = article.getId();
+            int totalAdjustemnt = articleDbhelper.getTotalAdjustmentByArticleId(articleId) ;
+            return new SimpleIntegerProperty(totalAdjustemnt).asObject();
+        });
 
         // Custom cell value factory for category column to fetch category name by id_category
         categoryColmun.setCellValueFactory(cellData -> {
@@ -201,9 +210,41 @@ public class EtatStockController implements Initializable {
         });
         tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedArticle = newValue);
 
+
+
     }
+    public void setupSpecificCellEventListener() {
+        // Correct type of TableColumn is Integer, not String
+        editColumn.setCellFactory(new Callback<TableColumn<Article, Integer>, TableCell<Article, Integer>>() {
+            @Override
+            public TableCell<Article, Integer> call(TableColumn<Article, Integer> param) {
+                return new TableCell<Article, Integer>() {
+                    @Override
+                    protected void updateItem(Integer item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!empty) {
+                            TableRow<Article> row = getTableRow();
 
-
+                            // Check if this is the specific cell you want to target (e.g., first row)
+                            if (row != null && row.getIndex() == 0 && getTableColumn() == editColumn) {
+                                // Add your specific event handler for this cell
+                                this.setOnMouseClicked(event -> {
+                                    System.out.println("Specific cell clicked! Row: " + row.getIndex() + ", Column: " + getTableColumn().getText());
+                                    // Your event logic here
+                                });
+                            } else {
+                                // Clear event handler for other cells
+                                this.setOnMouseClicked(null);
+                            }
+                        } else {
+                            // Reset the cell to default if it's empty or no longer in use
+                            this.setOnMouseClicked(null);
+                        }
+                    }
+                };
+            }
+        });
+    }
 
     public ObservableList<Article> getArticleList() {
         return articleList;

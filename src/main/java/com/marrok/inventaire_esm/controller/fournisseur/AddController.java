@@ -53,9 +53,10 @@ public class AddController {
         String fax = faxField.getText();
         String address = addressField.getText();
         String email = emailField.getText();
+        String rib= ribField.getText();
 
         // Create the Fournisseur object
-        Fournisseur fournisseur = new Fournisseur(name, rc, nif, ai, nis, tel, fax, address, email);
+        Fournisseur fournisseur = new Fournisseur(0,name,rc,nif,ai,nis,tel,fax,address,email,rib);
 
         int success = fournisseurDbHelper.addFournisseur(fournisseur);
 
