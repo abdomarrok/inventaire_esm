@@ -11,7 +11,7 @@
             <HBox fx:id="topBox">
                 <children>
                     <HBox>
-                        <Button fx:id="bk_Dashboard_from_etat_stock" contentDisplay="GRAPHIC_ONLY" styleClass="home_btn" text="الرئيسية">
+                        <Button onAction="#goStockDashboard" contentDisplay="GRAPHIC_ONLY" styleClass="home_btn" text="الرئيسية">
                             <graphic>
                                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

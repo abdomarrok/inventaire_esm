@@ -32,17 +32,6 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/login/login-view.fxml"));
             Parent root = loader.load();
 
-            // Make the window draggable
-            root.setOnMousePressed(event -> {
-                xOffset = event.getSceneX();
-                yOffset = event.getSceneY();
-            });
-
-            root.setOnMouseDragged(event -> {
-                stage.setX(event.getScreenX() - xOffset);
-                stage.setY(event.getScreenY() - yOffset);
-            });
-
             scene = new Scene(root);
             // Set stage properties
             stage.setTitle("Gestion des Stocks et Inventaire");
