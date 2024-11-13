@@ -7,6 +7,7 @@ import com.marrok.inventaire_esm.model.Entree;
 import com.marrok.inventaire_esm.model.StockAdjustment;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
+import com.marrok.inventaire_esm.util.database.UserDbHelper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -47,6 +48,7 @@ public class StockAdjustmentController implements Initializable {
     private FilteredList<StockAdjustment> filtredadjustemntList;
     private StockAdjustment selectedAdjustemnt;
     private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    private UserDbHelper userDbHelper=new UserDbHelper();
 
     public StockAdjustmentController() throws SQLException {
     }
@@ -94,7 +96,20 @@ public class StockAdjustmentController implements Initializable {
     private void initializeColumns() {
         id_adjustment.setCellValueFactory(new PropertyValueFactory<>("id"));
         date.setCellValueFactory(new PropertyValueFactory<>("adjustmentDate"));
-        user.setCellValueFactory(new PropertyValueFactory<>("userId"));
+        //new PropertyValueFactory<>("userId")
+        user.setCellValueFactory(cellData ->{
+            int userId = cellData.getValue().getUserId();
+            try {
+                String userName = userDbHelper.getUserNameById(userId);
+                if (userName != null) {
+                    return new SimpleStringProperty(userName);
+                }
+            }catch (Exception e) {
+                e.printStackTrace();
+                return new SimpleStringProperty("Unknown User");
+            }
+            return null;
+        });
         article.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getArticleId();
             try {
@@ -132,7 +147,7 @@ public class StockAdjustmentController implements Initializable {
             // Get the controller and set the selected Adjustemn
             AddAdjustmentController controller = loader.getController();
             controller.setAdjustemnt(selectedAdjustemnt);
-controller.setParentController(this);
+            controller.setParentController(this);
             // Create a new scene and set it to the stage
             Scene scene = new Scene(root);
             Stage stage = new Stage();
