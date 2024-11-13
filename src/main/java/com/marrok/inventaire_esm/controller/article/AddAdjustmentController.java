@@ -4,6 +4,7 @@ import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.BonEntree;
 import com.marrok.inventaire_esm.model.Entree;
 import com.marrok.inventaire_esm.model.StockAdjustment;
+import com.marrok.inventaire_esm.util.GeneralUtil;
 import com.marrok.inventaire_esm.util.SessionManager;
 import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -20,12 +21,14 @@ import javafx.stage.Stage;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import static com.marrok.inventaire_esm.util.GeneralUtil.showAlert;
 
 
 public class AddAdjustmentController {
+    StockAdjustmentController parentController;
 
     String[] operations={"زيادة","إنقاص"};
 
@@ -42,16 +45,21 @@ public class AddAdjustmentController {
     public TextField searchField;
     public TextField quantityField;
     StockAdjustment selectedStockAdjustment;
+    StockAdjustmentController stockAdjustmentController;
     private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
     Map<Integer, Integer> totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
     public  AddAdjustmentController () throws SQLException {
     }
     @FXML
     public void initialize() {
-        loadData();
         initializeColumns();
-        setupTableSelectionListener();
+        loadData();
         setupSearchFilter();
+        setupTableSelectionListener();
+
+    }
+    public void  setAdjustemnt(StockAdjustment selectedStockAdjustment){
+        this.selectedStockAdjustment = selectedStockAdjustment;
     }
 
     private void loadData() {
@@ -59,7 +67,6 @@ public class AddAdjustmentController {
         operation_type.getItems().addAll(operations);
         operation_type.setValue(operations[0]);
         updateOperationTypeStyle();
-
         // Listen for changes to update style dynamically
         operation_type.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             updateOperationTypeStyle();
@@ -154,8 +161,12 @@ public class AddAdjustmentController {
         selectedStockAdjustment.setAdjustmentDate(new Date());
        int  user_id = SessionManager.getActiveUserId();
        selectedStockAdjustment.setUserId(user_id);
-        articleDbhelper.addStockAdjustment(selectedStockAdjustment);
-
+        if(articleDbhelper.addStockAdjustment(selectedStockAdjustment)){
+            stockAdjustmentController.refreshTableData();
+            closeDialog(event);
+        }else {
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في إضافة التعديل على  المخزون.");
+        }
 
         // Save to database or perform further processing here
 
@@ -169,4 +180,7 @@ public class AddAdjustmentController {
         stage.close();
     }
 
+    public void setParentController(StockAdjustmentController stockAdjustmentController) {
+        this.stockAdjustmentController=stockAdjustmentController;
+    }
 }

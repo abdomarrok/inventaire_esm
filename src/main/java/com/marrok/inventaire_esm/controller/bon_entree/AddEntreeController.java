@@ -52,7 +52,6 @@ public class AddEntreeController {
         // Setup the article column
         articleNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         articleUniteColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
-
         // Load article data (fetch from your database)
         articleList.setAll(fetchArticlesFromDatabase());
         filteredArticleList = new FilteredList<>(articleList, p -> true);
@@ -125,8 +124,5 @@ public class AddEntreeController {
     // Getter to retrieve the selected Entree
     public Entree getSelectedEntree() {
         return selectedEntree;
-    }
-
-    public void setSelectedFournissour(Fournisseur selectedFournisseur) {
     }
 }
