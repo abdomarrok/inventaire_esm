@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -25,15 +26,15 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class BonEntreeController implements Initializable {
+    Logger logger = Logger.getLogger(BonEntreeController.class);
     public TableView<BonEntree> tableView;
     public TableColumn<BonEntree,String> document_num;
     public TableColumn<BonEntree,Integer> id_bon_entree;
@@ -52,30 +53,49 @@ public class BonEntreeController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initializing BonEntreeController");
         loadData();
         initializeColumns();
         setupSearchFilter();
         setupTableSelectionListener();
     }
+    // Cache for Fournisseur data
+    private final Map<Integer, String> fournisseurCache = new HashMap<>();
+
+    private void preloadFournisseurData() {
+        try {
+            // Fetch all fournisseurs from the database
+            List<Fournisseur> fournisseurs = fournisseurDbHelper.getFournisseurs(); // Assuming this method exists
+            for (Fournisseur fournisseur : fournisseurs) {
+                fournisseurCache.put(fournisseur.getId(), fournisseur.getName());
+            }
+            logger.info("Fournisseur data preloaded successfully.");
+        } catch (Exception e) {
+            logger.error( "Error preloading Fournisseur data", e);
+        }
+    }
 
     private void initializeColumns() {
+        logger.info("Initializing BonEntreeController");
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
+
         document_num.setCellValueFactory(new PropertyValueFactory<>("documentNum"));
-        id_bon_entree.setCellValueFactory(new  PropertyValueFactory<>("id"));
+        id_bon_entree.setCellValueFactory(new PropertyValueFactory<>("id"));
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
-      //  fournisseur.setCellValueFactory(new PropertyValueFactory<>("idFournisseur"));
-        fournisseur.setCellValueFactory(celldata->{
-            int idfournisseur= celldata.getValue().getIdFournisseur();
-            Fournisseur fournisseur1 = fournisseurDbHelper.getFournisseurById(idfournisseur);
-            if(fournisseur1!=null){
-                return new SimpleStringProperty(fournisseur1.getName());
-            }else {
-                return new SimpleStringProperty("مورد غير معروف");
-            }
+
+        // Preload fournisseur data
+        preloadFournisseurData();
+
+        // Use cached data in the cell value factory
+        fournisseur.setCellValueFactory(cellData -> {
+            int idFournisseur = cellData.getValue().getIdFournisseur();
+            String fournisseurName = fournisseurCache.getOrDefault(idFournisseur, "مورد غير معروف");
+            return new SimpleStringProperty(fournisseurName);
         });
     }
 
     private void loadData() {
+        logger.info("Loading BonEntreeController data");
         List<BonEntree> bonEntrees=bonEntreeDbHelper.getBonEntrees();
         bonEntreesList = FXCollections.observableArrayList(bonEntrees);
         filtredbonEntreesList = new FilteredList<>(bonEntreesList, p -> true);
@@ -128,7 +148,9 @@ public class BonEntreeController implements Initializable {
     }
 
     private void showBonEntreeDetails(int selected_be_id) {
+        logger.info("showBonEntreeDetails called");
         BonEntree selectedBonEntree = bonEntreeDbHelper.getBonEntreesById(selected_be_id);
+
         if (selectedBonEntree != null) {
             try {
                 // Load the FXML file
@@ -147,12 +169,14 @@ public class BonEntreeController implements Initializable {
                 stage.show();
 
             } catch (IOException e) {
-                e.printStackTrace();
+               logger.error(e);
+               GeneralUtil.showAlert(Alert.AlertType.INFORMATION,"Error",e.getMessage());
                 // Handle the exception (e.g., show an error message)
             }
         } else {
             // Handle case where BonEntree is not found (e.g., show a message)
-            System.out.println("BonEntree not found.");
+
+            logger.info("BonEntree not found.");
         }
     }
 
@@ -170,6 +194,7 @@ public class BonEntreeController implements Initializable {
 
 
     public void goBonEntree(ActionEvent event) {
+        logger.info("goBonEntree called");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/bon_entree/add_bon_entree-view.fxml"));
             Parent root = loader.load();
@@ -182,7 +207,7 @@ public class BonEntreeController implements Initializable {
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
             stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error(e);
         }
     }
 }

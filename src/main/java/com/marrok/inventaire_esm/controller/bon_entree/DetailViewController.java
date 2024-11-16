@@ -16,6 +16,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
+import org.apache.log4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DetailViewController {
+    Logger logger = Logger.getLogger(DetailViewController.class);
     @FXML private Label idLabel;
     @FXML private Label fournisseurIdLabel;
     @FXML private Label addressLabel; // New label for address
@@ -55,12 +57,14 @@ public class DetailViewController {
     }
 
     public void setBonEntree(BonEntree bonEntree) {
+        logger.info( "set this BonEntree"+bonEntree);
         this.bonEntree = bonEntree;
         currentFournisseur = fournisseurDbHelper.getFournisseurById(bonEntree.getIdFournisseur());
         populateDetails();
     }
 
     private void populateDetails() {
+        logger.info("populate details called");
         if (bonEntree != null) {
             idLabel.setText(String.valueOf(bonEntree.getId()));
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -75,6 +79,7 @@ public class DetailViewController {
         }
 
         if (currentFournisseur != null) {
+            logger.info("current fournisseur is " + currentFournisseur);
             fournisseurIdLabel.setText(currentFournisseur.getName());
             addressLabel.setText(currentFournisseur.getAddress()); // Display address
         }
@@ -82,6 +87,7 @@ public class DetailViewController {
 
     // Set up the table columns
     private void setupTableColumns() {
+        logger.info("setupTableColumns");
         articleColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getIdArticle();
             try {
@@ -104,7 +110,7 @@ public class DetailViewController {
 
     @FXML
     private void handleEdit(ActionEvent event) {
-        System.out.println("Edit button clicked.");
+        logger.info("Edit button clicked.");
         // Open an edit form or handle it here
     }
 
@@ -121,20 +127,20 @@ public class DetailViewController {
     }
 
     public void printBonEntree(ActionEvent event) {
+        logger.info("printBonEntree");
         if (bonEntree != null) {
             Connection connection = null;
             try {
                 connection = DatabaseConnection.getInstance().getConnection();
                 InputStream reportStream = getClass().getResourceAsStream("/com/marrok/inventaire_esm/reports/Bon_Entree_Report.jrxml");
                 if (reportStream == null) {
-                    throw new FileNotFoundException("Report file not found.");
+                    logger.error("Report file not found.");
                 }
-                System.out.println("Parameters: " + parameters);
-
 
                 if (bonEntree.getId() != -1) {
                     parameters.put("bon_entree_id", bonEntree.getId());
                     parameters.put("logo", getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"));
+                    logger.info("Parameters: " + parameters);
 
                 } else {
                     GeneralUtil.showAlert(Alert.AlertType.WARNING, "Error", "Error with current bon entree ID.");
@@ -154,17 +160,11 @@ public class DetailViewController {
                 viewer.setTitle("وصل استلام");
                 viewer.setVisible(true);
 
-            } catch (FileNotFoundException fnf) {
-                System.out.println("Report file not found: " + fnf.getMessage());
-                fnf.printStackTrace();
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Report file not found: " + fnf.getMessage());
             } catch (SQLException sqlEx) {
-                System.out.println("SQL Error: " + sqlEx.getMessage());
-                sqlEx.printStackTrace();
+               logger.error("SQL Error: " + sqlEx.getMessage());
                 GeneralUtil.showAlert(Alert.AlertType.ERROR, "SQL Error", "Error while accessing the database: " + sqlEx.getMessage());
             } catch (Exception ex) {
-                System.out.println("Error generating report: " + ex.getMessage());
-                ex.printStackTrace();
+                logger.error("Error generating report: " + ex.getMessage());
                 GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Error generating report: " + ex.getMessage());
             }
 

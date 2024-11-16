@@ -21,6 +21,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
+import org.apache.log4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -33,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 public class AddBonEntreeController {
+    Logger logger = Logger.getLogger(AddBonEntreeController.class);
 
     public TextField document_num;
     public Button clearButton;
@@ -74,6 +76,7 @@ public class AddBonEntreeController {
     // Initialize the controller
     @FXML
     public void initialize() {
+        logger.info("Initializing AddBonEntreeController");
         printButton.setDisable(true);
         setupTableColumns();
         populateFournisseurChoiceBox();
@@ -82,6 +85,7 @@ public class AddBonEntreeController {
 
     // Set up the table columns
     private void setupTableColumns() {
+        logger.info("Setting up AddBonEntreeController columns");
         articleColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getIdArticle();
                 String articleName = articleDbhelper.getArticleById(articleId).getName();
@@ -97,6 +101,7 @@ public class AddBonEntreeController {
 
     // Populate the ChoiceBox with fournisseur data from the database
     private void populateFournisseurChoiceBox() {
+        logger.info("Setting up AddBonEntreeController fournisseurChoiceBox");
         // Assuming you have a method to fetch fournisseur data from the database
         List<Fournisseur> fournisseurs = fournisseurDbHelper.getFournisseurs();
 
@@ -106,6 +111,7 @@ public class AddBonEntreeController {
     // Add a new article (item) to the Bon Entree
     @FXML
     public void addItem(ActionEvent event) {
+        logger.info("Adding item");
         try {
             // Load the SelectArticleDialog.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/bon_entree/add_entree.fxml"));
@@ -127,13 +133,14 @@ public class AddBonEntreeController {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 
     // Remove the selected article (item) from the Bon Entree
     @FXML
     public void removeItem(ActionEvent event) {
+        logger.info("Removing item");
         Entree selectedEntree = entreeTable.getSelectionModel().getSelectedItem();
         if (selectedEntree != null) {
             entreesList.remove(selectedEntree);
@@ -145,6 +152,7 @@ public class AddBonEntreeController {
     // Save the Bon Entree
     @FXML
     public void saveBonEntree(ActionEvent event) {
+        logger.info("Saving BonEntree");
         Fournisseur selectedFournisseur = fournisseurChoiceBox.getSelectionModel().getSelectedItem();
         LocalDate selectedDate = datePicker.getValue();
         String documentNum=document_num.getText();
@@ -158,6 +166,7 @@ public class AddBonEntreeController {
         boolean success = saveBonEntreeToDatabase(selectedFournisseur, selectedDate,documentNum, entreesList);
 
         if (success) {
+            logger.info("BonEntree saved to database");
             GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "Bon Entree saved successfully.");
             addItemButton.setDisable(true);
             removeItemButton.setDisable(true);
@@ -166,12 +175,14 @@ public class AddBonEntreeController {
 
 
         } else {
+            logger.info("BonEntree save failed");
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "Failure", "Failed to save Bon Entree.");
         }
     }
 
 
     public void clearBonEntree(ActionEvent event) {
+        logger.info("Clearing BonEntree");
         fournisseurChoiceBox.getSelectionModel().clearSelection();
         datePicker.setValue(null);
         entreesList.clear();
@@ -184,6 +195,7 @@ public class AddBonEntreeController {
 
 
     private boolean saveBonEntreeToDatabase(Fournisseur fournisseur, LocalDate date, String documentNum, ObservableList<Entree> entrees) {
+        logger.info("Saving BonEntree");
         // Create a BonEntree object
         int tva = 19; // Set this according to your application's logic (or pass it as a parameter)
         BonEntree bonEntree = new BonEntree(0, fournisseur.getId(), java.sql.Date.valueOf(date), tva,documentNum);
@@ -201,34 +213,36 @@ public class AddBonEntreeController {
             entree.setIdBe(bonEntreeId); // Associate the Entree with the newly created Bon Entree
             boolean success = bonEntreeDbHelper.saveEntree(entree); // Assuming you have a saveEntree method in DatabaseHelper
             if (!success) {
+                logger.error("BonEntree save failed");
                 return false; // Failed to save at least one Entree
             }
         }
-
+        logger.info("BonEntree save successful");
         return true; // Successfully saved the Bon Entree and all Entree records
     }
 
     public void printBonEntree(ActionEvent event) {
+        logger.info("Printing BonEntree");
         Connection connection = null;
         try {
             connection = DatabaseConnection.getInstance().getConnection();
             InputStream reportStream = getClass().getResourceAsStream("/com/marrok/inventaire_esm/reports/Bon_Entree_Report.jrxml");
             if (reportStream == null) {
-                throw new FileNotFoundException("Report file not found.");
+                logger.error("Report file not found.");
+//                throw new FileNotFoundException("Report file not found.");
             }
 
-
-
             if (current_be_id != -1) {
+
                 parameters.put("bon_entree_id", current_be_id);
                 parameters.put("logo", getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"));
+                logger.info("Parameters: be= " + parameters);
 
-                System.out.println("Parameters: be= " + parameters);
             } else {
+                logger.error("Error with current bon entree ID.");
                 GeneralUtil.showAlert(Alert.AlertType.WARNING, "Error", "Error with current bon entree ID.");
                 return; // Exit if the ID is invalid
             }
-
 
             // Compile the report
             JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
@@ -242,17 +256,11 @@ public class AddBonEntreeController {
             viewer.setTitle("وصل استلام");
             viewer.setVisible(true);
 
-        } catch (FileNotFoundException fnf) {
-            System.out.println("Report file not found: " + fnf.getMessage());
-            fnf.printStackTrace();
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Report file not found: " + fnf.getMessage());
         } catch (SQLException sqlEx) {
-            System.out.println("SQL Error: " + sqlEx.getMessage());
-            sqlEx.printStackTrace();
+            logger.error(sqlEx);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "SQL Error", "Error while accessing the database: " + sqlEx.getMessage());
         } catch (Exception ex) {
-            System.out.println("Error generating report: " + ex.getMessage());
-            ex.printStackTrace();
+           logger.error(ex);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Error generating report: " + ex.getMessage());
         }
 

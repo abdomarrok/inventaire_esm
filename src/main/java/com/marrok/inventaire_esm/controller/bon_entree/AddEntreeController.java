@@ -15,12 +15,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 
 import static com.marrok.inventaire_esm.util.GeneralUtil.showAlert;
 
 public class AddEntreeController {
+    Logger logger = Logger.getLogger(AddEntreeController.class);
 
     @FXML
     private TextField searchField;
@@ -49,6 +51,7 @@ public class AddEntreeController {
 
     @FXML
     public void initialize() {
+        logger.info("Initializing AddEntreeController");
         // Setup the article column
         articleNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         articleUniteColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
@@ -76,6 +79,7 @@ public class AddEntreeController {
 
     // Fetch available articles from the database
     private ObservableList<Article> fetchArticlesFromDatabase() {
+        logger.info("Fetching articles from database");
         return FXCollections.observableArrayList(
                 articleDbhelper.getArticles()
         );
@@ -83,6 +87,7 @@ public class AddEntreeController {
 
     @FXML
     public void confirmSelection(ActionEvent event) {
+        logger.info("Confirm selection");
         selectedArticle = articleTable.getSelectionModel().getSelectedItem();
 
         if (selectedArticle == null || quantityField.getText().isEmpty() || priceField.getText().isEmpty()) {
@@ -101,6 +106,7 @@ public class AddEntreeController {
             }
             pricePerUnit = Double.parseDouble(priceField.getText());
         } catch (NumberFormatException e) {
+            logger.error(e);
             showAlert(Alert.AlertType.ERROR, "Error", "Please enter valid numbers for quantity and price.");
             return;
         }
