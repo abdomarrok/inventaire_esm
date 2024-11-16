@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -23,6 +24,7 @@ import java.util.ResourceBundle;
 import static com.marrok.inventaire_esm.util.GeneralUtil.showAlert;
 
 public class AddSortieController implements Initializable {
+    Logger logger = Logger.getLogger(AddSortieController.class);
 
     @FXML
     private TextField searchField;
@@ -45,6 +47,7 @@ public class AddSortieController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initializing AddSortieController");
         // Setup the article column
         articleNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         articleUniteColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
@@ -73,6 +76,7 @@ public class AddSortieController implements Initializable {
 
     // Fetch available articles from the database
     private ObservableList<Article> fetchArticlesFromDatabase() {
+        logger.info("Fetching articles from database");
         return FXCollections.observableArrayList(
                 articleDbhelper.getArticles()
         );
@@ -82,6 +86,7 @@ public class AddSortieController implements Initializable {
     }
 
     public void confirmSelection(ActionEvent event) {
+        logger.info("Confirm selection");
         selectedArticle = articleTable.getSelectionModel().getSelectedItem();
 
         if (selectedArticle == null || quantityField.getText().isEmpty()) {

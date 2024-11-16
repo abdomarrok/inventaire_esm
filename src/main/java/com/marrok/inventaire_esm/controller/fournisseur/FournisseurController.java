@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,6 +26,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class FournisseurController implements Initializable {
+    Logger logger = Logger.getLogger(FournisseurController.class);
 
     public TableView<Fournisseur> fournisseurTableView;
     public TableColumn<Fournisseur,Integer> id_column;
@@ -58,6 +60,7 @@ public class FournisseurController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initializing FournisseurController");
         setUser();
         loadData();
         initializeColumns();
@@ -67,7 +70,7 @@ public class FournisseurController implements Initializable {
     }
 
     private void setUser() {
-        System.out.println("FournisseurController.setUser");
+        logger.info("FournisseurController.setUser");
         user_id = SessionManager.getActiveUserId();
         if (user_id != -1) {
             user_role = userDbhelper.getUserRoleById(user_id);
@@ -75,14 +78,14 @@ public class FournisseurController implements Initializable {
             if (user_role != null) {
                 customizeFournisseurForRole(user_role);
             }else {
-                System.out.println("user_role is null");
+                logger.info("user_role is null");
 
             }
         }
     }
 
     private void customizeFournisseurForRole(String userRole) {
-        System.out.println("FournisseurController.customizeFournisseurForRole"+userRole);
+        logger.info("FournisseurController.customizeFournisseurForRole"+userRole);
         switch (userRole) {
             case "Admin":
                 // Admin sees everything
@@ -105,6 +108,7 @@ public class FournisseurController implements Initializable {
 
     private void initializeColumns() {
         // Set cell value factories for the fournisseur table
+        logger.info("FournisseurController.initializeColumns");
 
         fournisseurTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
 
@@ -124,6 +128,7 @@ public class FournisseurController implements Initializable {
 
 
     private void loadData() {
+        logger.info("FournisseurController.loadData");
         fournisseurObservableList=FXCollections.observableArrayList(fournisseurDbHelper.getFournisseurs());
         filteredFournisseurList = new FilteredList<>(fournisseurObservableList, p -> true);
         fournisseurTableView.setItems(filteredFournisseurList);
@@ -154,7 +159,7 @@ public class FournisseurController implements Initializable {
         fournisseurTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedFournisseur = newValue);
     }
     public void addFournisseur(ActionEvent event) {
-
+            logger.info("FournisseurController.addFournisseur");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/fournisseur/add_fournisseur_form_view.fxml"));
             Stage stage = new Stage();
@@ -167,13 +172,15 @@ public class FournisseurController implements Initializable {
             controller.setFournisseurController(this);
             stage.showAndWait();
         } catch (IOException e) {
+            logger.error(e);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة المورد.");
-            e.printStackTrace();
+
         }
     }
 
     @FXML
     public void updateFournisseur(ActionEvent event) {
+        logger.info("FournisseurController.updateFournisseur");
         // Get the selected Fournisseur from the table
         Fournisseur selectedFournisseur = fournisseurTableView.getSelectionModel().getSelectedItem();
 
@@ -185,19 +192,16 @@ public class FournisseurController implements Initializable {
                 Scene scene = new Scene(loader.load());
                 stage.setScene(scene);
                 stage.setTitle("تحديث مورد");
-
                 // Set the window icon
                 stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
-
                 // Get the controller and set the supplier data
                 UpdateController controller = loader.getController();
                 controller.setFournisseurData(selectedFournisseur); // Ensure you have this method in UpdateController
                 controller.setFournisseurController(this); // Assuming you want to pass the current controller
-
                 // Show the update form
                 stage.show();
             } catch (IOException e) {
-                e.printStackTrace();
+               logger.error(e);
             }
         } else {
             // Show an alert if no supplier is selected
@@ -207,12 +211,14 @@ public class FournisseurController implements Initializable {
 
     @FXML
     public void deleteFournisseur(ActionEvent event) {
+        logger.info("FournisseurController.deleteFournisseur");
         Fournisseur selectedFournisseur = fournisseurTableView.getSelectionModel().getSelectedItem(); // Assuming you have a TableView for fournisseurs
 
         if (selectedFournisseur != null) {
             boolean success = fournisseurDbHelper.deleteFournisseur(selectedFournisseur.getId()); // Call your database helper to delete the fournisseur
 
             if (success) {
+                logger.info("FournisseurController.deleteFournisseur selectedFournisseur successfully deleted");
                 fournisseurObservableList.remove(selectedFournisseur); // Assuming you have an ObservableList for fournisseurs
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف المورد", "تم حذف المورد بنجاح.");
             } else {

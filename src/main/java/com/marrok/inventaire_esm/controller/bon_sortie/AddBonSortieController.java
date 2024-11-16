@@ -23,6 +23,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
+import org.apache.log4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,6 +35,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class AddBonSortieController implements  Initializable {
+    Logger logger = Logger.getLogger(AddBonSortieController.class);
     public DatePicker datePicker;
     public Button clearButton;
 
@@ -63,13 +65,14 @@ public class AddBonSortieController implements  Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initializing AddBonSortieController");
         printButton.setDisable(true);
         setupTableColumns();
         initTable();
         try {
             loadFilter();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+           logger.error(e);
         }
         loadTableData();
         sortieTable.setItems(sortiesList);
@@ -77,6 +80,7 @@ public class AddBonSortieController implements  Initializable {
     }
 
     private void setupTableColumns() {
+        logger.info("setupTableColumns");
         articleColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getIdArticle();
             try {
@@ -95,7 +99,7 @@ public class AddBonSortieController implements  Initializable {
     }
 
     private void loadFilter() throws SQLException {
-
+        logger.info("loadFilter");
         filterView2.getFilterGroups().clear();
         filterView2.setTextFilterProvider(text -> employer -> {
             if(text==null || text.isEmpty()){
@@ -113,14 +117,14 @@ public class AddBonSortieController implements  Initializable {
     }
 
     private void loadTableData() {
+        logger.info("loadTableData ");
         List<Employer> employers = employerDbHelper.getEmployers();
         emploerlist =  FXCollections.observableArrayList(employers);
         filterView2.getItems().setAll(emploerlist);
     }
 
     private void initTable() {
-
-        /**    EMPLOYER   */
+        logger.info("initTable employers");
         id_E.setCellValueFactory(new PropertyValueFactory<>("id"));
         fullname.setCellValueFactory(cellData->{
            String fullname= cellData.getValue().getFirstName()+" "+cellData.getValue().getLastName();
@@ -131,6 +135,7 @@ public class AddBonSortieController implements  Initializable {
 
 
     private void load_srv_ch_bx_data() {
+        logger.info("load_srv_ch_bx_data");
         List<Service> services = serviceDbHelper.getServices();
         List<String> service_names = new ArrayList<>();
         for (Service service : services) {
@@ -144,6 +149,7 @@ public class AddBonSortieController implements  Initializable {
 
 
     public void clearBonSortie(ActionEvent event) {
+        logger.info("clearBonSortie");
         serviceField.getSelectionModel().clearSelection();
         datePicker.setValue(null);
         sortiesList.clear();
@@ -154,6 +160,7 @@ public class AddBonSortieController implements  Initializable {
     }
 
     private boolean saveBonSortieToDatabase(Employer employer,Service service, LocalDate date, ObservableList<Sortie> sorties) {
+        logger.info("saveBonSortie");
         // Create a BonSortie object
         BonSortie bonSortie = new BonSortie(0, employer.getId(),service.getId(), java.sql.Date.valueOf(date));
         // Save BonSortie to the database
@@ -171,25 +178,23 @@ public class AddBonSortieController implements  Initializable {
                 return false;  // Failed to save at least one Sortie
             }
         }
-
         return true;  // Successfully saved the Bon Sortie and all Sortie records
     }
 
     public void printBonSortie(ActionEvent event) {
+        logger.info("printBonSortie");
         Connection connection = null;
         try {
             connection = DatabaseConnection.getInstance().getConnection();
             InputStream reportStream = getClass().getResourceAsStream("/com/marrok/inventaire_esm/reports/Bon_Sortie_Report.jrxml");
             if (reportStream == null) {
-                throw new FileNotFoundException("Report file not found.");
+                logger.error("Report file not found.");
             }
-
-
 
             if (current_bs_id != -1) {
                 parameters.put("bon_sortie_id", current_bs_id);
                 parameters.put("logo", getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"));
-                System.out.println("Parameters: bs= " + parameters);
+               logger.info("Parameters: bs= " + parameters);
             } else {
                 GeneralUtil.showAlert(Alert.AlertType.WARNING, "Error", "Error with current bon entree ID.");
                 return; // Exit if the ID is invalid
@@ -208,17 +213,11 @@ public class AddBonSortieController implements  Initializable {
             viewer.setTitle("وصل إخراج");
             viewer.setVisible(true);
 
-        } catch (FileNotFoundException fnf) {
-            System.out.println("Report file not found: " + fnf.getMessage());
-            fnf.printStackTrace();
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Report file not found: " + fnf.getMessage());
         } catch (SQLException sqlEx) {
-            System.out.println("SQL Error: " + sqlEx.getMessage());
-            sqlEx.printStackTrace();
+            logger.error("SQL Error: " + sqlEx.getMessage());
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "SQL Error", "Error while accessing the database: " + sqlEx.getMessage());
         } catch (Exception ex) {
-            System.out.println("Error generating report: " + ex.getMessage());
-            ex.printStackTrace();
+           logger.error("Error generating report: " + ex.getMessage());
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Error generating report: " + ex.getMessage());
         }
 
@@ -230,6 +229,7 @@ public class AddBonSortieController implements  Initializable {
 
 
     public void saveBonSortie(ActionEvent event) {
+        logger.info("saveBonSortie called");
         // Get selected Employer, Service, and Date
         Employer selectedEmployer = tbData2.getSelectionModel().getSelectedItem();
         String selectedServiceName = serviceField.getSelectionModel().getSelectedItem();
@@ -247,18 +247,20 @@ public class AddBonSortieController implements  Initializable {
 
         // Check the result of saving operation and update the UI accordingly
         if (success) {
-
+            logger.info("BonSortie saved to database");
             GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "Success", "Bon Sortie saved successfully.");
             addItemButton.setDisable(true);
             removeItemButton.setDisable(true);
             saveButton.setDisable(true);  // Disable save button after successful save
             printButton.setDisable(false);  // Enable print button after save
         } else {
+            logger.info("BonSortie save failed");
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "Failure", "Failed to save Bon Sortie.");
         }
     }
 
     public void removeItem(ActionEvent event) {
+        logger.info("removeItem called");
         Sortie selectedSortie = sortieTable.getSelectionModel().getSelectedItem();
         if (selectedSortie != null) {
             sortiesList.remove(selectedSortie);
@@ -268,6 +270,7 @@ public class AddBonSortieController implements  Initializable {
     }
 
     public void addItem(ActionEvent event) {
+        logger.info("addItem called");
         try {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/bon_sortie/add_sortie.fxml"));
         Stage stage = new Stage();
@@ -282,7 +285,7 @@ public class AddBonSortieController implements  Initializable {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+           logger.error("IO Error: " + e);
         }
     }
 

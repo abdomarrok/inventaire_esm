@@ -8,10 +8,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 
 public class AddController {
+    Logger logger = Logger.getLogger(AddController.class);
     @FXML
     private TextField firstNameField;
     @FXML
@@ -27,11 +29,13 @@ public class AddController {
     }
 
     public void setEmployerController(EmployerController employerController) {
+        logger.info("setEmployerController");
         this.employerController = employerController;
     }
 
     @FXML
     private void handleAddEmployer(ActionEvent event) {
+        logger.info("handleAddEmployer");
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
         String title = titleField.getText();
@@ -45,6 +49,7 @@ public class AddController {
         int success = employerDbHelper.addEmployer(newEmployer.getFirstName(), newEmployer.getLastName(), newEmployer.getTitle());
 
         if (success != -1) {
+            logger.info("success addEmployer");
             GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تمت إضافة الموظف بنجاح.");
             employerController.refreshTableData();
             closeWindow();

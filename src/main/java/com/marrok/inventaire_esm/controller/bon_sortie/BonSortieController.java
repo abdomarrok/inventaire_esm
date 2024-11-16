@@ -22,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class BonSortieController implements Initializable {
+    Logger logger = Logger.getLogger(BonSortieController.class);
     public TableView<BonSortie> tableView;
     public TableColumn<BonSortie,Integer> id_bon_sortie;
     public TableColumn<BonSortie,String> employeur;
@@ -41,6 +43,14 @@ public class BonSortieController implements Initializable {
 
     private EmployerDbHelper employerDbHelper=new EmployerDbHelper();
     private BonSortieDbHelper bonSortieDbHelper=new BonSortieDbHelper();
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("BonSortieController initialize");
+        loadData();
+        initializeColumns();
+        setupSearchFilter();
+        setupTableSelectionListener();
+    }
 
     public BonSortieController() throws SQLException {
     }
@@ -52,6 +62,7 @@ public class BonSortieController implements Initializable {
 
 
     public void goBonSortie(ActionEvent event) {
+        logger.info("BonSortieController goBonSortie");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/bon_sortie/add_bon_sortie-view.fxml"));
             Parent root = loader.load();
@@ -64,17 +75,10 @@ public class BonSortieController implements Initializable {
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
             stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+           logger.error(e);
         }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        loadData();
-        initializeColumns();
-        setupSearchFilter();
-        setupTableSelectionListener();
-    }
 
     private void setupTableSelectionListener() {
         tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedbonSortie = newValue);
@@ -87,6 +91,7 @@ public class BonSortieController implements Initializable {
     }
 
     private void showBonSortieDetails(int id) {
+        logger.info("BonSortieController showBonSortieDetails");
         BonSortie selectedBonSortie =bonSortieDbHelper.getBonSortiesById(id);
         if (selectedBonSortie != null) {
             try {
@@ -100,12 +105,11 @@ public class BonSortieController implements Initializable {
             stage.setTitle("Bon Sortie Details");
             stage.show();
             } catch (IOException e) {
-                e.printStackTrace();
-                // Handle the exception (e.g., show an error message)
+               logger.error(e);
             }
         }else {
 
-            System.out.println("BonSortie not found.");
+            logger.error("BonSortie not found.");
         }
 
     }
@@ -125,12 +129,14 @@ public class BonSortieController implements Initializable {
     }
 
     private void loadData() {
+        logger.info("BonSortieController loadData");
         List<BonSortie> bonSorties=bonSortieDbHelper.getBonSorties();
         bonSortiesList = FXCollections.observableArrayList(bonSorties);
         filtredbonSortiesList = new FilteredList<>(bonSortiesList, p -> true);
         tableView.setItems(filtredbonSortiesList);
     }
     private void initializeColumns() {
+        logger.info("BonSortieController initializeColumns");
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
         employeur.setCellValueFactory(new PropertyValueFactory<>("idEmployeur"));
         employeur.setCellValueFactory(cellData->{

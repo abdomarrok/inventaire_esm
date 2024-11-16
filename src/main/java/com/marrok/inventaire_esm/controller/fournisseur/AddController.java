@@ -8,10 +8,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 
 public class AddController {
+    Logger logger = Logger.getLogger(AddController.class);
     public TextField ribField;
     @FXML
     private TextField nameField;
@@ -37,6 +39,7 @@ public class AddController {
     public AddController() throws SQLException {
     }
     public void setFournisseurController(FournisseurController fournisseurController) {
+        logger.info("setFournisseurController");
       this.fournisseurController =fournisseurController;
     }
 
@@ -44,6 +47,7 @@ public class AddController {
 
     @FXML
     public void handleAddFournisseur(ActionEvent event) {
+        logger.info("handleAddFournisseur");
         String name = nameField.getText();
         String rc = rcField.getText();
         String nif = nifField.getText();
@@ -61,6 +65,7 @@ public class AddController {
         int success = fournisseurDbHelper.addFournisseur(fournisseur);
 
         if (success != -1) {
+            logger.info("Fournisseur added");
             GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تمت إضافة المورد بنجاح.");
             fournisseurController.refreshTableData();
             closeWindow();

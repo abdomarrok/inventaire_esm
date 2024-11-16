@@ -8,10 +8,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 
 public class UpdateController {
+    Logger logger = Logger.getLogger(UpdateController.class);
 
     public TextField ribField;
     @FXML
@@ -42,6 +44,7 @@ public class UpdateController {
 
     // Method to set the selected Fournisseur and pre-populate the fields
     public void setSelectedFournisseur(Fournisseur fournisseur) {
+        logger.info("setSelectedFournisseur");
         this.selectedFournisseur = fournisseur;
         nameField.setText(fournisseur.getName());
         rcField.setText(fournisseur.getRc());
@@ -57,12 +60,14 @@ public class UpdateController {
 
     // Link to the main controller
     public void setFournisseurController(FournisseurController fournisseurController) {
+        logger.info("setFournisseurController");
         this.fournisseurController = fournisseurController;
     }
 
     // Handle the update action
     @FXML
     public void handleUpdateFournisseur(ActionEvent event) {
+        logger.info("handleUpdateFournisseur");
         String name = nameField.getText();
         String rc = rcField.getText();
         String nif = nifField.getText();
@@ -90,6 +95,7 @@ public class UpdateController {
             // Update in database
             int result = fournisseurDbHelper.updateFournisseur(selectedFournisseur);
             if (result != -1) {
+                logger.info("updated Fournisseur successfully");
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم تحديث المورد بنجاح.");
                 fournisseurController.refreshTableData();
                 closeWindow();
@@ -98,7 +104,7 @@ public class UpdateController {
             }
         } catch (SQLException e) {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "حدث خطأ أثناء تحديث المورد.");
-            e.printStackTrace();
+           logger.error(e);
         }
     }
 
@@ -115,6 +121,7 @@ public class UpdateController {
     }
 
     public void setFournisseurData(Fournisseur selectedFournisseur) {
+        logger.info("setFournisseurData");
         this.selectedFournisseur = selectedFournisseur;
 
         // Populate the fields with the fournisseur data

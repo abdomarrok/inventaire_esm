@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,6 +26,7 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class EmployerController implements Initializable {
+    Logger logger = Logger.getLogger(EmployerController.class);
 
     @FXML
     public TableView<Employer> tableView;
@@ -62,6 +64,7 @@ public class EmployerController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        logger.info("Initializing EmployerController");
         loadData();
         initializeColumns();
         setupSearchFilter();
@@ -70,7 +73,7 @@ public class EmployerController implements Initializable {
 
     private void initializeColumns() {
         // Set cell value factories
-
+        logger.info("Initializing EmployerController");
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
         id_column.setCellValueFactory(new PropertyValueFactory<>("id"));
         firstname_column.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -79,6 +82,7 @@ public class EmployerController implements Initializable {
     }
 
     public void loadData() {
+        logger.info("Loading EmployerController");
         employerList = FXCollections.observableArrayList(employerDbHelper.getAllEmployers());
         filteredEmployerList = new FilteredList<>(employerList, p -> true);
         tableView.setItems(filteredEmployerList);
@@ -108,6 +112,7 @@ public class EmployerController implements Initializable {
 
     @FXML
     public void addEmployer(ActionEvent event) {
+        logger.info("Adding Employer");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/employer/add_form-view.fxml"));
             Stage stage = new Stage();
@@ -122,13 +127,15 @@ public class EmployerController implements Initializable {
 
             stage.showAndWait();
         } catch (IOException e) {
+            logger.error(e);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة الموظف.");
-            e.printStackTrace();
+
         }
     }
 
     @FXML
     public void updateEmployer(ActionEvent event) {
+        logger.info("Updating Employer");
         Employer selectedEmployer = tableView.getSelectionModel().getSelectedItem();
         if (selectedEmployer != null) {
             try {
@@ -145,7 +152,7 @@ public class EmployerController implements Initializable {
 
                 stage.show();
             } catch (IOException e) {
-                e.printStackTrace();
+               logger.error(e);
             }
         } else {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار موظف للتحديث.");
@@ -155,12 +162,14 @@ public class EmployerController implements Initializable {
 
     @FXML
     public void deleteEmployer(ActionEvent event) {
+        logger.info("Deleting Employer");
         Employer selectedEmployer = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedEmployer != null) {
             boolean success = employerDbHelper.deleteEmployer(selectedEmployer.getId());
 
             if (success) {
+                logger.info("Deleted Employer");
                 employerList.remove(selectedEmployer);
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف الموظف", "تم حذف الموظف بنجاح.");
             } else {

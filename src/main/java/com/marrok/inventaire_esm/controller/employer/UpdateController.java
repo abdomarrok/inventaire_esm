@@ -8,10 +8,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 
 public class UpdateController {
+    Logger logger = Logger.getLogger(UpdateController.class);
     @FXML
     private TextField firstNameField;
     @FXML
@@ -31,6 +33,7 @@ public class UpdateController {
     }
 
     public void setEmployerData(Employer employer) {
+        logger.info("setEmployerData");
         this.currentEmployer = employer;
         firstNameField.setText(employer.getFirstName());
         lastNameField.setText(employer.getLastName());
@@ -39,6 +42,7 @@ public class UpdateController {
 
     @FXML
     private void handleUpdateEmployer(ActionEvent event) {
+        logger.info("handleUpdateEmployer");
         String firstName = firstNameField.getText();
         String lastName = lastNameField.getText();
         String title = titleField.getText();
@@ -56,6 +60,7 @@ public class UpdateController {
         boolean success = employerDbHelper.updateEmployer(currentEmployer);
 
         if (success) {
+            logger.info("updateEmployer success");
             GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم تحديث الموظف بنجاح.");
 
             employerController.refreshTableData();
