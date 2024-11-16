@@ -6,21 +6,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.Properties;
 
 public class Main extends Application {
     public Stage stage;
     private Scene scene;
-    private double xOffset = 0;
-    private double yOffset = 0;
 
     private static final double MINIMUM_WINDOW_WIDTH = 390.0;
     private static final double MINIMUM_WINDOW_HEIGHT = 500.0;
-    private final Properties themeProperties = new Properties();
-
+    private static final Logger logger = LogManager.getLogger(Main.class);
     public static void main(String[] args) {
+        logger.info("Starting Main");
         launch(args);
     }
 
@@ -29,6 +28,7 @@ public class Main extends Application {
         this.stage = stage;
 
         try {
+            logger.info("Loading the login stage");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/login/login-view.fxml"));
             Parent root = loader.load();
 
@@ -42,9 +42,10 @@ public class Main extends Application {
             stage.setResizable(false);
             stage.centerOnScreen();
             stage.show();
+            logger.info("the login stage ready to be used");
 
         } catch (IOException e) {
-            e.printStackTrace();
+           logger.error(e);
         }
 
     }

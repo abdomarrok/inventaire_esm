@@ -29,6 +29,7 @@ module com.marrok.inventaire_esm {
     requires java.logging;
     requires com.dlsc.gemsfx;
     requires fr.brouillard.oss.cssfx;
+    requires log4j;
 
 
     opens com.marrok.inventaire_esm to javafx.fxml;

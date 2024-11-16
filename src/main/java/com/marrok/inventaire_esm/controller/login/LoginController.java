@@ -26,7 +26,6 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 public class LoginController extends AnchorPane implements Initializable {
 
     @FXML
@@ -38,69 +37,52 @@ public class LoginController extends AnchorPane implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
+        // Initialization logic if needed
     }
 
     @FXML
     public void processLogin(ActionEvent event) {
-       login(event);
+        handleLogin(event);
     }
+
     @FXML
     public void processLogin2(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
-            login(keyEvent); // Call the login method when Enter is pressed
+            handleLogin(keyEvent);
         }
     }
 
+    private void handleLogin(Event event) {
+        String user = userId.getText().trim();
+        String pass = password.getText().trim();
 
-    public void login(Event event){
-    String user = userId.getText();
-    String pass = password.getText();
-
-    try {
-        UserDbHelper dbHelper = new UserDbHelper();
-        boolean loginTest = dbHelper.validateLogin(user, pass);
-
-        if (loginTest) {
-            System.out.println("Login success");
-            showDashboard(event);
-        } else {
-            System.out.println("Login failed");
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل التسجيل", "كلمة السر او اسم المستخدم خاطئ");
+        if (user.isEmpty() || pass.isEmpty()) {
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "حقول فارغة", "يرجى إدخال اسم المستخدم وكلمة المرور.");
+            return;
         }
-    } catch (SQLException e) {
-        Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
-        GeneralUtil.showAlert(Alert.AlertType.ERROR,"فشل في الاتصال",e.getMessage());
-        // Handle exception, possibly by showing an alert to the user
+
+        try {
+            UserDbHelper dbHelper = new UserDbHelper();
+            if (dbHelper.validateLogin(user, pass)) {
+                System.out.println("Login successful");
+                if (event instanceof ActionEvent) {
+                    GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/stock_dashboard/stock_dashboard_view.fxml", (ActionEvent) event, true);
+                } else if (event instanceof KeyEvent) {
+                    // Handle scene change differently if needed, or provide a fallback
+                    Node source = (Node) event.getSource();
+                    Stage stage = (Stage) source.getScene().getWindow();
+                    GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/stock_dashboard/stock_dashboard_view.fxml", new ActionEvent(source, stage), true);
+                }
+            } else {
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل التسجيل", "كلمة السر أو اسم المستخدم خاطئ.");
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, e);
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل في الاتصال", "حدث خطأ أثناء محاولة تسجيل الدخول. يرجى المحاولة لاحقاً.");
+        }
     }
-}
-
-private void showDashboard(Event event) {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/stock_dashboard/stock_dashboard_view.fxml"));
-    try {
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        scene.setCursor(Cursor.HAND);
-
-        // Obtain the stage from the event's source
-        Stage stage = null;
-        if (event.getSource() instanceof Node) {
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        } else {
-            System.err.println("Event source is not a Node");
-        }
-
-        if (stage != null) {
-            stage.setScene(scene);
-            stage.setResizable(true);
-            stage.setMaximized(true);
-            stage.centerOnScreen();
-            stage.show();
-        }
-    } catch (IOException ex) {
-        Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-    }
-}
 
 }
+
+
+

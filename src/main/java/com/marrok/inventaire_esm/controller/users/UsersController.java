@@ -17,6 +17,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,7 +26,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class UsersController implements Initializable {
-
+    private static final Logger logger = LogManager.getLogger(UsersController.class);
     @FXML
     private TableView<User> usersTableView;
 
@@ -51,7 +53,7 @@ public class UsersController implements Initializable {
         try {
             dbHelper = new UserDbHelper();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.error(e);
         }
     }
 
@@ -70,16 +72,10 @@ public class UsersController implements Initializable {
     }
 
    public void loadData() {
-        try {
-            userList = FXCollections.observableArrayList(dbHelper.getUsers());
-            filteredUserList = new FilteredList<>(userList, p -> true);
-            usersTableView.setItems(filteredUserList);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في تحميل بيانات المستخدم.");
-
-        }
-    }
+       userList = FXCollections.observableArrayList(dbHelper.getUsers());
+       filteredUserList = new FilteredList<>(userList, p -> true);
+       usersTableView.setItems(filteredUserList);
+   }
 
     private void setupSearchFilter() {
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -113,7 +109,7 @@ public class UsersController implements Initializable {
             controller.setUsersController(this);
             stage.showAndWait();
         } catch (IOException e) {
-            e.printStackTrace();
+             logger.error(e);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في فتح نموذج إضافة المستخدم.");
 
         }
@@ -133,7 +129,7 @@ public class UsersController implements Initializable {
             controller.setUsersController(this);
             stage.showAndWait();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في فتح نموذج إضافة المستخدم.");
 
         }
@@ -143,14 +139,9 @@ public class UsersController implements Initializable {
     @FXML
     private void deleteUser(ActionEvent event) {
         if (selectedUser != null) {
-            try {
-                if (dbHelper.deleteUser(selectedUser.getId())) {
-                    userList.remove(selectedUser);
-                    GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف المستخدم", "تم حذف المستخدم بنجاح.");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في حذف المستخدم.");
+            if (dbHelper.deleteUser(selectedUser.getId())) {
+                userList.remove(selectedUser);
+                GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف المستخدم", "تم حذف المستخدم بنجاح.");
             }
         } else {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار مستخدم للحذف.");

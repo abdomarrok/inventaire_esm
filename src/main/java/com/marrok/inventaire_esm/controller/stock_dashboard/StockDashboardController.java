@@ -131,9 +131,6 @@ public class StockDashboardController implements Initializable {
         GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/employer/employer_view.fxml", event,true);
     }
 
-    public void goBack(ActionEvent event) {
-        GeneralUtil.goBackDashboard(event);
-    }
     @FXML
     private void go_Setting(ActionEvent event){
         GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/settings/settings-view.fxml", event,true);

@@ -15,24 +15,27 @@ import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Optional;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class GeneralUtil {
-
+   private  static  final Logger logger = Logger.getLogger("GeneralUtil");
 
     private static final double MINIMUM_WINDOW_WIDTH = 390.0;
     private static final double MINIMUM_WINDOW_HEIGHT = 500.0;
 
 
     public static void showAlert(Alert.AlertType alertType, String title, String content) {
+        logger.info("showAlert called with alert type " + alertType);
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setContentText(content);
         if (alertType == Alert.AlertType.INFORMATION) {
+            logger.info("showAlert called with information");
             // Create a timeline to close the alert after the specified timeout
             Timeline timeline = new Timeline(new KeyFrame(
                     Duration.millis(500),
@@ -42,9 +45,11 @@ public class GeneralUtil {
             timeline.play();
         }
         alert.showAndWait();
+
     }
 
     public static void showAlertWithOutTimelimit(Alert.AlertType alertType, String title, String content) {
+        logger.info("showAlertWithOutTimelimit called with alert type " + alertType);
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setContentText(content);
@@ -53,6 +58,7 @@ public class GeneralUtil {
     }
 
     public static boolean showConfirmationDialog(String title, String content) {
+        logger.info("showConfirmationDialog called with title " + title);
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setContentText(content);
@@ -61,29 +67,22 @@ public class GeneralUtil {
         return result.isPresent() && result.get() == ButtonType.OK;
     }
 
-    public static void goBackDashboard(ActionEvent event) {
-        loadScene("/com/marrok/inventaire_esm/view/dashboard/dashboard-view.fxml",event,true);
-
-    }
     public static void goBackStockDashboard(ActionEvent event) {
+        logger.info("goBackStockDashboard called");
         loadScene("/com/marrok/inventaire_esm/view/stock_dashboard/stock_dashboard_view.fxml",event,true);
 
     }
 
 
     public static void goBackLogin(ActionEvent event) {
+        logger.info("goBackLogin called");
         loadScene("/com/marrok/inventaire_esm/view/login/login-view.fxml",event,true);
     }
-//    private static BufferedImage generateBarcode(String text) throws WriterException {
-//        int width = 300;
-//        int height = 100;
-//        BitMatrix bitMatrix = new com.google.zxing.MultiFormatWriter().encode(text, BarcodeFormat.CODE_128, width, height);
-//        return MatrixToImageWriter.toBufferedImage(bitMatrix);
-//    }
 
 
 
     public static void loadScene(String resourcePath, ActionEvent event, boolean isResizable) {
+        logger.info("loadScene called" + resourcePath);
         FXMLLoader loader = new FXMLLoader(GeneralUtil.class.getResource(resourcePath));
 
         try {
@@ -96,28 +95,27 @@ public class GeneralUtil {
 
             // Check if the resource path is the login view; if so, don't set dimensions to maximize
             if (resourcePath.contains("login-view")) {
+                logger.info("loadScene called with login-view");
                 // Let the stage size itself based on the scene’s preferred size
                 stage.sizeToScene();
             } else {
                 // For other views, maximize the stage
-                Screen screen = Screen.getPrimary();
-                Rectangle2D bounds = screen.getVisualBounds();
-                stage.setX(bounds.getMinX());
-                stage.setY(bounds.getMinY());
-                stage.setWidth(bounds.getWidth());
-                stage.setHeight(bounds.getHeight());
+//                logger.info(" maximize the stage For other views");
+//                Screen screen = Screen.getPrimary();
+//                Rectangle2D bounds = screen.getVisualBounds();
+//                stage.setX(bounds.getMinX());
+//                stage.setY(bounds.getMinY());
+//                stage.setWidth(bounds.getWidth());
+//                stage.setHeight(bounds.getHeight());
+
 
             }
             stage.setScene(scene);
             stage.setResizable(isResizable);
-
-
-
-
             stage.centerOnScreen();
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(GeneralUtil.class.getName()).log(Level.SEVERE, "Error loading scene: " + resourcePath, ex);
+            logger.error( "Error loading scene: " + resourcePath, ex);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر تحميل المشهد المطلوب. يرجى المحاولة مرة أخرى لاحقًا.");
         }
     }
