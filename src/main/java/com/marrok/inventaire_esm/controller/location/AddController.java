@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddController implements Initializable {
+    Logger logger =Logger.getLogger(AddController.class);
 
     @FXML
     private TextField locationNameField;
@@ -40,10 +42,12 @@ public class AddController implements Initializable {
     LocDbhelper locDbhelper = new LocDbhelper();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initializing location controller");
         load_srv_ch_bx_data();
     }
 
     private void load_srv_ch_bx_data() {
+        logger.info("load_srv_ch_bx_data");
         List<Service> services = serviceDbHelper.getServices();
         List<String> service_names = new ArrayList<>();
         for (Service service : services) {
@@ -59,6 +63,7 @@ public class AddController implements Initializable {
 
     @FXML
     private void handleAdd(ActionEvent event) {
+        logger.info("handleAdd");
         String locName = locationNameField.getText();
         int floor;
         String service = "";
@@ -85,6 +90,7 @@ public class AddController implements Initializable {
             boolean success = locDbhelper.addLocalisation(newLocation);
 
             if (success) {
+                logger.info("location added");
                 // Reload data in the LocationController
                 locationController.loadData();
 

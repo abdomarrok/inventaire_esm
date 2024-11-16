@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddServiceController implements Initializable {
+    Logger logger = Logger.getLogger(AddServiceController.class);
 
     @FXML
     private TextField nameField;
@@ -50,6 +52,7 @@ public class AddServiceController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initializing AddServiceController");
         initTable();
         loadFilter();
         loadTableData();
@@ -57,8 +60,8 @@ public class AddServiceController implements Initializable {
     }
 
     private void loadFilter() {
+        logger.info("Loading filter");
         filterView2.getFilterGroups().clear();
-
         filterView2.setTextFilterProvider(text -> employer -> {
             if(text==null || text.isEmpty()){
                 return true;
@@ -75,12 +78,14 @@ public class AddServiceController implements Initializable {
     }
 
     private void loadTableData() {
+        logger.info("Loading table data");
         List<Employer> employers = employerDbHelper.getEmployers();
         emploerlist =  FXCollections.observableArrayList(employers);
         filterView2.getItems().setAll(emploerlist);
     }
 
     private void initTable() {
+        logger.info("Initializing table");
         id_E.setCellValueFactory(new PropertyValueFactory<>("id"));
         firstname_E.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         lastname_E.setCellValueFactory(new PropertyValueFactory<>("lastName"));
@@ -92,6 +97,7 @@ public class AddServiceController implements Initializable {
 
     @FXML
     private void saveService(ActionEvent event) {
+        logger.info("Saving service");
         String name = nameField.getText().trim();
         Employer selectedEmployer = tbData2.getSelectionModel().getSelectedItem();
 
@@ -105,6 +111,7 @@ public class AddServiceController implements Initializable {
             boolean success = serviceDbHelper.addService(service);
 
             if (success) {
+                logger.info("Service successfully added");
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تمت إضافة المصلحة بنجاح.");
 
                 servicesController.refreshTableData();

@@ -22,6 +22,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,6 +32,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class InventaireItemController implements Initializable {
+    Logger logger = Logger.getLogger(InventaireItemController.class);
 
 
     public TableView<Inventaire_Item> tableView;
@@ -81,6 +83,7 @@ public class InventaireItemController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        logger.info("InventaireItemController initialize");
         checkUserRole();
         loadData();
         initializeColumns();
@@ -89,6 +92,7 @@ public class InventaireItemController implements Initializable {
     }
 
     private void checkUserRole() {
+        logger.info("InventaireItemController checkUserRole");
         // Initialize theme properties
         user_id = SessionManager.getActiveUserId();
         if (user_id != -1) {
@@ -97,13 +101,14 @@ public class InventaireItemController implements Initializable {
             if (user_role != null) {
                 customizeInventaireViewForRole(user_role);
             }else {
-                System.out.println("user_role is null");
+               logger.error("user_role is null");
 
             }
         }
     }
 
     private void customizeInventaireViewForRole(String role) {
+        logger.info("InventaireItemController customizeInventaireViewForRole");
         switch (role) {
             case "Admin":
                 // Admin sees everything
@@ -124,11 +129,8 @@ public class InventaireItemController implements Initializable {
     }
 
     private void initializeColumns() {
-
+        logger.info("InventaireItemController initializeColumns");
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
-
-        // localisationIdColumn.setCellValueFactory(new PropertyValueFactory<>("localisation_id"));
-        // Custom cell value factory to get the localisation name by its id
         localisationIdColumn.setCellValueFactory(cellData -> {
             int idLocalisation = cellData.getValue().getLocalisation_id();
 
@@ -209,6 +211,7 @@ public class InventaireItemController implements Initializable {
     }
 
     private void loadData() {
+        logger.info("InventaireItemController loadData");
         inventaireItemList = FXCollections.observableArrayList(inventaireItemDbHelper.getInventaireItems());
         filteredInventaireItemList = new FilteredList<>(inventaireItemList, p -> true);
         tableView.setItems(filteredInventaireItemList);
@@ -250,7 +253,7 @@ public class InventaireItemController implements Initializable {
 
 
     private void showInventaireDetails(int id) {
-
+        logger.info("InventaireItemController showInventaireDetails");
         try {
             Inventaire_Item selectedInventaire = inventaireItemDbHelper.getInevntaireItemById(id);
             if (selectedInventaire != null) {
@@ -273,7 +276,7 @@ public class InventaireItemController implements Initializable {
 
 
         } catch (SQLException | IOException e) {
-            e.printStackTrace();
+            logger.error(e);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في تحميل عرض تفاصيل عنصر الجرد.");
 
         }
@@ -282,6 +285,7 @@ public class InventaireItemController implements Initializable {
 
 
     public void addInventaireItem(ActionEvent event) {
+        logger.info("InventaireItemController addInventaireItem");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/add_form-view.fxml"));
             Stage stage = new Stage();
@@ -296,14 +300,14 @@ public class InventaireItemController implements Initializable {
 
             stage.showAndWait();
         } catch (IOException e) {
+            logger.error(e);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة عنصر الجرد.");
-
-            e.printStackTrace();
         }
     }
 
     @FXML
     public void updateInventaireItem(ActionEvent event) {
+        logger.info("InventaireItemController updateInventaireItem");
         Inventaire_Item selectedItem = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedItem != null) {
@@ -312,7 +316,6 @@ public class InventaireItemController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/inventaire/update_form-view.fxml"));
                 Stage stage = new Stage();
                 Scene scene = new Scene(loader.load());
-
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
                 stage.setTitle("تحديث عنصر الجرد");
@@ -327,9 +330,8 @@ public class InventaireItemController implements Initializable {
                 // Refresh the table view after the update
                 refreshTableData();
             } catch (IOException e) {
+                logger.error(e);
                 GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج تحديث عنصر الجرد.");
-
-                e.printStackTrace();
             }
         } else {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار عنصر للتحديث.");
@@ -342,14 +344,15 @@ public class InventaireItemController implements Initializable {
 
     @FXML
     public void deleteInventaireItem(ActionEvent event) {
+        logger.info("InventaireItemController deleteInventaireItem");
         Inventaire_Item selectedItem = tableView.getSelectionModel().getSelectedItem();
-
         if (selectedItem != null) {
             boolean test = GeneralUtil.showConfirmationDialog("تاكيد", "هل متاكد انك تريد حذف هذا الجرد" + selectedItem.getNum_inventaire());
             if(test){
                 try {
                     boolean isDeleted = inventaireItemDbHelper.deleteInventaireItem(selectedItem.getId());
                     if (isDeleted) {
+                        logger.info("InventaireItemController deleteed InventaireItem");
                         refreshTableData();
                         GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تم حذف العنصر بنجاح.");
 
@@ -358,7 +361,7 @@ public class InventaireItemController implements Initializable {
 
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();  // Optional: Log the exception
+                    logger.error(e);
                     GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "حدث خطأ أثناء محاولة حذف العنصر.");
 
                 }

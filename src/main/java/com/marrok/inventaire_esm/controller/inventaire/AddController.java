@@ -17,6 +17,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddController implements Initializable {
+    Logger logger = Logger.getLogger(AddController.class);
 
     public ChoiceBox<String> status_inventaire;
     public DatePicker calendarPicker1;
@@ -60,6 +62,7 @@ public class AddController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initializing AddController");
         initTable();
         loadChoiceBoxData();
         try {
@@ -77,6 +80,7 @@ public class AddController implements Initializable {
 
 
     private void loadFilter() throws SQLException {
+        logger.info("Loading filter");
         filterView.getFilterGroups().clear();
         filterView2.getFilterGroups().clear();
         filterView.setTextFilterProvider(text-> article -> {
@@ -109,6 +113,7 @@ public class AddController implements Initializable {
         sortedList2.comparatorProperty().bind(tbData2.comparatorProperty());
     }
     private void initTable() {
+        logger.info("Initializing table");
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         article_name.setCellValueFactory(new PropertyValueFactory<>("name"));
 
@@ -119,6 +124,7 @@ public class AddController implements Initializable {
     }
 
     private void loadTableData() throws SQLException {
+        logger.info("Loading table data");
         List<Article> articles = articleDbhelper.getArticles();
         List<Employer> employers = employerDbHelper.getEmployers();
 
@@ -129,6 +135,7 @@ public class AddController implements Initializable {
     }
 
     public void handleAdd(ActionEvent event) {
+        logger.info("handleAdd");
         // Get the selected article from the TableView
         Article selectedArticle = tbData.getSelectionModel().getSelectedItem();
         Employer selectedEmployer=tbData2.getSelectionModel().getSelectedItem();
@@ -174,6 +181,7 @@ public class AddController implements Initializable {
     }
 
     private void loadChoiceBoxData() {
+        logger.info("loadChoiceBoxData called");
 
       //  employerChoiceBox.getItems().addAll(employers);
 

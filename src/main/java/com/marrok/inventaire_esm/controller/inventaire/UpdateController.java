@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -28,6 +29,7 @@ import java.util.ResourceBundle;
 import static com.marrok.inventaire_esm.util.GeneralUtil.showAlert;
 
 public class UpdateController implements Initializable {
+    Logger logger = Logger.getLogger(UpdateController.class);
 
     public ChoiceBox<String> status_inventaire;
     public DatePicker calendarPicker1;
@@ -69,6 +71,7 @@ public class UpdateController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initialize UpdateController");
         initTable();
         loadChoiceBoxData();
         try {
@@ -76,7 +79,7 @@ public class UpdateController implements Initializable {
             loadTableData(); // Load data once
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+          logger.error(e);
         }
         CSSFX.start();
     }
@@ -86,6 +89,7 @@ public class UpdateController implements Initializable {
     }
 
     private void loadFilter() throws SQLException {
+        logger.info("loadFilter");
         filterView.getFilterGroups().clear();
         filterView2.getFilterGroups().clear();
         filterView.setTextFilterProvider(text-> article -> {
@@ -98,7 +102,6 @@ public class UpdateController implements Initializable {
                     String.valueOf(article.getId()).toLowerCase().contains(lowerCase);
 
         });
-
 
         filterView2.setTextFilterProvider(text -> employer -> {
             if(text==null || text.isEmpty()){
@@ -119,6 +122,7 @@ public class UpdateController implements Initializable {
     }
 
     private void initTable() {
+        logger.info("initTable");
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         article_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         /**    EMPLOYER   */
@@ -128,6 +132,7 @@ public class UpdateController implements Initializable {
     }
 
     private void loadTableData() throws SQLException {
+        logger.info("loadTableData");
         List<Article> articles = articleDbhelper.getArticles();
         List<Employer> employers = employerDbHelper.getEmployers();
 
@@ -141,6 +146,7 @@ public class UpdateController implements Initializable {
 
 
     public void setInventaireItem(Inventaire_Item inventaireItem) {
+        logger.info("setInventaireItem");
         this.inventaireItem = inventaireItem;
         try {
             String selectedLoc = locDbhelper.getLocalisationById(inventaireItem.getLocalisation_id()).getLocName();
@@ -211,7 +217,7 @@ public class UpdateController implements Initializable {
             calendarPicker1.setValue(selectedDate);
 
         } catch (Exception e) {
-            e.printStackTrace();
+           logger.error(e);
             showAlert(Alert.AlertType.ERROR, "Erreur", e.getMessage());
         }
 
@@ -221,6 +227,7 @@ public class UpdateController implements Initializable {
 
     @FXML
     private void handleUpdate() {
+        logger.info("handleUpdate");
         try {
             // Get the selected location name from the ChoiceBox
             String selectedLocation = locationChoiceBox.getSelectionModel().getSelectedItem();
@@ -246,12 +253,14 @@ public class UpdateController implements Initializable {
             parentController.refreshTableData(); // Refresh the table data in the parent controller
             closeWindow();
         } catch (Exception e) {
+            logger.error(e);
             showAlert(Alert.AlertType.ERROR, "Erreur", e.getMessage());
             closeWindow();
         }
     }
 
     private void loadChoiceBoxData() {
+        logger.info("loadChoiceBoxData");
         List<Localisation> Locations = locDbhelper.getLocalisations();
         List<String> locations_and_floor = new ArrayList<>();
         for (Localisation l : Locations) {

@@ -59,6 +59,7 @@ public class UsersController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        logger.info("Initializing UsersController");
         initializeColumns();
         loadData();
         setupSearchFilter();
@@ -66,12 +67,14 @@ public class UsersController implements Initializable {
     }
 
     private void initializeColumns() {
+        logger.info("Initializing UsersController Columns");
         userIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         userNameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
     }
 
    public void loadData() {
+        logger.info("Loading UsersController data");
        userList = FXCollections.observableArrayList(dbHelper.getUsers());
        filteredUserList = new FilteredList<>(userList, p -> true);
        usersTableView.setItems(filteredUserList);
@@ -97,6 +100,7 @@ public class UsersController implements Initializable {
 
     @FXML
     private void addUser(ActionEvent event) {
+        logger.info("Adding new user");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/users/add_form-view.fxml"));
             Parent root = loader.load();

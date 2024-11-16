@@ -12,17 +12,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class SettingsView {
+    Logger logger = Logger.getLogger("SettingsView");
     
 
     @FXML
     private void handleBackupData(ActionEvent event) {
+        logger.log(Level.INFO, "Backup Data");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("اختر موقع النسخ الاحتياطي");
 
@@ -43,11 +46,8 @@ public class SettingsView {
 
             } catch (Exception e) {
                 // Show error alert
+                logger.error(e);
                 GeneralUtil.showAlert(Alert.AlertType.ERROR, "نسخ احتياطي", "فشل النسخ الاحتياطي: " + e.getMessage());
-
-
-                // Optionally log the exception
-                e.printStackTrace();
             }
         } else {
             // Show warning alert if no file was selected
@@ -80,7 +80,7 @@ public class SettingsView {
             stage.setScene(scene);
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+          logger.error(ex);
         }
     }
 

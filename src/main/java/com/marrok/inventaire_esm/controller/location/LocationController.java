@@ -19,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +29,7 @@ import java.util.ResourceBundle;
 
 public class LocationController implements Initializable {
 
-
+Logger logger = Logger.getLogger(LocationController.class);
     public TableColumn location_name;
     public TableColumn room_name;
     public TableColumn<Localisation,Integer> floor_id;
@@ -49,6 +50,7 @@ public class LocationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initializing LocationController");
         loadData();
         initializeColumns();
         setupSearchFilter();
@@ -67,6 +69,7 @@ public class LocationController implements Initializable {
     }
 
     private void initializeColumns() {
+        logger.info("Initializing columns");
         location_id.setCellValueFactory(new PropertyValueFactory<>("id"));
         location_name.setCellValueFactory(new PropertyValueFactory<>("locName"));
         floor_id.setCellValueFactory(new PropertyValueFactory<>("floor"));
@@ -89,6 +92,7 @@ public class LocationController implements Initializable {
     }
 
     public void loadData() {
+        logger.info("Loading data");
         locationsList = FXCollections.observableArrayList(locDbhelper.getLocalisations());
         filteredLocationsList = new FilteredList<>(locationsList, p -> true);
         location_tableView.setItems(filteredLocationsList);
@@ -96,15 +100,16 @@ public class LocationController implements Initializable {
 
     @FXML
     public void deleteLocation(ActionEvent event) {
+        logger.info("Deleting location");
         if (selectedLocalisation == null) {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "لم يتم اختيار موقع. يرجى اختيار موقع للحذف.");
-
             return;
         }
 
         boolean success = locDbhelper.deleteLocalisation(selectedLocalisation.getId());
 
         if (success) {
+            logger.info("Location deleted successfully");
             loadData();
         } else {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في حذف الموقع.");
@@ -115,6 +120,7 @@ public class LocationController implements Initializable {
 
     @FXML
     public void updateLocation(ActionEvent event) {
+        logger.info("Updating location");
         if (selectedLocalisation == null) {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "لم يتم اختيار موقع. يرجى اختيار موقع للتحديث.");
 
@@ -136,21 +142,20 @@ public class LocationController implements Initializable {
 
             stage.showAndWait();
         } catch (IOException e) {
+            logger.error(e);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج تحديث العنصر.");
-            e.printStackTrace();
+
         }
     }
 
     @FXML
     public void addLocation(ActionEvent event) {
+        logger.info("Adding location");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/location/Add.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(loader.load());
-//            TransitTheme transitTheme = new TransitTheme(Style.LIGHT);
-//              transitTheme.setScene(scene);
             stage.setScene(scene);
-
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("إظافة مكان");
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
@@ -160,9 +165,8 @@ public class LocationController implements Initializable {
 
             stage.showAndWait();
         } catch (IOException e) {
+            logger.error(e);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة العنصر.");
-
-            e.printStackTrace();
         }
     }
 

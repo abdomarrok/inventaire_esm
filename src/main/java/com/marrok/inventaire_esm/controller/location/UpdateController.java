@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class UpdateController implements Initializable {
+    Logger logger = Logger.getLogger(UpdateController.class);
 
     @FXML
     private TextField locationNameField;
@@ -39,9 +41,11 @@ public class UpdateController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initializing location controller");
         load_srv_ch_bx_data();
     }
     private void load_srv_ch_bx_data() {
+        logger.info("load_srv_ch_bx_data");
         List<Service> services = serviceDbHelper.getServices();
         List<String> service_names = new ArrayList<>();
         for (Service service : services) {
@@ -58,6 +62,7 @@ public class UpdateController implements Initializable {
     }
 
     public void setLocalisation(Localisation localisation) {
+        logger.info("setLocalisation");
         this.localisation = localisation;
         locationNameField.setText(localisation.getLocName());
         floorField.setText(String.valueOf(localisation.getFloor()));
@@ -69,6 +74,7 @@ public class UpdateController implements Initializable {
 
     @FXML
     private void handleUpdate(ActionEvent event) {
+        logger.info("handleUpdate");
         String locName = locationNameField.getText();
 
         int floor;
@@ -93,6 +99,7 @@ public class UpdateController implements Initializable {
             boolean success = locDbhelper.updateLocalisation(localisation);
 
             if (success) {
+                logger.info("updated localisation success");
                 locationController.loadData();
                 Stage stage = (Stage) locationNameField.getScene().getWindow();
                 stage.close();

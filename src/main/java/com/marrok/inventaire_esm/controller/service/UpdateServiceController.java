@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class UpdateServiceController implements Initializable {
+    Logger logger = Logger.getLogger(UpdateServiceController.class);
 
     @FXML
     private TextField nameField;
@@ -46,6 +48,7 @@ public class UpdateServiceController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initializing UpdateServiceController");
         initTable();
         loadFilter();
         loadTableData();
@@ -55,16 +58,19 @@ public class UpdateServiceController implements Initializable {
         this.servicesController = servicesController;
     }
     private void initTable() {
+        logger.info("Initializing table");
         id_E.setCellValueFactory(new PropertyValueFactory<>("id"));
         firstname_E.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         lastname_E.setCellValueFactory(new PropertyValueFactory<>("lastName"));
     }
     private void loadTableData() {
+        logger.info("Loading table data");
         List<Employer> employers = employerDbHelper.getEmployers();
         emploerlist =  FXCollections.observableArrayList(employers);
         filterView2.getItems().setAll(emploerlist);
     }
     private void loadFilter() {
+        logger.info("Loading filter");
         filterView2.getFilterGroups().clear();
 
         filterView2.setTextFilterProvider(text -> employer -> {
@@ -83,6 +89,7 @@ public class UpdateServiceController implements Initializable {
     }
 
     public void setServiceData(int serviceId) {
+        logger.info("Setting service data");
         this.serviceId = serviceId;
         Service service = serviceDbHelper.getServiceById(serviceId);
 
@@ -104,6 +111,7 @@ public class UpdateServiceController implements Initializable {
 
     @FXML
     private void updateService(ActionEvent event) {
+        logger.info("Updating service");
         String name = nameField.getText().trim();
         int serviceId = this.serviceId;
         Employer selectedEmployer = tbData2.getSelectionModel().getSelectedItem();
@@ -119,6 +127,7 @@ public class UpdateServiceController implements Initializable {
 
             boolean success = serviceDbHelper.updateService(service);
             if (success) {
+                logger.info("Successfully updated service");
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تمت إضافة المصلحة بنجاح.");
 
                 servicesController.refreshTableData();

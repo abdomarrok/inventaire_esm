@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,6 +26,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ServicesController implements Initializable {
+    Logger logger = Logger.getLogger(ServicesController.class);
 
     public TableColumn<Service,String> chef_service_Column;
     @FXML
@@ -54,6 +56,7 @@ public class ServicesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initializing ServicesController");
         loadServices();
         initializeColumns();
         setupSearchFilter();
@@ -72,6 +75,7 @@ public class ServicesController implements Initializable {
         });
     }
     private void initializeColumns() {
+        logger.info("Initializing columns");
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         chef_service_Column.setCellValueFactory(cellData ->{
@@ -88,6 +92,7 @@ public class ServicesController implements Initializable {
 
     @FXML
     private void loadServices() {
+        logger.info("Loading services");
         servicesList = FXCollections.observableArrayList(serviceDbHelper.getServices());
 
         filteredServicesList = new FilteredList<>(servicesList, p -> true);
@@ -105,6 +110,7 @@ public class ServicesController implements Initializable {
 
     @FXML
     public void addService(ActionEvent event) {
+        logger.info("Adding service");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/service/add_form-view.fxml"));
             Stage stage = new Stage();
@@ -120,13 +126,13 @@ public class ServicesController implements Initializable {
             stage.showAndWait();
         } catch (IOException e) {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة المصلحة.");
-
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 
     @FXML
     public void updateService(ActionEvent event) {
+        logger.info("Updating service");
         Service selectedService = (Service) servicesTable.getSelectionModel().getSelectedItem();
         if (selectedService != null) {
             try {
@@ -142,7 +148,7 @@ public class ServicesController implements Initializable {
 
                 stage.show();
             } catch (IOException e) {
-                e.printStackTrace();
+               logger.error(e);
             }
         } else {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار مصلحة للتحديث.");
@@ -151,12 +157,14 @@ public class ServicesController implements Initializable {
     }
     @FXML
     public void deleteService(ActionEvent event) {
+        logger.info("deleteService");
         Service selectedService = (Service) servicesTable.getSelectionModel().getSelectedItem();
 
         if (selectedService != null) {
             boolean success = serviceDbHelper.deleteService(selectedService.getId());
 
             if (success) {
+                logger.info("deleteService success");
                 servicesList.remove(selectedService);
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف المصلحة", "تم حذف المصلحة بنجاح.");
             } else {

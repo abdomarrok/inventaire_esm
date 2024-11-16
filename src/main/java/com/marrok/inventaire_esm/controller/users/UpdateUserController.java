@@ -10,12 +10,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class UpdateUserController implements Initializable {
+    Logger logger = Logger.getLogger(UpdateUserController.class);
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
     @FXML private ChoiceBox<String> roleChoiceBox;
@@ -29,7 +31,7 @@ public class UpdateUserController implements Initializable {
         try {
             udbhlper = new UserDbHelper();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+           logger.error(e);
         }
     }
 
@@ -39,12 +41,14 @@ public class UpdateUserController implements Initializable {
     }
 
     private void initializeRoleChoiceBox() {
+        logger.info("Initializing role choice box");
         // Initialize the ChoiceBox with roles
         roleChoiceBox.getItems().addAll("Admin", "User","Editor"); // Add roles as needed
 
     }
 
     public void setUser(User user) {
+        logger.info("Setting user");
         this.user = user;
         // Populate fields with user data
         if (user != null) {
@@ -56,6 +60,7 @@ public class UpdateUserController implements Initializable {
 
     @FXML
     public void updateUser(ActionEvent event) {
+        logger.info("Updating user");
         if (user == null) {
            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "لم يتم اختيار مستخدم للتحديث.");
 
@@ -83,6 +88,7 @@ public class UpdateUserController implements Initializable {
             usersController.loadData();
             closeForm();
         } catch (Exception e) {
+            logger.error(e);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في تحديث المستخدم: " + e.getMessage());
 
         }

@@ -20,6 +20,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
+import org.apache.log4j.Logger;
 
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DetailController {
+    Logger logger = Logger.getLogger(DetailController.class);
     public Label inventaire_status;
     @FXML
     private Label numInventaireLabel;
@@ -63,6 +65,7 @@ public class DetailController {
     }
 
     public void setInventaireDetails(Inventaire_Item selectedInventaire) throws SQLException {
+        logger.info("setInventaireDetails");
         this.inventaireItem = selectedInventaire;
         udbhelper = new UserDbHelper();
         articleDbhelper=new ArticleDbHelper();
@@ -71,10 +74,9 @@ public class DetailController {
         employerDbHelper = new EmployerDbHelper();
 
         if (inventaireItem != null) {
-
             Article currentarticle = articleDbhelper.getArticleById(inventaireItem.getArticle_id());
             Inventaire_Item currentInventaireItem = inventaireItemDbhelper.getInevntaireItemById(inventaireItem.getId());
-            System.out.println(currentarticle + " " + currentInventaireItem);
+            logger.info(currentarticle + " " + currentInventaireItem);
             if (currentarticle != null && currentInventaireItem != null) {
                 numInventaireLabel.setText(selectedInventaire.getNum_inventaire());
                 idLabel.setText(String.valueOf(currentInventaireItem.getId()));
@@ -90,9 +92,8 @@ public class DetailController {
                 inventaire_status.setText(currentInventaireItem.getStatus());
                 userIdLabel.setText(userName);
             } else {
-                System.out.println(" else currentarticle != null && currentInventaireItem != null");
+              logger.info(" else currentarticle != null && currentInventaireItem != null");
             }
-
 
             BufferedImage barcodeImage = null;
             try {
@@ -103,13 +104,14 @@ public class DetailController {
                 // Set the image to ImageView in FXML
                 barcodeImageView.setImage(fxImage);
             } catch (WriterException e) {
-                throw new RuntimeException(e);
+              logger.error(e);
             }
 
         }
     }
 
     public void printDetInvetaire(ActionEvent actionEvent) {
+        logger.info("printDetInvetaire");
         Connection connection = null;
         try {
             // Load the Jasper report
@@ -117,7 +119,7 @@ public class DetailController {
             Integer inventaireItemId =inventaireItem.getId();
             InputStream reportStream = getClass().getResourceAsStream("/com/marrok/inventaire_esm/reports/InventaireDetails.jrxml");
             if (reportStream == null) {
-                throw new FileNotFoundException("Report file not found.");
+                logger.error("Report file not found.");
             }
             JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
             // Create parameters map
@@ -130,20 +132,16 @@ public class DetailController {
             viewer.setTitle("تفاصيل الجرد");
             viewer.setVisible(true);
 
-        } catch (FileNotFoundException fnf) {
-            System.out.println("Report file not found: " + fnf.getMessage());
-            fnf.printStackTrace();
         } catch (SQLException sqlEx) {
-            System.out.println("SQL Error: " + sqlEx.getMessage());
-            sqlEx.printStackTrace();
+            logger.error("SQL Error: " + sqlEx.getMessage());
         } catch (Exception ex) {
-            System.out.println("Error generating report: " + ex.getMessage());
-            ex.printStackTrace();
+            logger.error("Error generating report: " + ex.getMessage());
         }
     }
 
 
     private BufferedImage generateBarcode(String text) throws WriterException {
+        logger.info("generateBarcode");
         int width = 400;
         int height = 200;
         BitMatrix bitMatrix = new com.google.zxing.MultiFormatWriter().encode(text, BarcodeFormat.CODE_128, width, height);

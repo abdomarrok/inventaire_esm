@@ -22,6 +22,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
 
 
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.util.IOUtils;
@@ -36,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class FicheInventaireController implements Initializable {
+    Logger logger =Logger.getLogger(FicheInventaireController.class);
     @FXML
     private Button bk_Dashboard_from_fiche_inventaire;
     @FXML
@@ -47,10 +49,10 @@ public class FicheInventaireController implements Initializable {
     Map<String, Object> parameters = new HashMap<>();
     private ObservableList<Service> servicesList;
     private ObservableList<Localisation> localisationsList;
-    private ServiceDbHelper serviceDbHelper= new ServiceDbHelper();
-    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
-    private LocDbhelper locDbhelper = new LocDbhelper();
-    private InventaireItemDbHelper inventaireItemDbhelper = new InventaireItemDbHelper();
+    private final ServiceDbHelper serviceDbHelper= new ServiceDbHelper();
+    private final ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    private final LocDbhelper locDbhelper = new LocDbhelper();
+    private final InventaireItemDbHelper inventaireItemDbhelper = new InventaireItemDbHelper();
 
     // Define available years for the ChoiceBox
     Integer[] availableYears = {2013,2014,2015,2016,2017
@@ -63,6 +65,7 @@ public class FicheInventaireController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        logger.info("Initializing FicheInventaireController");
         loadServices();
         loadLocalisations(); // Load optional localisations
         // Populate the ChoiceBox with years
@@ -71,19 +74,19 @@ public class FicheInventaireController implements Initializable {
     // Load services into the service ChoiceBox
     @FXML
     private void loadServices() {
+        logger.info("Loading services");
         servicesList = FXCollections.observableArrayList(serviceDbHelper.getServices());
         ObservableList<String> serviceNames = FXCollections.observableArrayList();
-
         serviceNames.add("All Services"); // Add "All" option for optional selection
         for (Service service : servicesList) {
             serviceNames.add(service.getName());
         }
-
         selected_service_choiceBox.setItems(serviceNames);
     }
     // Load localisations into the localisation ChoiceBox
     @FXML
     private void loadLocalisations() {
+        logger.info("Loading localisations");
         localisationsList = FXCollections.observableArrayList(locDbhelper.getLocalisations());
         ObservableList<String> localisationNames = FXCollections.observableArrayList();
         localisationNames.add("All Localisations"); // Add "All" option for optional selection
@@ -95,11 +98,13 @@ public class FicheInventaireController implements Initializable {
     // Handle the extraction of the inventory report
     @FXML
     public void extacteFicheInventaire(ActionEvent event) {
+        logger.info("Extacte FicheInventaire");
         // Get the selected year, service, and localisation
         Integer selectedYear = inv_year_choiceBox.getValue();
         String selectedServiceName = selected_service_choiceBox.getValue();
         String selectedLocalisationName = selected_localisation_choiceBox.getValue();
         if (selectedYear == null) {
+            logger.error("No year selected");
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "Selection Error", "Please select a year.");
             return; // Exit if year is not selected
         }
@@ -148,12 +153,13 @@ public class FicheInventaireController implements Initializable {
             generateReport(selectedYear, selectedServiceName, selectedLocalisationName, inventoryItems);
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while fetching the inventory data.");
         }
     }
 
     public void generateJasperReport(ActionEvent event) {
+        logger.info("Generating JasperReport");
         Integer selectedYear = inv_year_choiceBox.getValue();
         String selectedServiceName = selected_service_choiceBox.getValue();
         String selectedLocalisationName = selected_localisation_choiceBox.getValue();
@@ -165,16 +171,14 @@ public class FicheInventaireController implements Initializable {
             // Load the report from the resources folder
             InputStream reportStream = getClass().getResourceAsStream("/com/marrok/inventaire_esm/reports/report.jrxml");
             if (reportStream == null) {
-                throw new FileNotFoundException("Report file not found.");
+                logger.error("Report file not found.");
             }
-
-            // Compile the report
             JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
             parameters.put("logo", getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"));
 
-
             // Check if year is selected
             if (selectedYear == null) {
+                logger.error("No year selected");
                 GeneralUtil.showAlert(Alert.AlertType.WARNING, "Selection Error", "Please select a year.");
                 return;
             }
@@ -236,21 +240,18 @@ public class FicheInventaireController implements Initializable {
             viewer.setTitle("مستخلص الجرد");
             viewer.setVisible(true);
 
-        } catch (FileNotFoundException fnf) {
-            System.out.println("Report file not found: " + fnf.getMessage());
-            fnf.printStackTrace();
         } catch (SQLException sqlEx) {
-            System.out.println("SQL Error: " + sqlEx.getMessage());
-            sqlEx.printStackTrace();
+            logger.error("SQL Error: " + sqlEx.getMessage());
+
         } catch (Exception ex) {
-            System.out.println("Error generating report: " + ex.getMessage());
-            ex.printStackTrace();
+            logger.error("Error generating report: " + ex.getMessage());
         }
     }
 
 
 
     private void generateReport(int year, String serviceName, String localisationName, List<Inventaire_Item> items) {
+        logger.error("generateReport excel");
         Workbook workbook = new XSSFWorkbook(); // Create a new Excel workbook
         Sheet sheet = workbook.createSheet("Inventory Report"); // Create a new sheet in the workbook
         setSheetMargins(sheet);
@@ -266,6 +267,7 @@ public class FicheInventaireController implements Initializable {
     }
 
     private void setSheetMargins(Sheet sheet) {
+        logger.info("setSheetMargins");
         sheet.setMargin(Sheet.TopMargin, 0.75);
         sheet.setMargin(Sheet.BottomMargin, 0.75);
         sheet.setMargin(Sheet.LeftMargin, 0.75);
@@ -273,6 +275,7 @@ public class FicheInventaireController implements Initializable {
     }
 
     private void createHeaderRow(Sheet sheet, Workbook workbook) {
+        logger.info("createHeaderRow");
         Row headerRow = sheet.createRow(0);
         Cell headerCell = headerRow.createCell(0);
         headerCell.setCellValue("République Algérienne Démocratique et Populaire\nMinistère de la Justice\nEcole Supérieure de la Magistrature");
@@ -285,10 +288,10 @@ public class FicheInventaireController implements Initializable {
     }
 
     private void createLogoRow(Sheet sheet, Workbook workbook) {
-        System.out.println("Adding logo...");
+       logger.error("Adding logo...");
         try (InputStream is = this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")) {
             if (is == null) {
-                System.err.println("Logo file not found.");
+                logger.error("Logo file not found.");
                 return;
             }
             byte[] inputImageBytes1 = IOUtils.toByteArray(is);
@@ -325,15 +328,15 @@ public class FicheInventaireController implements Initializable {
             if (!isOverlappingMergedRegion(sheet, newRegion)) {
                 sheet.addMergedRegion(newRegion); // Merging A2:D2 for logo area
             } else {
-                System.err.println("Merged region A2:D2 overlaps with an existing region.");
+               logger.error("Merged region A2:D2 overlaps with an existing region.");
             }
         } catch (IOException e) {
-            System.err.println("Error adding logo: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("Error adding logo: " + e.getMessage());
         }
     }
 
     private boolean isOverlappingMergedRegion(Sheet sheet, CellRangeAddress newRegion) {
+        logger.info("isOverlappingMergedRegion");
         for (int i = 0; i < sheet.getNumMergedRegions(); i++) {
             CellRangeAddress existingRegion = sheet.getMergedRegion(i);
             if (existingRegion.intersects(newRegion)) { // Check intersection with new region
@@ -345,6 +348,7 @@ public class FicheInventaireController implements Initializable {
 
 
     private void createTitleRow(Sheet sheet, Workbook workbook) {
+        logger.info("createTitleRow");
         Row titleRow = sheet.createRow(3);
         Cell titleCell = titleRow.createCell(0);
         titleCell.setCellValue("Fiche d'Inventaire");
@@ -353,12 +357,14 @@ public class FicheInventaireController implements Initializable {
     }
 
     private void createLocalisationRow(Sheet sheet, String localisationName) {
+        logger.info("createLocalisationRow");
         Row localisationRow = sheet.createRow(4);
         localisationRow.createCell(0).setCellValue("Localisation: " + (localisationName != null ? localisationName : "tout Localisations"));
         sheet.addMergedRegion(new CellRangeAddress(3, 3, 0, 2)); // Merging localisation across columns A to C
     }
 
     private void createTableHeaderRow(Sheet sheet, Workbook workbook) {
+        logger.info("createTableHeaderRow");
         Row tableHeaderRow = sheet.createRow(5);
         String[] headers = {"Code barre", "Designation", "N° Inventaire"};
         for (int i = 0; i < headers.length; i++) {
@@ -370,6 +376,7 @@ public class FicheInventaireController implements Initializable {
     }
 
     private void populateDataRows(Sheet sheet, List<Inventaire_Item> items, Workbook workbook) {
+        logger.info("populateDataRows");
         int rowIndex = 6; // Start after the table header row
         for (Inventaire_Item item : items) {
             Row row = sheet.createRow(rowIndex++);
@@ -399,6 +406,7 @@ public class FicheInventaireController implements Initializable {
     }
 
     private void addTotalRow(Sheet sheet, int totalCount) {
+        logger.info("addTotalRow");
         int rowIndex = sheet.getLastRowNum() + 1;
         Row totalRow = sheet.createRow(rowIndex);
         totalRow.createCell(0).setCellValue("Total Number of Articles: " + totalCount);
@@ -406,6 +414,7 @@ public class FicheInventaireController implements Initializable {
     }
 
     private void addResponsiblePersonSection(Sheet sheet) {
+        logger.info("addResponsiblePersonSection");
         int rowIndex = sheet.getLastRowNum() + 1;
         Row responsibleRow = sheet.createRow(rowIndex);
         responsibleRow.createCell(0).setCellValue("Le Responsable du Bureau:");
@@ -419,6 +428,7 @@ public class FicheInventaireController implements Initializable {
     }
 
     private void saveWorkbook(Workbook workbook) {
+        logger.info("saveWorkbook");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Excel Report");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel Files", "*.xlsx"));
@@ -446,6 +456,7 @@ public class FicheInventaireController implements Initializable {
 
     // Method to create a cell style for the header
     private CellStyle createHeaderCellStyle(Workbook workbook) {
+        logger.info("createHeaderCellStyle");
         CellStyle style = workbook.createCellStyle();
         Font font = workbook.createFont();
         font.setBold(true);
@@ -458,6 +469,7 @@ public class FicheInventaireController implements Initializable {
 
     // Method to create a cell style for the title
     private CellStyle createTitleCellStyle(Workbook workbook) {
+        logger.info("createTitleCellStyle");
         CellStyle style = workbook.createCellStyle();
         Font font = workbook.createFont();
         font.setBold(true);
@@ -469,6 +481,7 @@ public class FicheInventaireController implements Initializable {
 
     // Method to create a cell style for table headers
     private CellStyle createTableHeaderCellStyle(Workbook workbook) {
+        logger.info("createTableHeaderCellStyle");
         CellStyle style = workbook.createCellStyle();
         Font font = workbook.createFont();
         font.setBold(true);
