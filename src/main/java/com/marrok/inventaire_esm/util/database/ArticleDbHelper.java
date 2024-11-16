@@ -4,22 +4,24 @@ import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.StockAdjustment;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.scene.control.Alert;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class ArticleDbHelper {
+    Logger logger = Logger.getLogger(ArticleDbHelper.class);
      public   ArticleDbHelper()  throws SQLException {
         this.cnn = DatabaseConnection.getInstance().getConnection();
     }
 
     public Connection cnn;
     public List<String> getAllArticlesNames() {
+        logger.info("getAllArticlesNames");
         List<String> articles = new ArrayList<>();
         String query = "SELECT name FROM article ORDER BY name DESC;";
         try (
@@ -30,13 +32,14 @@ public class ArticleDbHelper {
                 articles.add(rs.getString("name"));
             }
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting  articles ", e);
+            logger.error("Error getting  articles ", e);
         }
         return articles;
     }
 
     // Method to fetch all articles
     public List<Article> getArticles() {
+        logger.info("getArticles");
         List<Article> articles = new ArrayList<>();
         String query = "SELECT id, name, unite, remarque, description, id_category, last_edited FROM article ORDER BY last_edited DESC;";
 
@@ -56,15 +59,14 @@ public class ArticleDbHelper {
                 articles.add(article);
             }
         } catch (SQLException e) {
+            logger.error("Error getting  articles ", e);
 
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting  articles ", e);
-
-            // Handle exception
         }
         return articles;
     }
 
     public Article getArticleById(long id) {
+        logger.info("getArticleById");
         String query = "SELECT * FROM article WHERE id = ?";
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setLong(1, id);
@@ -82,13 +84,14 @@ public class ArticleDbHelper {
                 }
             }
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting  article with id "+id, e);
-            // Handle exception
+            logger.error("Error getting  article with id "+id, e);
+
         }
         return null; // Return null if article is not found
     }
 
     public boolean addArticle(Article article) {
+        logger.info("addArticle");
         String query = "INSERT INTO article (name, unite,  remarque, description, id_category) VALUES (?, ?, ?,  ?, ?)";
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setString(1, article.getName());
@@ -98,13 +101,14 @@ public class ArticleDbHelper {
             stmt.setInt(5, article.getIdCategory());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error("Error adding article", e);
             // Handle exception
         }
         return false;
     }
 
     public void addArticles(List<Article> articles) throws SQLException {
+        logger.info("addArticles");
         for (Article article : articles) {
             addArticle(article);
         }
@@ -113,6 +117,7 @@ public class ArticleDbHelper {
 
 
     public boolean updateArticle(Article article) {
+        logger.info("updateArticle");
         String query = "UPDATE article SET name = ?, unite = ?, remarque = ?, description = ?, id_category = ? WHERE id = ?";
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setString(1, article.getName());
@@ -123,13 +128,14 @@ public class ArticleDbHelper {
             stmt.setLong(6, article.getId());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error Adding article "+article.getName(), e);
+           logger.error( "Error Adding article "+article.getName(), e);
 
         }
         return false;
     }
 
     public boolean deleteArticle(long id) {
+        logger.info("deleteArticle");
         String query = "DELETE FROM article WHERE id = ?";
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setLong(1, id);
@@ -138,12 +144,13 @@ public class ArticleDbHelper {
 
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "لا تستطيع حذف هذا العنصر لانه مازال مرفقا بجرد او وصل استلام");
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error deleting  article with id "+id, e);
+            logger.error( "Error deleting  article with id "+id, e);
         }
         return false;
     }
     // Method to fetch article ID by name
     public  int getArticleIdByName(String name) {
+        logger.info("getArticleIdByName");
         String query = "SELECT id FROM article WHERE name = ?";
         try (
                 PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
@@ -154,11 +161,12 @@ public class ArticleDbHelper {
                 return rs.getInt("id");
             }
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting article id by its name: "+name, e);
+            logger.error( "Error getting article id by its name: "+name, e);
         }
         return -1; // Return -1 if not found
     }
     public int getTotalQuantityByArticleId(int articleId) {
+        logger.info("getTotalQuantityByArticleId");
         int totalEntree = getTotalEntredQuantityByArticleId(articleId);
         int totalSortie = getTotalSortieQuantityByArticleId(articleId);
         int totalAdjustment = getTotalAdjustmentByArticleId(articleId);
@@ -167,6 +175,7 @@ public class ArticleDbHelper {
     }
 
     public int getTotalAdjustmentByArticleId(int articleId) {
+        logger.info("getTotalAdjustmentByArticleId");
         String query = "SELECT " +
                 "SUM(CASE WHEN adjustment_type = 'increase' THEN quantity ELSE 0 END) - " +
                 "SUM(CASE WHEN adjustment_type = 'decrease' THEN quantity ELSE 0 END) AS net_adjustment " +
@@ -182,7 +191,7 @@ public class ArticleDbHelper {
                 }
             }
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE,
+            logger.error(
                     "Error getting Total Adjustment Quantity By ArticleId: " + articleId, e);
         }
 
@@ -190,6 +199,7 @@ public class ArticleDbHelper {
     }
 
     public int getTotalEntredQuantityByArticleId(int articleId) {
+        logger.info("getTotalEntredQuantityByArticleId");
         String query = "SELECT COALESCE(SUM(quantity), 0) AS total_entree FROM entree WHERE id_article = ?";
 
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
@@ -201,13 +211,13 @@ public class ArticleDbHelper {
                 }
             }
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE,
-                    "Error getting Total Entrée Quantity By ArticleId: " + articleId, e);
+            logger.error("Error getting Total Entrée Quantity By ArticleId: " + articleId, e);
         }
 
         return 0;  // Return 0 if an error occurs or no entries are found
     }
     public int getTotalSortieQuantityByArticleId(int articleId) {
+        logger.info("getTotalSortieQuantityByArticleId");
         String query = "SELECT COALESCE(SUM(quantity), 0) AS total_sortie FROM sortie WHERE id_article = ?";
 
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
@@ -219,7 +229,7 @@ public class ArticleDbHelper {
                 }
             }
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE,
+            logger.error(
                     "Error getting Total Sortie Quantity By ArticleId: " + articleId, e);
         }
 
@@ -227,6 +237,7 @@ public class ArticleDbHelper {
     }
 
     public Map<Integer, Integer> getTotalQuantitiesByArticle() {
+        logger.info("getTotalQuantitiesByArticle");
         Map<Integer, Integer> totalQuantities = new HashMap<>();
 
         String query = "SELECT article.id AS article_id, " +
@@ -247,7 +258,7 @@ public class ArticleDbHelper {
                 totalQuantities.put(articleId, totalQuantity);
             }
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting Total Quantity By Article", e);
+            logger.error( "Error getting Total Quantity By Article", e);
         }
 
         return totalQuantities;
@@ -257,6 +268,7 @@ public class ArticleDbHelper {
 
     // READ: Get a single stock adjustment by ID
     public StockAdjustment getStockAdjustmentById(int id) {
+        logger.info("getStockAdjustmentById");
         String query = "SELECT * FROM stock_adjustment WHERE id = ?";
         try (PreparedStatement stmt = cnn.prepareStatement(query)) {
             stmt.setInt(1, id);
@@ -273,13 +285,14 @@ public class ArticleDbHelper {
                 );
             }
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting stock adjustment by ID", e);
+            logger.error( "Error getting stock adjustment by ID", e);
         }
         return null;
     }
 
     // READ: Get all stock adjustments
     public List<StockAdjustment> getAllStockAdjustments() {
+        logger.info("getAllStockAdjustments");
         List<StockAdjustment> adjustments = new ArrayList<>();
         String query = "SELECT * FROM stock_adjustment ORDER BY adjustment_date DESC";
         try (PreparedStatement stmt = cnn.prepareStatement(query);
@@ -298,7 +311,7 @@ public class ArticleDbHelper {
                 adjustments.add(adjustment);
             }
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error getting stock adjustments", e);
+            logger.error("Error getting stock adjustments", e);
         }
         return adjustments;
     }
@@ -306,18 +319,20 @@ public class ArticleDbHelper {
 
     // DELETE: Remove a stock adjustment by ID
     public boolean deleteStockAdjustment(int id) {
+        logger.info("deleteStockAdjustment");
         String query = "DELETE FROM stock_adjustment WHERE id = ?";
         try (PreparedStatement stmt = cnn.prepareStatement(query)) {
             stmt.setInt(1, id);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error deleting stock adjustment", e);
+            logger.error("Error deleting stock adjustment", e);
             return false;
         }
     }
 
     // CREATE: Add a new stock adjustment
     public boolean addStockAdjustment(StockAdjustment adjustment) {
+        logger.info("addStockAdjustment");
         String query = "INSERT INTO stock_adjustment (article_id, user_id, adjustment_date, quantity, adjustment_type, remarks) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = cnn.prepareStatement(query)) {
             stmt.setInt(1, adjustment.getArticleId());
@@ -328,13 +343,14 @@ public class ArticleDbHelper {
             stmt.setString(6, adjustment.getRemarks());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error adding stock adjustment", e);
+            logger.error("Error adding stock adjustment", e);
             return false;
         }
     }
 
     // UPDATE: Modify an existing stock adjustment
     public boolean updateStockAdjustment(StockAdjustment adjustment) {
+        logger.info("updateStockAdjustment");
         String query = "UPDATE stock_adjustment SET article_id = ?, user_id = ?, adjustment_date = ?, quantity = ?, adjustment_type = ?, remarks = ? WHERE id = ?";
         try (PreparedStatement stmt = cnn.prepareStatement(query)) {
             stmt.setInt(1, adjustment.getArticleId());
@@ -346,7 +362,7 @@ public class ArticleDbHelper {
             stmt.setInt(7, adjustment.getId());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            Logger.getLogger(ArticleDbHelper.class.getName()).log(Level.SEVERE, "Error updating stock adjustment", e);
+            logger.error( "Error updating stock adjustment", e);
             return false;
         }
     }
