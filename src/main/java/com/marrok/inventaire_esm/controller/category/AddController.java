@@ -45,7 +45,6 @@ public class AddController {
             Alert alertsecsuss = new Alert(Alert.AlertType.INFORMATION);
             GeneralUtil.showAlert(alertsecsuss.getAlertType(), "تمت إضافة الفئة", "تمت إضافة الفئة بنجاح.");
 
-
             closeForm();
         } else {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل إضافة الفئة", "فشل في إضافة الفئة.");

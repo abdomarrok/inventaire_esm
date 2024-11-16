@@ -16,6 +16,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,7 +24,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CategoriesController implements Initializable {
-
+    Logger logger = Logger.getLogger(CategoriesController.class);
 
     public TableColumn cat_name;
     public TableColumn cat_id;
@@ -43,6 +44,7 @@ public class CategoriesController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initializing CategoriesController");
         loadData();
         initializeColumns();
         setupSearchFilter();
@@ -62,17 +64,15 @@ public class CategoriesController implements Initializable {
     }
 
     public void loadData() {
+        logger.info("Loading CategoriesController");
         categoryList = FXCollections.observableArrayList(categoryDbhelper.getCategories());
-        for (Category category : categoryList) {
-            System.out.println(category.getId());
-        }
         filteredCategoryList = new FilteredList<>(categoryList, p -> true);
         cat_tableView.setItems(filteredCategoryList);
 
     }
 
     private void initializeColumns() {
-
+        logger.info("Initializing columns");
         cat_tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         // Set cell value factories
         cat_id.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -83,6 +83,7 @@ public class CategoriesController implements Initializable {
 
     @FXML
     public void updateCategory(ActionEvent actionEvent) {
+        logger.info("Updating Category");
         // Check if a category is selected
         if (selectedCategory != null) {
             // Open a form for updating the selected category
@@ -102,9 +103,8 @@ public class CategoriesController implements Initializable {
                 controller.setCategoriesController(this); // You might need this to refresh the category list after updating
                 stage.showAndWait();
             } catch (IOException e) {
+              logger.error(e);
                 GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج تحديث الفئة.");
-
-                e.printStackTrace();
             }
         } else {
             // If no category is selected, show a warning message
@@ -116,13 +116,12 @@ public class CategoriesController implements Initializable {
 
     @FXML
     public void go_Dashboard(ActionEvent event) {
-
       GeneralUtil.goBackStockDashboard(event);
-
     }
 
     @FXML
     public void deleteCategory(ActionEvent actionEvent) {
+        logger.info("Deleting Category");
         Category selectedCategory = (Category) cat_tableView.getSelectionModel().getSelectedItem();
 
         if (selectedCategory != null) {
@@ -136,13 +135,10 @@ public class CategoriesController implements Initializable {
                         GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف الفئة", "تم حذف الفئة بنجاح.");
                     }
                 } catch (Exception e){
-                    e.printStackTrace();
+                   logger.error(e);
                     GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل حذف الفئة", e.getMessage());
 
                 }
-
-
-
             }
         }else {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار فئة للحذف.");
@@ -152,6 +148,7 @@ public class CategoriesController implements Initializable {
 
     @FXML
     public void addCategory(ActionEvent actionEvent) {
+        logger.info("Adding Category");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/category/add_form-view.fxml"));
             Stage stage = new Stage();
@@ -168,8 +165,7 @@ public class CategoriesController implements Initializable {
             stage.showAndWait();
         } catch (IOException e) {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة العنصر.");
-
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 

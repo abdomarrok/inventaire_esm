@@ -8,10 +8,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 
 public class UpdateController {
+    Logger logger = Logger.getLogger(UpdateController.class);
 
     @FXML
     private TextField categoryNameTextField;
@@ -24,17 +26,20 @@ public class UpdateController {
     }
 
     public void setCategory(Category selectedCategory) {
+        logger.info("setCategory"+selectedCategory.toString());
         this.selectedCategory = selectedCategory;
         // Set the text field with the current category name
         categoryNameTextField.setText(selectedCategory.getName());
     }
 
     public void setCategoriesController(CategoriesController categoriesController) {
+        logger.info("setCategoriesController"+categoriesController.toString());
         this.categoriesController = categoriesController;
     }
 
     @FXML
     private void updateCategory(ActionEvent event) {
+        logger.info("updateCategory");
         // Get the updated category name from the text field
         String updatedName = categoryNameTextField.getText();
 
@@ -50,6 +55,7 @@ public class UpdateController {
             closeForm();
         } catch(Exception e) {
             // If update fails, show an error message
+          logger.error(e);
           GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل التحديث", e.getMessage());
 
       }

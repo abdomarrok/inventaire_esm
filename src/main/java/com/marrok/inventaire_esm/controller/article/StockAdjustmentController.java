@@ -1,10 +1,7 @@
 package com.marrok.inventaire_esm.controller.article;
 
 import com.marrok.inventaire_esm.controller.bon_entree.DetailViewController;
-import com.marrok.inventaire_esm.model.Article;
-import com.marrok.inventaire_esm.model.BonEntree;
-import com.marrok.inventaire_esm.model.Entree;
-import com.marrok.inventaire_esm.model.StockAdjustment;
+import com.marrok.inventaire_esm.model.*;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
 import com.marrok.inventaire_esm.util.database.UserDbHelper;
@@ -25,6 +22,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,6 +31,7 @@ import java.util.*;
 
 
 public class StockAdjustmentController implements Initializable {
+    Logger logger = Logger.getLogger(StockAdjustmentController.class);
     public TableView<StockAdjustment> tableView;
     public TableColumn<StockAdjustment,Integer> id_adjustment;
     public TableColumn<StockAdjustment,String> date;
@@ -53,6 +52,7 @@ public class StockAdjustmentController implements Initializable {
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initializing StockAdjustmentController");
         loadData();
         initializeColumns();
         setupSearchFilter();
@@ -64,6 +64,7 @@ public class StockAdjustmentController implements Initializable {
     }
 
     private void setupSearchFilter() {
+
         // Cache article information to avoid repeated DB calls
         Map<Integer, Article> articleCache = new HashMap<>();
 
@@ -99,40 +100,57 @@ public class StockAdjustmentController implements Initializable {
     }
 
 
+    // Cache for user data
+    private final Map<Integer, String> userCache = new HashMap<>();
+
+    private void preloadUserData() {
+        try {
+            // Fetch all users from the database
+            List<User> users = userDbHelper.getUsers(); // Assuming this method exists
+            for (User user : users) {
+                userCache.put(user.getId(), user.getUsername());
+            }
+            logger.info("User data preloaded successfully.");
+        } catch (Exception e) {
+            logger.error( "Failed to preload user data", e);
+        }
+    }
+
     private void initializeColumns() {
+        logger.info("Initializing StockAdjustmentController");
+
+        // Preload user data
+        preloadUserData();
+
         id_adjustment.setCellValueFactory(new PropertyValueFactory<>("id"));
         date.setCellValueFactory(new PropertyValueFactory<>("adjustmentDate"));
-        //new PropertyValueFactory<>("userId")
-        user.setCellValueFactory(cellData ->{
+
+        // Use the cache for the user column
+        user.setCellValueFactory(cellData -> {
             int userId = cellData.getValue().getUserId();
-            try {
-                String userName = userDbHelper.getUserNameById(userId);
-                if (userName != null) {
-                    return new SimpleStringProperty(userName);
-                }
-            }catch (Exception e) {
-                e.printStackTrace();
-                return new SimpleStringProperty("Unknown User");
-            }
-            return null;
+            String userName = userCache.getOrDefault(userId, "Unknown User");
+            return new SimpleStringProperty(userName);
         });
+
         article.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getArticleId();
             try {
                 String articleName = articleDbhelper.getArticleById(articleId).getName();
-
-                if (articleName != null && !articleName.isEmpty()) {
-                    return new SimpleStringProperty(articleName);
-                }
+                return new SimpleStringProperty(articleName != null ? articleName : "Unknown Article");
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error( "Error fetching article name", e);
                 return new SimpleStringProperty("Unknown Article");
             }
-            return null;
         });
+
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         operation_type.setCellValueFactory(new PropertyValueFactory<>("adjustmentType"));
         operation_type.setCellFactory(column -> new TableCell<StockAdjustment, String>() {
+            private final Map<String, String> styleMap = Map.of(
+                    "increase", "-fx-background-color: #c8e6c9; -fx-text-fill: #2e7d32;",
+                    "decrease", "-fx-background-color: #ffcdd2; -fx-text-fill: #b71c1c;"
+            );
+
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -141,30 +159,24 @@ public class StockAdjustmentController implements Initializable {
                     setStyle("");
                 } else {
                     setText(item);
-                    if ("increase".equalsIgnoreCase(item)) {
-                        setStyle("-fx-background-color: #c8e6c9; -fx-text-fill: #2e7d32;"); // Green for increase
-                    } else if ("decrease".equalsIgnoreCase(item)) {
-                        setStyle("-fx-background-color: #ffcdd2; -fx-text-fill: #b71c1c;"); // Red for decrease
-                    } else {
-                        setStyle(""); // Default style for unknown values
-                    }
+                    setStyle(styleMap.getOrDefault(item.toLowerCase(), ""));
                 }
             }
         });
         remark.setCellValueFactory(new PropertyValueFactory<>("remarks"));
     }
 
+
     private void loadData() {
+        logger.info("load StockAdjustments");
         List<StockAdjustment> adjustments = articleDbhelper.getAllStockAdjustments();
-        for (StockAdjustment adjustment : adjustments) {
-            System.out.println("adj"+adjustment.toString());
-        }
         adjustmentList = FXCollections.observableArrayList(adjustments);
         filtredadjustemntList = new FilteredList<>(adjustmentList);
         tableView.setItems(filtredadjustemntList);
     }
 
     public void goAddAdjustemnt(ActionEvent event) {
+        logger.info("goAddAdjustemnt");
         try {
             // Load the FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/article/add_adjustement.fxml"));
@@ -181,7 +193,7 @@ public class StockAdjustmentController implements Initializable {
             stage.show();
 
         } catch (IOException e) {
-            e.printStackTrace();
+           logger.error(e);
 
         }
     }

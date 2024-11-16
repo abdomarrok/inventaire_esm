@@ -23,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.URL;
@@ -33,6 +34,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class EtatStockController implements Initializable {
+    Logger logger  = Logger.getLogger(EtatStockController.class);
 
 
     public  TableView<Article> tableView;
@@ -86,6 +88,7 @@ public class EtatStockController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        logger.info("Initializing EtatStockController");
         loadData();
         initializeColumns();
         setupSearchFilter();
@@ -93,6 +96,7 @@ public class EtatStockController implements Initializable {
 
     }
     public void goBonEntree(ActionEvent event) {
+        logger.info("goBonEntree called");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/bon_entree/add_bon_entree-view.fxml"));
             Parent root = loader.load();
@@ -105,11 +109,13 @@ public class EtatStockController implements Initializable {
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
             stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error(e);
+//            throw new RuntimeException(e);
         }
     }
 
     public void goBonSortie(ActionEvent event) {
+        logger.info("goBonSortie called");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/bon_sortie/add_bon_sortie-view.fxml"));
             Parent root = loader.load();
@@ -122,7 +128,8 @@ public class EtatStockController implements Initializable {
             stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
             stage.show();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error(e);
+//            throw new RuntimeException(e);
         }
     }
 
@@ -131,9 +138,8 @@ public class EtatStockController implements Initializable {
 
 
     private void initializeColumns() {
+        logger.info("initializeColumns called");
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
-
-        // Set cell value factories for basic properties
         id_article_v.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
@@ -182,6 +188,7 @@ public class EtatStockController implements Initializable {
     }
 
     public void  loadData() {
+            logger.info("loadData called from EtatStockController");
             List<Article> articles = articleDbhelper.getArticles();
             articleList = FXCollections.observableArrayList(articles);
             filteredArticleList = new FilteredList<>(articleList, p -> true);
@@ -223,8 +230,6 @@ public class EtatStockController implements Initializable {
         });
         tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedArticle = newValue);
 
-
-
     }
     public void setupSpecificCellEventListener() {
         // Correct type of TableColumn is Integer, not String
@@ -264,6 +269,7 @@ public class EtatStockController implements Initializable {
     }
 
     public  void refreshTableData() {
+            logger.info("refreshTableData called from EtatStockController");
             List<Article> articles = articleDbhelper.getArticles();
             articleList.setAll(articles);
             tableView.refresh();

@@ -16,6 +16,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -23,7 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddController implements Initializable {
-
+    Logger logger = Logger.getLogger(AddController.class);
     public String chosenCategory = "";
     public TextField nameField;
 //    public TextField quantityField;
@@ -40,6 +41,7 @@ public class AddController implements Initializable {
     public AddController() throws SQLException {
     }
     public void setDashboardController(ArticleController articleController ) {
+        logger.info("setDashboardController");
         this.articleController = articleController;
         loadCategories();
     }
@@ -48,6 +50,7 @@ public class AddController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        logger.info("initialize");
         // Any required initialization can be done here
         loadCategories();
     }
@@ -59,7 +62,8 @@ public class AddController implements Initializable {
 
     private void loadCategories() {
         List<Category> categories = categoryDbhelper.getCategories();
-        System.out.println("categories size"+categories.size());
+        logger.info("loadCategories");
+        logger.info("categories size "+categories.size());
         ObservableList<Category> categoriesObservableList = FXCollections.observableList(categories);
         categoryChoiceBox.setItems(categoriesObservableList);
 
@@ -88,8 +92,8 @@ public class AddController implements Initializable {
 
 
     public void addArticle(ActionEvent event) {
+        logger.info("addArticle");
         String name = nameField.getText().trim();
-//        String quantityText = quantityField.getText().trim();
         String unit = unitField.getText().trim();
         String remark = remarkField.getText().trim();
         String descriptionText = descriptionField.getText().trim();
@@ -106,16 +110,13 @@ public class AddController implements Initializable {
 
 
         int categoryId = categoryDbhelper.getCategoryByName(chosenCategory);
-        if (categoryId == -1) {
-
-        }
 
         Article newArticle = new Article(0, name, unit, remark, descriptionText, categoryId);
         if (articleDbhelper.addArticle(newArticle)) {
+            logger.info("articleDbhelper.addArticle(newArticle) OK");
             articleController.getArticleList().add(newArticle);
             articleController.loadData();
             GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تمت إضافة العنصر", "تمت إضافة العنصر بنجاح.");
-
             closeForm();
         } else {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل في إضافة العنصر", "فشل في إضافة العنصر.");

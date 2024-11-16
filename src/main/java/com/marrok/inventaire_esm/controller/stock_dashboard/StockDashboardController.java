@@ -7,12 +7,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class StockDashboardController implements Initializable {
+    Logger logger = Logger.getLogger(StockDashboardController.class);
     public Button etat_stock_button;
     public Button list_be_button;
     public Button list_bs_button;
@@ -35,27 +37,28 @@ public class StockDashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        logger.info("Initializing StockDashboardController");
         checkUserRole();
-
-
     }
 
     private void checkUserRole() {
         // Initialize theme properties
+        logger.info("Checking user role");
         user_id = SessionManager.getActiveUserId();
         if (user_id != -1) {
             user_role = dbhelper.getUserRoleById(user_id);
 
             if (user_role != null) {
+                logger.info("User role: " + user_role);
                 customizeDashboardForRole(user_role);
             }else {
-                System.out.println("user_role is null");
-
+                logger.info("User role is null");
             }
         }
     }
 
     private void customizeDashboardForRole(String role) {
+        logger.info("Customize dashboard for role: " + role);
         switch (role) {
             case "Admin":
                 // Admin sees everything

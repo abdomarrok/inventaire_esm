@@ -15,11 +15,13 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class UpdateController {
+    Logger logger = Logger.getLogger(UpdateController.class);
 
     public String chosen_Category = "";
     @FXML
@@ -49,11 +51,13 @@ public class UpdateController {
 
 
     public void setDashboardController(ArticleController articleController) {
+        logger.info("setDashboardController");
         this.articleController = articleController;
         loadCategories();
 
     }
     public void setArticleData(long article_id) {
+        logger.info("setArticleData");
             Article article = articleDbhelper.getArticleById(article_id);
             if (article != null) {
                 selectedArticle = article;
@@ -78,6 +82,7 @@ public class UpdateController {
 
     @FXML
     public void updateArticle(ActionEvent event) {
+        logger.info("updateArticle");
         selectedArticle.setName(nameField.getText());
         //selectedArticle.setIdPlace(localisationChoiceBox.getValue().getId());
         selectedArticle.setUnite(uniteField.getText());
@@ -104,6 +109,7 @@ public class UpdateController {
 
 
     private void loadCategories() {
+        logger.info("loadCategories");
         // Fetch categories from the database
         List<Category> categories = categoryDbhelper.getCategories();
         // Populate the choice box with category names

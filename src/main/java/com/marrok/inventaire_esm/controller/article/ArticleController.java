@@ -26,6 +26,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.URL;
@@ -37,6 +38,7 @@ import java.util.ResourceBundle;
 
 
 public class ArticleController implements Initializable {
+    Logger logger = Logger.getLogger(ArticleController.class);
 
     @FXML
     public TableView<Article> tableView;
@@ -84,6 +86,7 @@ public class ArticleController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        logger.info("Initializing ArticleController");
         loadData();
         initializeColumns();
         setupSearchFilter();
@@ -91,6 +94,7 @@ public class ArticleController implements Initializable {
 
     }
     private void initializeColumns() {
+        logger.info("Initializing columns");
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
         // Set cell value factories
         id_article_v.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -113,7 +117,7 @@ public class ArticleController implements Initializable {
 
 
     public void loadData() {
-
+            logger.info("Loading data");
             List<Article> articles = articleDbhelper.getArticles();
             articleList = FXCollections.observableArrayList(articles);
             filteredArticleList = new FilteredList<>(articleList, p -> true);
@@ -157,13 +161,14 @@ public class ArticleController implements Initializable {
         tableView.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
                 Article selectedArticle = tableView.getSelectionModel().getSelectedItem();
-
+                logger.info("Selected article: " + selectedArticle);
             }
         });
     }
 
     @FXML
     public void addArticle(ActionEvent event) {
+        logger.info("Adding article");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/article/add_form-view.fxml"));
         try {
 
@@ -189,6 +194,7 @@ public class ArticleController implements Initializable {
 
     @FXML
     public void updateArticle(ActionEvent event) {
+        logger.info("Updating article");
         Article selectedArticle = tableView.getSelectionModel().getSelectedItem();
         if (selectedArticle != null) {
             try {
@@ -215,6 +221,7 @@ public class ArticleController implements Initializable {
 
     @FXML
     public void deleteArticle(ActionEvent event) {
+        logger.info("Deleting article");
         Article selectedArticle = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedArticle != null) {
@@ -272,7 +279,7 @@ public class ArticleController implements Initializable {
 
             } catch (IOException e) {
                 GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل التصدير", "حدث خطأ أثناء تصدير العناصر.");
-                e.printStackTrace();
+                logger.error(e);
             }
         }
     }
@@ -307,7 +314,7 @@ public class ArticleController implements Initializable {
                             articlesToAdd.add(article);
                         }
                     } catch (NumberFormatException e) {
-                        System.err.println("Invalid id_category value in CSV: " + e.getMessage());
+                        logger.error("Invalid id_category value in CSV: " + e);
                     }
                 }
 
@@ -317,8 +324,9 @@ public class ArticleController implements Initializable {
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم الاستيراد بنجاح", "تم استيراد العناصر بنجاح.");
 
             } catch (IOException | SQLException e) {
+                logger.error(e);
                 GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل الاستيراد", "حدث خطأ أثناء استيراد العناصر.");
-                e.printStackTrace();
+
             }
         }
     }

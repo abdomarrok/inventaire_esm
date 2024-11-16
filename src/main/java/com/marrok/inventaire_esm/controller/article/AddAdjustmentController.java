@@ -1,8 +1,6 @@
 package com.marrok.inventaire_esm.controller.article;
 
 import com.marrok.inventaire_esm.model.Article;
-import com.marrok.inventaire_esm.model.BonEntree;
-import com.marrok.inventaire_esm.model.Entree;
 import com.marrok.inventaire_esm.model.StockAdjustment;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import com.marrok.inventaire_esm.util.SessionManager;
@@ -15,13 +13,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import static com.marrok.inventaire_esm.util.GeneralUtil.showAlert;
@@ -29,6 +25,7 @@ import static com.marrok.inventaire_esm.util.GeneralUtil.showAlertWithOutTimelim
 
 
 public class AddAdjustmentController {
+    Logger logger = Logger.getLogger(AddAdjustmentController.class);
 
     StockAdjustmentController parentController;
 
@@ -55,6 +52,7 @@ public class AddAdjustmentController {
     }
     @FXML
     public void initialize() {
+        logger.info("Initializing AddAdjustmentController");
         initializeColumns();
         loadData();
         setupSearchFilter();
@@ -62,15 +60,16 @@ public class AddAdjustmentController {
 
     }
     public void  setAdjustemnt(StockAdjustment selectedStockAdjustment){
+        logger.info("setAdjustment with"+selectedStockAdjustment );
         this.selectedStockAdjustment = selectedStockAdjustment;
     }
 
     private void loadData() {
-        // Load article data (fetch from your database)
+       logger.info("loadData");
         operation_type.getItems().addAll(operations);
         operation_type.setValue(operations[0]);
         updateOperationTypeStyle();
-        // Listen for changes to update style dynamically
+
         operation_type.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             updateOperationTypeStyle();
         });
@@ -80,6 +79,7 @@ public class AddAdjustmentController {
     }
 
     private void updateOperationTypeStyle() {
+        logger.info("updateOperationTypeStyle");
         if ("زيادة".equals(operation_type.getValue())) {
             operation_type.setStyle("-fx-background-color: #c8e6c9; -fx-text-fill: #2e7d32;");
         } else {
@@ -88,6 +88,7 @@ public class AddAdjustmentController {
     }
 
     private void initializeColumns() {
+        logger.info("initialize AddAdjustment article table Columns");
         // Setup the article column
         articleNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         articleUniteColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
@@ -120,6 +121,7 @@ public class AddAdjustmentController {
     }
     // Fetch available articles from the database
     private ObservableList<Article> fetchArticlesFromDatabase() {
+        logger.info("fetchArticlesFromDatabase");
         return FXCollections.observableArrayList(
                 articleDbhelper.getArticles()
         );
@@ -127,6 +129,7 @@ public class AddAdjustmentController {
 
     @FXML
     public void confirmSelection(ActionEvent event) {
+        logger.info("confirmSelection");
         selectedArticle = articleTable.getSelectionModel().getSelectedItem();
 
         if (selectedArticle == null || quantityField.getText().isEmpty()) {
@@ -143,6 +146,7 @@ public class AddAdjustmentController {
                 return;
             }
         } catch (NumberFormatException e) {
+            logger.error(e);
             showAlert(Alert.AlertType.ERROR, "Error", "Please enter valid numbers for quantity.");
             return;
         }
@@ -190,6 +194,7 @@ public class AddAdjustmentController {
     }
 
     public void setParentController(StockAdjustmentController stockAdjustmentController) {
+        logger.info("setParentControlle for stockAdjustmentController");
         this.stockAdjustmentController=stockAdjustmentController;
     }
 }

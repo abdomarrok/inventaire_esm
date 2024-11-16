@@ -25,9 +25,6 @@ import java.util.logging.Level;
 public class GeneralUtil {
    private  static  final Logger logger = Logger.getLogger("GeneralUtil");
 
-    private static final double MINIMUM_WINDOW_WIDTH = 390.0;
-    private static final double MINIMUM_WINDOW_HEIGHT = 500.0;
-
 
     public static void showAlert(Alert.AlertType alertType, String title, String content) {
         logger.info("showAlert called with alert type " + alertType);
