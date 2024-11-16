@@ -193,16 +193,29 @@ public class EtatStockController implements Initializable {
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredArticleList.setPredicate(article -> {
                 if (newValue == null || newValue.isEmpty()) {
-                    return true;
+                    return true; // Show all articles if the search field is empty
                 }
+
+                // Fetch category name safely
+                String categoryName = categoryDbhelper.getCategoryById(article.getIdCategory());
+                if (categoryName == null) {
+                    categoryName = ""; // Default to empty string if category not found
+                }
+
+                // Convert search text to lowercase
                 String lowerCaseFilter = newValue.toLowerCase();
+
+                // Perform case-insensitive checks
                 return article.getName().toLowerCase().contains(lowerCaseFilter)
                         || article.getUnite().toLowerCase().contains(lowerCaseFilter)
+                        || article.getDescription().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(article.getId()).contains(lowerCaseFilter)
-                        || String.valueOf(article.getIdCategory()).toLowerCase().contains(lowerCaseFilter);
+                        || String.valueOf(article.getIdCategory()).contains(lowerCaseFilter)
+                        || categoryName.toLowerCase().contains(lowerCaseFilter);
             });
         });
     }
+
 
     private void setupTableSelectionListener() {
         bk_Dashboard_from_etat_stock.setOnAction(event -> {

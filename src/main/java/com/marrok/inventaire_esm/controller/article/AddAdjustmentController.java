@@ -25,9 +25,11 @@ import java.util.List;
 import java.util.Map;
 
 import static com.marrok.inventaire_esm.util.GeneralUtil.showAlert;
+import static com.marrok.inventaire_esm.util.GeneralUtil.showAlertWithOutTimelimit;
 
 
 public class AddAdjustmentController {
+
     StockAdjustmentController parentController;
 
     String[] operations={"زيادة","إنقاص"};
@@ -44,6 +46,7 @@ public class AddAdjustmentController {
     private Article selectedArticle;
     public TextField searchField;
     public TextField quantityField;
+    public TextArea edit_reason;
     StockAdjustment selectedStockAdjustment;
     StockAdjustmentController stockAdjustmentController;
     private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
@@ -78,9 +81,9 @@ public class AddAdjustmentController {
 
     private void updateOperationTypeStyle() {
         if ("زيادة".equals(operation_type.getValue())) {
-            operation_type.setStyle("-fx-background-color: green;");
+            operation_type.setStyle("-fx-background-color: #c8e6c9; -fx-text-fill: #2e7d32;");
         } else {
-            operation_type.setStyle("-fx-background-color: red;");
+            operation_type.setStyle("-fx-background-color: #ffcdd2; -fx-text-fill: #b71c1c;");
         }
     }
 
@@ -131,6 +134,7 @@ public class AddAdjustmentController {
             return;
         }
 
+
         int quantity;
         try {
             quantity = Integer.parseInt(quantityField.getText());
@@ -152,6 +156,10 @@ public class AddAdjustmentController {
                 return;
             }
         }
+        if(edit_reason.getText().equals(null)||edit_reason.getText().equals("")){
+            showAlertWithOutTimelimit(Alert.AlertType.ERROR, "Error", "يجب ادخال سبب التعديل");
+            return;
+        }
 
         // Create a new StockAdjustment object and set the data
         selectedStockAdjustment = new StockAdjustment();
@@ -159,6 +167,7 @@ public class AddAdjustmentController {
         selectedStockAdjustment.setQuantity(quantity);
         selectedStockAdjustment.setAdjustmentType("زيادة".equals(operation_type.getValue()) ? "increase" : "decrease");
         selectedStockAdjustment.setAdjustmentDate(new Date());
+        selectedStockAdjustment.setRemarks(edit_reason.getText());
        int  user_id = SessionManager.getActiveUserId();
        selectedStockAdjustment.setUserId(user_id);
         if(articleDbhelper.addStockAdjustment(selectedStockAdjustment)){

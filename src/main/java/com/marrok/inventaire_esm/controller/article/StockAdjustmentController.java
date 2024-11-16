@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -28,9 +29,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 public class StockAdjustmentController implements Initializable {
@@ -65,33 +64,40 @@ public class StockAdjustmentController implements Initializable {
     }
 
     private void setupSearchFilter() {
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            List<String> articleNameList = new ArrayList<>();
+        // Cache article information to avoid repeated DB calls
+        Map<Integer, Article> articleCache = new HashMap<>();
 
-            filtredadjustemntList.setPredicate(Adjustemnt -> {
-                // If the search field is empty, return all entries.
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtredadjustemntList.setPredicate(adjustment -> {
+                // If the search field is empty, show all adjustments
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
 
-                int AdjustemntId = Adjustemnt.getId();
-                StockAdjustment adjustment = articleDbhelper.getStockAdjustmentById(AdjustemntId);
+                // Get article information and handle nulls
+                Article article = articleCache.computeIfAbsent(adjustment.getArticleId(), id ->
+                        articleDbhelper.getArticleById(id));
 
-                Article article = articleDbhelper.getArticleById(adjustment.getArticleId());
+                // Null-safe fields
+                String adjustmentType = adjustment.getAdjustmentType() != null ? adjustment.getAdjustmentType() : "";
+                String adjustmentDate = adjustment.getAdjustmentDate() != null ? adjustment.getAdjustmentDate().toString() : "";
+                String remarks = adjustment.getRemarks() != null ? adjustment.getRemarks() : "";
+                String articleName = article != null && article.getName() != null ? article.getName() : "";
 
-
-
-                // Convert the search query to lowercase for case-insensitive matching.
+                // Convert search text to lowercase for case-insensitive filtering
                 String lowerCaseFilter = newValue.toLowerCase();
-                return Adjustemnt.getAdjustmentType().contains(lowerCaseFilter)
-                        || Adjustemnt.getAdjustmentDate().toString().contains(lowerCaseFilter)
-                        || String.valueOf(Adjustemnt.getId()).contains(lowerCaseFilter)
-                        || String.valueOf(Adjustemnt.getQuantity()).contains(lowerCaseFilter)
-                        || String.valueOf(Adjustemnt.getRemarks()).contains(lowerCaseFilter);
 
+                // Perform filtering
+                return adjustmentType.toLowerCase().contains(lowerCaseFilter)
+                        || adjustmentDate.contains(lowerCaseFilter)
+                        || String.valueOf(adjustment.getId()).contains(lowerCaseFilter)
+                        || articleName.toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(adjustment.getQuantity()).contains(lowerCaseFilter)
+                        || remarks.toLowerCase().contains(lowerCaseFilter);
             });
         });
     }
+
 
     private void initializeColumns() {
         id_adjustment.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -126,6 +132,25 @@ public class StockAdjustmentController implements Initializable {
         });
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         operation_type.setCellValueFactory(new PropertyValueFactory<>("adjustmentType"));
+        operation_type.setCellFactory(column -> new TableCell<StockAdjustment, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item);
+                    if ("increase".equalsIgnoreCase(item)) {
+                        setStyle("-fx-background-color: #c8e6c9; -fx-text-fill: #2e7d32;"); // Green for increase
+                    } else if ("decrease".equalsIgnoreCase(item)) {
+                        setStyle("-fx-background-color: #ffcdd2; -fx-text-fill: #b71c1c;"); // Red for decrease
+                    } else {
+                        setStyle(""); // Default style for unknown values
+                    }
+                }
+            }
+        });
         remark.setCellValueFactory(new PropertyValueFactory<>("remarks"));
     }
 

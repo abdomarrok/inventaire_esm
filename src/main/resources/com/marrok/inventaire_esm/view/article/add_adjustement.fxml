@@ -31,6 +31,16 @@
         <ChoiceBox fx:id="operation_type" styleClass="searchField" />
     </HBox>
     </HBox>
+   <HBox alignment="CENTER" layoutX="30.0" layoutY="571.0" spacing="50.0">
+      <children>
+         <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" spacing="10.0">
+            <children>
+               <Label alignment="CENTER_RIGHT" styleClass="lbl_fiche_inv" text="سبب التعدبل :" />
+               <TextArea fx:id="edit_reason" styleClass="searchField" />
+            </children>
+         </HBox>
+      </children>
+   </HBox>
     <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" spacing="10.0">
         <Button onAction="#confirmSelection" style=" -fx-background-color: #0aa457;" styleClass="btn_bon" text="تأكيد" />
         <Button onAction="#closeDialog" styleClass="btn_bon" text="إلغاء" />
