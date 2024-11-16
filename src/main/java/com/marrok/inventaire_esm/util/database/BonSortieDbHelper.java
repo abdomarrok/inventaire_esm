@@ -2,18 +2,22 @@ package com.marrok.inventaire_esm.util.database;
 
 import com.marrok.inventaire_esm.model.BonSortie;
 import com.marrok.inventaire_esm.model.Sortie;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BonSortieDbHelper {
+    Logger logger = Logger.getLogger(BonSortieDbHelper.class);
     public Connection cnn;
 
     public BonSortieDbHelper() throws SQLException {
+        logger.debug("BonSortieDbHelper");
         this.cnn = DatabaseConnection.getInstance().getConnection();
     }
     public int createBonSortie(BonSortie bonSortie) {
+        logger.info("Create BonSortie");
         String query = "INSERT INTO bon_sortie (id_employeur, id_service, date) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, bonSortie.getIdEmployeur());
@@ -29,11 +33,12 @@ public class BonSortieDbHelper {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e);
         }
         return -1; // Return -1 if failed to create Bon Sortie
     }
     public boolean saveSortie(Sortie sortie) {
+        logger.info("Save Sortie");
         String query = "INSERT INTO sortie (id_article, quantity, id_bs) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
             preparedStatement.setInt(1, sortie.getIdArticle());
@@ -42,11 +47,12 @@ public class BonSortieDbHelper {
 
             return preparedStatement.executeUpdate() > 0;  // Return true if insertion succeeds
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e);
             return false; // Return false if an error occurs
         }
     }
     public List<Sortie> getSortiesByIdBonSortieId(int idBonSortie) {
+        logger.info("Get Sorties by idBonSortie");
         List<Sortie> sorties = new ArrayList<>();
         String query = "SELECT * FROM sortie WHERE id_bs = ?"; // Filtering by the BonSortie ID
 
@@ -63,11 +69,12 @@ public class BonSortieDbHelper {
                 sorties.add(sortie);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e);
         }
         return sorties; // Return the list of Sortie objects
     }
     public BonSortie getBonSortiesById(int id) {
+        logger.info("Get BonSorties by id");
         String query = "SELECT id, id_employeur, id_service, date, last_edited FROM bon_sortie WHERE id = ?";
         BonSortie bonSortie = null;
 
@@ -84,13 +91,13 @@ public class BonSortieDbHelper {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle exception, e.g., logging
+           logger.error(e);
         }
         return bonSortie;
     }
 
     public List<BonSortie> getBonSorties() {
+        logger.info("Get BonSorties");
         List<BonSortie> bonSorties = new ArrayList<>();
         String query = "SELECT id, id_employeur, id_service, date, last_edited FROM bon_sortie ORDER BY last_edited DESC";
 
@@ -108,7 +115,7 @@ public class BonSortieDbHelper {
                 bonSorties.add(bonSortie);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e);
         }
 
         return bonSorties;

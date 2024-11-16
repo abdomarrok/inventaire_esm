@@ -3,19 +3,23 @@ package com.marrok.inventaire_esm.util.database;
 import com.marrok.inventaire_esm.model.Employer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EmployerDbHelper {
+    Logger logger = Logger.getLogger(EmployerDbHelper.class);
 
     public Connection cnn;
 
     public EmployerDbHelper() throws SQLException {
+        logger.info("EmployerDbHelper started");
         this.cnn = DatabaseConnection.getInstance().getConnection();
     }
     public  int addEmployer(String firstName, String lastName, String title) {
+        logger.info("addEmployer started");
         String query = "INSERT INTO employeur (firstname, lastname, title) VALUES (?, ?, ?)";
 
         try (
@@ -37,11 +41,12 @@ public class EmployerDbHelper {
 
             return -1; // Return -1 if the insertion failed or if the ID couldn't be retrieved
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e);
             return -1; // Return -1 if an exception occurred
         }
     }
     public boolean updateEmployer(Employer employer) {
+        logger.info("updateEmployer started");
         String query = "UPDATE employeur SET firstname = ?, lastname = ?, title = ? WHERE id = ?";
         try (PreparedStatement pstmt = this.cnn.prepareStatement(query)) {
             pstmt.setString(1, employer.getFirstName());
@@ -51,12 +56,13 @@ public class EmployerDbHelper {
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e);
             return false;
         }
     }
 
     public Employer getEmployerById(int employerId) {
+        logger.info("getEmployerById started");
         Employer employer = null;
         String query = "SELECT * FROM employeur WHERE id = ?"; // Assuming `id` is the primary key in the `employeur` table.
 
@@ -78,14 +84,14 @@ public class EmployerDbHelper {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle exceptions such as connection issues or SQL errors
+           logger.error(e);
         }
 
         return employer;
     }
 
     public ObservableList<Employer> getEmployers() {
+        logger.info("getEmployers started");
         ObservableList<Employer> employerList = FXCollections.observableArrayList();
         String query = "SELECT * FROM employeur";
         try (Statement stmt = this.cnn.createStatement();
@@ -96,11 +102,12 @@ public class EmployerDbHelper {
                 employerList.add(employer);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
         return employerList;
     }
     public boolean deleteEmployer(int employerId) {
+        logger.info("deleteEmployer started");
         String query = "DELETE FROM employeur WHERE id = ?";
         try (
                 PreparedStatement pstmt = this.cnn.prepareStatement(query)) {
@@ -108,11 +115,12 @@ public class EmployerDbHelper {
             int affectedRows = pstmt.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e);
             return false;
         }
     }
     public  String getEmployerFullNameById(int employerId) {
+        logger.info("getEmployerFullNameById started");
         String query = "SELECT firstname, lastname FROM employeur WHERE id = ?";
 
         try (
@@ -128,13 +136,14 @@ public class EmployerDbHelper {
                 return null; // Return null if no employer found with the given ID
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+          logger.error(e);
             return null; // Return null if an exception occurred
         }
     }
 
     // Method to fetch all employer names
     public List<String> getAllEmployersNames() {
+        logger.info("getAllEmployersNames");
         List<String> employers = new ArrayList<>();
         String query = "SELECT CONCAT(firstname, ' ', lastname) AS fullname FROM employeur";
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query);
@@ -144,12 +153,13 @@ public class EmployerDbHelper {
                 employers.add(rs.getString("fullname"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e);
         }
         return employers;
     }
 
     public  List<Employer> getAllEmployers() {
+        logger.info("getAllEmployers");
         List<Employer> employers = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -171,7 +181,7 @@ public class EmployerDbHelper {
                 employers.add(employer);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
             // Handle the exception according to your application's requirements
         } finally {
             try {
@@ -185,7 +195,7 @@ public class EmployerDbHelper {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.error(e);
                 // Handle the exception according to your application's requirements
             }
         }
@@ -194,6 +204,7 @@ public class EmployerDbHelper {
     }
     // Method to fetch employer ID by name
     public  int getEmployerIdByName(String fullname) {
+        logger.info("getEmployerIdByName started");
         String query = "SELECT id FROM employeur WHERE CONCAT(firstname, ' ', lastname) = ?";
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
 
@@ -203,7 +214,7 @@ public class EmployerDbHelper {
                 return rs.getInt("id");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e);
         }
         return -1; // Return -1 if not found
     }

@@ -2,14 +2,15 @@ package com.marrok.inventaire_esm.util.database;
 
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.scene.control.Alert;
+import org.apache.log4j.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class DatabaseConnection {
+    static Logger logger = Logger.getLogger("DatabaseConnection");
 //  private static final String DATABASE_NAME = "invlouiza";
  //private static final String DATABASE_NAME = "testinvempty";
     private static final String DATABASE_NAME = "testinv";
@@ -26,16 +27,18 @@ public class DatabaseConnection {
     private Connection connection;
 
     private DatabaseConnection() throws SQLException {
+        logger.info("DatabaseConnection");
         try {
             this.connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
         } catch (SQLException e) {
             GeneralUtil.showAlertWithOutTimelimit(Alert.AlertType.ERROR,"Connection error","check your connection");
-            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, " SQLException Failed to create the database connection. " +  e);
+            logger.error(" SQLException Failed to create the database connection. " +  e);
 
         }
     }
 
     public static DatabaseConnection getInstance() throws SQLException {
+        logger.info("DatabaseConnection getInstance");
         if (instance == null) {
             synchronized (DatabaseConnection.class) {
                 if (instance == null) {
@@ -53,6 +56,7 @@ public class DatabaseConnection {
 
 
     public static void backupDatabase(String backupPath) throws SQLException, IOException {
+        logger.info("backupDatabase");
         Connection connection = getInstance().getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = null;
@@ -75,6 +79,7 @@ public class DatabaseConnection {
     }
 
     private static void writeTableToSQL(String tableName, FileWriter fileWriter) throws SQLException, IOException {
+        logger.info("writeTableToSQL");
         Connection connection = getInstance().getConnection();
         Statement statement = connection.createStatement();
         ResultSet resultSet = null;

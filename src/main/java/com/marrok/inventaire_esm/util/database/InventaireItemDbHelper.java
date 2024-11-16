@@ -1,6 +1,7 @@
 package com.marrok.inventaire_esm.util.database;
 
 import com.marrok.inventaire_esm.model.Inventaire_Item;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -12,13 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InventaireItemDbHelper {
+    Logger logger = Logger.getLogger(InventaireItemDbHelper.class);
     public Connection cnn;
 
     public InventaireItemDbHelper() throws SQLException {
+        logger.info("InventaireItemDbHelper: InventaireItemDbHelper");
         this.cnn = DatabaseConnection.getInstance().getConnection();
     }
 
     public List<Inventaire_Item> getInventaireItems() {
+        logger.info("InventaireItemDbHelper: getInventaireItems");
         List<Inventaire_Item> inventaireItems = new ArrayList<>();
 
         String query = "SELECT * FROM inventaire_item  ORDER BY last_edited DESC;";
@@ -55,13 +59,13 @@ public class InventaireItemDbHelper {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle exception
+          logger.error(e);
         }
 
         return inventaireItems;
     }
-    public void insertInventaireItems(List<Inventaire_Item> inventaireItems) throws SQLException {
+    public void insertInventaireItems(List<Inventaire_Item> inventaireItems){
+        logger.info("InventaireItemDbHelper: insertInventaireItems");
         String query = "INSERT INTO inventaire_item (id_article, user_id, id_localisation, id_employer, num_inventaire, time,status) VALUES (?, ?, ?, ?, ?, ?,?)";
 
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
@@ -84,11 +88,11 @@ public class InventaireItemDbHelper {
             // Execute the batch
             preparedStatement.executeBatch();
         } catch (SQLException e) {
-            e.printStackTrace();
-            throw e;  // Re-throw the exception for higher-level handling
+           logger.error(e);
         }
     }
     public  boolean deleteInventaireItem(int itemId) {
+        logger.info("InventaireItemDbHelper: deleteInventaireItem");
         String query = "DELETE FROM inventaire_item WHERE id = ?";
         try (
                 PreparedStatement stmt = this.cnn.prepareStatement(query)) {
@@ -96,7 +100,7 @@ public class InventaireItemDbHelper {
             int affectedRows = stmt.executeUpdate();
             return affectedRows > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e);
         }
         return false;
     }
@@ -104,7 +108,7 @@ public class InventaireItemDbHelper {
 
 
     public  boolean updateInventaireItem(Inventaire_Item inventaireItem) {
-        System.out.println("from dbhelper"+inventaireItem.toString());
+       logger.info("from dbhelper"+inventaireItem.toString());
         String query = "UPDATE inventaire_item SET id_article = ?, id_employer = ? , id_localisation = ?, user_id = ?, time = ?, num_inventaire = ? ,status= ? WHERE id = ?";
         try (
                 PreparedStatement stmt = this.cnn.prepareStatement(query)) {
@@ -120,11 +124,12 @@ public class InventaireItemDbHelper {
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e);
             return false;
         }
     }
     public boolean addInventaireItem(Inventaire_Item item) {
+        logger.info("InventaireItemDbHelper: addInventaireItem");
         String query = "INSERT INTO inventaire_item (id_localisation, user_id, id_article, time, id_employer, num_inventaire, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (
@@ -151,10 +156,10 @@ public class InventaireItemDbHelper {
             return rowsAffected > 0;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
             return false;
         } catch (DateTimeParseException e) {
-            e.printStackTrace();
+           logger.error(e);
             return false;
         }
     }
@@ -163,6 +168,7 @@ public class InventaireItemDbHelper {
 
 
     public Inventaire_Item getInevntaireItemById(int id) {
+        logger.info("InventaireItemDbHelper: getInevntaireItemById");
         String query = "SELECT * FROM inventaire_item WHERE id = ?";
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setInt(1, id);
@@ -188,8 +194,7 @@ public class InventaireItemDbHelper {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle exception
+           logger.error(e);
         }
         return null; // Return null if inventaire_item is not found
     }
@@ -198,6 +203,7 @@ public class InventaireItemDbHelper {
 
 
     public List<Inventaire_Item> getInventoryItemsByFilters(Integer serviceId, Integer localisationId, Integer year) throws SQLException {
+        logger.info("getInventoryItemsByFilters");
         List<Inventaire_Item> inventoryItems = new ArrayList<>();
 
         StringBuilder query = new StringBuilder("SELECT ii.*, l.id_service " +

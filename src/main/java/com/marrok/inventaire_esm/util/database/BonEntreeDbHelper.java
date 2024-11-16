@@ -2,18 +2,22 @@ package com.marrok.inventaire_esm.util.database;
 
 import com.marrok.inventaire_esm.model.BonEntree;
 import com.marrok.inventaire_esm.model.Entree;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BonEntreeDbHelper {
+    Logger logger = Logger.getLogger(BonEntreeDbHelper.class);
     public Connection cnn;
 
     public BonEntreeDbHelper() throws SQLException {
+        logger.info("BonEntreeDbHelper started");
         this.cnn = DatabaseConnection.getInstance().getConnection();
     }
     public int createBonEntree(BonEntree bonEntree) {
+        logger.info("createBonEntree called");
         String query = "INSERT INTO bon_entree (id_fournisseur, date, TVA,document_num) VALUES (?, ?, ?,?)";
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, bonEntree.getIdFournisseur());
@@ -30,11 +34,12 @@ public class BonEntreeDbHelper {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+          logger.error(e);
         }
         return -1; // Return -1 if failed to create Bon Entree
     }
     public List<BonEntree> getBonEntrees() {
+        logger.info("getBonEntrees");
         List<BonEntree> bonEntrees = new ArrayList<>();
         String query = "SELECT id, id_fournisseur, date, TVA, document_num FROM bon_entree Order by last_edited desc;";
 
@@ -52,12 +57,12 @@ public class BonEntreeDbHelper {
                 bonEntrees.add(bonEntree);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle exception
+           logger.error(e);
         }
         return bonEntrees;
     }
     public List<Entree> getEntreesById_BonEntreeId(int bonEntreeId) {
+        logger.info("getEntreesById_BonEntreeId called");
         List<Entree> entrees = new ArrayList<>();
         String query = "SELECT * FROM entree WHERE id_be = ?"; // Filtering by the BonEntree ID
 
@@ -75,11 +80,12 @@ public class BonEntreeDbHelper {
                 entrees.add(entree);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
         }
         return entrees; // Return the list of Entree objects
     }
     public BonEntree getBonEntreesById(int idBonEntree) {
+        logger.info("getBonEntreesById called");
         String query = "SELECT id, id_fournisseur, date, TVA, document_num FROM bon_entree WHERE id = ?";
         BonEntree bonEntree = null;
 
@@ -97,13 +103,13 @@ public class BonEntreeDbHelper {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle exception
+           logger.error(e);
         }
         return bonEntree;
     }
 
     public boolean saveEntree(Entree entree) {
+        logger.info("saveEntree called");
         String query = "INSERT INTO entree (id_article, quantity, unit_price, id_be) VALUES (?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
             preparedStatement.setInt(1, entree.getIdArticle());
@@ -113,7 +119,7 @@ public class BonEntreeDbHelper {
 
             return preparedStatement.executeUpdate() > 0; // Return true if insertion succeeds
         } catch (SQLException e) {
-            e.printStackTrace();
+          logger.error(e);
             return false; // Return false if an error occurs
         }
     }

@@ -1,6 +1,7 @@
 package com.marrok.inventaire_esm.util.database;
 
 import com.marrok.inventaire_esm.model.Fournisseur;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,13 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FournisseurDbHelper {
+    Logger logger =Logger.getLogger(FournisseurDbHelper.class);
 
     public Connection cnn;
 
     public FournisseurDbHelper() throws SQLException {
+        logger.info("FournisseurDbHelper");
         this.cnn = DatabaseConnection.getInstance().getConnection();
     }
     public List<Fournisseur> getFournisseurs() {
+        logger.info("getFournisseurs");
         List<Fournisseur> fournisseurs = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
@@ -44,7 +48,7 @@ public class FournisseurDbHelper {
                 fournisseurs.add(fournisseur);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e);
             // Handle the exception according to your application's requirements
         } finally {
             try {
@@ -58,8 +62,7 @@ public class FournisseurDbHelper {
                     connection.close();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
-                // Handle the exception according to your application's requirements
+               logger.error(e);
             }
         }
 
@@ -67,6 +70,7 @@ public class FournisseurDbHelper {
     }
 
     public int addFournisseur(Fournisseur fournisseur) {
+        logger.info("addFournisseur");
         String query = "INSERT INTO fournisseur (name, rc, nif, ai, nis, tel, fax, address, email,rib) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 
         try (
@@ -86,11 +90,12 @@ public class FournisseurDbHelper {
             return preparedStatement.executeUpdate(); // Return 1 if insertion succeeds
 
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e);
             return -1; // Return -1 if an error occurs
         }
     }
     public Fournisseur getFournisseurById(int idFournisseur) {
+        logger.info("getFournisseurById");
         String query = "SELECT id, name, rc, nif, ai, nis, tel, fax, address, email,rib FROM fournisseur WHERE id = ?";
         Fournisseur fournisseur = null;
 
@@ -114,14 +119,14 @@ public class FournisseurDbHelper {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle exception
+           logger.error(e);
         }
         return fournisseur;
     }
 
     // Method to update an existing fournisseur (supplier) in the database
     public int updateFournisseur(Fournisseur fournisseur) throws SQLException {
+        logger.info("updateFournisseur");
         // SQL query to update the fournisseur
         String query = "UPDATE fournisseur SET name = ?, rc = ?, nif = ?, ai = ?, nis = ?, tel = ?, fax = ?, address = ?, email = ? ,rib =? WHERE id = ?";
 
@@ -146,12 +151,13 @@ public class FournisseurDbHelper {
             return preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+           logger.error(e);
             throw new SQLException("Error updating fournisseur: " + e.getMessage());
         }
     }
     // Method to delete an existing fournisseur (supplier) from the database
     public boolean deleteFournisseur(int fournisseurId) {
+        logger.info("deleteFournisseur");
         // SQL query to delete the fournisseur
         String query = "DELETE FROM fournisseur WHERE id = ?";
 
@@ -164,7 +170,7 @@ public class FournisseurDbHelper {
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0; // Return true if the delete was successful
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e);
             return false; // Return false if an error occurred
         }
     }
