@@ -1,8 +1,13 @@
 package com.marrok.inventaire_esm.util.database;
 
+import com.marrok.inventaire_esm.util.GeneralUtil;
+import javafx.scene.control.Alert;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DatabaseConnection {
 //  private static final String DATABASE_NAME = "invlouiza";
@@ -24,7 +29,9 @@ public class DatabaseConnection {
         try {
             this.connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
         } catch (SQLException e) {
-            throw new SQLException("Failed to create the database connection.", e);
+            GeneralUtil.showAlertWithOutTimelimit(Alert.AlertType.ERROR,"Connection error","check your connection");
+            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, " SQLException Failed to create the database connection. " +  e);
+
         }
     }
 
