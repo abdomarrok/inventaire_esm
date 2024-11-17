@@ -44,16 +44,17 @@
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="product_button" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#go_Products" prefHeight="58.0" prefWidth="265.0" style="-fx-background-color: #e6b955;" styleClass="dashboard_tub" text="المواد" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+                    <Button fx:id="location_button" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0"  onAction="#go_Location" prefHeight="58.0" prefWidth="264.0" style="-fx-background-color: #e6b955;" styleClass="dashboard_tub" text="الاماكن">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@../../img/product2.png" />
+                                    <Image url="@../../img/location.png" />
                                 </image>
                             </ImageView>
                         </graphic>
                     </Button>
-                    <Button fx:id="category_button" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#go_Categories" prefHeight="58.0" prefWidth="264.0" style="-fx-background-color: #ed8759;" styleClass="dashboard_tub" text="الفئات">
+
+                    <Button fx:id="adjustment_button" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0"   onAction="#go_Adjustement" prefHeight="58.0" prefWidth="264.0" style="-fx-background-color: #ed8759;" styleClass="dashboard_tub" text="تعديل المخزون">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
@@ -62,6 +63,7 @@
                             </ImageView>
                         </graphic>
                     </Button>
+
                     <Button fx:id="fornisseurs_button" alignment="TOP_RIGHT" contentDisplay="RIGHT" graphicTextGap="20.0" onAction="#go_Fornisseur" prefHeight="58.0" prefWidth="264.0" style="-fx-background-color: #999573;" styleClass="dashboard_tub" text="الموردين">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
@@ -120,17 +122,17 @@
                         </graphic>
                     </Button>
 
-                    <Button fx:id="location_button" alignment="TOP_CENTER" contentDisplay="RIGHT" graphicTextGap="20.0" nodeOrientation="RIGHT_TO_LEFT" onAction="#go_Location" prefHeight="58.0" prefWidth="264.0" style="-fx-background-color: #e6b955;" styleClass="dashboard_tub" text="الاماكن">
+
+                    <Button fx:id="product_button" alignment="TOP_CENTER" contentDisplay="RIGHT"  nodeOrientation="RIGHT_TO_LEFT" graphicTextGap="20.0" onAction="#go_Products" prefHeight="58.0" prefWidth="265.0" style="-fx-background-color: #e6b955;" styleClass="dashboard_tub" text="المواد" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                 <image>
-                                    <Image url="@../../img/location.png" />
+                                    <Image url="@../../img/product2.png" />
                                 </image>
                             </ImageView>
                         </graphic>
                     </Button>
-
-                    <Button fx:id="adjustment_button" alignment="TOP_CENTER" contentDisplay="RIGHT" graphicTextGap="20.0" nodeOrientation="RIGHT_TO_LEFT"  onAction="#go_Adjustement" prefHeight="58.0" prefWidth="264.0" style="-fx-background-color: #ed8759;" styleClass="dashboard_tub" text="تعديل المخزون">
+                    <Button fx:id="category_button" alignment="TOP_CENTER" contentDisplay="RIGHT"  nodeOrientation="RIGHT_TO_LEFT" graphicTextGap="20.0" onAction="#go_Categories" prefHeight="58.0" prefWidth="264.0" style="-fx-background-color: #ed8759;" styleClass="dashboard_tub" text="الفئات">
                         <graphic>
                             <ImageView fitHeight="50.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true">
                                 <image>

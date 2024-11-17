@@ -64,11 +64,9 @@ public class StockDashboardController implements Initializable {
                 // Admin sees everything
                 break;
             case "Editor":
-                product_button.setDisable(true);
                 settings_button.setDisable(true);
                 employers_button.setDisable(true);
                 settings_button.setDisable(true);
-                services_button.setDisable(true);
                 break;
             case "User":
                 // User sees limited options
@@ -80,19 +78,6 @@ public class StockDashboardController implements Initializable {
                 category_button.setDisable(true);
                 product_button.setDisable(true);
                 fornisseurs_button.setDisable(true);
-                break;
-            default:
-                etat_stock_button.setDisable(true);
-                list_be_button.setDisable(true);
-                list_bs_button.setDisable(true);
-                category_button.setDisable(true);
-                product_button.setDisable(true);
-                fornisseurs_button.setDisable(true);
-                employers_button.setDisable(true);
-                services_button.setDisable(true);
-                location_button.setDisable(true);
-                inventaire_button.setDisable(true);
-                settings_button.setDisable(true);
                 break;
         }
     }
