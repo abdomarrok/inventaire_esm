@@ -3,6 +3,7 @@ package com.marrok.inventaire_esm.controller.article;
 import com.marrok.inventaire_esm.controller.bon_entree.AddBonEntreeController;
 import com.marrok.inventaire_esm.controller.bon_sortie.AddBonSortieController;
 import com.marrok.inventaire_esm.model.Article;
+import com.marrok.inventaire_esm.model.Category;
 import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
 import com.marrok.inventaire_esm.util.database.CategoryDbHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
@@ -28,6 +29,7 @@ import org.apache.log4j.Logger;
 import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -74,7 +76,11 @@ public class EtatStockController implements Initializable {
 
     private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
     private CategoryDbHelper categoryDbhelper = new CategoryDbHelper();
-
+      Map<Integer, String> categoryCache = new HashMap<>();
+     Map<Integer, Integer> entreeCache = articleDbhelper.getTotalEntredQuantities();
+     Map<Integer, Integer> sortieCache = articleDbhelper.getTotalSortieQuantities();
+      Map<Integer, Integer> adjustmentCache = articleDbhelper.getTotalAdjustments();
+    Map<Integer, Integer> totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
     private Article selectedArticle;
     @FXML
     private Label titleLabel;
@@ -84,11 +90,35 @@ public class EtatStockController implements Initializable {
 
     public EtatStockController() throws SQLException {
     }
+    private void preloadData() throws SQLException {
+        logger.info("Preloading data");
+
+        // Load categories
+        List<Category> categories = categoryDbhelper.getCategories();
+        categories.forEach(category -> categoryCache.put(category.getId(), category.getName()));
+
+        // Preload entree data
+        entreeCache = articleDbhelper.getTotalEntredQuantities();
+
+        // Preload sortie data
+        sortieCache = articleDbhelper.getTotalSortieQuantities();
+
+        // Preload adjustment data
+        adjustmentCache = articleDbhelper.getTotalAdjustments();
+
+        // Get total quantities
+        totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
+    }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.info("Initializing EtatStockController");
+        try {
+            preloadData(); // Load categories before initializing columns
+        } catch (SQLException e) {
+            logger.error("Failed to preload categories", e);
+        }
         loadData();
         initializeColumns();
         setupSearchFilter();
@@ -145,8 +175,7 @@ public class EtatStockController implements Initializable {
         remarkColumn.setCellValueFactory(new PropertyValueFactory<>("remarque"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-        // Pre-fetch total quantities for each article and store in a map
-        Map<Integer, Integer> totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
+
 
         // Set cell value factory for total quantity
         quantityColumn.setCellValueFactory(cellData -> {
@@ -155,35 +184,32 @@ public class EtatStockController implements Initializable {
             Integer totalQuantity = totalQuantities.get(articleId); // Fetch pre-calculated quantity
             return new SimpleIntegerProperty(totalQuantity != null ? totalQuantity : 0).asObject();
         });
-
-        // Set cell value factory for entree column
+        // Use preloaded data for entree column
         entreeColumn.setCellValueFactory(cellData -> {
-            Article article = cellData.getValue();
-            int articleId = article.getId();
-            int totalArticleEntree = articleDbhelper.getTotalEntredQuantityByArticleId(articleId);
+            int articleId = cellData.getValue().getId();
+            int totalArticleEntree = entreeCache.getOrDefault(articleId, 0);
             return new SimpleIntegerProperty(totalArticleEntree).asObject();
         });
 
-        // Set cell value factory for sortie column
+        // Use preloaded data for sortie column
         sortieColumn.setCellValueFactory(cellData -> {
-            Article article = cellData.getValue();
-            int articleId = article.getId();
-            int totalArticleSortie = articleDbhelper.getTotalSortieQuantityByArticleId(articleId);
+            int articleId = cellData.getValue().getId();
+            int totalArticleSortie = sortieCache.getOrDefault(articleId, 0);
             return new SimpleIntegerProperty(totalArticleSortie).asObject();
         });
 
+        // Use preloaded data for edit column
         editColumn.setCellValueFactory(cellData -> {
-            Article article = cellData.getValue();
-            int articleId = article.getId();
-            int totalAdjustemnt = articleDbhelper.getTotalAdjustmentByArticleId(articleId) ;
-            return new SimpleIntegerProperty(totalAdjustemnt).asObject();
+            int articleId = cellData.getValue().getId();
+            int totalAdjustment = adjustmentCache.getOrDefault(articleId, 0);
+            return new SimpleIntegerProperty(totalAdjustment).asObject();
         });
 
-        // Custom cell value factory for category column to fetch category name by id_category
+
         categoryColmun.setCellValueFactory(cellData -> {
             int categoryId = cellData.getValue().getIdCategory();
-            String categoryName = categoryDbhelper.getCategoryById(categoryId);
-            return new SimpleStringProperty(categoryName != null && !categoryName.isEmpty() ? categoryName : "Unknown Category");
+            String categoryName = categoryCache.getOrDefault(categoryId, "Unknown Category");
+            return new SimpleStringProperty(categoryName);
         });
     }
 
@@ -274,10 +300,6 @@ public class EtatStockController implements Initializable {
             articleList.setAll(articles);
             tableView.refresh();
     }
-
-
-
-
 
 }
 

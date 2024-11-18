@@ -49,9 +49,10 @@
                   <String fx:value="add_btn" />
                   <String fx:value="btn_bon" />
                </styleClass></Button>
-            <Button fx:id="BonSortieBtn" onAction="#goBonSortie" style="-fx-background-color: #FF5722;" text=" إخراج">
+            <Button fx:id="BonSortieBtn" onAction="#goBonSortie" text=" إخراج">
                <styleClass>
                   <String fx:value="btn_bon" />
+                  <String fx:value="btn-danger" />
                </styleClass></Button>
             <opaqueInsets>
                <Insets />
@@ -62,9 +63,9 @@
         </VBox>
     </right>
     <center>
-        <VBox BorderPane.alignment="CENTER" spacing="10.0">
+        <VBox spacing="10.0" BorderPane.alignment="CENTER">
             <children>
-                <TableView fx:id="tableView" editable="true" nodeOrientation="RIGHT_TO_LEFT"  stylesheets="@../../css/tableview.css" tableMenuButtonVisible="true">
+                <TableView fx:id="tableView" editable="true" nodeOrientation="RIGHT_TO_LEFT" stylesheets="@../../css/tableview.css" tableMenuButtonVisible="true">
                     <columns>
                         <TableColumn fx:id="id_article_v" prefWidth="100.0" text="المعرف" />
                         <TableColumn fx:id="nameColumn" prefWidth="150.0" text="الاسم" />

@@ -265,7 +265,6 @@ public class ArticleDbHelper {
     }
 
 
-
     // READ: Get a single stock adjustment by ID
     public StockAdjustment getStockAdjustmentById(int id) {
         logger.info("getStockAdjustmentById");
@@ -367,6 +366,57 @@ public class ArticleDbHelper {
         }
     }
 
+    // Get the total entered quantities
+    public Map<Integer, Integer> getTotalEntredQuantities() throws SQLException {
+        logger.info("getTotalEntredQuantities");
+        Map<Integer, Integer> enteredQuantities = new HashMap<>();
+        String sql = "SELECT id_article, SUM(quantity) AS total_quantity FROM entree GROUP BY id_article";
+
+        try (Statement stmt = cnn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                int articleId = rs.getInt("id_article");
+                int totalQuantity = rs.getInt("total_quantity");
+                enteredQuantities.put(articleId, totalQuantity);
+            }
+        }
+        return enteredQuantities;
+    }
+
+    // Get the total sortie (exit) quantities
+    public Map<Integer, Integer> getTotalSortieQuantities() throws SQLException {
+        Map<Integer, Integer> sortieQuantities = new HashMap<>();
+        String sql = "SELECT id_article, SUM(quantity) AS total_quantity FROM sortie GROUP BY id_article";
+
+        try (Statement stmt = cnn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                int articleId = rs.getInt("id_article");
+                int totalQuantity = rs.getInt("total_quantity");
+                sortieQuantities.put(articleId, totalQuantity);
+            }
+        }
+        return sortieQuantities;
+    }
+
+    // Get the total adjustments
+    public Map<Integer, Integer> getTotalAdjustments() throws SQLException {
+        Map<Integer, Integer> adjustments = new HashMap<>();
+        String sql = "SELECT article_id, SUM(quantity) AS total_adjustment FROM stock_adjustment GROUP BY article_id";
+
+        try (Statement stmt = cnn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                int articleId = rs.getInt("article_id");
+                int totalAdjustment = rs.getInt("total_adjustment");
+                adjustments.put(articleId, totalAdjustment);
+            }
+        }
+        return adjustments;
+    }
 
 
 }
