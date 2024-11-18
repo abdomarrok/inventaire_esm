@@ -16,7 +16,7 @@
 <GridPane alignment="CENTER" hgap="10" nodeOrientation="LEFT_TO_RIGHT" vgap="10">
     <children>
         <Label alignment="CENTER" styleClass="lbl" text="رقم الجرد" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-        <TextField fx:id="employerInventaireCode" alignment="CENTER" promptText="0000000000" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="employerInventaireCode" alignment="CENTER" promptText="0000000000" styleClass="searchField" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
         <Label alignment="CENTER" styleClass="lbl" text="العنصر" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
         <VBox alignment="CENTER" prefHeight="321.0" prefWidth="248.0" GridPane.columnIndex="0" GridPane.halignment="RIGHT" GridPane.rowIndex="2">

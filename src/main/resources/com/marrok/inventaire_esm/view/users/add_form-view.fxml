@@ -21,10 +21,10 @@
         </Label>
 
         <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="lbl" text="اسم المستخدم:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-        <TextField fx:id="usernameField" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="usernameField" styleClass="searchField" GridPane.columnIndex="0" GridPane.rowIndex="1" />
 
         <Label alignment="CENTER" styleClass="lbl" text="كلمة المرور:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-        <TextField fx:id="passwordField" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <TextField fx:id="passwordField" styleClass="searchField" GridPane.columnIndex="0" GridPane.rowIndex="2" />
 
         <Label alignment="CENTER" styleClass="lbl" text="الدور:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
 

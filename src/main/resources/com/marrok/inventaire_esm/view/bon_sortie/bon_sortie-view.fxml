@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -41,9 +42,16 @@
         <right>
             <VBox fx:id="leftBox" alignment="TOP_RIGHT" spacing="20.0">
                 <padding>
-                    <Insets left="10.0" right="10.0" />
+                    <Insets left="10.0" right="10.0" top="10.0" />
                 </padding>
-                <Button fx:id="BonEntreeBtn" onAction="#goBonSortie" styleClass="btn_bon" text="إضافة " />
+                <Button fx:id="BonEntreeBtn" onAction="#goBonSortie" text="إضافة ">
+               <styleClass>
+                  <String fx:value="btn_bon" />
+                  <String fx:value="add_btn" />
+               </styleClass></Button>
+            <BorderPane.margin>
+               <Insets />
+            </BorderPane.margin>
             </VBox>
         </right>
 

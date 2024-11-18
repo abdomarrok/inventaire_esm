@@ -139,7 +139,6 @@ public class EtatStockController implements Initializable {
 
     private void initializeColumns() {
         logger.info("initializeColumns called");
-        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
         id_article_v.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
@@ -172,6 +171,7 @@ public class EtatStockController implements Initializable {
             int totalArticleSortie = articleDbhelper.getTotalSortieQuantityByArticleId(articleId);
             return new SimpleIntegerProperty(totalArticleSortie).asObject();
         });
+
         editColumn.setCellValueFactory(cellData -> {
             Article article = cellData.getValue();
             int articleId = article.getId();

@@ -12,9 +12,9 @@
             </padding>
             <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" styleClass="titleLabel" text="تحديث مكان" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
             <Label styleClass="lbl" text="اسم المكان" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-            <TextField fx:id="locationNameField" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+            <TextField fx:id="locationNameField" styleClass="searchField" GridPane.columnIndex="0" GridPane.rowIndex="1" />
             <Label styleClass="lbl" text="رقم الطابق" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-            <TextField fx:id="floorField" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <TextField fx:id="floorField" styleClass="searchField" GridPane.columnIndex="0" GridPane.rowIndex="2" />
             <Label styleClass="lbl" text="المصلحة" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
 <!--            <TextField fx:id="serviceField" GridPane.columnIndex="0" GridPane.rowIndex="3" />-->
             <ChoiceBox fx:id="serviceField" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />

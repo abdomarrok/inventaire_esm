@@ -71,3 +71,10 @@
     -fx-background-radius: 2em;
 
 }
+
+.specialColmun {
+    -fx-text-fill: #FFFFFF;
+    -fx-alignment: CENTER;
+    -fx-font-weight: bold;
+    -fx-opacity: 0.75;
+}

@@ -21,13 +21,13 @@
         </Label>
 
         <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" styleClass="lbl" text="الاسم الأول:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" />
-        <TextField fx:id="firstNameField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+        <TextField fx:id="firstNameField" styleClass="searchField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
 
         <Label alignment="CENTER" styleClass="lbl" text="الاسم الأخير:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-        <TextField fx:id="lastNameField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+        <TextField fx:id="lastNameField" styleClass="searchField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
 
         <Label alignment="CENTER" styleClass="lbl" text="الوظيفة:" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
-        <TextField fx:id="titleField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+        <TextField fx:id="titleField" styleClass="searchField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
 
         <Button onAction="#handleAddEmployer" prefHeight="26.0" prefWidth="97.0" text="إضافة" textAlignment="RIGHT" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
 

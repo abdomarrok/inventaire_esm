@@ -28,7 +28,7 @@
 
     <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" spacing="10.0">
         <Label alignment="CENTER_RIGHT" styleClass="lbl_fiche_inv" text="نوع العملية :" />
-        <ChoiceBox fx:id="operation_type" styleClass="searchField" />
+        <ChoiceBox fx:id="operation_type" minHeight="40.0" minWidth="80.0" styleClass="searchField" />
     </HBox>
     </HBox>
    <HBox alignment="CENTER" layoutX="30.0" layoutY="571.0" spacing="50.0">

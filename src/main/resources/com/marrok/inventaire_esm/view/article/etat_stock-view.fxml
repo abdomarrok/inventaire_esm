@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -41,39 +42,48 @@
     <right>
         <VBox fx:id="leftBox" alignment="TOP_RIGHT" spacing="20.0">
             <padding>
-                <Insets left="10.0" right="10.0" />
+                <Insets left="10.0" right="10.0" top="10.0" />
             </padding>
-            <Button fx:id="BonEntreeBtn" onAction="#goBonEntree" styleClass="btn_bon" text="إضافة " />
-            <Button fx:id="BonSortieBtn" onAction="#goBonSortie" styleClass="btn_bon" text=" إخراج" />
+            <Button fx:id="BonEntreeBtn" onAction="#goBonEntree" text="إضافة ">
+               <styleClass>
+                  <String fx:value="add_btn" />
+                  <String fx:value="btn_bon" />
+               </styleClass></Button>
+            <Button fx:id="BonSortieBtn" onAction="#goBonSortie" style="-fx-background-color: #FF5722;" text=" إخراج">
+               <styleClass>
+                  <String fx:value="btn_bon" />
+               </styleClass></Button>
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+            <BorderPane.margin>
+               <Insets />
+            </BorderPane.margin>
         </VBox>
     </right>
     <center>
-        <VBox BorderPane.alignment="CENTER">
+        <VBox BorderPane.alignment="CENTER" spacing="10.0">
             <children>
-                <TableView fx:id="tableView" nodeOrientation="RIGHT_TO_LEFT" styleClass="tableview" stylesheets="@../../css/tableview.css">
+                <TableView fx:id="tableView" editable="true" nodeOrientation="RIGHT_TO_LEFT"  stylesheets="@../../css/tableview.css" tableMenuButtonVisible="true">
                     <columns>
-                        <TableColumn fx:id="id_article_v" text="المعرف" />
-                        <TableColumn fx:id="nameColumn" text="الاسم" />
-                        <TableColumn fx:id="unitColumn" text="الوحدة" />
-                        <TableColumn fx:id="entreeColumn" style="-fx-background-color: #4CAF50; -fx-text-fill: #FFFFFF; -fx-alignment: CENTER; -fx-font-weight: bold; -fx-opacity: 0.75;" text="دخول" />
-
-                        <TableColumn fx:id="sortieColumn" style="-fx-background-color: #FF5722; -fx-text-fill: #FFFFFF; -fx-alignment: CENTER; -fx-font-weight: bold; -fx-padding: 5px; -fx-opacity: 0.75;" text="خروج" />
-                       <TableColumn fx:id="editColumn" prefWidth="99.0" style="-fx-background-color: #0a8da4; -fx-text-fill: #FFFFFF; -fx-alignment: CENTER; -fx-font-weight: bold; -fx-padding: 5px; -fx-opacity: 0.75;" text="تعديلات" />
-
-                        <TableColumn fx:id="quantityColumn" prefWidth="75.0" text="الكمية" />
-
-
-
-                        <TableColumn fx:id="remarkColumn" text="ملاحظة" />
-                        <TableColumn fx:id="descriptionColumn" text="الوصف" />
-                        <TableColumn fx:id="categoryColmun" text="الفئة" />
+                        <TableColumn fx:id="id_article_v" prefWidth="100.0" text="المعرف" />
+                        <TableColumn fx:id="nameColumn" prefWidth="150.0" text="الاسم" />
+                        <TableColumn fx:id="unitColumn" prefWidth="100.0" text="الوحدة" />
+                        <TableColumn fx:id="entreeColumn" prefWidth="130.0" style="-fx-background-color: #4CAF50;" styleClass="specialColmun" text="دخول" />
+                        <TableColumn fx:id="sortieColumn" prefWidth="130.0" style="-fx-background-color: #FF5722;" styleClass="specialColmun" text="خروج" />
+                        <TableColumn fx:id="editColumn" prefWidth="130.0" style="-fx-background-color: #0a8da4;" styleClass="specialColmun" text="التعديل" />
+                        <TableColumn fx:id="quantityColumn" prefWidth="100.0" text="الكمية" />
+                        <TableColumn fx:id="descriptionColumn" prefWidth="110.0" text="الوصف" />
+                        <TableColumn fx:id="categoryColmun" prefWidth="150.0" text="الفئة" />
+                        <TableColumn fx:id="remarkColumn" prefWidth="150.0" text="ملاحظة" />
                     </columns>
-                  <columnResizePolicy>
-                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                  </columnResizePolicy>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
                 </TableView>
             </children>
         </VBox>
+
     </center>
 
    </BorderPane>

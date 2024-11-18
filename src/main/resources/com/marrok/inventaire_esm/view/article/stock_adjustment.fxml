@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -11,7 +12,7 @@
             <HBox fx:id="topBox">
                 <children>
                     <HBox>
-                        <Button onAction="#goStockDashboard" contentDisplay="GRAPHIC_ONLY" styleClass="home_btn" text="الرئيسية">
+                        <Button contentDisplay="GRAPHIC_ONLY" onAction="#goStockDashboard" styleClass="home_btn" text="الرئيسية">
                             <graphic>
                                 <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -37,9 +38,13 @@
         <right>
             <VBox fx:id="leftBox" alignment="TOP_RIGHT" spacing="20.0">
                 <padding>
-                    <Insets left="10.0" right="10.0" />
+                    <Insets left="10.0" right="10.0" top="10.0" />
                 </padding>
-                <Button fx:id="AddAdjustemntBtn" onAction="#goAddAdjustemnt" styleClass="btn_bon" text="إضافة " />
+                <Button fx:id="AddAdjustemntBtn" onAction="#goAddAdjustemnt" text="إضافة ">
+               <styleClass>
+                  <String fx:value="btn_bon" />
+                  <String fx:value="add_btn" />
+               </styleClass></Button>
             </VBox>
         </right>
         <center>
