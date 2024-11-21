@@ -12,14 +12,14 @@ import java.sql.*;
 public class DatabaseConnection {
     static Logger logger = Logger.getLogger("DatabaseConnection");
     //private static final String DATABASE_NAME = "invlouiza";
- //private static final String DATABASE_NAME = "testinvempty";
-    private static final String DATABASE_NAME = "testinv";
-//    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/"+DATABASE_NAME;
-//    private static final String DATABASE_USER = "root";
-//    private static final String DATABASE_PASSWORD = "";
-    private static final String DATABASE_URL = "jdbc:mysql://192.168.0.79:3306/"+DATABASE_NAME;
-    private static final String DATABASE_USER = "esm_inv1";
-    private static final String DATABASE_PASSWORD = "123456789";
+ private static final String DATABASE_NAME = "testinvempty2";
+  //  private static final String DATABASE_NAME = "testinv";
+    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/"+DATABASE_NAME;
+    private static final String DATABASE_USER = "root";
+    private static final String DATABASE_PASSWORD = "";
+//    private static final String DATABASE_URL = "jdbc:mysql://192.168.0.79:3306/"+DATABASE_NAME;
+//    private static final String DATABASE_USER = "esm_inv1";
+//    private static final String DATABASE_PASSWORD = "123456789";
 
     private static DatabaseConnection instance;
     private Connection connection;
@@ -53,6 +53,7 @@ public class DatabaseConnection {
 
 
 
+    // Backup database to a specified path
     public static void backupDatabase(String backupPath) throws SQLException, IOException {
         logger.info("backupDatabase");
         Connection connection = getInstance().getConnection();
@@ -64,18 +65,22 @@ public class DatabaseConnection {
             fileWriter.write("-- Database backup\n");
             fileWriter.write("-- Generated on " + java.time.LocalDateTime.now() + "\n\n");
 
-            // Get a list of all tables in the database
-            resultSet = statement.executeQuery("SHOW TABLES");
-            while (resultSet.next()) {
-                String tableName = resultSet.getString(1);
-                writeTableToSQL(tableName, fileWriter);
+            // Recommended creation order of tables
+            String[] tableOrder = {
+                    "category", "fournisseur", "employeur", "user", "service",
+                    "localisation", "article", "bon_entree", "bon_sortie",
+                    "entree", "sortie", "stock_adjustment", "inventaire_item"
+            };
+
+            // Loop through the tables in the specified order
+            for (String tableName : tableOrder) {
+                writeTableToSQL(tableName, fileWriter); // Write each table to the SQL file
             }
         } finally {
             if (resultSet != null) resultSet.close();
             if (statement != null) statement.close();
         }
     }
-
     private static void writeTableToSQL(String tableName, FileWriter fileWriter) throws SQLException, IOException {
         logger.info("writeTableToSQL");
         Connection connection = getInstance().getConnection();
@@ -103,9 +108,12 @@ public class DatabaseConnection {
                     if (resultSet.wasNull()) {
                         insertSQL.append("NULL");
                     } else {
-                        if (resultSet.getMetaData().getColumnType(i) == Types.VARCHAR ||
-                                resultSet.getMetaData().getColumnType(i) == Types.CHAR) {
+                        int columnType = resultSet.getMetaData().getColumnType(i);
+                        if (columnType == Types.VARCHAR || columnType == Types.CHAR) {
                             value = value.replace("'", "''"); // Escape single quotes
+                            insertSQL.append("'").append(value).append("'");
+                        } else if (columnType == Types.TIMESTAMP || columnType == Types.DATE || columnType == Types.TIME) {
+                            // Handle date/time types
                             insertSQL.append("'").append(value).append("'");
                         } else {
                             insertSQL.append(value);
@@ -123,4 +131,5 @@ public class DatabaseConnection {
             if (statement != null) statement.close();
         }
     }
+
 }
