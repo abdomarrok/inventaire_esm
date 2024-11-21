@@ -23,6 +23,14 @@ public class BonRetour {
         this.lastEdited = lastEdited;
     }
 
+    public BonRetour(int id, int idEmployeur, int idService, Date date, String returnReason) {
+        this.id = id;
+        this.idEmployeur = idEmployeur;
+        this.idService = idService;
+        this.date = date;
+        this.returnReason = returnReason;
+    }
+
     // Getters and Setters
     public int getId() {
         return id;

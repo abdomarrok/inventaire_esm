@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" minWidth="0.0" prefHeight="600.0" prefWidth="600.0" spacing="20.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.bon_retour.AddRetourController">
+
+    <Label alignment="CENTER" styleClass="titleLabel" text="أضف عنصر الى القائمة" />
+    <TextField fx:id="searchField" alignment="CENTER_RIGHT" maxWidth="200.0" promptText="بحث..." styleClass="searchField" />
+    <TableView fx:id="articleTable">
+        <columns>
+            <TableColumn fx:id="articleUniteColumn" editable="false" minWidth="200.0" prefWidth="-1.0" sortable="false" text="الوحدة" />
+            <TableColumn fx:id="articleNameColumn" editable="false" minWidth="200.0" prefWidth="-1.0" sortable="false" text="إسم العنصر" />
+        </columns>
+      <columnResizePolicy>
+         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+      </columnResizePolicy>
+    </TableView>
+
+    <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" spacing="10.0">
+        <Label alignment="CENTER_RIGHT" styleClass="lbl_fiche_inv" text="الكمية :" />
+        <TextField fx:id="quantityField" alignment="CENTER" promptText="ادخل الكمية" styleClass="searchField" />
+    </HBox>
+
+
+
+    <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" spacing="10.0">
+        <Button onAction="#confirmSelection" style=" -fx-background-color: #0aa457;" styleClass="btn_bon" text="تأكيد" />
+        <Button onAction="#closeDialog" styleClass="btn_bon" text="إلغاء" />
+      <VBox.margin>
+         <Insets top="10.0" />
+      </VBox.margin>
+    </HBox>
+    <stylesheets>
+        <!--        <URL value="@../../css/nord-light.css" />-->
+        <URL value="@../../css/all.css" />
+        <URL value="@../../css/tableview.css" />
+    </stylesheets>
+</VBox>

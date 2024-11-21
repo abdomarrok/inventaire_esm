@@ -52,6 +52,7 @@ public class AddBonSortieController implements  Initializable {
 
     private ObservableList<Employer> emploerlist;
     public TableView<Sortie> sortieTable;
+
     public TableColumn<Sortie, String> articleColumn;
     public TableColumn<Sortie, Integer> quantityColumn;
     public Button addItemButton;
@@ -90,7 +91,7 @@ public class AddBonSortieController implements  Initializable {
                     return new SimpleStringProperty(articleName);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+               logger.error(e);
                 return new SimpleStringProperty("Unknown Article");
             }
             return null;

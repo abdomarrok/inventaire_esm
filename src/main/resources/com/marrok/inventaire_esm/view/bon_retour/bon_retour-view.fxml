@@ -44,8 +44,40 @@
                     <Insets />
                 </BorderPane.margin>
             </HBox>
-
         </top>
+
+        <right>
+            <VBox fx:id="leftBox" alignment="TOP_RIGHT" spacing="20.0">
+                <padding>
+                    <Insets left="10.0" right="10.0" top="10.0" />
+                </padding>
+                <Button fx:id="BonRetourBtn" onAction="#goBonRetour" text="إضافة ">
+                    <styleClass>
+                        <String fx:value="btn_bon" />
+                        <String fx:value="add_btn" />
+                    </styleClass></Button>
+                <BorderPane.margin>
+                    <Insets />
+                </BorderPane.margin>
+            </VBox>
+        </right>
+        <center>
+            <VBox BorderPane.alignment="CENTER">
+                <children>
+                    <TableView fx:id="tableView" nodeOrientation="RIGHT_TO_LEFT" styleClass="tableview" stylesheets="@../../css/tableview.css">
+                        <columns>
+                            <TableColumn fx:id="id_bon_retour" text="المعرف" />
+                            <TableColumn fx:id="employeur" text="الموظف" />
+                            <TableColumn fx:id="reason_retour" text="سبب الارجاع" />
+                            <TableColumn fx:id="date" text="التاريخ" />
+                        </columns>
+                        <columnResizePolicy>
+                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                        </columnResizePolicy>
+                    </TableView>
+                </children>
+            </VBox>
+        </center>
     </BorderPane>
 
 </AnchorPane>
