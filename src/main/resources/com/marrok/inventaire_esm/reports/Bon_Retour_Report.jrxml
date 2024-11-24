@@ -1,0 +1,110 @@
+<!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
+<jasperReport name="Bon_Retour_Report" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b2a17ea6-eae5-4af7-9572-3e1cb7ec3b23">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
+	<parameter name="bon_retour_id" class="java.lang.Integer"/>
+	<parameter name="logo" class="java.lang.Object"/>
+	<query language="SQL"><![CDATA[
+SELECT br.id AS bon_retour_id,
+       br.date AS br_date,
+       br.id_employeur AS employeur_id,
+       br.id_service AS service_id,
+       emp.firstname AS employeur_fname,
+       emp.lastname AS employeur_lname,
+       r.id_article AS article_id,
+       a.name AS article_name,
+       sv.name AS service_name,
+       r.quantity AS quantity
+FROM bon_retour br
+JOIN retour r ON br.id = r.id_br
+JOIN article a ON r.id_article = a.id
+JOIN employeur emp ON br.id_employeur = emp.id
+JOIN service sv ON br.id_service = sv.id
+WHERE br.id = $P{bon_retour_id};
+		
+	]]></query>
+	<field name="bon_retour_id" class="java.lang.Integer"/>
+	<field name="employeur_id" class="java.lang.Integer"/>
+	<field name="article_name" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.Integer"/>
+	<field name="employeur_fname" class="java.lang.String"/>
+	<field name="employeur_lname" class="java.lang.String"/>
+	<field name="br_date" class="java.lang.String"/>
+	<field name="service_name" class="java.lang.String"/>
+	<title height="284">
+		<element kind="staticText" uuid="4a6506f2-8245-4e35-bb1a-cd672d29b775" x="197" y="150" width="160" height="30" fontName="Andalus" fontSize="18.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[وصل الإرجاع]]></text>
+		</element>
+		<element kind="textField" uuid="90c115aa-e571-4a98-8334-075633d3d431" x="378" y="190" width="102" height="20" hTextAlign="Right" vTextAlign="Middle">
+			<expression><![CDATA[$F{bon_retour_id}]]></expression>
+		</element>
+		<element kind="staticText" uuid="6da0cd12-ef56-4bfb-8b01-19fb87b99dc6" x="480" y="190" width="72" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[رقم الوصل]]></text>
+		</element>
+		<element kind="textField" uuid="244e0cc7-4b1c-44d0-9643-5b9be7fbd380" x="300" y="250" width="180" height="20" hTextAlign="Right" vTextAlign="Middle">
+			<expression><![CDATA[$F{employeur_fname} + " " + $F{employeur_lname}]]></expression>
+		</element>
+		<element kind="staticText" uuid="ca4cd3ff-ba24-4f1e-80c5-a6a392008748" x="480" y="250" width="72" height="20" fontName="Andalus" fontSize="12.0" bold="true" vTextAlign="Middle">
+			<text><![CDATA[المعني]]></text>
+		</element>
+		<element kind="staticText" uuid="c6d7c8b9-f3f5-45e5-bd24-bf2a506c8095" x="60" y="-10" width="440" height="30" fontName="Andalus" fontSize="15.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[الجمهورية الجزائرية الديمقراطية الشعبية]]></text>
+		</element>
+		<element kind="staticText" uuid="5baee2b7-d54a-4deb-a75e-dad2074b8117" x="60" y="20" width="440" height="30" fontName="Andalus" fontSize="15.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[وزارة العدل]]></text>
+		</element>
+		<element kind="staticText" uuid="f4d951bd-f778-4ade-b20d-de7221ae0d9d" x="60" y="50" width="440" height="30" fontName="Andalus" fontSize="15.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[المدرسة العليا للقضاء]]></text>
+		</element>
+		<element kind="image" uuid="30183088-da2c-4a3a-b061-9cf90111ef74" x="252" y="90" width="50" height="50">
+			<expression><![CDATA[$P{logo}]]></expression>
+		</element>
+		<element kind="staticText" uuid="373071b6-3314-486c-8add-e97089aa2451" x="60" y="190" width="70" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[القليعة، في :]]></text>
+		</element>
+		<element kind="textField" uuid="68539bf6-7c47-4801-a9b3-3b1bfce1324c" x="0" y="190" width="60" height="20" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA[$F{br_date}]]></expression>
+		</element>
+		<element kind="textField" uuid="4962912a-ef6c-4e7d-b2bb-d10e63d81643" x="370" y="220" width="110" height="20" hTextAlign="Right">
+			<expression><![CDATA[$F{service_name}]]></expression>
+		</element>
+		<element kind="staticText" uuid="c26e92e1-5555-48c2-b44c-06266dc76152" x="480" y="220" width="72" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+			<text><![CDATA[المصلحة]]></text>
+		</element>
+	</title>
+	<columnHeader height="50">
+		<element kind="staticText" uuid="0721fc1d-dbe0-4709-9c50-35f471f0a2b3" x="80" y="30" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[الكمية]]></text>
+			<box padding="0">
+				<pen lineWidth="2.0"/>
+			</box>
+		</element>
+		<element kind="staticText" uuid="656f1cd8-a7a8-4701-b038-b6541b8995fd" x="180" y="30" width="300" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[العنصر]]></text>
+			<box padding="0">
+				<pen lineWidth="2.0"/>
+			</box>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="21">
+			<element kind="textField" uuid="57b23bd2-8e40-4c3b-8487-d7691c4110aa" x="180" y="0" width="300" height="20" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{article_name}]]></expression>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="c3d47c9f-7139-4032-87ff-27ef68983df5" x="80" y="0" width="100" height="20" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$F{quantity}]]></expression>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="130">
+		<element kind="staticText" uuid="4b1a665e-4c0e-4262-b26f-f257c8a90503" x="440" y="10" width="80" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[أمين المخزن]]></text>
+		</element>
+	</columnFooter>
+</jasperReport>

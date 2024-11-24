@@ -4,10 +4,7 @@ import com.dlsc.gemsfx.FilterView;
 import com.marrok.inventaire_esm.controller.bon_sortie.AddSortieController;
 import com.marrok.inventaire_esm.model.*;
 import com.marrok.inventaire_esm.util.GeneralUtil;
-import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
-import com.marrok.inventaire_esm.util.database.BonRetourDbHelper;
-import com.marrok.inventaire_esm.util.database.EmployerDbHelper;
-import com.marrok.inventaire_esm.util.database.ServiceDbHelper;
+import com.marrok.inventaire_esm.util.database.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,10 +18,17 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
@@ -177,7 +181,49 @@ public class AddBonRetourController implements Initializable {
 
     public void printBonRetour(ActionEvent event) {
         logger.info("print bon retour");
+        Connection connection = null;
+        try {
+            connection = DatabaseConnection.getInstance().getConnection();
+            InputStream reportStream = getClass().getResourceAsStream("/com/marrok/inventaire_esm/reports/Bon_Retour_Report.jrxml");
+            if (reportStream == null) {
+                logger.error("Report file not found.");
+//                throw new FileNotFoundException("Report file not found.");
+            }
+
+            if (current_br_id != -1) {
+
+                parameters.put("bon_retour_id", current_br_id);
+                parameters.put("logo", getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"));
+                logger.info("Parameters: br= " + parameters);
+
+            } else {
+                logger.error("Error with current bon entree ID.");
+                GeneralUtil.showAlert(Alert.AlertType.WARNING, "Error", "Error with current bon retour ID.");
+                return; // Exit if the ID is invalid
+            }
+
+            // Compile the report
+            JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
+            // Fill the report
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+
+            // View the report
+            JasperViewer viewer = new JasperViewer(jasperPrint, false);
+            viewer.setTitle("وصل إرجاع");
+            viewer.setVisible(true);
+
+        } catch (SQLException sqlEx) {
+            logger.error(sqlEx);
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "SQL Error", "Error while accessing the database: " + sqlEx.getMessage());
+        } catch (Exception ex) {
+            logger.error(ex);
+            GeneralUtil.showAlert(Alert.AlertType.ERROR, "Error", "Error generating report: " + ex.getMessage());
+        }
+
     }
+
 
     public void saveBonRetour(ActionEvent event) {
         logger.info("saveBonRetour called");

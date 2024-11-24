@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import com.dlsc.gemsfx.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<?import java.net.URL?>
-<?import com.dlsc.gemsfx.FilterView?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="900.0" spacing="20.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.marrok.inventaire_esm.controller.bon_retour.AddBonRetourController">
+<VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="900.0" spacing="20.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.bon_retour.AddBonRetourController">
     <Label styleClass="titleLabel" text="إضافة وصل إرجاع" />
     <HBox alignment="CENTER" spacing="20.0">
         <HBox alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT">
@@ -42,14 +37,18 @@
             <Label styleClass="lbl_fiche_inv" text="التاريخ" />
             <DatePicker fx:id="datePicker" styleClass="smallDashboard_btn" />
         </VBox>
-        <VBox alignment="TOP_RIGHT">
-            <Label styleClass="lbl_fiche_inv" text="المصلحة" />
-            <ChoiceBox fx:id="serviceField" styleClass="smallDashboard_btn" />
-        </VBox>
-        <VBox alignment="TOP_RIGHT">
-            <Label styleClass="lbl_fiche_inv" text="سبب الارجاع" />
-            <TextArea fx:id="returnReason" styleClass="smallDashboard_btn" />
-        </VBox>
+      <VBox prefHeight="135.0" prefWidth="385.0">
+         <children>
+              <VBox alignment="TOP_RIGHT">
+                  <Label styleClass="lbl_fiche_inv" text="المصلحة" />
+                  <ChoiceBox fx:id="serviceField" styleClass="smallDashboard_btn" />
+              </VBox>
+              <VBox alignment="TOP_RIGHT">
+                  <Label styleClass="lbl_fiche_inv" text="سبب الارجاع" />
+                  <TextArea fx:id="returnReason" styleClass="smallDashboard_btn" />
+              </VBox>
+         </children>
+      </VBox>
     </HBox>
     <VBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
         <TableView fx:id="retourTable" nodeOrientation="RIGHT_TO_LEFT">
@@ -98,4 +97,3 @@
         <URL value="@../../css/tableview.css" />
     </stylesheets>
 </VBox>
-
