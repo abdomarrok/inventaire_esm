@@ -1,5 +1,6 @@
 package com.marrok.inventaire_esm.controller.bon_retour;
 
+import com.marrok.inventaire_esm.model.BonEntree;
 import com.marrok.inventaire_esm.model.BonRetour;
 
 import com.marrok.inventaire_esm.model.Employer;
@@ -15,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -61,9 +63,37 @@ public class BonRetourController  implements Initializable {
         tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedBonRetour = newValue);
         tableView.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
-
+                BonRetour selectedBonRetour = tableView.getSelectionModel().getSelectedItem();
+                showBonRetourDetails(selectedBonRetour.getId());
             }
         });
+    }
+
+    private void showBonRetourDetails(int id) {
+        logger.info("BonRetourController showBonRetourDetails");
+        BonRetour bonRetour = bonRetourDbHelper.getBonRetourById(id);
+        if(bonRetour!=null){
+           try{
+               FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/marrok/inventaire_esm/view/bon_retour/detail-view.fxml"));
+               Parent root = loader.load();
+               DetailViewController controller = loader.getController();
+               controller.setBonRetour(id);
+               // Create a new scene and set it to the stage
+               Scene scene = new Scene(root);
+               Stage stage = new Stage();
+               stage.setScene(scene);
+               stage.setTitle("Bon Retour Details");
+               stage.show();
+           } catch (IOException e) {
+               logger.error(e);
+               GeneralUtil.showAlert(Alert.AlertType.INFORMATION,"Error",e.getMessage());
+               // Handle the exception (e.g., show an error message)
+           }
+        }else {
+            // Handle case where BonEntree is not found (e.g., show a message)
+
+            logger.info("BonRetour not found.");
+        }
     }
 
     private void setupSearchFilter() {
