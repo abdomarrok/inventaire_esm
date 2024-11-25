@@ -36,6 +36,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class EtatStockController implements Initializable {
+
     Logger logger  = Logger.getLogger(EtatStockController.class);
 
 
@@ -51,6 +52,7 @@ public class EtatStockController implements Initializable {
     public TableColumn<Article, Integer> quantityColumn;
     public TableColumn<Article,Integer> entreeColumn;
     public TableColumn<Article,Integer> sortieColumn;
+    public TableColumn<Article,Integer> retourColumn;
     public TableColumn<Article,Integer> editColumn;
     @FXML
     public TableColumn<Article, String> remarkColumn;
@@ -79,7 +81,8 @@ public class EtatStockController implements Initializable {
       Map<Integer, String> categoryCache = new HashMap<>();
      Map<Integer, Integer> entreeCache = articleDbhelper.getTotalEntredQuantities();
      Map<Integer, Integer> sortieCache = articleDbhelper.getTotalSortieQuantities();
-      Map<Integer, Integer> adjustmentCache = articleDbhelper.getTotalAdjustments();
+     Map<Integer,Integer> retourCache = articleDbhelper.getTotalRetourQuantities();
+     Map<Integer, Integer> adjustmentCache = articleDbhelper.getTotalAdjustments();
     Map<Integer, Integer> totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
     private Article selectedArticle;
     @FXML
@@ -102,6 +105,7 @@ public class EtatStockController implements Initializable {
 
         // Preload sortie data
         sortieCache = articleDbhelper.getTotalSortieQuantities();
+        retourCache = articleDbhelper.getTotalRetourQuantities();
 
         // Preload adjustment data
         adjustmentCache = articleDbhelper.getTotalAdjustments();
@@ -197,7 +201,12 @@ public class EtatStockController implements Initializable {
             int totalArticleSortie = sortieCache.getOrDefault(articleId, 0);
             return new SimpleIntegerProperty(totalArticleSortie).asObject();
         });
+        retourColumn.setCellValueFactory(cellData->{
+            int articleId = cellData.getValue().getId();
+            int totalArticleRetour = retourCache.getOrDefault(articleId, 0);
+            return new SimpleIntegerProperty(totalArticleRetour).asObject();
 
+        });
         // Use preloaded data for edit column
         editColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getId();

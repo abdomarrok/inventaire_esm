@@ -68,8 +68,8 @@ public class DatabaseConnection {
             // Recommended creation order of tables
             String[] tableOrder = {
                     "category", "fournisseur", "employeur", "user", "service",
-                    "localisation", "article", "bon_entree", "bon_sortie",
-                    "entree", "sortie", "stock_adjustment", "inventaire_item"
+                    "localisation", "article", "bon_entree", "bon_sortie","bon_retour",
+                    "entree", "sortie","retour", "stock_adjustment", "inventaire_item"
             };
 
             // Loop through the tables in the specified order

@@ -167,35 +167,14 @@ public class ArticleDbHelper {
     }
     public int getTotalQuantityByArticleId(int articleId) {
         logger.info("getTotalQuantityByArticleId");
+
         int totalEntree = getTotalEntredQuantityByArticleId(articleId);
         int totalSortie = getTotalSortieQuantityByArticleId(articleId);
+        int totalRetour = getTotalRetourQuantityByArticleId(articleId);
         int totalAdjustment = getTotalAdjustmentByArticleId(articleId);
 
-        return totalEntree - totalSortie + totalAdjustment;  // Net quantity
-    }
-
-    public int getTotalAdjustmentByArticleId(int articleId) {
-        logger.info("getTotalAdjustmentByArticleId");
-        String query = "SELECT " +
-                "SUM(CASE WHEN adjustment_type = 'increase' THEN quantity ELSE 0 END) - " +
-                "SUM(CASE WHEN adjustment_type = 'decrease' THEN quantity ELSE 0 END) AS net_adjustment " +
-                "FROM stock_adjustment " +
-                "WHERE article_id = ?";
-
-        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
-            preparedStatement.setInt(1, articleId);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return resultSet.getInt("net_adjustment");
-                }
-            }
-        } catch (SQLException e) {
-            logger.error(
-                    "Error getting Total Adjustment Quantity By ArticleId: " + articleId, e);
-        }
-
-        return 0;  // Return 0 if an error occurs or no adjustments are found
+        // Net quantity = Entries - Exits + Returns + Adjustments
+        return totalEntree - totalSortie + totalRetour + totalAdjustment;
     }
 
     public int getTotalEntredQuantityByArticleId(int articleId) {
@@ -235,34 +214,113 @@ public class ArticleDbHelper {
 
         return 0;  // Return 0 if an error occurs or no records are found
     }
+    public int getTotalRetourQuantityByArticleId(int articleId) {
+        logger.info("getTotalRetourQuantityByArticleId");
+
+        String query = "SELECT COALESCE(SUM(quantity), 0) AS total_retour FROM retour WHERE id_article = ?";
+
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
+            preparedStatement.setInt(1, articleId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("total_retour");
+                }
+            }
+        } catch (SQLException e) {
+            logger.error("Error getting Total Retour Quantity By ArticleId: " + articleId, e);
+        }
+
+        return 0;  // Return 0 if an error occurs or no returns are found
+    }
 
     public Map<Integer, Integer> getTotalQuantitiesByArticle() {
         logger.info("getTotalQuantitiesByArticle");
         Map<Integer, Integer> totalQuantities = new HashMap<>();
 
         String query = "SELECT article.id AS article_id, " +
-                "(SELECT COALESCE(SUM(entree.quantity), 0) FROM entree WHERE entree.id_article = article.id) AS total_entree, " +
-                "(SELECT COALESCE(SUM(sortie.quantity), 0) FROM sortie WHERE sortie.id_article = article.id) AS total_sortie, " +
-                "(SELECT COALESCE(SUM(CASE WHEN adjustment_type = 'increase' THEN quantity ELSE 0 END), 0) - " +
-                "COALESCE(SUM(CASE WHEN adjustment_type = 'decrease' THEN quantity ELSE 0 END), 0) " +
-                "FROM stock_adjustment WHERE article_id = article.id) AS net_adjustment " +
+                "   (SELECT COALESCE(SUM(entree.quantity), 0) FROM entree WHERE entree.id_article = article.id) AS total_entree, " +
+                "   (SELECT COALESCE(SUM(sortie.quantity), 0) FROM sortie WHERE sortie.id_article = article.id) AS total_sortie, " +
+                "   (SELECT COALESCE(SUM(retour.quantity), 0) FROM retour WHERE retour.id_article = article.id) AS total_retour, " +
+                "   (SELECT COALESCE(SUM(CASE WHEN adjustment_type = 'increase' THEN quantity ELSE 0 END), 0) - " +
+                "       COALESCE(SUM(CASE WHEN adjustment_type = 'decrease' THEN quantity ELSE 0 END), 0) " +
+                "    FROM stock_adjustment WHERE article_id = article.id) AS net_adjustment " +
                 "FROM article " +
-                "ORDER BY (total_entree - total_sortie + net_adjustment) DESC, article.id ASC"; // Sort by total quantity, then article id
+                "ORDER BY (total_entree - total_sortie + total_retour + net_adjustment) DESC, article.id ASC";
 
         try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
                 int articleId = resultSet.getInt("article_id");  // Use alias 'article_id'
-                int totalQuantity = resultSet.getInt("total_entree") - resultSet.getInt("total_sortie") + resultSet.getInt("net_adjustment");
+                int totalQuantity = resultSet.getInt("total_entree")
+                        - resultSet.getInt("total_sortie")
+                        + resultSet.getInt("total_retour")
+                        + resultSet.getInt("net_adjustment");
                 totalQuantities.put(articleId, totalQuantity);
             }
         } catch (SQLException e) {
-            logger.error( "Error getting Total Quantity By Article", e);
+            logger.error("Error getting Total Quantities By Article", e);
         }
 
         return totalQuantities;
     }
+
+
+//    public Map<Integer, Integer> getTotalQuantitiesByArticle() {
+//        logger.info("getTotalQuantitiesByArticle");
+//        Map<Integer, Integer> totalQuantities = new HashMap<>();
+//
+//        String query = "SELECT article.id AS article_id, " +
+//                "(SELECT COALESCE(SUM(entree.quantity), 0) FROM entree WHERE entree.id_article = article.id) AS total_entree, " +
+//                "(SELECT COALESCE(SUM(sortie.quantity), 0) FROM sortie WHERE sortie.id_article = article.id) AS total_sortie, " +
+//                "(SELECT COALESCE(SUM(CASE WHEN adjustment_type = 'increase' THEN quantity ELSE 0 END), 0) - " +
+//                "COALESCE(SUM(CASE WHEN adjustment_type = 'decrease' THEN quantity ELSE 0 END), 0) " +
+//                "FROM stock_adjustment WHERE article_id = article.id) AS net_adjustment " +
+//                "FROM article " +
+//                "ORDER BY (total_entree - total_sortie + net_adjustment) DESC, article.id ASC"; // Sort by total quantity, then article id
+//
+//        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query);
+//             ResultSet resultSet = preparedStatement.executeQuery()) {
+//
+//            while (resultSet.next()) {
+//                int articleId = resultSet.getInt("article_id");  // Use alias 'article_id'
+//                int totalQuantity = resultSet.getInt("total_entree") - resultSet.getInt("total_sortie") + resultSet.getInt("net_adjustment");
+//                totalQuantities.put(articleId, totalQuantity);
+//            }
+//        } catch (SQLException e) {
+//            logger.error( "Error getting Total Quantity By Article", e);
+//        }
+//
+//        return totalQuantities;
+//    }
+
+    public int getTotalAdjustmentByArticleId(int articleId) {
+        logger.info("getTotalAdjustmentByArticleId");
+        String query = "SELECT " +
+                "SUM(CASE WHEN adjustment_type = 'increase' THEN quantity ELSE 0 END) - " +
+                "SUM(CASE WHEN adjustment_type = 'decrease' THEN quantity ELSE 0 END) AS net_adjustment " +
+                "FROM stock_adjustment " +
+                "WHERE article_id = ?";
+
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
+            preparedStatement.setInt(1, articleId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("net_adjustment");
+                }
+            }
+        } catch (SQLException e) {
+            logger.error(
+                    "Error getting Total Adjustment Quantity By ArticleId: " + articleId, e);
+        }
+
+        return 0;  // Return 0 if an error occurs or no adjustments are found
+    }
+
+
+
 
 
     // READ: Get a single stock adjustment by ID
@@ -399,6 +457,23 @@ public class ArticleDbHelper {
             }
         }
         return sortieQuantities;
+    }
+    // Get the total retour (return) quantities
+    public Map<Integer, Integer> getTotalRetourQuantities() throws SQLException {
+        logger.info("getTotalRetourQuantities");
+        Map<Integer, Integer> retourQuantities = new HashMap<>();
+        String sql = "SELECT id_article, SUM(quantity) AS total_quantity FROM retour GROUP BY id_article";
+
+        try (Statement stmt = cnn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                int articleId = rs.getInt("id_article");
+                int totalQuantity = rs.getInt("total_quantity");
+                retourQuantities.put(articleId, totalQuantity);
+            }
+        }
+        return retourQuantities;
     }
 
     // Get the total adjustments

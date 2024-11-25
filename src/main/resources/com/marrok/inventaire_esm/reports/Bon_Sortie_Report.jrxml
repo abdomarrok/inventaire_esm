@@ -118,8 +118,14 @@ WHERE bs.id = $P{bon_sortie_id};
 		</band>
 	</detail>
 	<columnFooter height="130">
-		<element kind="staticText" uuid="b8499bf3-5c5a-4344-ab22-feb336e000ac" x="440" y="10" width="80" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="b8499bf3-5c5a-4344-ab22-feb336e000ac" x="430" y="10" width="80" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[أمين المخزن]]></text>
+		</element>
+		<element kind="staticText" uuid="d96fe6e4-9374-40a5-ac0b-9c22b9bb0aa5" x="182" y="10" width="190" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[رئيس مصلحة الوسائل العامة والاعلام الالي]]></text>
+		</element>
+		<element kind="staticText" uuid="f25aab17-415f-457a-ba6f-21f05920485e" x="70" y="10" width="70" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[المعني]]></text>
 		</element>
 	</columnFooter>
 </jasperReport>

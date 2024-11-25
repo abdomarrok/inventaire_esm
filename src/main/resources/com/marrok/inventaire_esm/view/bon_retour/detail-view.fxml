@@ -39,7 +39,7 @@
 
 
         <!-- TableView for sortie items -->
-        <TableView fx:id="sortieTableView" prefHeight="200.0" prefWidth="600.0">
+        <TableView fx:id="retourTableView" prefHeight="200.0" prefWidth="600.0">
             <columns>
                 <TableColumn fx:id="articleColumn" prefWidth="150" text="العنصر" />
                 <TableColumn fx:id="quantityColumn" prefWidth="100" text="الكمية" />
