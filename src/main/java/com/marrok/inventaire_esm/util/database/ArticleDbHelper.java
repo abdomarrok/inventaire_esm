@@ -319,7 +319,28 @@ public class ArticleDbHelper {
         return 0;  // Return 0 if an error occurs or no adjustments are found
     }
 
+    public Map<Integer, Integer> getTotalAdjustments() {
+        Map<Integer, Integer> adjustments = new HashMap<>();
+        String sql = "SELECT article_id, " +
+                "SUM(CASE WHEN adjustment_type = 'increase' THEN quantity ELSE 0 END) - " +
+                "SUM(CASE WHEN adjustment_type = 'decrease' THEN quantity ELSE 0 END) AS net_adjustment " +
+                "FROM stock_adjustment " +
+                "GROUP BY article_id";
 
+        try (Statement stmt = cnn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                int articleId = rs.getInt("article_id");
+                int netAdjustment = rs.getInt("net_adjustment");
+                adjustments.put(articleId, netAdjustment);
+            }
+        } catch (SQLException e) {
+            logger.error("Error getting total adjustments", e);
+        }
+
+        return adjustments;
+    }
 
 
 
@@ -476,22 +497,7 @@ public class ArticleDbHelper {
         return retourQuantities;
     }
 
-    // Get the total adjustments
-    public Map<Integer, Integer> getTotalAdjustments() throws SQLException {
-        Map<Integer, Integer> adjustments = new HashMap<>();
-        String sql = "SELECT article_id, SUM(quantity) AS total_adjustment FROM stock_adjustment GROUP BY article_id";
 
-        try (Statement stmt = cnn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
-            while (rs.next()) {
-                int articleId = rs.getInt("article_id");
-                int totalAdjustment = rs.getInt("total_adjustment");
-                adjustments.put(articleId, totalAdjustment);
-            }
-        }
-        return adjustments;
-    }
 
 
 }
