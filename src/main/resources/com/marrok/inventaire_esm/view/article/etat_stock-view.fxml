@@ -68,7 +68,7 @@
                 <TableView fx:id="tableView" editable="true" nodeOrientation="RIGHT_TO_LEFT" stylesheets="@../../css/tableview.css" tableMenuButtonVisible="true">
                     <columns>
                         <TableColumn fx:id="id_article_v" prefWidth="100.0" text="المعرف" />
-                        <TableColumn fx:id="nameColumn" prefWidth="150.0" text="الاسم" />
+                        <TableColumn fx:id="nameColumn" minWidth="200.0" prefWidth="200.0" text="الاسم" />
                         <TableColumn fx:id="unitColumn" prefWidth="100.0" text="الوحدة" />
                         <TableColumn fx:id="entreeColumn" prefWidth="130.0" style="-fx-background-color: #4CAF50;" styleClass="specialColmun" text="دخول" />
                         <TableColumn fx:id="sortieColumn" prefWidth="130.0" style="-fx-background-color: #FF5722;" styleClass="specialColmun" text="خروج" />

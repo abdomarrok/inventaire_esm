@@ -96,14 +96,14 @@ public class GeneralUtil {
                 // Let the stage size itself based on the scene’s preferred size
                 stage.sizeToScene();
             } else {
-                // For other views, maximize the stage
-//                logger.info(" maximize the stage For other views");
-//                Screen screen = Screen.getPrimary();
-//                Rectangle2D bounds = screen.getVisualBounds();
-//                stage.setX(bounds.getMinX());
-//                stage.setY(bounds.getMinY());
-//                stage.setWidth(bounds.getWidth());
-//                stage.setHeight(bounds.getHeight());
+               //  For other views, maximize the stage
+                logger.info(" maximize the stage For other views");
+                Screen screen = Screen.getPrimary();
+                Rectangle2D bounds = screen.getVisualBounds();
+                stage.setX(bounds.getMinX());
+                stage.setY(bounds.getMinY());
+                stage.setWidth(bounds.getWidth());
+                stage.setHeight(bounds.getHeight());
 
 
             }

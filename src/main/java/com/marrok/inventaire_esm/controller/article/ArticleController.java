@@ -2,6 +2,7 @@ package com.marrok.inventaire_esm.controller.article;
 
 
 import com.marrok.inventaire_esm.model.Article;
+import com.marrok.inventaire_esm.model.Category;
 import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
 import com.marrok.inventaire_esm.util.database.CategoryDbHelper;
 import com.marrok.inventaire_esm.util.GeneralUtil;
@@ -34,7 +35,9 @@ import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 
 public class ArticleController implements Initializable {
@@ -78,7 +81,7 @@ public class ArticleController implements Initializable {
 
     private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
     private CategoryDbHelper categoryDbhelper = new CategoryDbHelper();
-
+    private Map<Integer, String> categoryMap;
 
     public ArticleController() throws SQLException {
     }
@@ -125,28 +128,23 @@ public class ArticleController implements Initializable {
 
     }
 
+    private void preloadCategories() {
+        categoryMap = categoryDbhelper.getCategories().stream()
+                .collect(Collectors.toMap(Category::getId, Category::getName));
+    }
+
     private void setupSearchFilter() {
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredArticleList.setPredicate(article -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true; // Show all articles if the search field is empty
-                }
+                if (newValue == null || newValue.isEmpty()) return true;
 
-                // Fetch category name safely
-                String categoryName = categoryDbhelper.getCategoryById(article.getIdCategory());
-                if (categoryName == null) {
-                    categoryName = ""; // Default to empty string if category not found
-                }
-
-                // Convert search text to lowercase
+                String categoryName = categoryMap.getOrDefault(article.getIdCategory(), "Unknown Category");
                 String lowerCaseFilter = newValue.toLowerCase();
 
-                // Perform case-insensitive checks
                 return article.getName().toLowerCase().contains(lowerCaseFilter)
                         || article.getUnite().toLowerCase().contains(lowerCaseFilter)
                         || article.getDescription().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(article.getId()).contains(lowerCaseFilter)
-                        || String.valueOf(article.getIdCategory()).contains(lowerCaseFilter)
                         || categoryName.toLowerCase().contains(lowerCaseFilter);
             });
         });

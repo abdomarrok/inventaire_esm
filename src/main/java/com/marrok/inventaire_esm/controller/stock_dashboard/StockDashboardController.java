@@ -63,8 +63,10 @@ public class StockDashboardController implements Initializable {
             case "Admin":
                 // Admin sees everything
                 break;
-            case "Editor":
+            case "Manager":
                 settings_button.setDisable(true);
+                break;
+            case "Editor":
                 employers_button.setDisable(true);
                 settings_button.setDisable(true);
                 break;

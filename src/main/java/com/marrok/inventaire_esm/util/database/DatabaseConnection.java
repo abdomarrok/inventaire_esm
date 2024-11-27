@@ -11,15 +11,15 @@ import java.sql.*;
 
 public class DatabaseConnection {
     static Logger logger = Logger.getLogger("DatabaseConnection");
-    //private static final String DATABASE_NAME = "invlouiza";
- private static final String DATABASE_NAME = "testinvempty2";
+    private static final String DATABASE_NAME = "invlouiza";
+ //private static final String DATABASE_NAME = "testinvempty";
   //  private static final String DATABASE_NAME = "testinv";
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/"+DATABASE_NAME;
-    private static final String DATABASE_USER = "root";
-    private static final String DATABASE_PASSWORD = "";
-//    private static final String DATABASE_URL = "jdbc:mysql://192.168.0.79:3306/"+DATABASE_NAME;
-//    private static final String DATABASE_USER = "esm_inv1";
-//    private static final String DATABASE_PASSWORD = "123456789";
+//    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/"+DATABASE_NAME;
+//    private static final String DATABASE_USER = "root";
+//    private static final String DATABASE_PASSWORD = "";
+    private static final String DATABASE_URL = "jdbc:mysql://192.168.0.79:3306/"+DATABASE_NAME;
+    private static final String DATABASE_USER = "esm_inv1";
+    private static final String DATABASE_PASSWORD = "123456789";
 
     private static DatabaseConnection instance;
     private Connection connection;

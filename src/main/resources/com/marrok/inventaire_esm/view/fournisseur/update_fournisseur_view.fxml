@@ -27,7 +27,7 @@
         <Label alignment="CENTER" styleClass="lbl" text="السجل التجاري (RC):" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
         <TextField fx:id="rcField" styleClass="searchField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
 
-        <Label alignment="CENTER" styleClass="lbl" text="الرقم الضريبي (NIF):" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
+        <Label alignment="CENTER" styleClass="lbl" text="رقم التعريف الضريبي (NIF):" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
         <TextField fx:id="nifField" styleClass="searchField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
 
         <Label alignment="CENTER" styleClass="lbl" text="الرمز الضريبي (AI):" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />

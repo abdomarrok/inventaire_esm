@@ -70,35 +70,35 @@
                     <TableView fx:id="fournisseurTableView" editable="true" nodeOrientation="RIGHT_TO_LEFT" styleClass="tableview" stylesheets="@../../css/tableview.css" tableMenuButtonVisible="true">
                         <columns>
                             <!-- Column for ID -->
-                            <TableColumn fx:id="id_column" text="المعرف" />
+                            <TableColumn fx:id="id_column" text="id" />
 
                             <!-- Column for Name -->
-                            <TableColumn fx:id="name_column" text="الاسم" />
+                            <TableColumn fx:id="name_column" text="الإسم الكامل" />
 
                             <!-- Column for RC -->
-                            <TableColumn fx:id="rc_column" text="السجل التجاري" />
+                            <TableColumn fx:id="rc_column" text="RC" />
 
                             <!-- Column for NIF -->
-                            <TableColumn fx:id="nif_column" text="الرقم الجبائي" />
+                            <TableColumn fx:id="nif_column" text="NIF" />
 
                             <!-- Column for AI -->
-                            <TableColumn fx:id="ai_column" text="الرقم الضريبي" />
+                            <TableColumn fx:id="ai_column" text="AI" />
 
                             <!-- Column for NIS -->
-                            <TableColumn fx:id="nis_column" text="رقم التعريف الإحصائي" />
-                            <TableColumn fx:id="rib_column" text="rib" />
+                            <TableColumn fx:id="nis_column" text="NIS" />
+                            <TableColumn fx:id="rib_column" text="RIB" />
 
                             <!-- Column for Telephone -->
-                            <TableColumn fx:id="tel_column" text="الهاتف" />
+                            <TableColumn fx:id="tel_column" text="tel" />
 
                             <!-- Column for Fax -->
-                            <TableColumn fx:id="fax_column" text="الفاكس" />
+                            <TableColumn fx:id="fax_column" text="fax" />
 
                             <!-- Column for Address -->
-                            <TableColumn fx:id="address_column" text="العنوان" />
+                            <TableColumn fx:id="address_column" text="address" />
 
                             <!-- Column for Email -->
-                            <TableColumn fx:id="email_column" text="البريد الإلكتروني" />
+                            <TableColumn fx:id="email_column" text="email" />
                         </columns>
                   <columnResizePolicy>
                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
