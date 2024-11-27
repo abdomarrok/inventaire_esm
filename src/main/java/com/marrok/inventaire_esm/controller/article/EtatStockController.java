@@ -250,7 +250,6 @@ public class EtatStockController implements Initializable {
                 // Perform case-insensitive checks
                 return article.getName().toLowerCase().contains(lowerCaseFilter)
                         || article.getUnite().toLowerCase().contains(lowerCaseFilter)
-                        || article.getDescription().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(article.getId()).contains(lowerCaseFilter)
                         || String.valueOf(article.getIdCategory()).contains(lowerCaseFilter)
                         || categoryName.toLowerCase().contains(lowerCaseFilter);

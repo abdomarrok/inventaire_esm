@@ -90,12 +90,13 @@ public class ArticleController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.info("Initializing ArticleController");
+        preloadCategories();
         loadData();
         initializeColumns();
         setupSearchFilter();
         setupTableSelectionListener();
-
     }
+
     private void initializeColumns() {
         logger.info("Initializing columns");
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_LAST_COLUMN);
@@ -129,6 +130,7 @@ public class ArticleController implements Initializable {
     }
 
     private void preloadCategories() {
+        logger.info("preloade");
         categoryMap = categoryDbhelper.getCategories().stream()
                 .collect(Collectors.toMap(Category::getId, Category::getName));
     }
@@ -143,7 +145,6 @@ public class ArticleController implements Initializable {
 
                 return article.getName().toLowerCase().contains(lowerCaseFilter)
                         || article.getUnite().toLowerCase().contains(lowerCaseFilter)
-                        || article.getDescription().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(article.getId()).contains(lowerCaseFilter)
                         || categoryName.toLowerCase().contains(lowerCaseFilter);
             });
