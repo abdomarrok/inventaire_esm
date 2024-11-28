@@ -33,10 +33,7 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -71,6 +68,8 @@ public class ArticleController implements Initializable {
 
     private ObservableList<Article> articleList;
     private FilteredList<Article> filteredArticleList;
+    @FXML
+    private ChoiceBox<String> categoryFilter;
 
     private Article selectedArticle;
     @FXML
@@ -93,9 +92,61 @@ public class ArticleController implements Initializable {
         preloadCategories();
         loadData();
         initializeColumns();
-        setupSearchFilter();
+       // setupSearchFilter();
+        setupSearchAndCategoryFilters();
         setupTableSelectionListener();
     }
+
+    private void setupSearchAndCategoryFilters() {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        categoryFilter.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+    }
+
+    private void applyFilters() {
+        filteredArticleList.setPredicate(article -> {
+            // Search filter logic
+            String searchText = searchField.getText();
+            boolean matchesSearch = true; // Default to true if no search text
+            if (searchText != null && !searchText.isEmpty()) {
+                String lowerCaseFilter = searchText.toLowerCase();
+                String categoryName = categoryDbhelper.getCategoryById(article.getIdCategory());
+                if (categoryName == null) categoryName = "";
+
+                matchesSearch = article.getName().toLowerCase().contains(lowerCaseFilter)
+                        || article.getUnite().toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(article.getId()).contains(lowerCaseFilter)
+                        || String.valueOf(article.getIdCategory()).contains(lowerCaseFilter)
+                        || categoryName.toLowerCase().contains(lowerCaseFilter);
+            }
+
+            // Category filter logic
+            String selectedCategory = categoryFilter.getValue();
+            boolean matchesCategory = true; // Default to true if no category selected
+            if (selectedCategory != null && !selectedCategory.equals("All")) {
+                String categoryName = categoryMap.get(article.getIdCategory());
+                matchesCategory = categoryName != null && categoryName.equals(selectedCategory);
+            }
+
+            // Combine both filters
+            return matchesSearch && matchesCategory;
+        });
+    }
+    private void setupSearchFilter() {
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredArticleList.setPredicate(article -> {
+                if (newValue == null || newValue.isEmpty()) return true;
+
+                String categoryName = categoryMap.getOrDefault(article.getIdCategory(), "Unknown Category");
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                return article.getName().toLowerCase().contains(lowerCaseFilter)
+                        || article.getUnite().toLowerCase().contains(lowerCaseFilter)
+                        || String.valueOf(article.getId()).contains(lowerCaseFilter)
+                        || categoryName.toLowerCase().contains(lowerCaseFilter);
+            });
+        });
+    }
+
 
     private void initializeColumns() {
         logger.info("Initializing columns");
@@ -133,24 +184,15 @@ public class ArticleController implements Initializable {
         logger.info("preloade");
         categoryMap = categoryDbhelper.getCategories().stream()
                 .collect(Collectors.toMap(Category::getId, Category::getName));
+        populateCategoryFilter();
     }
-
-    private void setupSearchFilter() {
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredArticleList.setPredicate(article -> {
-                if (newValue == null || newValue.isEmpty()) return true;
-
-                String categoryName = categoryMap.getOrDefault(article.getIdCategory(), "Unknown Category");
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                return article.getName().toLowerCase().contains(lowerCaseFilter)
-                        || article.getUnite().toLowerCase().contains(lowerCaseFilter)
-                        || String.valueOf(article.getId()).contains(lowerCaseFilter)
-                        || categoryName.toLowerCase().contains(lowerCaseFilter);
-            });
-        });
+    private void populateCategoryFilter() {
+        ObservableList<String> categories = FXCollections.observableArrayList();
+        categories.add("All"); // Default option to show all categories
+        categories.addAll(categoryMap.values()); // Add all category names
+        categoryFilter.setItems(categories);
+        categoryFilter.setValue("All"); // Set default value
     }
-
 
     private void setupTableSelectionListener() {
         bk_Dashboard_from_products.setOnAction(event -> {

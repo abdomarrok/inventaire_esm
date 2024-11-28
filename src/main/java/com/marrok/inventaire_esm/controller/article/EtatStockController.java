@@ -62,6 +62,8 @@ public class EtatStockController implements Initializable {
     public TableColumn<Article, String> categoryColmun;
     @FXML
     public TextField searchField;
+    @FXML
+    private ChoiceBox<String> categoryFilter;
 
     @FXML
     public Button addButton;
@@ -99,6 +101,7 @@ public class EtatStockController implements Initializable {
         // Load categories
         List<Category> categories = categoryDbhelper.getCategories();
         categories.forEach(category -> categoryCache.put(category.getId(), category.getName()));
+        populateCategoryFilter();
 
         // Preload entree data
         entreeCache = articleDbhelper.getTotalEntredQuantities();
@@ -113,7 +116,13 @@ public class EtatStockController implements Initializable {
         // Get total quantities
         totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
     }
-
+    private void populateCategoryFilter() {
+        ObservableList<String> categories = FXCollections.observableArrayList();
+        categories.add("All"); // Default option to show all categories
+        categories.addAll(categoryCache.values()); // Add all category names
+        categoryFilter.setItems(categories);
+        categoryFilter.setValue("All"); // Set default value
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -125,10 +134,15 @@ public class EtatStockController implements Initializable {
         }
         loadData();
         initializeColumns();
-        setupSearchFilter();
+//        setupSearchFilter();
+//        setupCategoryFilter();
+        setupSearchAndCategoryFilters();
         setupTableSelectionListener();
 
     }
+
+
+
     public void goBonEntree(ActionEvent event) {
         logger.info("goBonEntree called");
         try {
@@ -177,9 +191,7 @@ public class EtatStockController implements Initializable {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
         remarkColumn.setCellValueFactory(new PropertyValueFactory<>("remarque"));
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-
-
+        //descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
         // Set cell value factory for total quantity
         quantityColumn.setCellValueFactory(cellData -> {
@@ -231,29 +243,76 @@ public class EtatStockController implements Initializable {
     }
 
 
-    private void setupSearchFilter() {
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredArticleList.setPredicate(article -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true; // Show all articles if the search field is empty
-                }
+//    private void setupSearchFilter() {
+//        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+//            filteredArticleList.setPredicate(article -> {
+//                if (newValue == null || newValue.isEmpty()) {
+//                    return true; // Show all articles if the search field is empty
+//                }
+//
+//                // Fetch category name safely
+//                String categoryName = categoryDbhelper.getCategoryById(article.getIdCategory());
+//                if (categoryName == null) {
+//                    categoryName = ""; // Default to empty string if category not found
+//                }
+//
+//                // Convert search text to lowercase
+//                String lowerCaseFilter = newValue.toLowerCase();
+//
+//                // Perform case-insensitive checks
+//                return article.getName().toLowerCase().contains(lowerCaseFilter)
+//                        || article.getUnite().toLowerCase().contains(lowerCaseFilter)
+//                        || String.valueOf(article.getId()).contains(lowerCaseFilter)
+//                        || String.valueOf(article.getIdCategory()).contains(lowerCaseFilter)
+//                        || categoryName.toLowerCase().contains(lowerCaseFilter);
+//            });
+//        });
+//    }
+//    private void setupCategoryFilter() {
+//        categoryFilter.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+//            filteredArticleList.setPredicate(article -> {
+//                if (newValue == null || newValue.equals("All")) {
+//                    return true; // Show all articles if "All" is selected
+//                }
+//                String categoryName = categoryCache.get(article.getIdCategory());
+//                return categoryName != null && categoryName.equals(newValue);
+//            });
+//        });
+//    }
+private void setupSearchAndCategoryFilters() {
+    // Add listeners for search field and category filter
+    searchField.textProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+    categoryFilter.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+}
 
-                // Fetch category name safely
+    // Applies both search and category filters
+    private void applyFilters() {
+        filteredArticleList.setPredicate(article -> {
+            // Search filter logic
+            String searchText = searchField.getText();
+            boolean matchesSearch = true; // Default to true if no search text
+            if (searchText != null && !searchText.isEmpty()) {
+                String lowerCaseFilter = searchText.toLowerCase();
                 String categoryName = categoryDbhelper.getCategoryById(article.getIdCategory());
-                if (categoryName == null) {
-                    categoryName = ""; // Default to empty string if category not found
-                }
+                if (categoryName == null) categoryName = "";
 
-                // Convert search text to lowercase
-                String lowerCaseFilter = newValue.toLowerCase();
-
-                // Perform case-insensitive checks
-                return article.getName().toLowerCase().contains(lowerCaseFilter)
+                matchesSearch = article.getName().toLowerCase().contains(lowerCaseFilter)
                         || article.getUnite().toLowerCase().contains(lowerCaseFilter)
                         || String.valueOf(article.getId()).contains(lowerCaseFilter)
                         || String.valueOf(article.getIdCategory()).contains(lowerCaseFilter)
                         || categoryName.toLowerCase().contains(lowerCaseFilter);
-            });
+            }
+
+            // Category filter logic
+            String selectedCategory = categoryFilter.getValue();
+            boolean matchesCategory = true; // Default to true if no category selected
+            if (selectedCategory != null && !selectedCategory.equals("All")) {
+                String categoryName = categoryCache.get(article.getIdCategory());
+                matchesCategory = categoryName != null && categoryName.equals(selectedCategory);
+            }
+
+            // Combine both filters
+            return matchesSearch && matchesCategory;
         });
     }
 

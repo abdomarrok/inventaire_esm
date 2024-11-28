@@ -55,6 +55,13 @@
     -fx-font-family: "Cairo";
     -fx-font-size: 14px;
 }
+.filterChoiceBox {
+    -fx-padding: 5 10;
+    -fx-font-size: 14px;
+    -fx-background-color: #f4f4f4;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
+}
 .titleLabel {
     -fx-font-family: 'Andalus';
     -fx-font-size: 60px;

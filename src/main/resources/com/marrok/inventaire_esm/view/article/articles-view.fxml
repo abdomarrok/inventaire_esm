@@ -29,6 +29,7 @@
 
                    <HBox alignment="CENTER" spacing="50.0" HBox.hgrow="ALWAYS">
                        <TextField fx:id="searchField" alignment="CENTER_RIGHT" minWidth="200" promptText="بحث..." styleClass="searchField" />
+                       <ChoiceBox fx:id="categoryFilter" prefWidth="150.0" styleClass="filterChoiceBox" />
                        <Label fx:id="titleLabel" prefHeight="96.0" prefWidth="386.0" styleClass="titleLabel" text="إدارة المــــواد" HBox.hgrow="SOMETIMES" />
                    </HBox>
 
