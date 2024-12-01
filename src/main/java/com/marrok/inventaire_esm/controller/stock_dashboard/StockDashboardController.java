@@ -22,6 +22,7 @@ public class StockDashboardController implements Initializable {
     public Button category_button;
     public Button fornisseurs_button;
     public Button employers_button;
+    public Button adjustment_button;
 
     public Button services_button;
     public Button location_button;
@@ -80,6 +81,7 @@ public class StockDashboardController implements Initializable {
                 category_button.setDisable(true);
                 product_button.setDisable(true);
                 fornisseurs_button.setDisable(true);
+                adjustment_button.setDisable(true);
                 break;
         }
     }

@@ -58,20 +58,23 @@ public class AddController {
         String address = addressField.getText();
         String email = emailField.getText();
         String rib= ribField.getText();
+if(!name.isEmpty()){
+    // Create the Fournisseur object
+    Fournisseur fournisseur = new Fournisseur(0,name,rc,nif,ai,nis,tel,fax,address,email,rib);
 
-        // Create the Fournisseur object
-        Fournisseur fournisseur = new Fournisseur(0,name,rc,nif,ai,nis,tel,fax,address,email,rib);
+    int success = fournisseurDbHelper.addFournisseur(fournisseur);
 
-        int success = fournisseurDbHelper.addFournisseur(fournisseur);
-
-        if (success != -1) {
-            logger.info("Fournisseur added");
-            GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تمت إضافة المورد بنجاح.");
-            fournisseurController.refreshTableData();
-            closeWindow();
-        } else {
-            GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في إضافة المورد.");
-        }
+    if (success != -1) {
+        logger.info("Fournisseur added");
+        GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "نجاح", "تمت إضافة المورد بنجاح.");
+        fournisseurController.refreshTableData();
+        closeWindow();
+    } else {
+        GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "فشل في إضافة المورد.");
+    }
+}else {
+    GeneralUtil.showAlertWithOutTimelimit(Alert.AlertType.ERROR,"خانة فارغة","الرجاء ملا الخانات الاساسية");
+}
     }
 
     @FXML

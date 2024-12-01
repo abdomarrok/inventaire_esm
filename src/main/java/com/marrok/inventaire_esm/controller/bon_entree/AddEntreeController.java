@@ -4,6 +4,7 @@ import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.Entree;
 import com.marrok.inventaire_esm.model.Fournisseur;
 import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -18,10 +19,12 @@ import javafx.stage.Stage;
 import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import static com.marrok.inventaire_esm.util.GeneralUtil.showAlert;
 
 public class AddEntreeController {
+
     Logger logger = Logger.getLogger(AddEntreeController.class);
 
     @FXML
@@ -32,6 +35,7 @@ public class AddEntreeController {
     public TableColumn<Article, String>articleUniteColumn;
     @FXML
     private TableColumn<Article, String> articleNameColumn;
+    public TableColumn<Article, Integer> articlequantityColumn;
 
     @FXML
     private TextField quantityField;
@@ -42,6 +46,7 @@ public class AddEntreeController {
     private ObservableList<Article> articleList = FXCollections.observableArrayList();
     private FilteredList<Article> filteredArticleList; // Use FilteredList to keep track of filtering
     private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    Map<Integer, Integer> totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
     private Entree selectedEntree;
     private Article selectedArticle;
 
@@ -55,6 +60,12 @@ public class AddEntreeController {
         // Setup the article column
         articleNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         articleUniteColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
+        articlequantityColumn.setCellValueFactory(cellData -> {
+            Article article = cellData.getValue();
+            int articleId = article.getId();
+            Integer totalQuantity = totalQuantities.get(articleId); // Fetch pre-calculated quantity
+            return new SimpleIntegerProperty(totalQuantity != null ? totalQuantity : 0).asObject();
+        });
         // Load article data (fetch from your database)
         articleList.setAll(fetchArticlesFromDatabase());
         filteredArticleList = new FilteredList<>(articleList, p -> true);

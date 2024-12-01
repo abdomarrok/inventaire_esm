@@ -212,22 +212,36 @@ public class FournisseurController implements Initializable {
     @FXML
     public void deleteFournisseur(ActionEvent event) {
         logger.info("FournisseurController.deleteFournisseur");
-        Fournisseur selectedFournisseur = fournisseurTableView.getSelectionModel().getSelectedItem(); // Assuming you have a TableView for fournisseurs
+
+        Fournisseur selectedFournisseur = fournisseurTableView.getSelectionModel().getSelectedItem();
 
         if (selectedFournisseur != null) {
-            boolean success = fournisseurDbHelper.deleteFournisseur(selectedFournisseur.getId()); // Call your database helper to delete the fournisseur
+            boolean confirmation = GeneralUtil.showConfirmation(
+                    "تأكيد الحذف",
+                    "هل أنت متأكد أنك تريد حذف المورد؟"
+            );
+
+            if (!confirmation) {
+                logger.info("FournisseurController.deleteFournisseur operation canceled by the user.");
+                return;
+            }
+
+            boolean success = fournisseurDbHelper.deleteFournisseur(selectedFournisseur.getId());
 
             if (success) {
-                logger.info("FournisseurController.deleteFournisseur selectedFournisseur successfully deleted");
-                fournisseurObservableList.remove(selectedFournisseur); // Assuming you have an ObservableList for fournisseurs
+                logger.info("FournisseurController.deleteFournisseur successfully deleted.");
+                fournisseurObservableList.remove(selectedFournisseur);
                 GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف المورد", "تم حذف المورد بنجاح.");
             } else {
-                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل حذف المورد", "فشل في حذف المورد.");
+                logger.error("FournisseurController.deleteFournisseur failed to delete the fournisseur.");
+                GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل حذف المورد", "فشل في حذف المورد. يرجى المحاولة مرة أخرى.");
             }
         } else {
+            logger.warn("FournisseurController.deleteFournisseur no fournisseur selected.");
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار مورد للحذف.");
         }
     }
+
 
 
 

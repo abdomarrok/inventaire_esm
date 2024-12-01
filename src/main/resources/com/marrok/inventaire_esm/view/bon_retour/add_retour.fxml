@@ -5,13 +5,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" minWidth="0.0" prefHeight="600.0" prefWidth="600.0" spacing="20.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.bon_retour.AddRetourController">
+<VBox alignment="CENTER" minWidth="0.0" prefHeight="600.0" spacing="20.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.bon_retour.AddRetourController">
 
     <Label alignment="CENTER" styleClass="titleLabel" text="أضف عنصر الى القائمة" />
     <TextField fx:id="searchField" alignment="CENTER_RIGHT" maxWidth="200.0" promptText="بحث..." styleClass="searchField" />
     <TableView fx:id="articleTable">
         <columns>
+            <TableColumn fx:id="articlequantityColumn" editable="false" minWidth="200.0" prefWidth="-1.0" sortable="false" text="الكمية الحالية" />
             <TableColumn fx:id="articleUniteColumn" editable="false" minWidth="200.0" prefWidth="-1.0" sortable="false" text="الوحدة" />
             <TableColumn fx:id="articleNameColumn" editable="false" minWidth="200.0" prefWidth="-1.0" sortable="false" text="إسم العنصر" />
         </columns>

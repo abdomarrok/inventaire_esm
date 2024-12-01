@@ -3,6 +3,7 @@ package com.marrok.inventaire_esm.controller.bon_sortie;
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.Sortie;
 import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -19,6 +20,7 @@ import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import static com.marrok.inventaire_esm.util.GeneralUtil.showAlert;
@@ -35,6 +37,7 @@ public class AddSortieController implements Initializable {
     @FXML
     private TableColumn<Article, String> articleNameColumn;
     public TableColumn<Article, String>  articleUniteColumn;
+    public TableColumn<Article, Integer> articlequantityColumn;
 
     @FXML
     private TextField quantityField;
@@ -44,13 +47,19 @@ public class AddSortieController implements Initializable {
     private Sortie selectedSortie;
     private Article selectedArticle;
     private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
-
+    Map<Integer, Integer> totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         logger.info("Initializing AddSortieController");
         // Setup the article column
         articleNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         articleUniteColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
+        articlequantityColumn.setCellValueFactory(cellData -> {
+            Article article = cellData.getValue();
+            int articleId = article.getId();
+            Integer totalQuantity = totalQuantities.get(articleId); // Fetch pre-calculated quantity
+            return new SimpleIntegerProperty(totalQuantity != null ? totalQuantity : 0).asObject();
+        });
 
         // Load article data (fetch from your database)
         articleList.setAll(fetchArticlesFromDatabase());
