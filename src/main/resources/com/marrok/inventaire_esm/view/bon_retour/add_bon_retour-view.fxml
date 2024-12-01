@@ -40,7 +40,7 @@
       <VBox prefHeight="135.0" prefWidth="385.0">
          <children>
               <VBox alignment="TOP_RIGHT">
-                  <Label styleClass="lbl_fiche_inv" text="المصلحة" />
+                  <Label styleClass="lbl_fiche_inv" text="المديرية / المصلحة" />
                   <ChoiceBox fx:id="serviceField" styleClass="smallDashboard_btn" />
               </VBox>
               <VBox alignment="TOP_RIGHT">
