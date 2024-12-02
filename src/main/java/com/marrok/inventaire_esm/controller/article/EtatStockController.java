@@ -27,88 +27,77 @@ import org.apache.log4j.Logger;
 import java.io.*;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class EtatStockController implements Initializable {
 
-    Logger logger  = Logger.getLogger(EtatStockController.class);
+    Logger logger = Logger.getLogger(EtatStockController.class);
 
-    public  TableView<Article> tableView;
+    public TableView<Article> tableView;
 
-   public TableColumn<Article, Integer> id_article_v;
-   public TableColumn<Article, String> nameColumn;
-   public TableColumn<Article, String> unitColumn;
-   public TableColumn<Article, Integer> quantityColumn;
-    public TableColumn<Article,Integer> entreeColumn;
-    public TableColumn<Article,Integer> sortieColumn;
-    public TableColumn<Article,Integer> retourColumn;
-    public TableColumn<Article,Integer> editColumn;
-   public TableColumn<Article, String> remarkColumn;
-
-   public TableColumn<Article, String> categoryColmun;
-   public TextField searchField;
+    public TableColumn<Article, Integer> id_article_v;
+    public TableColumn<Article, String> nameColumn;
+    public TableColumn<Article, String> unitColumn;
+    public TableColumn<Article, Integer> quantityColumn;
+    public TableColumn<Article, Integer> entreeColumn;
+    public TableColumn<Article, Integer> sortieColumn;
+    public TableColumn<Article, Integer> retourColumn;
+    public TableColumn<Article, Integer> editColumn;
+    public TableColumn<Article, String> remarkColumn;
+    public TableColumn<Article, String> categoryColmun;
+    public TextField searchField;
     public ChoiceBox<String> categoryFilter;
 
-   public Button addButton;
-   public Button updateButton;
-   public Button deleteButton;
+    public Button addButton;
+    public Button updateButton;
+    public Button deleteButton;
     public Button bk_Dashboard_from_etat_stock;
 
     private static ObservableList<Article> articleList;
-    private static  FilteredList<Article> filteredArticleList;
-
+    private static FilteredList<Article> filteredArticleList;
 
 
     private final ArticleDbHelper articleDbhelper = new ArticleDbHelper();
     private final CategoryDbHelper categoryDbhelper = new CategoryDbHelper();
-      Map<Integer, String> categoryCache = new HashMap<>();
-     Map<Integer, Integer> entreeCache = articleDbhelper.getTotalEntredQuantities();
-     Map<Integer, Integer> sortieCache = articleDbhelper.getTotalSortieQuantities();
-     Map<Integer,Integer> retourCache = articleDbhelper.getTotalRetourQuantities();
-     Map<Integer, Integer> adjustmentCache = articleDbhelper.getTotalAdjustments();
-    Map<Integer, Integer> totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
+    Map<Integer, String> categoryCache = new HashMap<>();
+    Map<Integer, Integer> entreeCache =  new HashMap<>();
+    Map<Integer, Integer> sortieCache =  new HashMap<>();
+    Map<Integer, Integer> retourCache = new HashMap<>();
+    Map<Integer, Integer> adjustmentCache =  new HashMap<>();
+    Map<Integer, Integer> totalQuantities =  new HashMap<>();
+    Map<Integer, Integer> minimal_Quantities =new HashMap<>();
     private Article selectedArticle;
     public Label titleLabel;
 
 
-
-
     public EtatStockController() throws SQLException {
     }
+
     private void preloadData() throws SQLException {
         logger.info("Preloading data");
-
-       preloadCategories();
-
-        // Preload entree data
+        preloadCategories();
         entreeCache = articleDbhelper.getTotalEntredQuantities();
-
-        // Preload sortie data
         sortieCache = articleDbhelper.getTotalSortieQuantities();
         retourCache = articleDbhelper.getTotalRetourQuantities();
-
-        // Preload adjustment data
         adjustmentCache = articleDbhelper.getTotalAdjustments();
-
-        // Get total quantities
         totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
+       minimal_Quantities = articleDbhelper.getMinimalQuantitiesByArticle();
     }
-    void preloadCategories(){
+
+    void preloadCategories() {
         logger.info("Load categories");
         List<Category> categories = categoryDbhelper.getCategories();
         categories.forEach(category -> categoryCache.put(category.getId(), category.getName()));
         populateCategoryFilter();
     }
+
     private void populateCategoryFilter() {
         logger.info("Populating category filter");
         ObservableList<String> categories = FXCollections.observableArrayList();
-        categories.add("All"); // Default option to show all categories
+        categories.add("جميع الفئات"); // Default option to show all categories
         categories.addAll(categoryCache.values()); // Add all category names
         categoryFilter.setItems(categories);
-        categoryFilter.setValue("All"); // Set default value
+        categoryFilter.setValue("جميع الفئات"); // Set default value
     }
 
     @Override
@@ -127,7 +116,6 @@ public class EtatStockController implements Initializable {
     }
 
 
-
     public void goBonEntree(ActionEvent event) {
         logger.info("goBonEntree called");
         try {
@@ -139,7 +127,7 @@ public class EtatStockController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("وصل ادخال");
             stage.setResizable(false);
-            stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
+            stage.getIcons().add(new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"))));
             stage.show();
         } catch (IOException e) {
             logger.error(e);
@@ -158,16 +146,13 @@ public class EtatStockController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setTitle("وصل اخراج");
             stage.setResizable(false);
-            stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
+            stage.getIcons().add(new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"))));
             stage.show();
         } catch (IOException e) {
             logger.error(e);
 //            throw new RuntimeException(e);
         }
     }
-
-
-
 
 
     private void initializeColumns() {
@@ -180,14 +165,47 @@ public class EtatStockController implements Initializable {
         quantityColumn.setCellValueFactory(cellData -> {
             Article article = cellData.getValue();
             int articleId = article.getId();
-            Integer totalQuantity = totalQuantities.get(articleId); // Fetch pre-calculated quantity
+            Integer totalQuantity = totalQuantities.get(articleId);// Fetch pre-calculated quantity
+            Integer min_quantity =minimal_Quantities.get(articleId);
+            if(totalQuantity <= min_quantity) {
+
+            }
             return new SimpleIntegerProperty(totalQuantity != null ? totalQuantity : 0).asObject();
         });
+        quantityColumn.setCellFactory(column -> new TableCell<Article, Integer>() {
+            @Override
+            protected void updateItem(Integer quantity, boolean empty) {
+                super.updateItem(quantity, empty);
+
+                if (empty || quantity == null) {
+                    setText(null);
+                    setStyle(""); // Reset style for empty cells
+                } else {
+                    setText(quantity.toString());
+
+                    // Get the article ID from the row's item
+                    Article article = getTableRow().getItem();
+                    if (article != null) {
+                        int articleId = article.getId();
+                        Integer minQuantity = minimal_Quantities.get(articleId);
+
+                        if (minQuantity != null && quantity <= minQuantity) {
+                            setStyle("-fx-background-color: #c71e1e; -fx-text-fill: white;"); // Highlight low stock
+                        } else {
+                            setStyle(""); // Reset style for cells that don't match the condition
+                        }
+                    }
+                }
+            }
+        });
+
 
         entreeColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getId();
+            //add the entree with the retour
             int totalArticleEntree = entreeCache.getOrDefault(articleId, 0);
-            return new SimpleIntegerProperty(totalArticleEntree).asObject();
+            int totalArticleRetour = retourCache.getOrDefault(articleId, 0);
+            return new SimpleIntegerProperty(totalArticleEntree+totalArticleRetour).asObject();
         });
 
 
@@ -196,12 +214,12 @@ public class EtatStockController implements Initializable {
             int totalArticleSortie = sortieCache.getOrDefault(articleId, 0);
             return new SimpleIntegerProperty(totalArticleSortie).asObject();
         });
-        retourColumn.setCellValueFactory(cellData->{
-            int articleId = cellData.getValue().getId();
-            int totalArticleRetour = retourCache.getOrDefault(articleId, 0);
-            return new SimpleIntegerProperty(totalArticleRetour).asObject();
-
-        });
+//        retourColumn.setCellValueFactory(cellData -> {
+//            int articleId = cellData.getValue().getId();
+//            int totalArticleRetour = retourCache.getOrDefault(articleId, 0);
+//            return new SimpleIntegerProperty(totalArticleRetour).asObject();
+//
+//        });
 
         editColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getId();
@@ -217,20 +235,20 @@ public class EtatStockController implements Initializable {
         });
     }
 
-    public void  loadData() {
-            logger.info("loadData called from EtatStockController");
-            List<Article> articles = articleDbhelper.getArticles();
-            articleList = FXCollections.observableArrayList(articles);
-            filteredArticleList = new FilteredList<>(articleList, p -> true);
-            tableView.setItems(filteredArticleList);
+    public void loadData() {
+        logger.info("loadData called from EtatStockController");
+        List<Article> articles = articleDbhelper.getArticles();
+        articleList = FXCollections.observableArrayList(articles);
+        filteredArticleList = new FilteredList<>(articleList, p -> true);
+        tableView.setItems(filteredArticleList);
     }
 
 
-private void setupSearchAndCategoryFilters() {
-    // Add listeners for search field and category filter
-    searchField.textProperty().addListener((observable, oldValue, newValue) -> applyFilters());
-    categoryFilter.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> applyFilters());
-}
+    private void setupSearchAndCategoryFilters() {
+        // Add listeners for search field and category filter
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+        categoryFilter.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> applyFilters());
+    }
 
     // Applies both search and category filters
     private void applyFilters() {
@@ -253,7 +271,7 @@ private void setupSearchAndCategoryFilters() {
             // Category filter logic
             String selectedCategory = categoryFilter.getValue();
             boolean matchesCategory = true; // Default to true if no category selected
-            if (selectedCategory != null && !selectedCategory.equals("All")) {
+            if (selectedCategory != null && !selectedCategory.equals("جميع الفئات")) {
                 String categoryName = categoryCache.get(article.getIdCategory());
                 matchesCategory = categoryName != null && categoryName.equals(selectedCategory);
             }
@@ -263,23 +281,20 @@ private void setupSearchAndCategoryFilters() {
         });
     }
 
-
     private void setupTableSelectionListener() {
         bk_Dashboard_from_etat_stock.setOnAction(GeneralUtil::goBackStockDashboard);
         tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedArticle = newValue);
 
     }
-
-
     public ObservableList<Article> getArticleList() {
         return articleList;
     }
 
-    public  void refreshTableData() {
-            logger.info("refreshTableData called from EtatStockController");
-            List<Article> articles = articleDbhelper.getArticles();
-            articleList.setAll(articles);
-            tableView.refresh();
+    public void refreshTableData() {
+        logger.info("refreshTableData called from EtatStockController");
+        List<Article> articles = articleDbhelper.getArticles();
+        articleList.setAll(articles);
+        tableView.refresh();
     }
 
 }

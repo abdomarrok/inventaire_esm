@@ -29,8 +29,8 @@
 
 /* Normal view */
 .bodybg {
-    -fx-background-image: url('../img/boxshape.png');
-    -fx-background-size: 60% 50%; /* Default size */
+    -fx-background-image: url('../img/boxshap1.png');
+    -fx-background-size: 70% 90%; /* Default size */
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
 }

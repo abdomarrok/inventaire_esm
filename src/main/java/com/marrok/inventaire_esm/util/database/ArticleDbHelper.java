@@ -268,7 +268,24 @@ public class ArticleDbHelper {
         return totalQuantities;
     }
 
+    public Map<Integer, Integer> getMinimalQuantitiesByArticle() {
+        logger.info("getMinimalQuantitiesByArticle");
+        Map<Integer, Integer> minimal_Quantities = new HashMap<>();
+        String query = "SELECT article.id AS article_id, min_quantity from article ORDER BY article.id ASC;";
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
+            while (resultSet.next()) {
+                int articleId = resultSet.getInt("article_id");  // Use alias 'article_id'
+                int min_Quantity = resultSet.getInt("min_quantity");
+                minimal_Quantities.put(articleId, min_Quantity);
+            }
+        } catch (SQLException e) {
+            logger.error("Error getting Total Quantities By Article", e);
+        }
+
+        return minimal_Quantities;
+    }
 
 
     public int getTotalAdjustmentByArticleId(int articleId) {
@@ -472,7 +489,6 @@ public class ArticleDbHelper {
         }
         return retourQuantities;
     }
-
 
 
 

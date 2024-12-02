@@ -18,6 +18,7 @@ import javafx.util.Duration;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
 
@@ -88,7 +89,7 @@ public class GeneralUtil {
             scene.setCursor(Cursor.HAND);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.getIcons().add(new Image(GeneralUtil.class.getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
+            stage.getIcons().add(new Image(Objects.requireNonNull(GeneralUtil.class.getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"))));
 
             // Check if the resource path is the login view; if so, don't set dimensions to maximize
             if (resourcePath.contains("login-view")) {
@@ -98,12 +99,12 @@ public class GeneralUtil {
             } else {
                //  For other views, maximize the stage
                 logger.info(" maximize the stage For other views");
-//                Screen screen = Screen.getPrimary();
-//                Rectangle2D bounds = screen.getVisualBounds();
-//                stage.setX(bounds.getMinX());
-//                stage.setY(bounds.getMinY());
-//                stage.setWidth(bounds.getWidth());
-//                stage.setHeight(bounds.getHeight());
+                Screen screen = Screen.getPrimary();
+                Rectangle2D bounds = screen.getVisualBounds();
+                stage.setX(bounds.getMinX());
+                stage.setY(bounds.getMinY());
+                stage.setWidth(bounds.getWidth());
+                stage.setHeight(bounds.getHeight());
 
 
             }

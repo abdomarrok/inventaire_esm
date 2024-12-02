@@ -77,9 +77,9 @@
                         <TableColumn fx:id="nameColumn" minWidth="200.0" prefWidth="200.0" text="الاسم" />
                         <TableColumn fx:id="unitColumn" prefWidth="100.0" text="الوحدة" />
                         <TableColumn fx:id="entreeColumn" prefWidth="130.0" style="-fx-background-color: #4CAF50;" styleClass="specialColmun" text="دخول" />
-                        <TableColumn fx:id="sortieColumn" prefWidth="130.0" style="-fx-background-color: #FF5722;" styleClass="specialColmun" text="خروج" />
-                        <TableColumn fx:id="retourColumn" prefWidth="130.0" style="-fx-background-color: #b48d8d;" styleClass="specialColmun" text="إرجاع" />
-                        <TableColumn fx:id="editColumn" prefWidth="130.0" style="-fx-background-color: #0a8da4;" styleClass="specialColmun" text="التعديل" />
+                        <TableColumn fx:id="sortieColumn" prefWidth="130.0" style="-fx-background-color: #cb6c56;" styleClass="specialColmun" text="خروج" />
+<!--                        <TableColumn fx:id="retourColumn" prefWidth="130.0" style="-fx-background-color: #b48d8d;" styleClass="specialColmun" text="إرجاع" />-->
+                        <TableColumn fx:id="editColumn" prefWidth="130.0" style="-fx-background-color: #90b9c7;" styleClass="specialColmun" text="التعديل" />
                         <TableColumn fx:id="quantityColumn" prefWidth="100.0" text="الكمية" />
                         <TableColumn fx:id="categoryColmun" prefWidth="150.0" text="الفئة" />
                         <TableColumn fx:id="remarkColumn" prefWidth="150.0" text="ملاحظة" />

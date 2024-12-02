@@ -34,21 +34,22 @@ WHERE bs.id = $P{bon_sortie_id};
 	<field name="employeur_lname" class="java.lang.String"/>
 	<field name="bs_date" class="java.lang.String"/>
 	<field name="service_name" class="java.lang.String"/>
-	<title height="308">
-		<element kind="staticText" uuid="afc5e77c-017f-4b4b-8452-410f233a8d2d" x="197" y="150" width="160" height="30" fontName="Andalus" fontSize="18.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+	<title height="367">
+		<element kind="staticText" uuid="afc5e77c-017f-4b4b-8452-410f233a8d2d" x="197" y="150" width="160" height="50" fontName="Andalus" fontSize="27.0" bold="false" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[وصل إخراج]]></text>
 		</element>
-		<element kind="textField" uuid="db47c51e-1174-4b53-9a21-6761f21c98a2" x="378" y="170" width="102" height="20" hTextAlign="Right" vTextAlign="Middle">
+		<element kind="textField" uuid="db47c51e-1174-4b53-9a21-6761f21c98a2" x="350" y="220" width="102" height="20" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[$F{bon_sortie_id}]]></expression>
 		</element>
-		<element kind="staticText" uuid="17d77697-8f53-44bb-8cb7-4c4bde477cc8" x="484" y="170" width="68" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
-			<text><![CDATA[رقم الوصل   ]]></text>
+		<element kind="staticText" uuid="17d77697-8f53-44bb-8cb7-4c4bde477cc8" x="470" y="220" width="84" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[رقم الوصل]]></text>
 		</element>
-		<element kind="textField" uuid="aba34561-033b-4553-989a-33b4b92b3c6a" x="300" y="250" width="180" height="20" hTextAlign="Right" vTextAlign="Middle">
+		<element kind="textField" uuid="aba34561-033b-4553-989a-33b4b92b3c6a" x="270" y="280" width="180" height="20" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[$F{employeur_fname} + " " + $F{employeur_lname}]]></expression>
 		</element>
-		<element kind="staticText" uuid="cdf1091b-4176-4d15-8990-30456c72c4da" x="484" y="250" width="60" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
-			<text><![CDATA[السيد (ة):]]></text>
+		<element kind="staticText" uuid="cdf1091b-4176-4d15-8990-30456c72c4da" x="470" y="280" width="84" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
+			<text><![CDATA[السيد (ة)
+]]></text>
 		</element>
 		<element kind="staticText" uuid="1c044dca-617c-449d-b465-d7dfb617c4c3" x="60" y="-10" width="440" height="30" fontName="Andalus" fontSize="15.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[الجمهورية الجزائرية الديمقراطية الشعبية]]></text>
@@ -62,20 +63,20 @@ WHERE bs.id = $P{bon_sortie_id};
 		<element kind="image" uuid="eaedd2c8-7335-4702-bf62-511b7489bbf0" x="252" y="90" width="50" height="50">
 			<expression><![CDATA[$P{logo}]]></expression>
 		</element>
-		<element kind="staticText" uuid="28e5cd50-3443-4c45-a323-db2d2f18a30e" x="60" y="190" width="70" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
+		<element kind="staticText" uuid="28e5cd50-3443-4c45-a323-db2d2f18a30e" x="60" y="242" width="70" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
 			<text><![CDATA[القليعة، في :]]></text>
 		</element>
-		<element kind="textField" uuid="95a2b857-3415-451d-86d8-49ea76b084c9" x="0" y="190" width="60" height="20" hTextAlign="Center" vTextAlign="Middle">
+		<element kind="textField" uuid="95a2b857-3415-451d-86d8-49ea76b084c9" x="0" y="242" width="60" height="20" hTextAlign="Center" vTextAlign="Middle">
 			<expression><![CDATA[$F{bs_date}]]></expression>
 		</element>
-		<element kind="staticText" uuid="11071ce9-39c9-406f-87b1-8140d9821800" x="450" y="200" width="106" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+		<element kind="staticText" uuid="11071ce9-39c9-406f-87b1-8140d9821800" x="470" y="252" width="86" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
 			<text><![CDATA[ المديرية/المصلحة
 ]]></text>
 		</element>
-		<element kind="textField" uuid="7fc04d0f-1887-4cb6-b3d2-9957f7044cec" x="330" y="200" width="120" height="20" hTextAlign="Right">
+		<element kind="textField" uuid="7fc04d0f-1887-4cb6-b3d2-9957f7044cec" x="274" y="250" width="178" height="20" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[$F{service_name}]]></expression>
 		</element>
-		<element kind="staticText" uuid="f6b44880-ec4a-44b9-8865-957ecf3fa27c" x="357" y="278" width="139" height="30" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+		<element kind="staticText" uuid="f6b44880-ec4a-44b9-8865-957ecf3fa27c" x="330" y="330" width="166" height="30" fontName="Andalus" fontSize="19.0" bold="false" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[أشهد انني إستلمت مايلي.]]></text>
 		</element>
 	</title>

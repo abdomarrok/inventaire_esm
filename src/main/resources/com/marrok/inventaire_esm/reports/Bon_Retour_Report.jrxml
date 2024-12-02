@@ -31,7 +31,7 @@ WHERE br.id = $P{bon_retour_id};
 	<field name="employeur_lname" class="java.lang.String"/>
 	<field name="br_date" class="java.lang.String"/>
 	<field name="service_name" class="java.lang.String"/>
-	<title height="284">
+	<title height="330">
 		<element kind="staticText" uuid="4a6506f2-8245-4e35-bb1a-cd672d29b775" x="197" y="150" width="160" height="30" fontName="Andalus" fontSize="18.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[وصل الإرجاع]]></text>
 		</element>
@@ -45,7 +45,7 @@ WHERE br.id = $P{bon_retour_id};
 			<expression><![CDATA[$F{employeur_fname} + " " + $F{employeur_lname}]]></expression>
 		</element>
 		<element kind="staticText" uuid="ca4cd3ff-ba24-4f1e-80c5-a6a392008748" x="480" y="250" width="72" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
-			<text><![CDATA[المعني]]></text>
+			<text><![CDATA[السيد]]></text>
 		</element>
 		<element kind="staticText" uuid="c6d7c8b9-f3f5-45e5-bd24-bf2a506c8095" x="60" y="-10" width="440" height="30" fontName="Andalus" fontSize="15.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[الجمهورية الجزائرية الديمقراطية الشعبية]]></text>
@@ -70,6 +70,9 @@ WHERE br.id = $P{bon_retour_id};
 		</element>
 		<element kind="staticText" uuid="c26e92e1-5555-48c2-b44c-06266dc76152" x="480" y="220" width="72" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[المصلحة]]></text>
+		</element>
+		<element kind="staticText" uuid="fc909423-2616-4565-8d76-46fe3a8ec087" x="375" y="290" width="100" height="30" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<text><![CDATA[أشهد اني أرجعت مايلي :]]></text>
 		</element>
 	</title>
 	<columnHeader height="50">
@@ -110,13 +113,13 @@ WHERE br.id = $P{bon_retour_id};
 	</detail>
 	<columnFooter height="130">
 		<element kind="staticText" uuid="4b1a665e-4c0e-4262-b26f-f257c8a90503" x="430" y="10" width="80" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
-			<text><![CDATA[أمين المخزن]]></text>
+			<text><![CDATA[المعني]]></text>
 		</element>
 		<element kind="staticText" uuid="5008fbd2-6450-4484-998c-3316f010eeb5" x="182" y="10" width="190" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[رئيس مصلحة الوسائل العامة والاعلام الالي]]></text>
 		</element>
 		<element kind="staticText" uuid="1eeeca94-d485-4017-8618-6b51ad6adb12" x="70" y="10" width="70" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
-			<text><![CDATA[المعني]]></text>
+			<text><![CDATA[أمين المخزن]]></text>
 		</element>
 	</columnFooter>
 </jasperReport>
