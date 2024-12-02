@@ -181,10 +181,6 @@ public class ArticleController implements Initializable {
     }
 
 
-
-
-
-
     public void loadData() {
             logger.info("Loading data");
             List<Article> articles = articleDbhelper.getArticles();

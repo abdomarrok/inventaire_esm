@@ -12,7 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,7 +22,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -33,43 +31,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class EtatStockController implements Initializable {
 
     Logger logger  = Logger.getLogger(EtatStockController.class);
 
-
     public  TableView<Article> tableView;
 
-    @FXML
-    public TableColumn<Article, Integer> id_article_v;
-    @FXML
-    public TableColumn<Article, String> nameColumn;
-    @FXML
-    public TableColumn<Article, String> unitColumn;
-    @FXML
-    public TableColumn<Article, Integer> quantityColumn;
+   public TableColumn<Article, Integer> id_article_v;
+   public TableColumn<Article, String> nameColumn;
+   public TableColumn<Article, String> unitColumn;
+   public TableColumn<Article, Integer> quantityColumn;
     public TableColumn<Article,Integer> entreeColumn;
     public TableColumn<Article,Integer> sortieColumn;
     public TableColumn<Article,Integer> retourColumn;
     public TableColumn<Article,Integer> editColumn;
-    @FXML
-    public TableColumn<Article, String> remarkColumn;
+   public TableColumn<Article, String> remarkColumn;
 
-    @FXML
-    public TableColumn<Article, String> categoryColmun;
-    @FXML
-    public TextField searchField;
-    @FXML
-    private ChoiceBox<String> categoryFilter;
+   public TableColumn<Article, String> categoryColmun;
+   public TextField searchField;
+    public ChoiceBox<String> categoryFilter;
 
-    @FXML
-    public Button addButton;
-    @FXML
-    public Button updateButton;
-    @FXML
-    public Button deleteButton;
+   public Button addButton;
+   public Button updateButton;
+   public Button deleteButton;
     public Button bk_Dashboard_from_etat_stock;
 
     private static ObservableList<Article> articleList;
@@ -77,8 +62,8 @@ public class EtatStockController implements Initializable {
 
 
 
-    private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
-    private CategoryDbHelper categoryDbhelper = new CategoryDbHelper();
+    private final ArticleDbHelper articleDbhelper = new ArticleDbHelper();
+    private final CategoryDbHelper categoryDbhelper = new CategoryDbHelper();
       Map<Integer, String> categoryCache = new HashMap<>();
      Map<Integer, Integer> entreeCache = articleDbhelper.getTotalEntredQuantities();
      Map<Integer, Integer> sortieCache = articleDbhelper.getTotalSortieQuantities();
@@ -86,8 +71,7 @@ public class EtatStockController implements Initializable {
      Map<Integer, Integer> adjustmentCache = articleDbhelper.getTotalAdjustments();
     Map<Integer, Integer> totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
     private Article selectedArticle;
-    @FXML
-    private Label titleLabel;
+    public Label titleLabel;
 
 
 
@@ -97,10 +81,7 @@ public class EtatStockController implements Initializable {
     private void preloadData() throws SQLException {
         logger.info("Preloading data");
 
-        // Load categories
-        List<Category> categories = categoryDbhelper.getCategories();
-        categories.forEach(category -> categoryCache.put(category.getId(), category.getName()));
-        populateCategoryFilter();
+       preloadCategories();
 
         // Preload entree data
         entreeCache = articleDbhelper.getTotalEntredQuantities();
@@ -115,7 +96,14 @@ public class EtatStockController implements Initializable {
         // Get total quantities
         totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
     }
+    void preloadCategories(){
+        logger.info("Load categories");
+        List<Category> categories = categoryDbhelper.getCategories();
+        categories.forEach(category -> categoryCache.put(category.getId(), category.getName()));
+        populateCategoryFilter();
+    }
     private void populateCategoryFilter() {
+        logger.info("Populating category filter");
         ObservableList<String> categories = FXCollections.observableArrayList();
         categories.add("All"); // Default option to show all categories
         categories.addAll(categoryCache.values()); // Add all category names
@@ -133,8 +121,6 @@ public class EtatStockController implements Initializable {
         }
         loadData();
         initializeColumns();
-//        setupSearchFilter();
-//        setupCategoryFilter();
         setupSearchAndCategoryFilters();
         setupTableSelectionListener();
 
@@ -190,23 +176,21 @@ public class EtatStockController implements Initializable {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
         remarkColumn.setCellValueFactory(new PropertyValueFactory<>("remarque"));
-        //descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-        // Set cell value factory for total quantity
         quantityColumn.setCellValueFactory(cellData -> {
             Article article = cellData.getValue();
             int articleId = article.getId();
             Integer totalQuantity = totalQuantities.get(articleId); // Fetch pre-calculated quantity
             return new SimpleIntegerProperty(totalQuantity != null ? totalQuantity : 0).asObject();
         });
-        // Use preloaded data for entree column
+
         entreeColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getId();
             int totalArticleEntree = entreeCache.getOrDefault(articleId, 0);
             return new SimpleIntegerProperty(totalArticleEntree).asObject();
         });
 
-        // Use preloaded data for sortie column
+
         sortieColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getId();
             int totalArticleSortie = sortieCache.getOrDefault(articleId, 0);
@@ -218,7 +202,7 @@ public class EtatStockController implements Initializable {
             return new SimpleIntegerProperty(totalArticleRetour).asObject();
 
         });
-        // Use preloaded data for edit column
+
         editColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getId();
             int totalAdjustment = adjustmentCache.getOrDefault(articleId, 0);
@@ -242,42 +226,6 @@ public class EtatStockController implements Initializable {
     }
 
 
-//    private void setupSearchFilter() {
-//        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-//            filteredArticleList.setPredicate(article -> {
-//                if (newValue == null || newValue.isEmpty()) {
-//                    return true; // Show all articles if the search field is empty
-//                }
-//
-//                // Fetch category name safely
-//                String categoryName = categoryDbhelper.getCategoryById(article.getIdCategory());
-//                if (categoryName == null) {
-//                    categoryName = ""; // Default to empty string if category not found
-//                }
-//
-//                // Convert search text to lowercase
-//                String lowerCaseFilter = newValue.toLowerCase();
-//
-//                // Perform case-insensitive checks
-//                return article.getName().toLowerCase().contains(lowerCaseFilter)
-//                        || article.getUnite().toLowerCase().contains(lowerCaseFilter)
-//                        || String.valueOf(article.getId()).contains(lowerCaseFilter)
-//                        || String.valueOf(article.getIdCategory()).contains(lowerCaseFilter)
-//                        || categoryName.toLowerCase().contains(lowerCaseFilter);
-//            });
-//        });
-//    }
-//    private void setupCategoryFilter() {
-//        categoryFilter.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-//            filteredArticleList.setPredicate(article -> {
-//                if (newValue == null || newValue.equals("All")) {
-//                    return true; // Show all articles if "All" is selected
-//                }
-//                String categoryName = categoryCache.get(article.getIdCategory());
-//                return categoryName != null && categoryName.equals(newValue);
-//            });
-//        });
-//    }
 private void setupSearchAndCategoryFilters() {
     // Add listeners for search field and category filter
     searchField.textProperty().addListener((observable, oldValue, newValue) -> applyFilters());
@@ -317,44 +265,11 @@ private void setupSearchAndCategoryFilters() {
 
 
     private void setupTableSelectionListener() {
-        bk_Dashboard_from_etat_stock.setOnAction(event -> {
-            GeneralUtil.goBackStockDashboard(event);
-        });
+        bk_Dashboard_from_etat_stock.setOnAction(GeneralUtil::goBackStockDashboard);
         tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedArticle = newValue);
 
     }
-    public void setupSpecificCellEventListener() {
-        // Correct type of TableColumn is Integer, not String
-        editColumn.setCellFactory(new Callback<TableColumn<Article, Integer>, TableCell<Article, Integer>>() {
-            @Override
-            public TableCell<Article, Integer> call(TableColumn<Article, Integer> param) {
-                return new TableCell<Article, Integer>() {
-                    @Override
-                    protected void updateItem(Integer item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (!empty) {
-                            TableRow<Article> row = getTableRow();
 
-                            // Check if this is the specific cell you want to target (e.g., first row)
-                            if (row != null && row.getIndex() == 0 && getTableColumn() == editColumn) {
-                                // Add your specific event handler for this cell
-                                this.setOnMouseClicked(event -> {
-                                    System.out.println("Specific cell clicked! Row: " + row.getIndex() + ", Column: " + getTableColumn().getText());
-                                    // Your event logic here
-                                });
-                            } else {
-                                // Clear event handler for other cells
-                                this.setOnMouseClicked(null);
-                            }
-                        } else {
-                            // Reset the cell to default if it's empty or no longer in use
-                            this.setOnMouseClicked(null);
-                        }
-                    }
-                };
-            }
-        });
-    }
 
     public ObservableList<Article> getArticleList() {
         return articleList;

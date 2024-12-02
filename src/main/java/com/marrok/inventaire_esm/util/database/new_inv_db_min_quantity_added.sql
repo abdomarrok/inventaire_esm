@@ -1,5 +1,5 @@
 -- Database backup
--- Generated on 2024-11-27T05:29:19.887611900
+-- Generated on 2024-12-02T10:18:33.778483900
 
 --
 -- Table structure for table `category`
@@ -9,7 +9,7 @@ CREATE TABLE `category` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `name_cat` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `category`
@@ -20,6 +20,7 @@ INSERT INTO `category` VALUES(2, 'مواد التنظيف');
 INSERT INTO `category` VALUES(3, 'مواد الصيانة');
 INSERT INTO `category` VALUES(5, 'ادوات مكتبية');
 INSERT INTO `category` VALUES(6, 'المطبخ');
+INSERT INTO `category` VALUES(7, 'الاعلام االي');
 
 --
 -- Table structure for table `fournisseur`
@@ -38,7 +39,7 @@ CREATE TABLE `fournisseur` (
   `EMAIL` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `RIB` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `fournisseur`
@@ -202,7 +203,6 @@ INSERT INTO `employeur` VALUES(143, 'سعدون', 'خديجة', ' ');
 INSERT INTO `employeur` VALUES(144, 'سيفي', 'شريفة', ' ');
 INSERT INTO `employeur` VALUES(145, 'عسول', 'سارة شهرزاد', ' ');
 INSERT INTO `employeur` VALUES(147, 'عبدون', 'ذكرى رانيا', ' ');
-INSERT INTO `employeur` VALUES(148, 'مروك', 'عبد الرحمان', 'مهندس دولة  في الاعلام الالي');
 
 --
 -- Table structure for table `user`
@@ -221,7 +221,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` VALUES(2, 'user1', 'password1', 'Admin');
-INSERT INTO `user` VALUES(13, 'nacira', '1234', 'Editor');
+INSERT INTO `user` VALUES(13, 'nacira', '1234', 'User');
 INSERT INTO `user` VALUES(14, 'hamoud', '12345', 'Manager');
 
 --
@@ -235,20 +235,23 @@ CREATE TABLE `service` (
   PRIMARY KEY (`id`),
   KEY `chef_service_employer_relation` (`chef_service_id`),
   CONSTRAINT `chef_service_employer_relation` FOREIGN KEY (`chef_service_id`) REFERENCES `employeur` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `service`
 --
 
 INSERT INTO `service` VALUES(1, 'الوسائل العامة والاعلام الالي', 28);
-INSERT INTO `service` VALUES(2, 'مصلحة المستخدمين و التكوين', 13);
-INSERT INTO `service` VALUES(3, 'مصلحة الميزانية و المحاسبة', 22);
-INSERT INTO `service` VALUES(4, 'مصلحة الإيواء و الإطعام و النشاطات', 37);
-INSERT INTO `service` VALUES(7, 'مديرية التكوين القاعدي', 115);
-INSERT INTO `service` VALUES(8, 'مديرية التكوين المستمر', 116);
-INSERT INTO `service` VALUES(9, 'مديرية التداريب', 9);
-INSERT INTO `service` VALUES(10, 'مصلحة المكتبة و الوثائق و الأرشيف', 15);
+INSERT INTO `service` VALUES(2, 'المستخدمين و التكوين', 13);
+INSERT INTO `service` VALUES(3, 'الميزانية و المحاسبة', 22);
+INSERT INTO `service` VALUES(4, 'الإيواء و الإطعام و النشاطات', 37);
+INSERT INTO `service` VALUES(8, 'التكوين المستمر', 116);
+INSERT INTO `service` VALUES(9, 'التداريب', 9);
+INSERT INTO `service` VALUES(10, 'المكتبة و الوثائق و الأرشيف', 15);
+INSERT INTO `service` VALUES(11, 'الامانة العامة', 8);
+INSERT INTO `service` VALUES(12, 'تنظيم مسابقات الإلتحاق بالمدرسة و متابعتها', 115);
+INSERT INTO `service` VALUES(13, 'مراقبة برامج التكوين القاعدي و تقييمها', 115);
+INSERT INTO `service` VALUES(14, 'تنفيذ برامج التكوين القاعدي و متابعتها', 21);
 
 --
 -- Table structure for table `localisation`
@@ -262,12 +265,13 @@ CREATE TABLE `localisation` (
   PRIMARY KEY (`id`),
   KEY `localisation_id_service_foreign` (`id_service`),
   CONSTRAINT `localisation_id_service_foreign` FOREIGN KEY (`id_service`) REFERENCES `service` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `localisation`
 --
 
+INSERT INTO `localisation` VALUES(12, 'المكتب 6', 1, 4);
 
 --
 -- Table structure for table `article`
@@ -281,83 +285,85 @@ CREATE TABLE `article` (
   `remarque` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `id_category` int unsigned DEFAULT NULL,
   `last_edited` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `min_quantity` int DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `article_id_category_foreign` (`id_category`),
   CONSTRAINT `article_id_category_foreign` FOREIGN KEY (`id_category`) REFERENCES `category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `article`
 --
 
-INSERT INTO `article` VALUES(2, 'vachette porte', 'piece', '', '', 2, '2024-11-27 12:43:22');
-INSERT INTO `article` VALUES(3, 'Coude PVC 200', 'piece', '', '', 3, '2024-11-27 14:20:17');
-INSERT INTO `article` VALUES(4, 'Bidon peinture blanc huxe 25 kg', 'kg', '', '', 3, '2024-11-27 14:19:46');
-INSERT INTO `article` VALUES(5, 'Sac poubelle', 'piece', '', '', 2, '2024-11-27 14:19:57');
-INSERT INTO `article` VALUES(6, 'Cuillère soupe inox luxe', 'piece', '', '', 1, '2024-11-27 09:50:54');
-INSERT INTO `article` VALUES(7, 'Tuyau 63 ohd (50m)', 'm', '', '', 3, '2024-11-27 14:21:53');
-INSERT INTO `article` VALUES(8, 'Manchon phd 63', 'piece', '', '', 1, '2024-11-27 09:54:20');
-INSERT INTO `article` VALUES(9, 'Coude phd 63', 'piece', '', '', 3, '2024-11-27 14:20:26');
-INSERT INTO `article` VALUES(10, 'Douille Ceramique', 'piece', '', '', 1, '2024-11-27 10:25:13');
-INSERT INTO `article` VALUES(11, 'Dijoncteur GM380V100AMP3 VS', 'piece', '', '', 3, '2024-11-27 10:25:48');
-INSERT INTO `article` VALUES(12, 'Lampe LED 9W', 'piece', '', '', 3, '2024-11-27 10:26:31');
-INSERT INTO `article` VALUES(13, 'Mitigene lavabo', 'piece', '', '', 2, '2024-11-27 10:27:26');
-INSERT INTO `article` VALUES(14, 'Flexible douche 1.60', 'piece', '', '', 1, '2024-11-27 10:29:28');
-INSERT INTO `article` VALUES(15, 'Mélangeur de donche', 'piece', '', '', 1, '2024-11-27 10:29:53');
-INSERT INTO `article` VALUES(16, 'Gants en Cuire', 'piece', '', '', 2, '2024-11-27 10:37:10');
-INSERT INTO `article` VALUES(17, 'Ballet contenier gm', 'piece', '', '', 1, '2024-11-27 10:38:51');
-INSERT INTO `article` VALUES(18, 'Sac de platre 40kg', 'kg', '', '', 1, '2024-11-27 10:39:11');
-INSERT INTO `article` VALUES(19, 'Rallonge 6/8', 'piece', '', '', 3, '2024-11-27 10:39:31');
-INSERT INTO `article` VALUES(20, 'Baguette de soudure en boite', 'piece', '', '', 3, '2024-11-27 10:40:24');
-INSERT INTO `article` VALUES(21, 'Lampe led 50w', 'piece', '', '', 1, '2024-11-27 10:40:58');
-INSERT INTO `article` VALUES(22, 'Serrure Encastre a canaux', 'piece', '', '', 2, '2024-11-27 10:41:32');
-INSERT INTO `article` VALUES(23, 'Serrure Encastre condanation', 'piece', '', '', 2, '2024-11-27 10:41:59');
-INSERT INTO `article` VALUES(24, 'Passe de porte condanation', 'piece', '', '', 1, '2024-11-27 10:42:21');
-INSERT INTO `article` VALUES(25, 'Boite Agrafes 23/17', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(26, 'Boite Agrafes 23/15', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(27, 'Boite Agrafes 23/19', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(28, 'Boite de coins de lettre dorée', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(29, 'Boite de marqueur fluorescent', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(30, 'Boite de punaise en couleur', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(31, 'Boite de trombone en couleur', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(32, 'Boite trombone', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(33, 'Calculatrice simple', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(34, 'Ciseau', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(35, 'Classeur 100 pochettes (200 vues)', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(36, 'Classeur 80 pochettes (160 vues)', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(37, 'Correcteur blanc stylo', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(38, 'Crayon noir (boite de 12 pieceés)', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(39, 'Cutter 9cm', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(40, 'Dateur en arabe', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(41, 'Dateur en français', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(42, 'Enveloppe armée soufflet', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(43, 'Enveloppe bulle blanche f26', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(44, 'Enveloppe bulle blanche f16', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(45, 'Enveloppe bulle blanche f18', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(46, 'Enveloppe pochette blanche f16', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(47, 'Enveloppe pochette blanche f18', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(48, 'Enveloppe pochette blanche f26', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(49, 'Gomme blanche', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(50, 'Pochette transparente', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(51, 'Post-lt (75mm×75mm)', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(52, 'Rame couverture bristol blanc', 'piece', NULL, NULL, 5, '2024-11-27 13:44:08');
-INSERT INTO `article` VALUES(53, 'Rame couverture transparente', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(54, 'Rame papier A4 500 feuilles, 80gr. 1er choix', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(55, 'Registre 2 mains', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(56, 'Registre 3 mains', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(57, 'Registre 4 mains', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(58, 'Registre 5 mains', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(59, 'Spirale de reliure N° 08 (boite)', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(60, 'Spirale de reliure N° 10 (boite)', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(61, 'Baguette de serrage pm', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(62, 'Baguette de serrage mm', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(63, 'Baguette de serrage gm', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(64, 'Boite Stabilo bleu', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(65, 'Boite Stabilo noir', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(66, 'Stylo à bille bleu', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(67, 'Stylo à bille noir', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04');
-INSERT INTO `article` VALUES(68, 'Stylo à bille rouge', 'piece', NULL, NULL, 5, '2024-11-27 14:23:12');
+INSERT INTO `article` VALUES(2, 'vachette porte', 'piece', '', '', 2, '2024-11-27 12:43:22', 0);
+INSERT INTO `article` VALUES(3, 'Coude PVC 200', 'piece', '', '', 3, '2024-11-27 14:20:17', 0);
+INSERT INTO `article` VALUES(4, 'Bidon peinture blanc huxe 25 kg', 'kg', '', '', 3, '2024-11-27 14:19:46', 0);
+INSERT INTO `article` VALUES(5, 'Sac poubelle', 'piece', '', '', 2, '2024-11-27 14:19:57', 0);
+INSERT INTO `article` VALUES(6, 'Cuillère soupe inox luxe', 'piece', '', '', 1, '2024-11-27 09:50:54', 0);
+INSERT INTO `article` VALUES(7, 'Tuyau 63 ohd (50m)', 'm', '', '', 3, '2024-11-27 14:21:53', 0);
+INSERT INTO `article` VALUES(8, 'Manchon phd 63', 'piece', '', '', 1, '2024-11-27 09:54:20', 0);
+INSERT INTO `article` VALUES(9, 'Coude phd 63', 'piece', '', '', 3, '2024-11-27 14:20:26', 0);
+INSERT INTO `article` VALUES(10, 'Douille Ceramique', 'piece', '', '', 1, '2024-11-27 10:25:13', 0);
+INSERT INTO `article` VALUES(11, 'Dijoncteur GM380V100AMP3 VS', 'piece', '', '', 3, '2024-11-27 10:25:48', 0);
+INSERT INTO `article` VALUES(12, 'Lampe LED 9W', 'piece', '', '', 3, '2024-11-27 10:26:31', 0);
+INSERT INTO `article` VALUES(13, 'Mitigene lavabo', 'piece', '', '', 2, '2024-11-27 10:27:26', 0);
+INSERT INTO `article` VALUES(14, 'Flexible douche 1.60', 'piece', '', '', 1, '2024-11-27 10:29:28', 0);
+INSERT INTO `article` VALUES(15, 'Mélangeur de donche', 'piece', '', '', 1, '2024-11-27 10:29:53', 0);
+INSERT INTO `article` VALUES(16, 'Gants en Cuire', 'piece', '', '', 2, '2024-11-27 10:37:10', 0);
+INSERT INTO `article` VALUES(17, 'Ballet contenier gm', 'piece', '', '', 1, '2024-11-27 10:38:51', 0);
+INSERT INTO `article` VALUES(18, 'Sac de platre 40kg', 'kg', '', '', 1, '2024-11-27 10:39:11', 0);
+INSERT INTO `article` VALUES(19, 'Rallonge 6/8', 'piece', '', '', 3, '2024-11-27 10:39:31', 0);
+INSERT INTO `article` VALUES(20, 'Baguette de soudure en boite', 'piece', '', '', 3, '2024-11-27 10:40:24', 0);
+INSERT INTO `article` VALUES(21, 'Lampe led 50w', 'piece', '', '', 1, '2024-11-27 10:40:58', 0);
+INSERT INTO `article` VALUES(22, 'Serrure Encastre a canaux', 'piece', '', '', 2, '2024-11-27 10:41:32', 0);
+INSERT INTO `article` VALUES(23, 'Serrure Encastre condanation', 'piece', '', '', 2, '2024-11-27 10:41:59', 0);
+INSERT INTO `article` VALUES(24, 'Passe de porte condanation', 'piece', '', '', 1, '2024-11-27 10:42:21', 0);
+INSERT INTO `article` VALUES(25, 'Boite Agrafes 23/17', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(26, 'Boite Agrafes 23/15', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(27, 'Boite Agrafes 23/19', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(28, 'Boite de coins de lettre dorée', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(29, 'Boite de marqueur fluorescent', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(30, 'Boite de punaise en couleur', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(31, 'Boite de trombone en couleur', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(32, 'Boite trombone', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(33, 'Calculatrice simple', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(34, 'Ciseau', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(35, 'Classeur 100 pochettes (200 vues)', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(36, 'Classeur 80 pochettes (160 vues)', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(37, 'Correcteur blanc stylo', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(38, 'Crayon noir (boite de 12 pieceés)', 'piece', NULL, NULL, 5, '2024-12-02 09:57:33', 10);
+INSERT INTO `article` VALUES(39, 'Cutter 9cm', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(40, 'Dateur en arabe', 'piece', NULL, NULL, 5, '2024-12-01 10:08:19', 0);
+INSERT INTO `article` VALUES(41, 'Dateur en français', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(42, 'Enveloppe armée soufflet', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(43, 'Enveloppe bulle blanche f26', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(44, 'Enveloppe bulle blanche f16', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(45, 'Enveloppe bulle blanche f18', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(46, 'Enveloppe pochette blanche f16', 'piece', NULL, NULL, 5, '2024-12-02 10:14:09', 0);
+INSERT INTO `article` VALUES(47, 'Enveloppe pochette blanche f18', 'piece', NULL, NULL, 5, '2024-12-02 09:58:24', 14);
+INSERT INTO `article` VALUES(48, 'Enveloppe pochette blanche f26', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(49, 'Gomme blanche', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(50, 'Pochette transparente', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(51, 'Post-lt (75mm×75mm)', 'piece', NULL, NULL, 5, '2024-11-28 11:58:07', 0);
+INSERT INTO `article` VALUES(52, 'Rame couverture bristol blanc', 'piece', NULL, NULL, 5, '2024-11-27 13:44:08', 0);
+INSERT INTO `article` VALUES(53, 'Rame couverture transparente', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(54, 'Rame papier A4 500 feuilles, 80gr. 1er choix', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(55, 'Registre 2 mains', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(56, 'Registre 3 mains', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(57, 'Registre 4 mains', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(58, 'Registre 5 mains', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(59, 'Spirale de reliure N° 08 (boite)', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(60, 'Spirale de reliure N° 10 (boite)', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(61, 'Baguette de serrage pm', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(62, 'Baguette de serrage mm', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(63, 'Baguette de serrage gm', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(64, 'Boite Stabilo bleu', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(65, 'Boite Stabilo noir', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(66, 'Stylo à bille bleu', 'piece', NULL, NULL, 5, '2024-11-28 08:47:12', 0);
+INSERT INTO `article` VALUES(67, 'Stylo à bille noir', 'piece', NULL, NULL, NULL, '2024-11-27 10:57:04', 0);
+INSERT INTO `article` VALUES(68, 'Stylo à bille rouge', 'piece', NULL, NULL, 5, '2024-11-27 14:23:12', 0);
+INSERT INTO `article` VALUES(69, 'Imprimante multifonction Kyoccera FS-1120 MFP', 'piece', '', ' NS : 150019-17', 7, '2024-12-01 15:31:57', 0);
 
 --
 -- Table structure for table `bon_entree`
@@ -396,12 +402,15 @@ CREATE TABLE `bon_sortie` (
   KEY `bon_sortie_id_service_index` (`id_service`),
   CONSTRAINT `bon_sortie_employeur_relation` FOREIGN KEY (`id_employeur`) REFERENCES `employeur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `bon_sortie_service_relation` FOREIGN KEY (`id_service`) REFERENCES `service` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bon_sortie`
 --
 
+INSERT INTO `bon_sortie` VALUES(2, 37, 1, '2024-12-01 00:00:00', '2024-12-01 11:40:56');
+INSERT INTO `bon_sortie` VALUES(3, 45, 3, '2024-12-01 00:00:00', '2024-12-01 14:43:11');
+INSERT INTO `bon_sortie` VALUES(4, 3, 1, '2024-12-01 00:00:00', '2024-12-01 15:27:27');
 
 --
 -- Table structure for table `bon_retour`
@@ -419,12 +428,13 @@ CREATE TABLE `bon_retour` (
   KEY `bon_retour_id_service_index` (`id_service`),
   CONSTRAINT `bon_retour_employeur_relation` FOREIGN KEY (`id_employeur`) REFERENCES `employeur` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `bon_retour_service_relation` FOREIGN KEY (`id_service`) REFERENCES `service` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bon_retour`
 --
 
+INSERT INTO `bon_retour` VALUES(7, 37, 1, '2024-12-01 00:00:00', 'خطا', '2024-12-01 11:43:17');
 
 --
 -- Table structure for table `entree`
@@ -485,12 +495,16 @@ CREATE TABLE `sortie` (
   KEY `id_bs` (`id_bs`),
   CONSTRAINT `sortie_article_relation` FOREIGN KEY (`id_article`) REFERENCES `article` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `sortie_bon_sortie_relation` FOREIGN KEY (`id_bs`) REFERENCES `bon_sortie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sortie`
 --
 
+INSERT INTO `sortie` VALUES(28, 21, 1, 2);
+INSERT INTO `sortie` VALUES(29, 69, 1, 3);
+INSERT INTO `sortie` VALUES(30, 2, 1, 4);
+INSERT INTO `sortie` VALUES(31, 10, 4, 4);
 
 --
 -- Table structure for table `retour`
@@ -506,12 +520,13 @@ CREATE TABLE `retour` (
   KEY `retour_bon_retour_relation` (`id_br`),
   CONSTRAINT `retour_article_relation` FOREIGN KEY (`id_article`) REFERENCES `article` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `retour_bon_retour_relation` FOREIGN KEY (`id_br`) REFERENCES `bon_retour` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `retour`
 --
 
+INSERT INTO `retour` VALUES(7, 21, 1, 7);
 
 --
 -- Table structure for table `stock_adjustment`
@@ -530,12 +545,13 @@ CREATE TABLE `stock_adjustment` (
   KEY `stock_adjustment_id_user_foreign` (`user_id`),
   CONSTRAINT `stock_adjustment_id_article_foreign` FOREIGN KEY (`article_id`) REFERENCES `article` (`id`),
   CONSTRAINT `stock_adjustment_id_user_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `stock_adjustment`
 --
 
+INSERT INTO `stock_adjustment` VALUES(15, 69, 2, '2024-12-01 00:00:00', 1, 'increase', 'اول مرة');
 
 --
 -- Table structure for table `inventaire_item`
@@ -561,7 +577,7 @@ CREATE TABLE `inventaire_item` (
   CONSTRAINT `inventaire_item_id_employer_foreign` FOREIGN KEY (`id_employer`) REFERENCES `employeur` (`id`),
   CONSTRAINT `inventaire_item_id_localisation_foreign` FOREIGN KEY (`id_localisation`) REFERENCES `localisation` (`id`),
   CONSTRAINT `inventaire_item_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `inventaire_item`
