@@ -41,7 +41,7 @@ public class ArticleDbHelper {
     public List<Article> getArticles() {
         logger.info("getArticles");
         List<Article> articles = new ArrayList<>();
-        String query = "SELECT id, name, unite, remarque, description, id_category, last_edited FROM article ORDER BY last_edited DESC;";
+        String query = "SELECT id, name, unite, remarque, description, id_category, last_edited,min_quantity FROM article ORDER BY last_edited DESC;";
 
         try (PreparedStatement stmt = this.cnn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -51,10 +51,10 @@ public class ArticleDbHelper {
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("unite"),
-//                        rs.getInt("quantity"),
                         rs.getString("remarque"),
                         rs.getString("description"),
-                        rs.getInt("id_category")
+                        rs.getInt("id_category"),
+                        rs.getInt("min_quantity")
                 );
                 articles.add(article);
             }
@@ -76,10 +76,10 @@ public class ArticleDbHelper {
                             rs.getInt("id"),
                             rs.getString("name"),
                             rs.getString("unite"),
-//                            rs.getInt("quantity"),
                             rs.getString("remarque"),
                             rs.getString("description"),
-                            rs.getInt("id_category")
+                            rs.getInt("id_category"),
+                            rs.getInt("min_quantity")
                     );
                 }
             }
@@ -92,13 +92,14 @@ public class ArticleDbHelper {
 
     public boolean addArticle(Article article) {
         logger.info("addArticle");
-        String query = "INSERT INTO article (name, unite,  remarque, description, id_category) VALUES (?, ?, ?,  ?, ?)";
+        String query = "INSERT INTO article (name, unite,  remarque, description, id_category,min_quantity) VALUES (?, ?, ?,  ?, ?,?)";
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setString(1, article.getName());
             stmt.setString(2, article.getUnite());
             stmt.setString(3, article.getRemarque());
             stmt.setString(4, article.getDescription());
             stmt.setInt(5, article.getIdCategory());
+            stmt.setInt(6, article.getMin_quantity());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
            logger.error("Error adding article", e);
@@ -118,17 +119,18 @@ public class ArticleDbHelper {
 
     public boolean updateArticle(Article article) {
         logger.info("updateArticle");
-        String query = "UPDATE article SET name = ?, unite = ?, remarque = ?, description = ?, id_category = ? WHERE id = ?";
+        String query = "UPDATE article SET name = ?, unite = ?, remarque = ?, description = ?, id_category = ?  ,min_quantity=? WHERE id = ?";
         try (PreparedStatement stmt = this.cnn.prepareStatement(query)) {
             stmt.setString(1, article.getName());
             stmt.setString(2, article.getUnite());
             stmt.setString(3, article.getRemarque());
             stmt.setString(4, article.getDescription());
             stmt.setInt(5, article.getIdCategory());
-            stmt.setLong(6, article.getId());
+            stmt.setInt(6, article.getMin_quantity());
+            stmt.setLong(7, article.getId());
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-           logger.error( "Error Adding article "+article.getName(), e);
+           logger.error( "Error updating article "+article.getName(), e);
 
         }
         return false;
@@ -267,33 +269,7 @@ public class ArticleDbHelper {
     }
 
 
-//    public Map<Integer, Integer> getTotalQuantitiesByArticle() {
-//        logger.info("getTotalQuantitiesByArticle");
-//        Map<Integer, Integer> totalQuantities = new HashMap<>();
-//
-//        String query = "SELECT article.id AS article_id, " +
-//                "(SELECT COALESCE(SUM(entree.quantity), 0) FROM entree WHERE entree.id_article = article.id) AS total_entree, " +
-//                "(SELECT COALESCE(SUM(sortie.quantity), 0) FROM sortie WHERE sortie.id_article = article.id) AS total_sortie, " +
-//                "(SELECT COALESCE(SUM(CASE WHEN adjustment_type = 'increase' THEN quantity ELSE 0 END), 0) - " +
-//                "COALESCE(SUM(CASE WHEN adjustment_type = 'decrease' THEN quantity ELSE 0 END), 0) " +
-//                "FROM stock_adjustment WHERE article_id = article.id) AS net_adjustment " +
-//                "FROM article " +
-//                "ORDER BY (total_entree - total_sortie + net_adjustment) DESC, article.id ASC"; // Sort by total quantity, then article id
-//
-//        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query);
-//             ResultSet resultSet = preparedStatement.executeQuery()) {
-//
-//            while (resultSet.next()) {
-//                int articleId = resultSet.getInt("article_id");  // Use alias 'article_id'
-//                int totalQuantity = resultSet.getInt("total_entree") - resultSet.getInt("total_sortie") + resultSet.getInt("net_adjustment");
-//                totalQuantities.put(articleId, totalQuantity);
-//            }
-//        } catch (SQLException e) {
-//            logger.error( "Error getting Total Quantity By Article", e);
-//        }
-//
-//        return totalQuantities;
-//    }
+
 
     public int getTotalAdjustmentByArticleId(int articleId) {
         logger.info("getTotalAdjustmentByArticleId");

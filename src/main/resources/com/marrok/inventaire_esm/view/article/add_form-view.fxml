@@ -45,14 +45,19 @@
             <Insets />
          </GridPane.margin></Label>
         <TextField fx:id="descriptionField" styleClass="searchField" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <Label alignment="CENTER" styleClass="lbl" text="الكمية الادنى للعنصر" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+            <GridPane.margin>
+                <Insets />
+            </GridPane.margin></Label>
+        <TextField fx:id="min_quantity_txt" styleClass="searchField" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 
-        <Label alignment="CENTER" styleClass="lbl" text="الفئة:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+        <Label alignment="CENTER" styleClass="lbl" text="الفئة:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6">
          <GridPane.margin>
             <Insets />
          </GridPane.margin></Label>
-        <ChoiceBox fx:id="categoryChoiceBox" prefHeight="38.0" prefWidth="260.0" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <ChoiceBox fx:id="categoryChoiceBox" prefHeight="38.0" prefWidth="260.0" styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.rowIndex="6" />
 
-        <HBox spacing="10.0" GridPane.columnSpan="2" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+        <HBox spacing="10.0" GridPane.columnSpan="2" GridPane.rowIndex="7" GridPane.valignment="CENTER">
             <Button onAction="#addArticle" prefHeight="26.0" prefWidth="97.0" text="إضافة">
                 <styleClass>
                     <String fx:value="btn" />

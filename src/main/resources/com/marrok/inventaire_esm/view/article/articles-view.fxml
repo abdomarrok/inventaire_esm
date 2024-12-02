@@ -75,7 +75,7 @@
                         <TableColumn fx:id="id_article_v" text="المعرف" />
                         <TableColumn fx:id="nameColumn" text="الاسم" />
                         <TableColumn fx:id="unitColumn" text="الوحدة" />
-<!--                        <TableColumn fx:id="quantityColumn" text="الكمية" />-->
+                        <TableColumn fx:id="min_quantityColumn" text="الحد الادنى للكمية" />
                         <TableColumn fx:id="remarkColumn" text="ملاحظة" />
                         <TableColumn fx:id="descriptionColumn" text="الوصف" />
                         <TableColumn fx:id="categoryColmun" text="الفئة" />

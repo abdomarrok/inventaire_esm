@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UpdateController {
+
     Logger logger = Logger.getLogger(UpdateController.class);
 
     public String chosen_Category = "";
@@ -28,12 +29,10 @@ public class UpdateController {
     public TextField nameField;
     @FXML
     public TextField uniteField;
-//    @FXML
-//    public TextField quantityField;
+
     @FXML
     public TextField remarqueField;
-    @FXML
-    public TextField qrCodeField;
+    public TextField min_quantity_txt;
     private Article selectedArticle;
     private ArticleController articleController;
 
@@ -63,7 +62,7 @@ public class UpdateController {
                 selectedArticle = article;
                 nameField.setText(article.getName());
                 uniteField.setText(article.getUnite());
-//                quantityField.setText(String.valueOf(article.getQuantity()));
+                min_quantity_txt.setText(String.valueOf(article.getMin_quantity()));
                 remarqueField.setText(article.getRemarque());
                 descriptionField.setText(article.getDescription());
 
@@ -88,6 +87,7 @@ public class UpdateController {
         selectedArticle.setUnite(uniteField.getText());
 //        selectedArticle.setQuantity(Integer.parseInt(quantityField.getText()));
         selectedArticle.setRemarque(remarqueField.getText());
+        selectedArticle.setMin_quantity(Integer.parseInt(min_quantity_txt.getText()));
         int id_cat = categoryDbhelper.getCategoryByName(categoryChoiceBox.getSelectionModel().getSelectedItem().getName());
         selectedArticle.setIdCategory(id_cat);
 

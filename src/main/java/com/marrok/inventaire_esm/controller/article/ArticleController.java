@@ -38,6 +38,7 @@ import java.util.stream.Collectors;
 
 
 public class ArticleController implements Initializable {
+
     Logger logger = Logger.getLogger(ArticleController.class);
 
     @FXML
@@ -53,7 +54,8 @@ public class ArticleController implements Initializable {
     @FXML
     public TableColumn<Article, String> remarkColumn;
     @FXML
-    public TableColumn descriptionColumn;
+    public TableColumn<Article, String> descriptionColumn;
+    public TableColumn<Article, Integer> min_quantityColumn;
     @FXML
     public TableColumn<Article, String> categoryColmun;
     @FXML
@@ -80,19 +82,29 @@ public class ArticleController implements Initializable {
 
     private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
     private CategoryDbHelper categoryDbhelper = new CategoryDbHelper();
-    private Map<Integer, String> categoryMap;
+    private Map<Integer, String> categoryMap= new HashMap<>();
 
     public ArticleController() throws SQLException {
+    }
+
+    private void preloadData() {
+        List<Category> categories = categoryDbhelper.getCategories();
+        if (categories == null || categories.isEmpty()) {
+            logger.warn("No categories found in the database.");
+        } else {
+            logger.info("Categories loaded: " + categories.size());
+        }
+        categories.forEach(category -> categoryMap.put(category.getId(), category.getName()));
+        populateCategoryFilter();
     }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         logger.info("Initializing ArticleController");
-        preloadCategories();
+        preloadData();
         loadData();
         initializeColumns();
-       // setupSearchFilter();
         setupSearchAndCategoryFilters();
         setupTableSelectionListener();
     }
@@ -156,14 +168,16 @@ public class ArticleController implements Initializable {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
         remarkColumn.setCellValueFactory(new PropertyValueFactory<>("remarque"));
+        min_quantityColumn.setCellValueFactory(new PropertyValueFactory<>("min_quantity"));
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
 
         // Custom cell value factory for categoryColmun to fetch category name by id_category
         categoryColmun.setCellValueFactory(cellData -> {
             int categoryId = cellData.getValue().getIdCategory();
-            String categoryName = categoryDbhelper.getCategoryById(categoryId);
-            return new SimpleStringProperty(categoryName != null && !categoryName.isEmpty() ? categoryName : "Unknown Category");
+            String categoryName = categoryMap.getOrDefault(categoryId, "Unknown Category");
+            return new SimpleStringProperty(categoryName);
         });
+
     }
 
 
@@ -180,12 +194,7 @@ public class ArticleController implements Initializable {
 
     }
 
-    private void preloadCategories() {
-        logger.info("preloade");
-        categoryMap = categoryDbhelper.getCategories().stream()
-                .collect(Collectors.toMap(Category::getId, Category::getName));
-        populateCategoryFilter();
-    }
+
     private void populateCategoryFilter() {
         ObservableList<String> categories = FXCollections.observableArrayList();
         categories.add("All"); // Default option to show all categories
@@ -195,9 +204,7 @@ public class ArticleController implements Initializable {
     }
 
     private void setupTableSelectionListener() {
-        bk_Dashboard_from_products.setOnAction(event -> {
-           GeneralUtil.goBackStockDashboard(event);
-        });
+        bk_Dashboard_from_products.setOnAction(GeneralUtil::goBackStockDashboard);
         tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> selectedArticle = newValue);
         tableView.setOnMouseClicked((MouseEvent event) -> {
             if (event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
@@ -221,14 +228,14 @@ public class ArticleController implements Initializable {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(((Node) event.getSource()).getScene().getWindow());
             stage.setTitle("Add Article");
-            stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
+            stage.getIcons().add(new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"))));
 
             AddController controller = loader.getController();
             controller.setDashboardController(this);
             stage.showAndWait();
         } catch (IOException e) {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "خطأ", "تعذر فتح نموذج إضافة العنصر.");
-            e.printStackTrace();
+         logger.error(e.getMessage(),e);
         }
     }
 
@@ -244,7 +251,7 @@ public class ArticleController implements Initializable {
                 Scene scene = new Scene(loader.load());
                 stage.setScene(scene);
                 stage.setTitle("تحديث العنصر");
-                stage.getIcons().add(new Image(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png")));
+                stage.getIcons().add(new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"))));
                 // Get the controller of the update form
                 UpdateController controller = loader.getController();
                 controller.setArticleData(selectedArticle.getId());
@@ -252,7 +259,7 @@ public class ArticleController implements Initializable {
 
                 stage.show();
             } catch (IOException e) {
-                e.printStackTrace();
+            logger.error(e);
             }
         } else {
             GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار عنصر للتحديث.");
@@ -297,7 +304,7 @@ public class ArticleController implements Initializable {
             tableView.refresh();
     }
 
-
+/**
     @FXML
     private void exportArticle(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
@@ -371,6 +378,6 @@ public class ArticleController implements Initializable {
             }
         }
     }
-
+*/
 
 }

@@ -56,8 +56,7 @@ public class EtatStockController implements Initializable {
     public TableColumn<Article,Integer> editColumn;
     @FXML
     public TableColumn<Article, String> remarkColumn;
-    @FXML
-    public TableColumn descriptionColumn;
+
     @FXML
     public TableColumn<Article, String> categoryColmun;
     @FXML

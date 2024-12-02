@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddController implements Initializable {
+    public TextField min_quantity_txt;
     Logger logger = Logger.getLogger(AddController.class);
     public String chosenCategory = "";
     public TextField nameField;
@@ -97,6 +98,7 @@ public class AddController implements Initializable {
         String unit = unitField.getText().trim();
         String remark = remarkField.getText().trim();
         String descriptionText = descriptionField.getText().trim();
+        int min_qun_txt = Integer.parseInt(min_quantity_txt.getText().trim());
 
         if (name.isEmpty()) {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "مدخلات خاطئة", "اسم العنصر لا يجب ان يكون فارغا");
@@ -111,7 +113,7 @@ public class AddController implements Initializable {
 
         int categoryId = categoryDbhelper.getCategoryByName(chosenCategory);
 
-        Article newArticle = new Article(0, name, unit, remark, descriptionText, categoryId);
+        Article newArticle = new Article(0, name, unit, remark, descriptionText, categoryId,min_qun_txt);
         if (articleDbhelper.addArticle(newArticle)) {
             logger.info("articleDbhelper.addArticle(newArticle) OK");
             articleController.getArticleList().add(newArticle);

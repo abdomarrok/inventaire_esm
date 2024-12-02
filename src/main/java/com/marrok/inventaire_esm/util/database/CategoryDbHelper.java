@@ -105,7 +105,7 @@ public class CategoryDbHelper {
         } catch (SQLException e) {
           logger.error(e);
         }
-        return ""; // Return an empty string if category name is not found or an error occurs
+        return "";
     }
 
 }

@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<?import javafx.geometry.Insets?>
 <GridPane hgap="10" styleClass="background" vgap="10.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.article.UpdateController">
     <children>
         <Label fx:id="titleLabel" alignment="CENTER" styleClass="titleLabel" text="تحديث عنصر" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0">
@@ -25,11 +26,15 @@
 
         <Label alignment="CENTER" styleClass="lbl" text="الوصف :" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
         <TextField fx:id="descriptionField" styleClass="searchField" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+        <Label alignment="CENTER" styleClass="lbl" text="الكمية الادنى للعنصر" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5">
+            <GridPane.margin>
+                <Insets />
+            </GridPane.margin></Label>
+        <TextField fx:id="min_quantity_txt" styleClass="searchField" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <Label alignment="CENTER" styleClass="lbl" text="الفئة :" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
+        <ChoiceBox fx:id="categoryChoiceBox"  prefHeight="38.0" prefWidth="260.0"  styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
 
-        <Label alignment="CENTER" styleClass="lbl" text="الفئة :" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
-        <ChoiceBox fx:id="categoryChoiceBox"  prefHeight="38.0" prefWidth="260.0"  styleClass="smallDashboard_btn" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-
-        <HBox spacing="10.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" GridPane.valignment="CENTER">
+        <HBox spacing="10.0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER">
         <Button onAction="#updateArticle" prefHeight="26.0" prefWidth="97.0" text="تحديث" textAlignment="RIGHT">
             <styleClass>
                 <String fx:value="btn" />
