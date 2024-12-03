@@ -57,23 +57,26 @@ WHERE
 	<variable name="total_ttc" class="java.lang.Float">
 		<expression><![CDATA[$V{total_montant_ht} * 0.19f + $V{montant_ht}]]></expression>
 	</variable>
-	<title height="271">
-		<element kind="staticText" uuid="afc5e77c-017f-4b4b-8452-410f233a8d2d" x="200" y="160" width="160" height="40" fontName="Andalus" fontSize="18.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+	<title height="312">
+		<element kind="staticText" uuid="afc5e77c-017f-4b4b-8452-410f233a8d2d" x="197" y="150" width="160" height="50" fontName="Andalus" fontSize="27.0" bold="false" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[وصل إدخال]]></text>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
-		<element kind="textField" uuid="db47c51e-1174-4b53-9a21-6761f21c98a2" x="370" y="190" width="100" height="20" hTextAlign="Right" vTextAlign="Middle">
+		<element kind="textField" uuid="db47c51e-1174-4b53-9a21-6761f21c98a2" x="350" y="220" width="100" height="20" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[$F{bon_entree_id}]]></expression>
 		</element>
-		<element kind="textField" uuid="aba34561-033b-4553-989a-33b4b92b3c6a" x="0" y="230" width="170" height="20" hTextAlign="Center">
+		<element kind="textField" uuid="aba34561-033b-4553-989a-33b4b92b3c6a" x="280" y="280" width="170" height="20" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[$F{fournisseur_name}]]></expression>
 		</element>
-		<element kind="staticText" uuid="cdf1091b-4176-4d15-8990-30456c72c4da" x="170" y="230" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Left">
+		<element kind="staticText" uuid="cdf1091b-4176-4d15-8990-30456c72c4da" x="461" y="280" width="90" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
 			<text><![CDATA[المورد]]></text>
 		</element>
-		<element kind="staticText" uuid="7e43a134-a9b0-45c3-915d-f9dd085bc5f8" x="461" y="230" width="90" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="7e43a134-a9b0-45c3-915d-f9dd085bc5f8" x="461" y="250" width="90" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
 			<text><![CDATA[رقم (BL/Facture)]]></text>
 		</element>
-		<element kind="textField" uuid="f9364f28-6e62-448e-badd-8a5165145078" x="350" y="230" width="110" height="20" hTextAlign="Right" vTextAlign="Middle">
+		<element kind="textField" uuid="f9364f28-6e62-448e-badd-8a5165145078" x="340" y="250" width="110" height="20" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[$F{document_num}]]></expression>
 		</element>
 		<element kind="image" uuid="08de2d47-2965-4f1f-8eda-e96424b0125c" x="252" y="90" width="50" height="50">
@@ -88,13 +91,13 @@ WHERE
 		<element kind="staticText" uuid="494d87cb-bc61-4cda-8737-e7410077b706" x="60" y="50" width="440" height="30" fontName="Andalus" fontSize="15.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[المدرسة العليا للقضاء]]></text>
 		</element>
-		<element kind="staticText" uuid="24c76300-70f0-4cfb-a86d-3a757bc0b2da" x="110" y="190" width="70" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="24c76300-70f0-4cfb-a86d-3a757bc0b2da" x="110" y="210" width="70" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[القليعة، في :]]></text>
 		</element>
-		<element kind="staticText" uuid="bafabe7c-18f8-4114-a950-78e6697898e3" x="470" y="190" width="72" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
-			<text><![CDATA[رقم الوصل   ]]></text>
+		<element kind="staticText" uuid="bafabe7c-18f8-4114-a950-78e6697898e3" x="461" y="220" width="90" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right" vTextAlign="Middle">
+			<text><![CDATA[رقم الوصل]]></text>
 		</element>
-		<element kind="textField" uuid="1900dec7-d39e-4572-9150-396b8992ef69" x="10" y="190" width="100" height="20" hTextAlign="Center">
+		<element kind="textField" uuid="1900dec7-d39e-4572-9150-396b8992ef69" x="10" y="210" width="100" height="20" hTextAlign="Center">
 			<expression><![CDATA[$F{bon_entree_date}]]></expression>
 		</element>
 	</title>

@@ -83,11 +83,15 @@ public class UpdateController {
     public void updateArticle(ActionEvent event) {
         logger.info("updateArticle");
         selectedArticle.setName(nameField.getText());
-        //selectedArticle.setIdPlace(localisationChoiceBox.getValue().getId());
+
         selectedArticle.setUnite(uniteField.getText());
-//        selectedArticle.setQuantity(Integer.parseInt(quantityField.getText()));
         selectedArticle.setRemarque(remarqueField.getText());
-        selectedArticle.setMin_quantity(Integer.parseInt(min_quantity_txt.getText()));
+        int min_qun_txt = Integer.parseInt(min_quantity_txt.getText().trim());
+        if(min_qun_txt<0){
+            GeneralUtil.showAlert(Alert.AlertType.ERROR,"مدخلات خاطئة", "الكمية الادنى لايمكن ان تكون اقل من 0");
+            return;
+        }
+        selectedArticle.setMin_quantity(min_qun_txt);
         int id_cat = categoryDbhelper.getCategoryByName(categoryChoiceBox.getSelectionModel().getSelectedItem().getName());
         selectedArticle.setIdCategory(id_cat);
 

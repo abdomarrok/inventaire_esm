@@ -49,7 +49,7 @@
             <GridPane.margin>
                 <Insets />
             </GridPane.margin></Label>
-        <TextField fx:id="min_quantity_txt" styleClass="searchField" GridPane.columnIndex="0" GridPane.rowIndex="5" />
+        <TextField fx:id="min_quantity_txt" styleClass="searchField" text="0" GridPane.columnIndex="0" GridPane.rowIndex="5" />
 
         <Label alignment="CENTER" styleClass="lbl" text="الفئة:" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6">
          <GridPane.margin>

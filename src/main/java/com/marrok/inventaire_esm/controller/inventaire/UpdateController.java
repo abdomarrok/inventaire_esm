@@ -22,9 +22,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static com.marrok.inventaire_esm.util.GeneralUtil.showAlert;
 
@@ -36,7 +34,7 @@ public class UpdateController implements Initializable {
     @FXML
     private ChoiceBox<String> locationChoiceBox;
 
-
+    Map<Integer,String> locations_and_floor = new HashMap<>();
     public TableView<Employer> tbData2;
     public TableColumn<Employer, Integer> id_E;
     public TableColumn<Employer, String> firstname_E;
@@ -149,7 +147,10 @@ public class UpdateController implements Initializable {
         logger.info("setInventaireItem");
         this.inventaireItem = inventaireItem;
         try {
-            String selectedLoc = locDbhelper.getLocalisationById(inventaireItem.getLocalisation_id()).getLocName();
+
+
+           // String selectedLoc = locDbhelper.getLocalisationById(inventaireItem.getLocalisation_id()).getLocName();
+            String selectedLoc =   locations_and_floor.get(inventaireItem.getLocalisation_id());
             Employer selectedEmployer = employerDbHelper.getEmployerById(inventaireItem.getEmployer_id());
             String selectedstatus=inventaireItem.getStatus();
             selectedArticle = articleDbhelper.getArticleById(inventaireItem.getArticle_id());
@@ -231,45 +232,72 @@ public class UpdateController implements Initializable {
         try {
             // Get the selected location name from the ChoiceBox
             String selectedLocation = locationChoiceBox.getSelectionModel().getSelectedItem();
+            logger.info("Selected location: " + selectedLocation);
 
-            // Extract the location name from the formatted string
-            String locName = selectedLocation != null ? selectedLocation.split("   ")[1] : null;
+            // Validate and extract the location name
+            String locName = null;
+            if (selectedLocation != null && selectedLocation.contains("   ")) {
+                String[] parts = selectedLocation.split("   ");
+                if (parts.length > 1) {
+                    locName = parts[1]; // Extract the location name
+                } else {
+                    throw new IllegalArgumentException("Invalid location format: " + selectedLocation);
+                }
+            } else {
+                throw new IllegalArgumentException("No location selected or invalid format.");
+            }
 
             // Retrieve the location ID by its name
             int loc_id = locDbhelper.getLocationIdByName(locName);
-            int article_id = tbData.getSelectionModel().getSelectedItem().getId(); // Use selectedArticle directly
+
+            // Retrieve IDs for other entities
+            int article_id = tbData.getSelectionModel().getSelectedItem().getId();
             int employer_id = tbData2.getSelectionModel().getSelectedItem().getId();
             int inv_id = inventaireItem.getId();
             int user_id = SessionManager.getActiveUserId();
             String status = status_inventaire.getValue();
-            String inv_status = status_inventaire.getValue();
             LocalDate selectedDate = calendarPicker1.getValue();
             String inv_date = selectedDate != null ? selectedDate.toString() : "";
 
-            Inventaire_Item updated_item = new Inventaire_Item(inv_id, article_id,
-                    loc_id, user_id, employer_id, employerInventaireCode.getText(),inv_date ,status);
+            // Create the updated Inventaire_Item object
+            Inventaire_Item updated_item = new Inventaire_Item(
+                    inv_id, article_id, loc_id, user_id, employer_id,
+                    employerInventaireCode.getText(), inv_date, status
+            );
 
+            // Update the inventory item
             inventaireItemDbHelper.updateInventaireItem(updated_item);
-            parentController.refreshTableData(); // Refresh the table data in the parent controller
+
+            // Refresh the parent table and close the window
+            parentController.refreshTableData();
             closeWindow();
+        } catch (IllegalArgumentException e) {
+            logger.error("Validation error: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Validation Error", e.getMessage());
         } catch (Exception e) {
-            logger.error(e);
-            showAlert(Alert.AlertType.ERROR, "Erreur", e.getMessage());
+            logger.error("Unexpected error: ", e);
+            showAlert(Alert.AlertType.ERROR, "Erreur", "An error occurred: " + e.getMessage());
             closeWindow();
         }
     }
 
     private void loadChoiceBoxData() {
         logger.info("loadChoiceBoxData");
-        List<Localisation> Locations = locDbhelper.getLocalisations();
-        List<String> locations_and_floor = new ArrayList<>();
-        for (Localisation l : Locations) {
-            locations_and_floor.add("الطابق: " + l.getFloor() + "   " + l.getLocName());
+
+        // Retrieve localisations from the database
+        List<Localisation> locations = locDbhelper.getLocalisations();
+
+        // Populate the map and ChoiceBox with formatted strings
+        for (Localisation loc : locations) {
+            String formattedLoc = "الطابق: " + loc.getFloor() + "   " + loc.getLocName();
+            locations_and_floor.put(loc.getId(), formattedLoc); // Map ID to formatted string
+            locationChoiceBox.getItems().add(formattedLoc); // Add the formatted string to the ChoiceBox
         }
 
-        locationChoiceBox.getItems().addAll(locations_and_floor);
+        // Add inventory status options to the ChoiceBox
         status_inventaire.getItems().addAll(FXCollections.observableArrayList(inv_status));
     }
+
 
     @FXML
     private void handleCancel() {

@@ -104,6 +104,9 @@ public class AddController implements Initializable {
             GeneralUtil.showAlert(Alert.AlertType.ERROR, "مدخلات خاطئة", "اسم العنصر لا يجب ان يكون فارغا");
             return;
         }
+        if(min_qun_txt<0){
+            GeneralUtil.showAlert(Alert.AlertType.ERROR,"مدخلات خاطئة", "الكمية الادنى لايمكن ان تكون اقل من 0");
+        }
 
         if (chosenCategory.isEmpty()) {
             chosenCategory="autre";

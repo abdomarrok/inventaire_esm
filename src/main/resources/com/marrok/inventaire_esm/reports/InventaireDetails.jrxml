@@ -48,52 +48,55 @@ WHERE
 	<field name="user_name" class="java.lang.String"/>
 	<field name="employer_name" class="java.lang.String"/>
 	<title height="59">
-		<element kind="staticText" uuid="eedb9fca-af2a-4006-9694-4828a84020ab" x="120" y="10" width="350" height="39" fontSize="18.0" bold="true" hTextAlign="Center">
+		<element kind="staticText" uuid="eedb9fca-af2a-4006-9694-4828a84020ab" x="200" y="4" width="160" height="50" fontName="Andalus" fontSize="27.0" bold="false" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[تفاصيل الجرد]]></text>
+			<property name="com.jaspersoft.studio.unit.x" value="px"/>
+			<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
 	</title>
-	<pageHeader height="50">
-		<element kind="staticText" uuid="c98f55d4-3834-4542-83ee-a760be1a419b" x="100" y="5" width="120" height="20" hTextAlign="Center">
-			<text><![CDATA[التاريخ :]]></text>
+	<pageHeader height="53">
+		<element kind="staticText" uuid="8c9d7699-d667-4574-bbcb-6c52db5f37fc" x="110" y="5" width="70" height="20" fontName="Andalus" fontSize="12.0" hTextAlign="Right">
+			<text><![CDATA[التاريخ]]></text>
 		</element>
-		<element kind="textField" uuid="ef123456-ef82-4012-b63f-4a7439dc8c63" x="0" y="5" width="100" height="20" hTextAlign="Right">
+		<element kind="textField" uuid="ef123456-ef82-4012-b63f-4a7439dc8c63" x="0" y="5" width="100" height="20" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[$F{time}]]></expression>
 		</element>
 	</pageHeader>
 	<columnHeader height="25"/>
 	<detail>
 		<band height="290">
-			<element kind="textField" uuid="b0208a1a-e13e-4aa2-89d3-38d64d88c75f" x="80" y="60" width="350" height="20" hTextAlign="Right">
+			<element kind="textField" uuid="b0208a1a-e13e-4aa2-89d3-38d64d88c75f" x="80" y="60" width="350" height="20" hTextAlign="Right" vTextAlign="Middle">
 				<expression><![CDATA[$F{article_name}]]></expression>
 			</element>
-			<element kind="textField" uuid="dc5b9245-ef82-4012-b63f-4a7439dc8c61" x="320" y="30" width="150" height="20" hTextAlign="Right">
+			<element kind="textField" uuid="dc5b9245-ef82-4012-b63f-4a7439dc8c61" x="275" y="30" width="155" height="20" hTextAlign="Right" vTextAlign="Middle">
 				<expression><![CDATA[$F{localisation_name}]]></expression>
 			</element>
-			<element kind="textField" uuid="ef123456-ef82-4012-b63f-4a7439dc8c62" x="80" y="30" width="100" height="20" hTextAlign="Right">
+			<element kind="textField" uuid="ef123456-ef82-4012-b63f-4a7439dc8c62" x="330" y="120" width="100" height="20" hTextAlign="Right" vTextAlign="Middle">
 				<expression><![CDATA[$F{service_name}]]></expression>
 			</element>
-			<element kind="textField" uuid="ef123456-ef82-4012-b63f-4a7439dc8c64" x="305" y="0" width="120" height="20" hTextAlign="Right">
+			<element kind="textField" uuid="ef123456-ef82-4012-b63f-4a7439dc8c64" x="305" y="0" width="125" height="20" hTextAlign="Right" vTextAlign="Middle">
 				<expression><![CDATA[$F{num_inventaire}]]></expression>
 			</element>
-			<element kind="staticText" uuid="55d253ba-0f04-48d9-b7a2-729b65d82d7c" x="440" y="0" width="100" height="20" fontSize="12.0" bold="true" hTextAlign="Right">
+			<element kind="staticText" uuid="55d253ba-0f04-48d9-b7a2-729b65d82d7c" x="440" y="0" width="100" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
 				<text><![CDATA[رقم الجرد :]]></text>
 			</element>
-			<element kind="staticText" uuid="a043d1c9-fd64-4b97-9764-538b205d3015" x="420" y="90" width="120" height="20" fontSize="12.0" bold="true" hTextAlign="Right">
+			<element kind="staticText" uuid="a043d1c9-fd64-4b97-9764-538b205d3015" x="437" y="90" width="103" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
 				<text><![CDATA[الموظف المعني بالجرد :]]></text>
 			</element>
-			<element kind="staticText" uuid="5477979a-add1-4bbe-b24d-bcdcdb134ce5" x="437" y="60" width="103" height="20" fontSize="12.0" bold="true" hTextAlign="Right">
+			<element kind="staticText" uuid="5477979a-add1-4bbe-b24d-bcdcdb134ce5" x="437" y="60" width="103" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
 				<text><![CDATA[العنصر :]]></text>
 			</element>
-			<element kind="staticText" uuid="c0ade0c1-77e8-44cd-b9f8-2f4dffb84f05" x="487" y="30" width="53" height="20" fontSize="12.0" bold="true" hTextAlign="Right">
+			<element kind="staticText" uuid="c0ade0c1-77e8-44cd-b9f8-2f4dffb84f05" x="487" y="30" width="53" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
 				<text><![CDATA[المكان :]]></text>
 			</element>
-			<element kind="staticText" uuid="ef123456-ef82-4012-b63f-4a7439dc8c62" x="190" y="30" width="100" height="20" fontSize="12.0" bold="true" hTextAlign="Center">
+			<element kind="staticText" uuid="ef123456-ef82-4012-b63f-4a7439dc8c62" x="437" y="120" width="103" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
 				<text><![CDATA[المصلحة :]]></text>
 			</element>
-			<element kind="textField" uuid="ef123456-ef82-4012-b63f-4a7439dc8c66" x="310" y="90" width="100" height="20" hTextAlign="Right">
+			<element kind="textField" uuid="ef123456-ef82-4012-b63f-4a7439dc8c66" x="310" y="90" width="120" height="20" hTextAlign="Right" vTextAlign="Middle">
 				<expression><![CDATA[$F{employer_name}]]></expression>
 			</element>
-			<element kind="staticText" uuid="fb88c99a-55b9-4caf-815a-9d858165cc7e" x="480" y="180" width="60" height="20" fontSize="12.0" bold="true" hTextAlign="Right">
+			<element kind="staticText" uuid="fb88c99a-55b9-4caf-815a-9d858165cc7e" x="480" y="180" width="60" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
 				<text><![CDATA[الباركود :]]></text>
 			</element>
 			<element kind="image" uuid="6da7208b-02e5-4e8a-acf4-f81691406417" x="270" y="170" width="190" height="40" hImageAlign="Center">
