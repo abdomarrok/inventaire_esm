@@ -22,6 +22,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -41,7 +44,6 @@ public class EtatStockController implements Initializable {
     public TableColumn<Article, Integer> quantityColumn;
     public TableColumn<Article, Integer> entreeColumn;
     public TableColumn<Article, Integer> sortieColumn;
-    public TableColumn<Article, Integer> retourColumn;
     public TableColumn<Article, Integer> editColumn;
     public TableColumn<Article, String> remarkColumn;
     public TableColumn<Article, String> categoryColmun;
@@ -81,7 +83,7 @@ public class EtatStockController implements Initializable {
         retourCache = articleDbhelper.getTotalRetourQuantities();
         adjustmentCache = articleDbhelper.getTotalAdjustments();
         totalQuantities = articleDbhelper.getTotalQuantitiesByArticle();
-       minimal_Quantities = articleDbhelper.getMinimalQuantitiesByArticle();
+        minimal_Quantities = articleDbhelper.getMinimalQuantitiesByArticle();
     }
 
     void preloadCategories() {
@@ -279,6 +281,52 @@ public class EtatStockController implements Initializable {
             // Combine both filters
             return matchesSearch && matchesCategory;
         });
+    }
+
+    public void exportEtatStockReport(ActionEvent event) {
+        logger.info("Generating État de Stock report");
+        try {
+            // Load the Jasper template
+            InputStream reportStream = getClass().getResourceAsStream("/com/marrok/inventaire_esm/reports/etat_stock_report.jrxml");
+            JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
+            // Prepare data source
+            List<Map<String, Object>> reportData = new ArrayList<>();
+            for (Article article : filteredArticleList) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("id", article.getId());
+                data.put("name", article.getName());
+                data.put("category", categoryCache.getOrDefault(article.getIdCategory(), "Unknown"));
+                data.put("unit", article.getUnite());
+                data.put("quantity", totalQuantities.getOrDefault(article.getId(), 0));
+                data.put("entries", entreeCache.getOrDefault(article.getId(), 0) + retourCache.getOrDefault(article.getId(), 0));
+                data.put("sorties", sortieCache.getOrDefault(article.getId(), 0));
+                data.put("adjustments", adjustmentCache.getOrDefault(article.getId(), 0));
+                data.put("remarks", article.getRemarque());
+                reportData.add(data);
+            }
+
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportData);
+
+            // Parameters (if needed)
+            Map<String, Object> parameters = new HashMap<>();
+            String filterCategory= categoryFilter.getValue();
+            parameters.put("REPORT_TITLE", "État de Stock");
+            parameters.put("logo", getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"));
+            parameters.put("filterCategory", filterCategory);
+            // Fill the report
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+
+            // View the report
+            JasperViewer viewer = new JasperViewer(jasperPrint, false);
+            viewer.setTitle("مستخلص الجرد");
+            viewer.setVisible(true);
+
+            GeneralUtil.showAlert(Alert.AlertType.INFORMATION,"Report Generated", "The État de Stock report has been saved to your Downloads folder.");
+        } catch (Exception e) {
+            logger.error("Failed to generate report", e);
+            GeneralUtil.showAlertWithOutTimelimit(Alert.AlertType.ERROR,"Report Generation Failed", "Unable to generate the État de Stock report.");
+        }
     }
 
     private void setupTableSelectionListener() {

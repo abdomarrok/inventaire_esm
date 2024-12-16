@@ -267,7 +267,6 @@ public class UpdateController implements Initializable {
 
             // Update the inventory item
             inventaireItemDbHelper.updateInventaireItem(updated_item);
-
             // Refresh the parent table and close the window
             parentController.refreshTableData();
             closeWindow();
@@ -283,10 +282,8 @@ public class UpdateController implements Initializable {
 
     private void loadChoiceBoxData() {
         logger.info("loadChoiceBoxData");
-
         // Retrieve localisations from the database
         List<Localisation> locations = locDbhelper.getLocalisations();
-
         // Populate the map and ChoiceBox with formatted strings
         for (Localisation loc : locations) {
             String formattedLoc = "الطابق: " + loc.getFloor() + "   " + loc.getLocName();

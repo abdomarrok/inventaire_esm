@@ -1,5 +1,6 @@
 <!-- Created with Jaspersoft Studio version 7.0.0.final using JasperReports Library version 7.0.0-b478feaa9aab4375eba71de77b4ca138ad2f62aa  -->
-<jasperReport name="InventaireReport" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c5b33e49-a311-488b-a33b-1c1b6a447ae6">
+<jasperReport name="InventaireReport" language="java" pageWidth="595" pageHeight="842" columnWidth="555"
+			  leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c5b33e49-a311-488b-a33b-1c1b6a447ae6">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter"/>
 	<parameter name="logo" class="java.lang.Object"/>
 	<parameter name="startDate" class="java.lang.Integer"/>

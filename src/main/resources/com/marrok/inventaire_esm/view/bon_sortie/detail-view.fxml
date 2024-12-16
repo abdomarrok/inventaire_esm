@@ -7,7 +7,7 @@
 <VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="900.0" spacing="20.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.bon_sortie.DetailViewController">
 
     <VBox alignment="CENTER" spacing="10.0">
-        <Label styleClass="titleLabel" text="تفاصيل وصل الخروج" />
+        <Label styleClass="titleLabel" text="تفاصيل وصل الاخراج" />
 
         <HBox alignment="CENTER_LEFT" nodeOrientation="RIGHT_TO_LEFT" spacing="20">
             <Label styleClass="lbl_fiche_inv" text="المعرف :" />

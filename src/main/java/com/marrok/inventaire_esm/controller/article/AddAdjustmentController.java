@@ -37,7 +37,7 @@ public class AddAdjustmentController {
     public TableColumn<Article, String> articleUniteColumn;
     public TableColumn<Article, String> articleNameColumn;
     public TableColumn<Article, Integer> articlequantityColumn;
-    public ChoiceBox operation_type;
+    public  ChoiceBox<String> operation_type;
     private ObservableList<Article> articleList = FXCollections.observableArrayList();
     private FilteredList<Article> filteredArticleList;
     private Article selectedArticle;
