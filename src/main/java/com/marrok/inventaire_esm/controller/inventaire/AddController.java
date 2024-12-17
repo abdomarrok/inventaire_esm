@@ -9,6 +9,7 @@ import com.marrok.inventaire_esm.util.database.*;
 import fr.brouillard.oss.cssfx.CSSFX;
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.Localisation;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -36,8 +37,10 @@ public class AddController implements Initializable {
 
    public TableView<Employer> tbData2;
    public TableColumn<Employer, Integer> id_E;
-   public TableColumn<Employer, String> firstname_E;
-   public TableColumn<Employer, String> lastname_E;
+//   public TableColumn<Employer, String> firstname_E;
+//    public TableColumn<Employer, String> lastname_E;
+   public TableColumn<Employer, String> name_E;
+
     public Button saveButton;
     public FilterView<Article> filterView;
     public FilterView<Employer> filterView2;
@@ -119,8 +122,13 @@ public class AddController implements Initializable {
 
         /**    EMPLOYER   */
         id_E.setCellValueFactory(new PropertyValueFactory<>("id"));
-        firstname_E.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        lastname_E.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        name_E.setCellValueFactory(cellData->{
+          String fname=  cellData.getValue().getFirstName();
+          String lname=  cellData.getValue().getLastName();
+          return new SimpleStringProperty(fname+" "+lname);
+        });
+//        firstname_E.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+//        lastname_E.setCellValueFactory(new PropertyValueFactory<>("lastName"));
     }
 
     private void loadTableData() throws SQLException {

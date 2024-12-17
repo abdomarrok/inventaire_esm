@@ -8,6 +8,7 @@ import com.marrok.inventaire_esm.model.Localisation;
 import com.marrok.inventaire_esm.util.database.*;
 import com.marrok.inventaire_esm.util.SessionManager;
 import fr.brouillard.oss.cssfx.CSSFX;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
@@ -37,8 +38,9 @@ public class UpdateController implements Initializable {
     Map<Integer,String> locations_and_floor = new HashMap<>();
     public TableView<Employer> tbData2;
     public TableColumn<Employer, Integer> id_E;
-    public TableColumn<Employer, String> firstname_E;
-    public TableColumn<Employer, String> lastname_E;
+    public TableColumn<Employer, String> name_E;
+//    public TableColumn<Employer, String> firstname_E;
+//    public TableColumn<Employer, String> lastname_E;
 
 
     @FXML
@@ -125,8 +127,13 @@ public class UpdateController implements Initializable {
         article_name.setCellValueFactory(new PropertyValueFactory<>("name"));
         /**    EMPLOYER   */
         id_E.setCellValueFactory(new PropertyValueFactory<>("id"));
-        firstname_E.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        lastname_E.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        name_E.setCellValueFactory(cellData->{
+            String fname=  cellData.getValue().getFirstName();
+            String lname=  cellData.getValue().getLastName();
+            return new SimpleStringProperty(fname+" "+lname);
+        });
+//        firstname_E.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+//        lastname_E.setCellValueFactory(new PropertyValueFactory<>("lastName"));
     }
 
     private void loadTableData() throws SQLException {

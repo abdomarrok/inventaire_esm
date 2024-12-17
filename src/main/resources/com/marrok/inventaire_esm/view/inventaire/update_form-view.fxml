@@ -65,8 +65,9 @@
                  <TableView fx:id="tbData2" nodeOrientation="RIGHT_TO_LEFT" styleClass="tableview" stylesheets="@../../css/tableview.css" HBox.hgrow="ALWAYS">
                      <columns>
                          <TableColumn fx:id="id_E" prefWidth="75.0" text="المعرف" />
-                         <TableColumn fx:id="firstname_E" text="الاسم الأول" />
-                         <TableColumn fx:id="lastname_E" text="الاسم الأخير" />
+                         <TableColumn fx:id="name_E" text="الموظف" />
+<!--                         <TableColumn fx:id="firstname_E" text="الاسم الأول" />-->
+<!--                         <TableColumn fx:id="lastname_E" text="الاسم الأخير" />-->
                      </columns>
                  </TableView>
              </VBox>
