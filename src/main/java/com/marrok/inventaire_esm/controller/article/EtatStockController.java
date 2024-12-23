@@ -45,7 +45,7 @@ public class EtatStockController implements Initializable {
     public TableColumn<Article, Integer> entreeColumn;
     public TableColumn<Article, Integer> sortieColumn;
     public TableColumn<Article, Integer> editColumn;
-    public TableColumn<Article, String> remarkColumn;
+//    public TableColumn<Article, String> remarkColumn;
     public TableColumn<Article, String> categoryColmun;
     public TextField searchField;
     public ChoiceBox<String> categoryFilter;
@@ -162,7 +162,7 @@ public class EtatStockController implements Initializable {
         id_article_v.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         unitColumn.setCellValueFactory(new PropertyValueFactory<>("unite"));
-        remarkColumn.setCellValueFactory(new PropertyValueFactory<>("remarque"));
+        //remarkColumn.setCellValueFactory(new PropertyValueFactory<>("remarque"));
 
         quantityColumn.setCellValueFactory(cellData -> {
             Article article = cellData.getValue();

@@ -5,7 +5,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" minWidth="0.0" prefHeight="600.0" spacing="20.0" styleClass="background" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.bon_entree.AddEntreeController">
+<VBox alignment="CENTER" minWidth="0.0" prefHeight="600.0" spacing="20.0" styleClass="background"
+      xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.marrok.inventaire_esm.controller.bon_entree.AddEntreeController">
 
     <Label alignment="CENTER" styleClass="titleLabel" text="أضف عنصر الى القائمة" />
     <TextField fx:id="searchField" alignment="CENTER_RIGHT" maxWidth="200.0" promptText="بحث..." styleClass="searchField" />

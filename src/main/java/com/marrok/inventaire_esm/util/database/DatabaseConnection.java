@@ -27,6 +27,8 @@ public class DatabaseConnection {
     private DatabaseConnection() throws SQLException {
         logger.info("DatabaseConnection");
         try {
+            logger.info("Connecting to database :"+DATABASE_NAME);
+            logger.info("Url :"+DATABASE_URL);
             this.connection = DriverManager.getConnection(DATABASE_URL, DATABASE_USER, DATABASE_PASSWORD);
         } catch (SQLException e) {
             GeneralUtil.showAlertWithOutTimelimit(Alert.AlertType.ERROR,"Connection error","check your connection");

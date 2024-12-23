@@ -83,7 +83,7 @@
                         <TableColumn fx:id="editColumn" prefWidth="130.0" style="-fx-background-color: #90b9c7;" styleClass="specialColmun" text="التعديل" />
                         <TableColumn fx:id="quantityColumn" prefWidth="100.0" text="الكمية" />
                         <TableColumn fx:id="categoryColmun" prefWidth="150.0" text="الفئة" />
-                        <TableColumn fx:id="remarkColumn" prefWidth="150.0" text="ملاحظة" />
+<!--                        <TableColumn fx:id="remarkColumn" prefWidth="150.0" text="ملاحظة" />-->
                     </columns>
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
