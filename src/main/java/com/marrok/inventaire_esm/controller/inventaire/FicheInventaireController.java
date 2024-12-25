@@ -95,9 +95,100 @@ public class FicheInventaireController implements Initializable {
         }
         selected_localisation_choiceBox.setItems(localisationNames);
     }
-    // Handle the extraction of the inventory report
     @FXML
     public void extacteFicheInventaire(ActionEvent event) {
+        logger.info("Generating JasperReport");
+        Integer selectedYear = inv_year_choiceBox.getValue();
+        String selectedServiceName = selected_service_choiceBox.getValue();
+        String selectedLocalisationName = selected_localisation_choiceBox.getValue();
+        Connection connection = null;
+        try {
+            // Get a new database connection
+            connection = DatabaseConnection.getInstance().getConnection();
+
+            // Load the report from the resources folder
+            InputStream reportStream = getClass().getResourceAsStream("/com/marrok/inventaire_esm/reports/report_ar.jrxml");
+            if (reportStream == null) {
+                logger.error("Report file not found.");
+            }
+            JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+            parameters.put("logo", getClass().getResourceAsStream("/com/marrok/inventaire_esm/img/esm-logo.png"));
+
+            // Check if year is selected
+            if (selectedYear == null) {
+                logger.error("No year selected");
+                GeneralUtil.showAlert(Alert.AlertType.WARNING, "Selection Error", "Please select a year.");
+                return;
+            }
+
+            parameters.put("startDate", selectedYear); // Set your date range
+            String currentDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
+            parameters.put("currentDate",currentDate);
+
+            Integer serviceId = null;
+            Integer localisationId = null;
+
+            // Handle service selection
+            if (selectedServiceName == null || selectedServiceName.equals("All Services") ) {
+                // If no service or "All Services" selected, set service_name as "All Services"
+                parameters.put("selectedServiceName", "All Services");
+
+            } else {
+
+                Optional<Service> selectedServiceOpt = servicesList.stream()
+                        .filter(service -> service.getName().equals(selectedServiceName))
+                        .findFirst();
+
+                if (selectedServiceOpt.isPresent()) {
+                    serviceId = selectedServiceOpt.get().getId();
+                    parameters.put("serviceId", serviceId);
+                    parameters.put("selectedServiceName", selectedServiceName);
+                } else {
+                    parameters.put("selectedServiceName", "All Services");
+                    return;
+                }
+            }
+
+            // Handle localisation selection
+            if (selectedLocalisationName == null || selectedLocalisationName.equals("All Localisations")) {
+                // If no localisation or "All Localisations" selected, set localisation_name as "All Localisations"
+                parameters.put("selectedLocalisationName", "All Localisations");
+            } else {
+                // Find the localisation ID by name if a specific localisation is selected
+                Optional<Localisation> selectedLocalisationOpt = localisationsList.stream()
+                        .filter(localisation -> localisation.getLocName().equals(selectedLocalisationName))
+                        .findFirst();
+
+                if (selectedLocalisationOpt.isPresent()) {
+                    localisationId = selectedLocalisationOpt.get().getId();
+                    parameters.put("localisationId", localisationId);
+                    parameters.put("selectedLocalisationName", selectedLocalisationName);
+
+                } else {
+                    parameters.put("selectedLocalisationName", selectedLocalisationName);
+                    return;
+                }
+            }
+
+            // Fill the report with data from the database connection
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+
+            // View the report
+            JasperViewer viewer = new JasperViewer(jasperPrint, false);
+            viewer.setTitle("مستخلص الجرد");
+            viewer.setVisible(true);
+
+        } catch (SQLException sqlEx) {
+            logger.error("SQL Error: " + sqlEx.getMessage());
+
+        } catch (Exception ex) {
+            logger.error("Error generating report: " + ex.getMessage());
+        }
+
+    }
+    // Handle the extraction of the inventory report
+    @FXML
+    public void extacteFicheInventaire2(ActionEvent event) {
         logger.info("Extacte FicheInventaire");
         // Get the selected year, service, and localisation
         Integer selectedYear = inv_year_choiceBox.getValue();

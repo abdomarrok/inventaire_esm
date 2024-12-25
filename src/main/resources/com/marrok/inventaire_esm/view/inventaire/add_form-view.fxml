@@ -27,7 +27,7 @@
 
             <TableView fx:id="tbData" nodeOrientation="RIGHT_TO_LEFT" styleClass="tableview" stylesheets="@../../css/tableview.css" HBox.hgrow="ALWAYS">
                 <columns>
-                    <TableColumn fx:id="id" prefWidth="75.0" text="المعرف" />
+                    <TableColumn fx:id="id" maxWidth="150.0" minWidth="40.0" prefWidth="100.0" resizable="false" text="المعرف" />
                     <TableColumn fx:id="article_name" prefWidth="150.0" text="إسم العنصر" />
                 </columns>
                 <columnResizePolicy>
@@ -40,7 +40,7 @@
     </children>
 
     <columnConstraints>
-        <ColumnConstraints />
+        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="400.0" />
         <ColumnConstraints />
     </columnConstraints>
     <rowConstraints>
