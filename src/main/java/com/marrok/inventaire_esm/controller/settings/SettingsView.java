@@ -1,6 +1,5 @@
 package com.marrok.inventaire_esm.controller.settings;
 
-import com.marrok.inventaire_esm.controller.login.LoginController;
 import com.marrok.inventaire_esm.util.database.DatabaseConnection;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.event.ActionEvent;
@@ -12,20 +11,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 
 
 public class SettingsView {
-    Logger logger = Logger.getLogger("SettingsView");
+    Logger logger = LogManager.getLogger(SettingsView.class);
     
 
     @FXML
     private void handleBackupData(ActionEvent event) {
-        logger.log(Level.INFO, "Backup Data");
+        logger.info("Backup Data");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("اختر موقع النسخ الاحتياطي");
 

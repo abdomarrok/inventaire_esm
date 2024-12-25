@@ -1,5 +1,4 @@
 package com.marrok.inventaire_esm.controller.inventaire;
-import com.marrok.inventaire_esm.controller.stock_dashboard.StockDashboardController;
 import com.marrok.inventaire_esm.model.Inventaire_Item;
 import com.marrok.inventaire_esm.model.Service;
 import com.marrok.inventaire_esm.model.Localisation;  // Add Localisation model
@@ -22,7 +21,8 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.util.IOUtils;
@@ -37,7 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class FicheInventaireController implements Initializable {
-    Logger logger =Logger.getLogger(FicheInventaireController.class);
+    Logger logger = LogManager.getLogger(FicheInventaireController.class);
     @FXML
     private Button bk_Dashboard_from_fiche_inventaire;
     @FXML

@@ -2,7 +2,8 @@ package com.marrok.inventaire_esm.util.database;
 
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.scene.control.Alert;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.sql.*;
 
 
 public class DatabaseConnection {
-    static Logger logger = Logger.getLogger("DatabaseConnection");
+    static Logger logger = LogManager.getLogger(DatabaseConnection.class);
     private static final String DATABASE_NAME = "invlouiza";
   //    private static final String DATABASE_NAME = "testinvempty";
   //    private static final String DATABASE_NAME = "testinv";

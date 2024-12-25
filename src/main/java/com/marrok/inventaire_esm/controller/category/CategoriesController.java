@@ -16,7 +16,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,7 +25,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class CategoriesController implements Initializable {
-    Logger logger = Logger.getLogger(CategoriesController.class);
+    Logger logger = LogManager.getLogger(CategoriesController.class);
 
     public TableColumn cat_name;
     public TableColumn cat_id;

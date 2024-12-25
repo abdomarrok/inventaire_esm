@@ -26,7 +26,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,7 +35,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class BonEntreeController implements Initializable {
-    Logger logger = Logger.getLogger(BonEntreeController.class);
+    Logger logger = LogManager.getLogger(BonEntreeController.class);
     public TableView<BonEntree> tableView;
     public TableColumn<BonEntree,String> document_num;
     public TableColumn<BonEntree,Integer> id_bon_entree;

@@ -18,7 +18,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,7 +27,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class ServicesController implements Initializable {
-    Logger logger = Logger.getLogger(ServicesController.class);
+    Logger logger = LogManager.getLogger(ServicesController.class);
 
     public TableColumn<Service,String> chef_service_Column;
     @FXML

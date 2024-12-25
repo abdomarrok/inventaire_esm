@@ -10,14 +10,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class AddUserController implements Initializable {
-    Logger logger = Logger.getLogger(AddUserController.class);
+    Logger logger = LogManager.getLogger(AddUserController.class);
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         logger.info("Initializing AddUserController");

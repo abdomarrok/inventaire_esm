@@ -7,14 +7,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class StockDashboardController implements Initializable {
-    Logger logger = Logger.getLogger(StockDashboardController.class);
+    Logger logger = LogManager.getLogger(StockDashboardController.class);
     public Button etat_stock_button;
     public Button list_be_button;
     public Button list_bs_button;

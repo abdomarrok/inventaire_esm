@@ -10,14 +10,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class UpdateUserController implements Initializable {
-    Logger logger = Logger.getLogger(UpdateUserController.class);
+    Logger logger = LogManager.getLogger(UpdateUserController.class);
     @FXML private TextField usernameField;
     @FXML private TextField passwordField;
     @FXML private ChoiceBox<String> roleChoiceBox;

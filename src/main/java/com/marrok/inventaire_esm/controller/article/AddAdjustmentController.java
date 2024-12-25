@@ -14,7 +14,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -25,7 +26,7 @@ import static com.marrok.inventaire_esm.util.GeneralUtil.showAlertWithOutTimelim
 
 
 public class AddAdjustmentController {
-    Logger logger = Logger.getLogger(AddAdjustmentController.class);
+    Logger logger = LogManager.getLogger(AddAdjustmentController.class);
 
     StockAdjustmentController parentController;
 

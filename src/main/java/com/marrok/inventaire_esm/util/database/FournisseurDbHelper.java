@@ -1,7 +1,8 @@
 package com.marrok.inventaire_esm.util.database;
 
 import com.marrok.inventaire_esm.model.Fournisseur;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FournisseurDbHelper {
-    Logger logger =Logger.getLogger(FournisseurDbHelper.class);
+    Logger logger = LogManager.getLogger(FournisseurDbHelper.class);
 
     public Connection cnn;
 

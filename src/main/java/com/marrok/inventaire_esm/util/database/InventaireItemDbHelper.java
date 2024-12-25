@@ -1,7 +1,8 @@
 package com.marrok.inventaire_esm.util.database;
 
 import com.marrok.inventaire_esm.model.Inventaire_Item;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InventaireItemDbHelper {
-    Logger logger = Logger.getLogger(InventaireItemDbHelper.class);
+    Logger logger = LogManager.getLogger(InventaireItemDbHelper.class);
     public Connection cnn;
 
     public InventaireItemDbHelper() throws SQLException {

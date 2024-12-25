@@ -1,7 +1,6 @@
 package com.marrok.inventaire_esm.controller.bon_sortie;
 
 import com.dlsc.gemsfx.FilterView;
-import com.marrok.inventaire_esm.controller.article.EtatStockController;
 import com.marrok.inventaire_esm.model.*;
 import com.marrok.inventaire_esm.util.database.*;
 import com.marrok.inventaire_esm.util.GeneralUtil;
@@ -23,9 +22,9 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -35,7 +34,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class AddBonSortieController implements  Initializable {
-    Logger logger = Logger.getLogger(AddBonSortieController.class);
+    Logger logger = LogManager.getLogger(AddBonSortieController.class);
     public DatePicker datePicker;
     public Button clearButton;
 

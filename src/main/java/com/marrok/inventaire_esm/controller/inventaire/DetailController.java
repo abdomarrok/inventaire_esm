@@ -20,10 +20,10 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DetailController {
-    Logger logger = Logger.getLogger(DetailController.class);
+    Logger logger = LogManager.getLogger(DetailController.class);
     public Label inventaire_status;
     @FXML
     private Label numInventaireLabel;

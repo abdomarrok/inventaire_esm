@@ -3,14 +3,15 @@ package com.marrok.inventaire_esm.util.database;
 import com.marrok.inventaire_esm.model.Localisation;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.scene.control.Alert;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class LocDbhelper {
-    Logger logger = Logger.getLogger(LocDbhelper.class);
+    Logger logger = LogManager.getLogger(LocDbhelper.class);
     public Connection cnn;
 
     public LocDbhelper() throws SQLException {

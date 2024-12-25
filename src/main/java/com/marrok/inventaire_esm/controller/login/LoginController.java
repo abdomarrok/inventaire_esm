@@ -14,14 +14,15 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class LoginController extends AnchorPane implements Initializable {
-    Logger logger = Logger.getLogger(LoginController.class);
+    Logger logger = LogManager.getLogger(LoginController.class);
     UserDbHelper dbHelper = new UserDbHelper();
 
     @FXML

@@ -3,7 +3,8 @@ package com.marrok.inventaire_esm.util.database;
 import com.marrok.inventaire_esm.model.Category;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.scene.control.Alert;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDbHelper {
-    Logger logger = Logger.getLogger(CategoryDbHelper.class);
+    Logger logger = LogManager.getLogger(CategoryDbHelper.class);
     public Connection cnn;
    public CategoryDbHelper()  throws SQLException {
        logger.info("CategoryDbHelper started");

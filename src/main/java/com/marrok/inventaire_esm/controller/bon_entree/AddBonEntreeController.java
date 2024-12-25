@@ -21,9 +21,9 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 public class AddBonEntreeController {
-    Logger logger = Logger.getLogger(AddBonEntreeController.class);
+    Logger logger = LogManager.getLogger(AddBonEntreeController.class);
 
     public TextField document_num;
     public Button clearButton;

@@ -22,7 +22,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,7 +32,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class BonSortieController implements Initializable {
-    Logger logger = Logger.getLogger(BonSortieController.class);
+    Logger logger = LogManager.getLogger(BonSortieController.class);
     public TableView<BonSortie> tableView;
     public TableColumn<BonSortie,Integer> id_bon_sortie;
     public TableColumn<BonSortie,String> employeur;

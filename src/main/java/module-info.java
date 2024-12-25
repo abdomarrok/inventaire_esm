@@ -8,7 +8,6 @@ module com.marrok.inventaire_esm {
     requires org.controlsfx.controls;
 
     requires javafx.base;
-    requires java.desktop;
     requires mysql.connector.java;
     requires com.jfoenix;
     requires com.ibm.icu;
@@ -26,10 +25,10 @@ module com.marrok.inventaire_esm {
     requires org.apache.commons.csv;
     requires org.apache.poi.ooxml;
     requires org.apache.poi.poi;
-    requires java.logging;
     requires com.dlsc.gemsfx;
     requires fr.brouillard.oss.cssfx;
-    requires log4j;
+    requires org.apache.logging.log4j;
+    requires org.apache.logging.log4j.core;
 
 
     opens com.marrok.inventaire_esm to javafx.fxml;

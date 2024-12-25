@@ -1,6 +1,5 @@
 package com.marrok.inventaire_esm.controller.article;
 
-import com.marrok.inventaire_esm.controller.bon_entree.DetailViewController;
 import com.marrok.inventaire_esm.model.*;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
@@ -10,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -21,9 +19,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -32,7 +30,7 @@ import java.util.*;
 
 
 public class StockAdjustmentController implements Initializable {
-    Logger logger = Logger.getLogger(StockAdjustmentController.class);
+    Logger logger = LogManager.getLogger(StockAdjustmentController.class);
     public TableView<StockAdjustment> tableView;
     public TableColumn<StockAdjustment,Integer> id_adjustment;
     public TableColumn<StockAdjustment,String> date;

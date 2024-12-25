@@ -1,7 +1,6 @@
 package com.marrok.inventaire_esm.controller.bon_retour;
 
 import com.dlsc.gemsfx.FilterView;
-import com.marrok.inventaire_esm.controller.bon_sortie.AddSortieController;
 import com.marrok.inventaire_esm.model.*;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import com.marrok.inventaire_esm.util.database.*;
@@ -23,7 +22,8 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +35,7 @@ import java.util.*;
 
 public class AddBonRetourController implements Initializable {
     public TextArea returnReason;
-    Logger logger = Logger.getLogger(AddBonRetourController.class);
+    Logger logger = LogManager.getLogger(AddBonRetourController.class);
     public DatePicker datePicker;
 
 

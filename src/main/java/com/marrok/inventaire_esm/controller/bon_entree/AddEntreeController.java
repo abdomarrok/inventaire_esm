@@ -2,7 +2,6 @@ package com.marrok.inventaire_esm.controller.bon_entree;
 
 import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.Entree;
-import com.marrok.inventaire_esm.model.Fournisseur;
 import com.marrok.inventaire_esm.util.database.ArticleDbHelper;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -16,7 +15,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -25,7 +25,7 @@ import static com.marrok.inventaire_esm.util.GeneralUtil.showAlert;
 
 public class AddEntreeController {
 
-    Logger logger = Logger.getLogger(AddEntreeController.class);
+    Logger logger = LogManager.getLogger(AddEntreeController.class);
 
     @FXML
     private TextField searchField;

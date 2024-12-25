@@ -20,26 +20,21 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVPrinter;
-import org.apache.commons.csv.CSVRecord;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 public class ArticleController implements Initializable {
 
-    Logger logger = Logger.getLogger(ArticleController.class);
+    Logger logger = LogManager.getLogger(ArticleController.class);
 
     @FXML
     public TableView<Article> tableView;

@@ -16,7 +16,9 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
-import org.apache.log4j.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -28,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DetailViewController {
-    Logger logger = Logger.getLogger(DetailViewController.class);
+    Logger logger = LogManager.getLogger(DetailViewController.class);
     private ArticleDbHelper articleDbhelper = new ArticleDbHelper();
     private ServiceDbHelper serviceDbHelper= new ServiceDbHelper();
     private EmployerDbHelper employerDbHelper=new EmployerDbHelper();

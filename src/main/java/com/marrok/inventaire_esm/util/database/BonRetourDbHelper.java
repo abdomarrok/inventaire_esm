@@ -2,14 +2,15 @@ package com.marrok.inventaire_esm.util.database;
 
 import com.marrok.inventaire_esm.model.BonRetour;
 import com.marrok.inventaire_esm.model.Retour;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BonRetourDbHelper {
-    Logger logger = Logger.getLogger(BonRetourDbHelper.class);
+    Logger logger = LogManager.getLogger(BonRetourDbHelper.class);
     public Connection cnn;
 
     public BonRetourDbHelper() throws SQLException {

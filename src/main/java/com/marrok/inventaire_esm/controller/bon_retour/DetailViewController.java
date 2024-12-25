@@ -16,7 +16,8 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.InputStream;
 import java.sql.Connection;
@@ -45,7 +46,7 @@ public class DetailViewController {
     private Label idLabel, employerLabel, serviceLabel, dateLabel, lastEditedLabel;
 
 
-    Logger logger = Logger.getLogger(DetailViewController.class);
+    Logger logger = LogManager.getLogger(DetailViewController.class);
 
     public DetailViewController() throws SQLException {
     }

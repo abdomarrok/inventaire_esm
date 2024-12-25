@@ -25,7 +25,8 @@ import javafx.stage.Stage;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.net.URL;
@@ -34,7 +35,7 @@ import java.util.*;
 
 public class EtatStockController implements Initializable {
 
-    Logger logger = Logger.getLogger(EtatStockController.class);
+    Logger logger = LogManager.getLogger(EtatStockController.class);
 
     public TableView<Article> tableView;
 

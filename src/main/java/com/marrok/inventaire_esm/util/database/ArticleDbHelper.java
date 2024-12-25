@@ -4,7 +4,8 @@ import com.marrok.inventaire_esm.model.Article;
 import com.marrok.inventaire_esm.model.StockAdjustment;
 import com.marrok.inventaire_esm.util.GeneralUtil;
 import javafx.scene.control.Alert;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.Map;
 
 
 public class ArticleDbHelper {
-    Logger logger = Logger.getLogger(ArticleDbHelper.class);
+    Logger logger = LogManager.getLogger(ArticleDbHelper.class);
      public   ArticleDbHelper()  throws SQLException {
         this.cnn = DatabaseConnection.getInstance().getConnection();
     }

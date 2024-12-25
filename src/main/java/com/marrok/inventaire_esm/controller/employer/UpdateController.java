@@ -8,12 +8,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 
 public class UpdateController {
-    Logger logger = Logger.getLogger(UpdateController.class);
+    Logger logger = LogManager.getLogger(UpdateController.class);
     @FXML
     private TextField firstNameField;
     @FXML

@@ -1,6 +1,5 @@
 package com.marrok.inventaire_esm.controller.bon_retour;
 
-import com.marrok.inventaire_esm.model.BonEntree;
 import com.marrok.inventaire_esm.model.BonRetour;
 
 import com.marrok.inventaire_esm.model.Employer;
@@ -25,7 +24,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -35,7 +35,7 @@ import java.util.ResourceBundle;
 
 public class BonRetourController  implements Initializable {
     public TableColumn<BonRetour,String> reason_retour;
-    Logger logger = Logger.getLogger(BonRetourController.class);
+    Logger logger = LogManager.getLogger(BonRetourController.class);
     public TableView<BonRetour> tableView;
     public TableColumn<BonRetour,Integer> id_bon_retour;
     public TableColumn<BonRetour,String> employeur;

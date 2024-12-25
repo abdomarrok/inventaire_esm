@@ -8,12 +8,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 
 public class AddController {
-    Logger logger = Logger.getLogger(AddController.class);
+    Logger logger = LogManager.getLogger(AddController.class);
     public TextField ribField;
     @FXML
     private TextField nameField;

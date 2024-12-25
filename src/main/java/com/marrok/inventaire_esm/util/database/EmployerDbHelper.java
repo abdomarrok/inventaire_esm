@@ -3,14 +3,15 @@ package com.marrok.inventaire_esm.util.database;
 import com.marrok.inventaire_esm.model.Employer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EmployerDbHelper {
-    Logger logger = Logger.getLogger(EmployerDbHelper.class);
+    Logger logger = LogManager.getLogger(EmployerDbHelper.class);
 
     public Connection cnn;
 

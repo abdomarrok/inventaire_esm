@@ -18,7 +18,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class AddController implements Initializable {
-    Logger logger = Logger.getLogger(AddController.class);
+    Logger logger = LogManager.getLogger(AddController.class);
 
     public ChoiceBox<String> status_inventaire;
     public DatePicker calendarPicker1;

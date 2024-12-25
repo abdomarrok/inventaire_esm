@@ -18,7 +18,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,7 +27,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class FournisseurController implements Initializable {
-    Logger logger = Logger.getLogger(FournisseurController.class);
+    Logger logger = LogManager.getLogger(FournisseurController.class);
 
     public TableView<Fournisseur> fournisseurTableView;
     public TableColumn<Fournisseur,Integer> id_column;
