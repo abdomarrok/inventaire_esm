@@ -105,6 +105,9 @@
                             <TableColumn fx:id="email_column" maxWidth="10000.0" text="email" />
                         </columns>
                     </TableView>
+            <BorderPane.margin>
+               <Insets bottom="10.0" />
+            </BorderPane.margin>
                     </ScrollPane>
                
         </center>

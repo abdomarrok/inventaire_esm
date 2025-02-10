@@ -184,6 +184,7 @@ public class AddBonEntreeController {
     public void clearBonEntree(ActionEvent event) {
         logger.info("Clearing BonEntree");
         fournisseurChoiceBox.getSelectionModel().clearSelection();
+        document_num.setText("");
         datePicker.setValue(null);
         entreesList.clear();
         addItemButton.setDisable(false);
