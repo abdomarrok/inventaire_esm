@@ -5,14 +5,14 @@
             <PatternLayout
                     pattern="%d{dd/MM/yyyy HH:mm:ss.SSS} | %-20.20c{1} | %-20.20M | %-8.8level | %highlight{%msg%n}"/>
         </Console>
-        <RollingFile name="RollingFile" fileName="logs/app.log" filePattern="logs/app-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">
-            <PatternLayout
-                    pattern="%d{dd/MM/yyyy HH:mm:ss.SSS} | %-20.20c{1} | %-30.30M | %-8.8level | %msg %n"/>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="25 MB"/>
-            </Policies>
-            <DefaultRolloverStrategy max="5"/>
-        </RollingFile>
+<!--        <RollingFile name="RollingFile" fileName="logs/app.log" filePattern="logs/app-%d{MM-dd-yy-HH-mm-ss}-%i.log.gz">-->
+<!--            <PatternLayout-->
+<!--                    pattern="%d{dd/MM/yyyy HH:mm:ss.SSS} | %-20.20c{1} | %-30.30M | %-8.8level | %msg %n"/>-->
+<!--            <Policies>-->
+<!--                <SizeBasedTriggeringPolicy size="25 MB"/>-->
+<!--            </Policies>-->
+<!--            <DefaultRolloverStrategy max="5"/>-->
+<!--        </RollingFile>-->
     </Appenders>
     <Loggers>
         <Root level="info">
