@@ -31,6 +31,7 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class AddBonRetourController implements Initializable {
@@ -231,6 +232,7 @@ public class AddBonRetourController implements Initializable {
         String selectedServiceName = serviceField.getSelectionModel().getSelectedItem();
         Service selectedService = serviceDbHelper.getServiceByName(selectedServiceName);  // Assuming you have a method in DatabaseHelper to get Service by name
         LocalDate selectedDate = datePicker.getValue();
+        String formattedDate = selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         String returnReason_str =returnReason.getText();
         // Validate inputs
         if (selectedEmployer == null || selectedDate == null || selectedService == null || retourObservableList.isEmpty()) {
@@ -255,7 +257,8 @@ public class AddBonRetourController implements Initializable {
     private boolean saveBonRetourToDatabase(Employer selectedEmployer, Service selectedService, LocalDate selectedDate, String returnReason) {
 
         logger.info("saveBonRetourToDatabase called");
-        BonRetour bonRetour = new BonRetour(0,selectedEmployer.getId(),selectedService.getId(),java.sql.Date.valueOf(selectedDate),returnReason);
+        String formattedDate = selectedDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        BonRetour bonRetour = new BonRetour(0,selectedEmployer.getId(),selectedService.getId(),java.sql.Date.valueOf(formattedDate),returnReason);
         int bonRetourId=bonRetourDbHelper.createBonRetour(bonRetour);
         if(bonRetourId<=0){
             return false;

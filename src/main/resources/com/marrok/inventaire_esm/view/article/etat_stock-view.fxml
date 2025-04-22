@@ -63,13 +63,14 @@
 
         <!-- Center Section -->
         <center>
-            <ScrollPane fitToHeight="true" nodeOrientation="RIGHT_TO_LEFT" BorderPane.alignment="CENTER">
+            <ScrollPane fitToHeight="true" hvalue="0.75" nodeOrientation="RIGHT_TO_LEFT" BorderPane.alignment="CENTER">
                 <TableView fx:id="tableView" nodeOrientation="RIGHT_TO_LEFT" tableMenuButtonVisible="true" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
                     <columns>
                         <TableColumn fx:id="id_article_v" maxWidth="10000.0" minWidth="200.0" prefWidth="-1.0" text="المعرف" />
                         <TableColumn fx:id="nameColumn" maxWidth="10000.0" minWidth="400.0" prefWidth="-1.0" text="الاسم" />
                         <TableColumn fx:id="unitColumn" maxWidth="10000.0" minWidth="150.0" prefWidth="-1.0" text="الوحدة" />
                         <TableColumn fx:id="entreeColumn" maxWidth="10000.0" minWidth="200.0" prefWidth="-1.0" style="-fx-background-color: #4CAF50;" styleClass="specialColmun" text="دخول" />
+                        <TableColumn fx:id="retourColumn" maxWidth="10000.0" minWidth="200.0" prefWidth="-1.0" style="-fx-background-color: #a65151;" styleClass="specialColmun" text="إرجاع" />
                         <TableColumn fx:id="sortieColumn" maxWidth="10000.0" minWidth="200.0" prefWidth="-1.0" style="-fx-background-color: #cb6c56;" styleClass="specialColmun" text="خروج" />
                         <TableColumn fx:id="editColumn" maxWidth="10000.0" minWidth="200.0" prefWidth="-1.0" style="-fx-background-color: #90b9c7;" styleClass="specialColmun" text="التعديل" />
                         <TableColumn fx:id="quantityColumn" maxWidth="10000.0" minWidth="150.0" prefWidth="-1.0" text="الكمية" />

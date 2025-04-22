@@ -6,7 +6,7 @@
 	<parameter name="logo" class="java.lang.Object"/>
 	<query language="SQL"><![CDATA[
 SELECT br.id AS bon_retour_id,
-       br.date AS br_date,
+       DATE(br.date) AS br_date,
        br.id_employeur AS employeur_id,
        br.id_service AS service_id,
        emp.firstname AS employeur_fname,
@@ -59,10 +59,10 @@ WHERE br.id = $P{bon_retour_id};
 		<element kind="image" uuid="30183088-da2c-4a3a-b061-9cf90111ef74" x="252" y="90" width="50" height="50">
 			<expression><![CDATA[$P{logo}]]></expression>
 		</element>
-		<element kind="staticText" uuid="373071b6-3314-486c-8add-e97089aa2451" x="60" y="190" width="70" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
+		<element kind="staticText" uuid="373071b6-3314-486c-8add-e97089aa2451" x="100" y="190" width="70" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Right">
 			<text><![CDATA[القليعة، في :]]></text>
 		</element>
-		<element kind="textField" uuid="68539bf6-7c47-4801-a9b3-3b1bfce1324c" x="0" y="190" width="60" height="20" hTextAlign="Center" vTextAlign="Middle">
+		<element kind="textField" uuid="68539bf6-7c47-4801-a9b3-3b1bfce1324c" x="0" y="190" width="100" height="20" hTextAlign="Right" vTextAlign="Middle">
 			<expression><![CDATA[$F{br_date}]]></expression>
 		</element>
 		<element kind="textField" uuid="4962912a-ef6c-4e7d-b2bb-d10e63d81643" x="370" y="220" width="110" height="20" hTextAlign="Right">
@@ -114,9 +114,6 @@ WHERE br.id = $P{bon_retour_id};
 	<columnFooter height="130">
 		<element kind="staticText" uuid="4b1a665e-4c0e-4262-b26f-f257c8a90503" x="430" y="10" width="80" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[المعني]]></text>
-		</element>
-		<element kind="staticText" uuid="5008fbd2-6450-4484-998c-3316f010eeb5" x="182" y="10" width="190" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
-			<text><![CDATA[رئيس مصلحة الوسائل العامة والاعلام الالي]]></text>
 		</element>
 		<element kind="staticText" uuid="1eeeca94-d485-4017-8618-6b51ad6adb12" x="70" y="10" width="70" height="20" fontName="Andalus" fontSize="12.0" bold="true" hTextAlign="Center">
 			<text><![CDATA[أمين المخزن]]></text>

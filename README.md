@@ -48,9 +48,6 @@ Here are some screenshots of the application in action:
 
 ![Add Inventaire](src/main/resources/com/marrok/inventaire_esm/screenshots/add_inventaire.png)
 
-### 5. **Bon Entree**
-
-![Bon Entree](src/main/resources/com/marrok/inventaire_esm/screenshots/bon_entree.png)
 
 ### 6. **Extract Inventaire**
 

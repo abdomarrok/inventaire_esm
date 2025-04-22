@@ -45,6 +45,7 @@ public class EtatStockController implements Initializable {
     public TableColumn<Article, Integer> quantityColumn;
     public TableColumn<Article, Integer> entreeColumn;
     public TableColumn<Article, Integer> sortieColumn;
+    public TableColumn<Article, Integer> retourColumn;
     public TableColumn<Article, Integer> editColumn;
 //    public TableColumn<Article, String> remarkColumn;
     public TableColumn<Article, String> categoryColmun;
@@ -207,8 +208,8 @@ public class EtatStockController implements Initializable {
             int articleId = cellData.getValue().getId();
             //add the entree with the retour
             int totalArticleEntree = entreeCache.getOrDefault(articleId, 0);
-            int totalArticleRetour = retourCache.getOrDefault(articleId, 0);
-            return new SimpleIntegerProperty(totalArticleEntree+totalArticleRetour).asObject();
+           // int totalArticleRetour = retourCache.getOrDefault(articleId, 0);
+            return new SimpleIntegerProperty(totalArticleEntree).asObject();
         });
 
 
@@ -217,12 +218,12 @@ public class EtatStockController implements Initializable {
             int totalArticleSortie = sortieCache.getOrDefault(articleId, 0);
             return new SimpleIntegerProperty(totalArticleSortie).asObject();
         });
-//        retourColumn.setCellValueFactory(cellData -> {
-//            int articleId = cellData.getValue().getId();
-//            int totalArticleRetour = retourCache.getOrDefault(articleId, 0);
-//            return new SimpleIntegerProperty(totalArticleRetour).asObject();
-//
-//        });
+        retourColumn.setCellValueFactory(cellData -> {
+            int articleId = cellData.getValue().getId();
+            int totalArticleRetour = retourCache.getOrDefault(articleId, 0);
+            return new SimpleIntegerProperty(totalArticleRetour).asObject();
+
+        });
 
         editColumn.setCellValueFactory(cellData -> {
             int articleId = cellData.getValue().getId();
