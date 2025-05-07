@@ -65,6 +65,8 @@ public class LoginController extends AnchorPane implements Initializable {
 
         if (dbHelper.validateLogin(user, pass)) {
             logger.info("Login successful");
+
+
             if (event instanceof ActionEvent) {
                 GeneralUtil.loadScene("/com/marrok/inventaire_esm/view/stock_dashboard/stock_dashboard_view.fxml", (ActionEvent) event, true);
             } else if (event instanceof KeyEvent) {

@@ -32,6 +32,9 @@
 		<element kind="staticText" uuid="dc9a861d-58c0-48c3-81cf-8d04f2a5884b" x="450" y="210" width="100" height="30" fontName="Andalus" fontSize="15.0" hTextAlign="Left" vTextAlign="Middle">
 			<text><![CDATA[الفئة :]]></text>
 		</element>
+		<element kind="textField" uuid="c212fddc-8bd4-4a24-83ed-23468557a6a0" x="60" y="210" width="100" height="30" pattern="MMMMM dd, yyyy">
+			<expression><![CDATA[new java.util.Date()]]></expression>
+		</element>
 	</title>
 	<columnHeader height="20">
 		<element kind="staticText" uuid="6d45613a-5c2f-4be6-a1f5-2f5bc59e51e3" mode="Opaque" x="70" y="0" width="80" height="20" backcolor="#CCCCCC" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
