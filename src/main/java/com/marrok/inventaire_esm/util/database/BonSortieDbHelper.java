@@ -38,6 +38,20 @@ public class BonSortieDbHelper {
         }
         return -1; // Return -1 if failed to create Bon Sortie
     }
+    public boolean deleteBonSortie(int id) {
+        logger.info("Delete BonSortie with ID: " + id);
+        String query = "DELETE FROM bon_sortie WHERE id = ?";
+
+        try (PreparedStatement preparedStatement = this.cnn.prepareStatement(query)) {
+            preparedStatement.setInt(1, id);
+            int affectedRows = preparedStatement.executeUpdate();
+            return affectedRows > 0; // return true if a row was deleted
+        } catch (SQLException e) {
+            logger.error("Error deleting BonSortie with ID " + id, e);
+        }
+        return false; // return false if deletion failed
+    }
+
     public boolean saveSortie(Sortie sortie) {
         logger.info("Save Sortie");
         String query = "INSERT INTO sortie (id_article, quantity, id_bs) VALUES (?, ?, ?)";
@@ -121,4 +135,6 @@ public class BonSortieDbHelper {
 
         return bonSorties;
     }
+
+
 }

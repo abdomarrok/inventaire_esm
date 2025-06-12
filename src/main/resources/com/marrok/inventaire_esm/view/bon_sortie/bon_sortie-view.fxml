@@ -6,8 +6,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="dashboard_id" fx:id="fx_dashboard_id" minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../css/all.css"
-            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.bon_sortie.BonSortieController">
+<AnchorPane id="dashboard_id" fx:id="fx_dashboard_id" minWidth="500.0" prefHeight="700.0" prefWidth="1000.0" styleClass="background" stylesheets="@../../css/all.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.marrok.inventaire_esm.controller.bon_sortie.BonSortieController">
     <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <top>
             <HBox fx:id="topBox">
@@ -50,6 +49,12 @@
                   <String fx:value="btn_bon" />
                   <String fx:value="add_btn" />
                </styleClass></Button>
+            <Button fx:id="BonEntreeDeleteBtn" layoutX="20.0" layoutY="20.0" onAction="#deleteBonSortie" text="حذف">
+               <styleClass>
+                  <String fx:value="btn_bon" />
+                  <String fx:value="btn-danger" />
+               </styleClass>
+            </Button>
             <BorderPane.margin>
                <Insets />
             </BorderPane.margin>

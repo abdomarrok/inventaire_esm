@@ -14,7 +14,7 @@ public class DatabaseConnection {
     static Logger logger = LogManager.getLogger(DatabaseConnection.class);
     private static final String DATABASE_NAME = "invlouiza";
   //    private static final String DATABASE_NAME = "testinvempty";
-  //    private static final String DATABASE_NAME = "testinv";
+     // private static final String DATABASE_NAME = "testinv";
 //      private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/"+DATABASE_NAME;
 //      private static final String DATABASE_USER = "root";
 //      private static final String DATABASE_PASSWORD = "";

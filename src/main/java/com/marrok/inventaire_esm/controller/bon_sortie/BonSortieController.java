@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -78,6 +79,30 @@ public class BonSortieController implements Initializable {
         } catch (IOException e) {
            logger.error(e);
         }
+    }
+    public void deleteBonSortie(ActionEvent event) {
+        logger.info(" deleteBonSortie");
+        BonSortie selectedBonSortie= tableView.getSelectionModel().getSelectedItem();
+        if(selectedBonSortie!=null){
+            boolean test = GeneralUtil.showConfirmationDialog("تاكيد", "هل متاكد انك تريد حذف" + selectedBonSortie.getId());
+                if(test){
+                    try {
+                        if (bonSortieDbHelper.deleteBonSortie(selectedBonSortie.getId())) {
+                            bonSortiesList.remove(selectedBonSortie);
+                            GeneralUtil.showAlert(Alert.AlertType.INFORMATION, "تم حذف الوصل", "تم حذف الوصل بنجاح.");
+
+                        }else{
+                            GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل في حذف الوصل", "");
+                        }
+                    } catch (Exception e) {
+                        GeneralUtil.showAlert(Alert.AlertType.ERROR, "فشل في حذف الوصل", e.getMessage());
+                    }
+                }
+        }else {
+            GeneralUtil.showAlert(Alert.AlertType.WARNING, "لا يوجد اختيار", "يرجى اختيار وصل للحذف.");
+        }
+
+
     }
 
 
@@ -152,4 +177,6 @@ public class BonSortieController implements Initializable {
         id_bon_sortie.setCellValueFactory(new  PropertyValueFactory<>("id"));
         date.setCellValueFactory(new PropertyValueFactory<>("date"));
     }
+
+
 }
